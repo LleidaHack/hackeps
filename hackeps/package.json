@@ -1,0 +1,54 @@
+{
+  "name": "hackeps-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@testing-library/jest-dom": "^5.16.4",
+    "bootstrap": "^5.2.3",
+    "bootstrap-icons": "^1.10.5",
+    "classnames": "^2.5.1",
+    "gsap": "^3.13.0",
+    "qrcode.react": "^3.1.0",
+    "react": "^18.1.0",
+    "react-bootstrap": "^2.8.0",
+    "react-dom": "^18.1.0",
+    "react-file-base64": "^1.0.3",
+    "react-hook-form": "^7.54.2",
+    "react-loading-skeleton": "^3.3.1",
+    "react-router-dom": "^6.3.0",
+    "react-router-hash-link": "^2.4.3",
+    "react-scripts": "^5.0.1",
+    "tailwindcss": "^3.4.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "format": "prettier --write ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "packageManager": "pnpm@10.7.0",
+  "devDependencies": {
+    "@testing-library/react": "^16.2.0",
+    "prettier": "^3.0.1"
+  }
+}

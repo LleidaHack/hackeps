@@ -1,0 +1,21 @@
+export const ROUTES = {
+  home: "/",
+  faq: "/faq",
+  contact: "/contacte",
+  contactMentor: "/contacte-mentor",
+  profile: "/perfil",
+  login: "/login",
+  validateEmail: "/validate-email/",
+  confirmPassword: "/confirm-password",
+  hackerForm: "/hacker-form",
+  entrance: "/entrance",
+  terms: "/terms",
+  privacy: "/privacy",
+  sponsors: "/sponsors",
+  inscription: "/inscripcio",
+  forgotPassword: "/forgot-password",
+  userVerification: "/user-verification",
+  assistance: "/assistance",
+  hacking: "/hacking",
+};
+
