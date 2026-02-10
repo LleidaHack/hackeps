@@ -23,6 +23,7 @@ import ConfirmAssistancePage from "./pages/hackeps/Confirm";
 import Hacking from "./pages/hackeps/Hacking";
 import WaitingPage from "./pages/hackeps/WaitingPage";
 import ContacteMentor from "./pages/hackeps/ContacteMentor";
+import { ROUTES } from "src/config/routes";
 
 export default function App() {
   useEffect(() => {
@@ -44,47 +45,47 @@ export default function App() {
         ) : (
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/contacte" element={<Contacte />} />
-            <Route path="/contacte-mentor" element={<ContacteMentor />} />
+            <Route path={ROUTES.faq} element={<FAQPage />} />
+            <Route path={ROUTES.contact} element={<Contacte />} />
+            <Route path={ROUTES.contactMentor} element={<ContacteMentor />} />
             <Route path="/home" element={<Home />} />
             <Route
-              path="/perfil"
+              path={ROUTES.profile}
               element={
-                <RequireAuth originalRoute="/perfil">
+                <RequireAuth originalRoute={ROUTES.profile}>
                   <Profile />
                 </RequireAuth>
               }
             />
             <Route
-              path="/perfil/:hacker_id"
+              path={`${ROUTES.profile}/:hacker_id`}
               element={
-                <RequireAuth originalRoute="/perfil">
+                <RequireAuth originalRoute={ROUTES.profile}>
                   <Profile />
                 </RequireAuth>
               }
             />
-            <Route path="/login" element={<Login />} />
-            <Route path="/validate-email/" element={<Verify />} />
-            <Route path="/confirm-password" element={<ResetPassword />} />
-            <Route path="/hacker-form" element={<HackerForm />} />
-            <Route path="/entrance" element={<Entrances />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/sponsors" element={<Sponsors defaultId={0} />} />
-            <Route path="/sponsors/:ids" element={<Sponsors />} />
+            <Route path={ROUTES.login} element={<Login />} />
+            <Route path={ROUTES.validateEmail} element={<Verify />} />
+            <Route path={ROUTES.confirmPassword} element={<ResetPassword />} />
+            <Route path={ROUTES.hackerForm} element={<HackerForm />} />
+            <Route path={ROUTES.entrance} element={<Entrances />} />
+            <Route path={ROUTES.terms} element={<Terms />} />
+            <Route path={ROUTES.privacy} element={<Privacy />} />
+            <Route path={ROUTES.sponsors} element={<Sponsors defaultId={0} />} />
+            <Route path={`${ROUTES.sponsors}/:ids`} element={<Sponsors />} />
             <Route
-              path="/inscripcio"
+              path={ROUTES.inscription}
               element={
-                <RequireAuth originalRoute="/inscripcio">
+                <RequireAuth originalRoute={ROUTES.inscription}>
                   <Inscripcio />
                 </RequireAuth>
               }
             />
-            <Route path="/forgot-password" element={<PasswordForget />} />
-            <Route path="/user-verification" element={<LoginVerify />} />
-            <Route path="/assistance" element={<ConfirmAssistancePage />} />
-            <Route path="/hacking" element={<Hacking />} />
+            <Route path={ROUTES.forgotPassword} element={<PasswordForget />} />
+            <Route path={ROUTES.userVerification} element={<LoginVerify />} />
+            <Route path={ROUTES.assistance} element={<ConfirmAssistancePage />} />
+            <Route path={ROUTES.hacking} element={<Hacking />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
         )}

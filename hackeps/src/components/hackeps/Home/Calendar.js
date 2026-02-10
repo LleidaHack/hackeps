@@ -9,7 +9,7 @@ import Seapointed from "src/assets/img/seapointed.png";
 import sirenapiedra from "src/assets/img/sirenapedruzco.png";
 import "./Olas.css";
 
-const CalendarDates = (props) => {
+const CalendarDates = () => {
   return (
     <div className="bg-white md:pb-24 flex flex-col relative z-0" id="dates">
       {/* Piedra en esquina superior derecha */}

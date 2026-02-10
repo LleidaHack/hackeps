@@ -4,6 +4,7 @@ import hackIcon from "src/icons/hackIconBig.png";
 import { me, checkToken } from "src/services/AuthenticationService";
 import ProfilePic from "../ProfilePic/ProfilePic";
 import NavbarComponent from "src/components/navbarComponent/navbarComponent";
+import { ROUTES } from "src/config/routes";
 
 const Header = () => {
   const [centerContent, setCenterContent] = useState(<></>);
@@ -74,7 +75,7 @@ const Header = () => {
         </li>
         <li className="mr-[4vw] list-none text-xl">
           <Link
-            to="/faq"
+            to={ROUTES.faq}
             className="text-20 no-underline transition-colors duration-300 font-bold  !text-textPrimaryHackeps  "
           >
             FAQ
@@ -82,7 +83,7 @@ const Header = () => {
         </li>
         <li className="mr-[4vw] list-none text-xl">
           <Link
-            to="/contacte"
+            to={ROUTES.contact}
             className="text-20 no-underline transition-colors duration-300 font-bold  !text-textPrimaryHackeps  "
           >
             Contacte
@@ -90,7 +91,7 @@ const Header = () => {
         </li>
         <li className=" list-none text-xl w-10">
           <Link
-            to="/perfil"
+            to={ROUTES.profile}
             className="text-20 no-underline transition-colors duration-300 font-bold  !text-textPrimaryHackeps  "
           >
             <ProfilePic size="small" icon={icon} validToken={validToken} />
@@ -125,13 +126,16 @@ const Header = () => {
           </Link>
         </li>
         <li className="list-none">
-          <Link to="/faq" className="text-xl list-none no-underline text-black">
+          <Link
+            to={ROUTES.faq}
+            className="text-xl list-none no-underline text-black"
+          >
             <p>FAQ</p>
           </Link>
         </li>
         <li className="list-none">
           <Link
-            to="/contacte"
+            to={ROUTES.contact}
             className="text-xl list-none no-underline text-black"
           >
             <p>Contacte</p>
@@ -143,7 +147,7 @@ const Header = () => {
       <>
         <li className="list-none">
           <Link
-            to="/perfil"
+            to={ROUTES.profile}
             className="text-xl list-none no-underline text-black"
           >
             <ProfilePic size="small" icon={icon} validToken={validToken} />
@@ -158,7 +162,7 @@ const Header = () => {
       <>
         <li className="list-none">
           <Link
-            to="/perfil"
+            to={ROUTES.profile}
             className="text-xl list-none no-underline text-black"
           >
             <ProfilePic size="small" icon={icon} validToken={validToken} />

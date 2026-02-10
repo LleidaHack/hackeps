@@ -17,8 +17,10 @@ const Home = () => {
 
   useEffect(() => {
     const minimalTime = 2 * 60 * 60 * 1000;
-    console.log(process.env.REACT_APP_HERO_ANIMATED);
-    if (process.env.REACT_APP_HERO_ANIMATED == "1") {
+    if (process.env.REACT_APP_DEBUG === "true") {
+      console.log(process.env.REACT_APP_HERO_ANIMATED);
+    }
+    if (process.env.REACT_APP_HERO_ANIMATED === "1") {
       const lastAnimation = localStorage.getItem("lastAnimation");
       const now = Date.now();
       if (!lastAnimation || now - Number(lastAnimation) >= minimalTime) {
@@ -34,7 +36,7 @@ const Home = () => {
       const start = new Date(response.start_date);
       start.setMonth(start.getMonth());
       const end = new Date(response.end_date);
-      localStorage.setItem("event", response);
+      localStorage.setItem("event", JSON.stringify(response));
       end.setMonth(end.getMonth());
       setStartDate(start);
       setEndDate(end);

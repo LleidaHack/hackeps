@@ -1,6 +1,7 @@
 import React from "react";
 import HSkeleton from "src/components/hackeps/LoadingSkeleton/HSkeleton";
 import logo from "src/assets/img/logoHackeps2025.png";
+import { ROUTES } from "src/config/routes";
 
 const Join = (props) => {
   function ManageButton() {
@@ -42,7 +43,7 @@ const Join = (props) => {
     } else if (props.event.is_open) {
       return (
         <a
-          href="/inscripcio"
+          href={ROUTES.inscription}
           style={{ width: `fit-content`, textDecoration: `none` }}
           className="py-2 px-4 m-auto text-textPrimaryHackeps bg-primaryHackeps"
         >

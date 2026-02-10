@@ -10,6 +10,7 @@ import { getHackerById } from "src/services/HackerService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
 import { updateHacker } from "src/services/HackerService";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
+import { ROUTES } from "src/config/routes";
 
 const InscripcioForm = () => {
   const {
@@ -370,7 +371,7 @@ const InscripcioForm = () => {
                     />
                     <p>
                       Accepto els{" "}
-                      <a href="/terms" className="text-primaryHackeps">
+                      <a href={ROUTES.terms} className="text-primaryHackeps">
                         termes i condicions
                       </a>
                     </p>
@@ -408,7 +409,7 @@ const InscripcioForm = () => {
                 title={`Error al registrar la teva participació.`}
                 text={`Sembla que alguna cosa ha fallat mentre enregistràvem la teva participació al sistema`}
                 hasButton={true}
-                buttonLink={`/inscripcio`}
+                buttonLink={ROUTES.inscription}
                 buttonText={`Intentar novament`}
                 italic={errRegister}
                 onButtonClick={handleButtonClick}
@@ -421,7 +422,7 @@ const InscripcioForm = () => {
                   title="La teva informació ha estat actualitzada correctament!"
                   text={`El teu registre s'ha actualitzat correctament. Si hi ha algun canvi, rebràs les notificacions corresponents.`}
                   hasButton={true}
-                  buttonLink="/perfil"
+                  buttonLink={ROUTES.profile}
                   buttonText="Tornar al perfil"
                 />
               ) : (
@@ -429,7 +430,7 @@ const InscripcioForm = () => {
                   title="T'has registrat correctament a l'esdeveniment!"
                   text={`El teu registre s'ha realitzat correctament. Quan siguis acceptat a l'esdeveniment, rebràs un correu per confirmar la teva assistència. Estigues atent! Tindrás 5 dies per confirmar-ho.`}
                   hasButton={true}
-                  buttonLink="/perfil"
+                  buttonLink={ROUTES.profile}
                   buttonText="Tornar al perfil"
                 />
               )}

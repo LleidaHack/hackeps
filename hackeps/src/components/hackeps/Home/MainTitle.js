@@ -5,6 +5,7 @@ import hackLogo from "src/icons/banner_home_icon.png";
 import garabato from "src/assets/img/garabato.png";
 import { useNavigate } from "react-router-dom";
 import { checkToken } from "src/services/AuthenticationService";
+import { ROUTES } from "src/config/routes";
 
 const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
   const navigate = useNavigate();
@@ -13,7 +14,6 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
   const handleClose = () => setShow(false);
 
   async function handleShow() {
-
     if (hackDay) {
       window.location.href = "https://live.lleidahack.dev";
       return;
@@ -24,7 +24,7 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
       return;
     }
     if (localStorage.getItem("registeredOnEvent") === "true") {
-      navigate("/perfil");
+      navigate(ROUTES.profile);
       return;
     }
 
@@ -36,15 +36,15 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
       })
     ) {
       if (!hackDay) {
-        navigate("/login", { state: { nextScreen: "/inscripcio" } });
+        navigate(ROUTES.login, { state: { nextScreen: ROUTES.inscription } });
       } else {
-        navigate("/hacking");
+        navigate(ROUTES.hacking);
       }
     } else {
       if (!hackDay) {
-        navigate("/inscripcio");
+        navigate(ROUTES.inscription);
       } else {
-        navigate("/hacking");
+        navigate(ROUTES.hacking);
       }
     }
   }
@@ -54,9 +54,9 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
     setTextButton(buttonText);
   }, [buttonText]);
 
-  const handleSignUp = () => navigate("/hacker-form");
+  const handleSignUp = () => navigate(ROUTES.hackerForm);
   const handleSignIn = () => {
-    navigate("/login", { state: { nextScreen: "/inscripcio" } });
+    navigate(ROUTES.login, { state: { nextScreen: ROUTES.inscription } });
   };
 
   useEffect(() => {

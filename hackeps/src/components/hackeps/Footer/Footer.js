@@ -2,6 +2,7 @@ import React from "react";
 import instagramIcon from "src/icons/instagram.png";
 import linkedinIcon from "src/icons/linkedin.png";
 import twitterIcon from "src/icons/X.png";
+import { ROUTES } from "src/config/routes";
 
 const Footer = () => {
   return (
@@ -37,7 +38,7 @@ const Footer = () => {
       <div className="footer-links">
         <a
           className="no-underline hover:font-bold text-textPrimaryHackeps"
-          href="/terms"
+          href={ROUTES.terms}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -47,7 +48,7 @@ const Footer = () => {
 
         <a
           className="no-underline hover:font-bold text-textPrimaryHackeps"
-          href="/privacy"
+          href={ROUTES.privacy}
           target="_blank"
           rel="noopener noreferrer"
         >

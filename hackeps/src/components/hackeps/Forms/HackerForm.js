@@ -7,6 +7,7 @@ import SuccessFeedback from "../Feedbacks/SuccesFeedback";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
 import { useForm } from "react-hook-form";
 import Button from "src/components/buttons/Button";
+import { ROUTES } from "src/config/routes";
 
 const minAge = "14";
 const date = new Date();
@@ -423,7 +424,7 @@ export const HackerStepperForm = () => {
                         <p>
                           Acceptes els nostres{" "}
                           <a
-                            href="/terms"
+                            href={ROUTES.terms}
                             className="text-primaryHackeps"
                           >
                             termes i condicions

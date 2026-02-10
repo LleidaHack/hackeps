@@ -18,6 +18,7 @@ import { getHackeps } from "src/services/EventService";
 import ProfilePic from "src/components/hackeps/ProfilePic/ProfilePic";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
 import PopupBody from "src/components/emergentPopup/PopupBody";
+import { ROUTES } from "src/config/routes";
 
 const Team = (props) => {
   const [team, setTeam] = useState(props.team);
@@ -252,9 +253,7 @@ const Team = (props) => {
                           className="my-2 min-w-full"
                           primary
                           sm
-                          href={
-                            "/perfil/" + member.id /* //TODO hardcoded*/
-                          }
+                          href={`${ROUTES.profile}/${member.id}`}
                         >
                           Veure perfil
                         </Button>
