@@ -1,72 +1,114 @@
-# Getting Started with Create React App
+# HackEPS Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Frontend de HackEPS (React + CRA + Tailwind) usando `pnpm`.
 
-## Available Scripts
+## Estructura del repositorio
 
-In the project directory, you can run:
+Este repo contiene el proyecto en:
 
-### `pnpm start`
+- `/Users/bepeslabs/Documents/GitHub_Repositoris/hackeps/hackeps`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Desde la raíz del repo:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+cd /Users/bepeslabs/Documents/GitHub_Repositoris/hackeps/hackeps
+```
 
-### `pnpm test`
+## Requisitos
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js 18+ (recomendado 20 LTS)
+- pnpm 10.x
 
-### `pnpm build`
+Comprobar versiones:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+node -v
+pnpm -v
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Instalación
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+pnpm install
+```
 
-### `pnpm eject`
+## Variables de entorno
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Copia el archivo de ejemplo:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+cp .env.sample .env
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. Edita `.env` con tus valores:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```env
+PORT=3000
+REACT_APP_DOMAIN="https://tu-backend.com"
+REACT_APP_API_KEY=""
+REACT_APP_DEBUG=0
+REACT_APP_MAIN=1
+REACT_APP_HERO_ANIMATED=1
+```
 
-## Learn More
+Notas:
+- `REACT_APP_DOMAIN` es la URL del backend.
+- Variables `REACT_APP_*` son públicas en frontend (no poner secretos reales).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Ejecutar en local (desarrollo)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+pnpm start
+```
 
-### Code Splitting
+Abre:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- [http://localhost:3000](http://localhost:3000)
 
-### Analyzing the Bundle Size
+## Build de producción
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+pnpm build
+```
 
-### Making a Progressive Web App
+Genera la carpeta `build/`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+El script usa `CI=false` para que los warnings de lint no rompan la build en CI/CD.
 
-### Advanced Configuration
+## Tests
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Actualmente no hay suite de tests activa en el proyecto.
 
-### Deployment
+## Formateo
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+pnpm format
+```
 
-### `pnpm build` fails to minify
+## Ejecutar con Docker
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Desde la carpeta del proyecto (`hackeps/`):
 
-https://www.obytes.com/blog/react-native-ci-cd-github-action
+```bash
+docker build -t hackeps-frontend .
+docker run --rm -p 3000:80 hackeps-frontend
+```
+
+## Despliegue en Vercel
+
+Configuración recomendada:
+
+- Install Command: `pnpm install`
+- Build Command: `pnpm run build`
+- Output Directory: `build`
+
+Asegúrate de configurar en Vercel las mismas variables de entorno que usas en `.env`.
+
+## Scripts disponibles
+
+```bash
+pnpm start      # desarrollo
+pnpm build      # build producción
+pnpm format     # prettier
+pnpm eject      # CRA eject (irreversible)
+```
