@@ -64,7 +64,7 @@ const Waiting = () => {
         {/* Seu Vella Castle (middle) */}
         <img
           src={seuVellaSolo}
-          className="absolute bottom-[15%] md:bottom-[30%] lg:bottom-[5%] right-[10%] w-[35%] lg:w-[25%] h-auto z-20"
+          className="absolute bottom-[10%] md:bottom-[30%] lg:bottom-[5%] right-[5%] md:right-[10%] w-[55%] md:w-[35%] lg:w-[25%] h-auto z-20"
           alt="La Seu Vella de Lleida"
         />
 
