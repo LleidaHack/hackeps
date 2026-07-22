@@ -1,100 +1,131 @@
 import React, { useState, useEffect } from "react";
-import isla from "src/assets/img/isla.png";
-import barco from "src/assets/img/barco.png";
-import hackLogo from "src/assets/img/logoHackeps2025.png";
-import nube from "src/assets/img/nuve.png";
-import nubeClouding from "src/assets/img/nuveClouding.png";
+import seuVellaSolo from "src/assets/img/seuvella-solo.png";
+import olaInterior from "src/assets/img/ola-interior.png";
+import olaExterior from "src/assets/img/ola-exterior.png";
+import mlhLogo from "src/assets/img/majorleaguelogo.svg";
 import "./Waiting.css";
 
 const Waiting = () => {
-  // Helper to generate random speed and width
-  const [isPhone, setIsPhone] = useState(false);
+  const targetDate = new Date(new Date().getFullYear(), 10, 28); // November 28th
 
-  useEffect(() => {
-    const checkIsPhone = () => {
-      setIsPhone(window.innerWidth <= 768);
+  const calculateTimeLeft = () => {
+    const difference = targetDate - new Date();
+    let timeLeft = {
+      mesos: 0,
+      dies: 0,
+      hores: 0,
     };
-    checkIsPhone();
-  });
 
-  const getRandomProps = (phone) => {
-    let calculatedWidth = Math.random() * 10 + 10;
-    if (phone) {
-      calculatedWidth = calculatedWidth * 2;
+    if (difference > 0) {
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+
+      timeLeft = {
+        mesos: Math.floor(days / 30),
+        dies: days % 30,
+        hores: hours,
+      };
     }
-    return {
-      duration: Math.random() * 50 + 80, // 80s to 130s
-      width: calculatedWidth, // 10vw to 20vw
-      top: Math.random() * 10 + 3, // 5vh to 35vh
-    };
+
+    return timeLeft;
   };
 
-  // Generate clouds with random props
-  const clouds = Array.from({ length: 4 }).map((_, i) =>
-    getRandomProps(isPhone),
-  );
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <div className="w-full h-screen flex bg-blueSky overflow-hidden scrollbar-hide relative">
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        {clouds.map((cloud, idx) => (
-          <Cloud
-            key={idx}
-            src={idx === clouds.length - 1 ? nubeClouding : nube}
-            duration={cloud.duration}
-            width={cloud.width}
-            top={cloud.top}
-            delay={Math.random() * cloud.duration}
+    <div className="min-h-screen flex flex-col font-space-mono bg-[#78C6BD] overflow-hidden">
+
+      {/* Top Section: Blue sky */}
+      <div className="bg-[#304B91] w-full h-[60vh] md:h-[66vh] relative flex-shrink-0">
+
+        {/* MLH Logo */}
+        <div className="p-4 md:p-8">
+          <img
+            src={mlhLogo}
+            className="w-20 md:w-28 relative z-50"
+            alt="MLH Official 2027 Season"
           />
-        ))}
-      </div>
+        </div>
 
-      {/* Logo centrado */}
-      <div className="absolute inset-0 flex flex-col gap-4 items-center justify-center z-10">
-        <img className="w-4/12 md:w-2/12" src={hackLogo} alt="logo hackeps" />
-        <p className="text-3xl md:text-5xl font-bold text-primaryHackeps">
-          Pròximament...
-        </p>
-      </div>
-
-      {/* Isla en el lado derecho */}
-      <div className="absolute bottom-20 md:bottom-28 lg:bottom-24 right-0 hidden md:flex items-end justify-end h-full z-10">
-        <img src={isla} className="w-3/12" alt="isla" />
-      </div>
-
-      {/* Barco */}
-      <div className="absolute bottom-32 sm:bottom-32 md:bottom-36 lg:bottom-32 flex items-end h-full z-20 pointer-events-none">
+        {/* Ola Interior (background wave) */}
         <img
-          src={barco}
-          className="w-7/12 sm:w-5/12 md:w-3/12 shipMovement"
-          alt="barco"
+          src={olaInterior}
+          className="absolute top-[65%] md:top-[55%] lg:top-[50%] left-0 w-full h-auto z-10"
+          alt=""
+        />
+
+        {/* Seu Vella Castle (middle) */}
+        <img
+          src={seuVellaSolo}
+          className="absolute bottom-[15%] md:bottom-[30%] lg:bottom-[5%] right-[10%] w-[35%] lg:w-[25%] h-auto z-20"
+          alt="La Seu Vella de Lleida"
+        />
+
+        {/* Ola Exterior (foreground wave) */}
+        <img
+          src={olaExterior}
+          className="absolute top-[85%] md:top-[65%] lg:top-[75%] left-0 w-full h-auto z-30"
+          alt=""
         />
       </div>
 
-      {/* Olas */}
-      <div className="absolute bottom-0 left-0 overflow-hidden w-full z-[50] h-28 md:h-32">
-        <div className="w-full h-36 absolute bottom-0 bg-repeat-x overflow-hidden wavesSeaAnim animate-olas-scroll transform translate-y-3 md:translate-y-0 bg-contain"></div>
+      {/* Bottom Section: Turquoise text area */}
+      <div className="bg-[#78C6BD] w-full flex flex-col items-center justify-center relative z-40 px-4 pt-4 md:pt-6 pb-6 md:pb-10 flex-shrink-0 md:mt-[-10vh]">
+
+        <p className="text-lg md:text-2xl lg:text-3xl text-gray-800 mb-2 md:mb-4 text-center whitespace-pre-wrap">
+          Preparant la celebració...
+        </p>
+
+        <div className="text-3xl md:text-5xl lg:text-6xl text-gray-800 flex flex-wrap justify-center items-baseline gap-x-2 gap-y-2 mb-4 md:mb-6">
+          <span className="font-bold">{timeLeft.mesos}</span>
+          <span className="text-lg md:text-2xl lg:text-3xl mr-2 md:mr-6">mesos</span>
+
+          <span className="font-bold">{timeLeft.dies}</span>
+          <span className="text-lg md:text-2xl lg:text-3xl mr-2 md:mr-6">dies</span>
+
+          <span className="font-bold">{timeLeft.hores}</span>
+          <span className="text-lg md:text-2xl lg:text-3xl">hores</span>
+        </div>
+
+        <div className="flex gap-6 mb-4 md:mb-6 mt-12">
+          <a href="https://www.instagram.com/lleidahack/" target="_blank" rel="noreferrer" className="text-gray-800 hover:text-black transition-colors">
+            <i className="bi bi-instagram text-3xl md:text-4xl"></i>
+          </a>
+          <a href="https://www.linkedin.com/company/lleidahack/posts/?feedView=all" target="_blank" rel="noreferrer" className="text-gray-800 hover:text-black transition-colors">
+            <i className="bi bi-linkedin text-3xl md:text-4xl"></i>
+          </a>
+          <a href="https://x.com/lleidahack?lang=ca" target="_blank" rel="noreferrer" className="text-gray-800 hover:text-black transition-colors">
+            {/* Custom X logo since bi-twitter-x might not be in v1.10.5 */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-twitter-x w-7 h-7 md:w-9 md:h-9" viewBox="0 0 16 16">
+              <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.873 11.633Z" />
+            </svg>
+          </a>
+        </div>
+
+        <div className="flex flex-col md:flex-col items-center gap-2 md:gap-4 text-[10px] md:text-xs font-bold text-gray-800 underline decoration-1 underline-offset-4 mb-4 text-center">
+          <a href="/terms" className="hover:text-black">Termes i Condicions</a>
+          <a href="/privacy" className="hover:text-black">Politica de Privadesa de LleidaHack</a>
+          <a href="/mlh" className="hover:text-black">Codi de conducta de MLH</a>
+        </div>
+
+        <div className="text-[10px] md:text-xs text-gray-800 font-bold flex flex-col md:flex-row items-center gap-1 md:gap-4">
+          <p>
+            Made with <span className="text-black">❤</span> by <a href="https://www.lleidahack.dev/" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-black">LleidaHack</a>
+          </p>
+          <p>
+            Powered By <a href="https://clouding.io/" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-black">Clouding.io</a>
+          </p>
+        </div>
       </div>
     </div>
   );
 };
-
-// Cloud component
-function Cloud({ src, duration, width, top, delay }) {
-  const style = {
-    position: "absolute",
-    left: "-25vw",
-    top: `${top}vh`,
-    width: `${width}vw`,
-    animation: `cloud-move ${duration}s linear infinite`,
-    animationDelay: `-${delay}s`,
-  };
-  return <img src={src} style={style} alt="nube" className=" md:w-auto" />;
-}
-
-// Add this to your CSS (e.g., Waiting.css or global styles)
-/*
-
-*/
 
 export default Waiting;
