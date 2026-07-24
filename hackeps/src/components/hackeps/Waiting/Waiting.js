@@ -110,17 +110,17 @@ const Waiting = () => {
         </div>
 
         <div className="flex flex-col md:flex-col items-center gap-2 md:gap-4 text-[10px] md:text-xs font-bold text-gray-800 underline decoration-1 underline-offset-4 mb-4 text-center">
-          <a href="/terms" className="hover:text-black">Termes i Condicions</a>
-          <a href="/privacy" className="hover:text-black">Politica de Privadesa de LleidaHack</a>
-          <a href="/mlh" className="hover:text-black">Codi de conducta de MLH</a>
+          <a href="/terms" className="text-black">Termes i Condicions</a>
+          <a href="/privacy" className="text-black">Politica de Privadesa de LleidaHack</a>
+          <a href="/mlh" className="text-black hover:font-bold">Codi de conducta de MLH</a>
         </div>
 
         <div className="text-[10px] md:text-xs text-gray-800 font-bold flex flex-col md:flex-row items-center gap-1 md:gap-4">
           <p>
-            Made with <span className="text-black">❤</span> by <a href="https://www.lleidahack.dev/" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-black">LleidaHack</a>
+            Made with <span className="text-black">❤</span> by <a href="https://www.lleidahack.dev/" target="_blank" rel="noreferrer" className="underline underline-offset-2text-black text-black">LleidaHack</a>
           </p>
           <p>
-            Powered By <a href="https://clouding.io/" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-black">Clouding.io</a>
+            Powered By <a href="https://clouding.io/" target="_blank" rel="noreferrer" className="underline underline-offset-2 text-black">Clouding.io</a>
           </p>
         </div>
       </div>
