@@ -50,7 +50,7 @@ const Waiting = () => {
           <img
             src={mlhLogo}
             className="w-20 md:w-28 relative z-50"
-            alt="MLH Official 2027 Season"
+            alt="MLH Official Season"
           />
         </div>
 
