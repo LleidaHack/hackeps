@@ -3,7 +3,7 @@ import seuVellaSolo from "src/assets/img/seuvella-solo.png";
 import olaInterior from "src/assets/img/ola-interior.png";
 import olaExterior from "src/assets/img/ola-exterior.png";
 import mlhLogo from "src/assets/img/majorleaguelogo.svg";
-import "./Waiting.css";
+import { Link } from "react-router-dom";
 
 const Waiting = () => {
   const targetDate = new Date(new Date().getFullYear(), 10, 28); // November 28th
