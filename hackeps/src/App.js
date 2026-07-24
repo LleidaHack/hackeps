@@ -40,7 +40,9 @@ export default function App() {
       <Router>
         {process.env.REACT_APP_LAUNCH_PENDING === "1" ? (
           <Routes>
-            <Route path="*" element={<WaitingPage />} />
+            <Route path="/" element={<WaitingPage />} />
+            <Route path={ROUTES.terms} element={<Terms />} />
+            <Route path={ROUTES.privacy} element={<Privacy />} />
           </Routes>
         ) : (
           <Routes>
