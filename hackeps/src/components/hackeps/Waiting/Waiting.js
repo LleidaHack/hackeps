@@ -110,9 +110,9 @@ const Waiting = () => {
         </div>
 
         <div className="flex flex-col md:flex-col items-center gap-2 md:gap-4 text-[10px] md:text-xs font-bold text-gray-800 underline decoration-1 underline-offset-4 mb-4 text-center">
-          <a href="/terms" className="text-black">Termes i Condicions</a>
-          <a href="/privacy" className="text-black">Politica de Privadesa de LleidaHack</a>
-          <a href="/mlh" className="text-black hover:font-bold">Codi de conducta de MLH</a>
+          <a href="/terms" className="text-black" target="_blank">Termes i Condicions</a>
+          <a href="/privacy" className="text-black" target="_blank">Politica de Privadesa de LleidaHack</a>
+          <a href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md" className="text-black hover:font-bold" target="_blank">Codi de conducta de MLH</a>
         </div>
 
         <div className="text-[10px] md:text-xs text-gray-800 font-bold flex flex-col md:flex-row items-center gap-1 md:gap-4">
