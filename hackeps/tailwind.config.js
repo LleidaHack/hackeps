@@ -13,6 +13,9 @@ module.exports = {
       animation: {
         "olas-scroll": "olas-scroll 4000s linear infinite", //infinite
       },
+      fontFamily: {
+        'space-mono': ['"Space Mono"', 'monospace'],
+      },
       colors: {
         primaryLanding: "#FF7430",
         secondaryLanding: "#232323",
