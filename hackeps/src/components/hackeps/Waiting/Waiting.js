@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import seuVellaSolo from "src/assets/img/seuvella-solo.png";
+import seuVellaSolo from "src/assets/img/seuvella-solo.webp";
 import olaInterior from "src/assets/img/ola-interior.png";
 import olaExterior from "src/assets/img/ola-exterior.png";
 import mlhLogo from "src/assets/img/majorleaguelogo.svg";
-import { Link } from "react-router-dom";
 
 const Waiting = () => {
   const targetDate = new Date(new Date().getFullYear(), 10, 28); // November 28th
@@ -46,11 +45,13 @@ const Waiting = () => {
       <div className="bg-[#304B91] w-full h-[60vh] md:h-[66vh] relative flex-shrink-0">
 
         {/* MLH Logo */}
-        <div className="p-4 md:p-8">
+        <div className="absolute top-0 left-0 p-0 mx-10 z-50">
           <img
             src={mlhLogo}
-            className="w-20 md:w-28 relative z-50"
+            className="w-20 md:w-28"
             alt="MLH Official Season"
+            loading="eager"
+            decoding="async"
           />
         </div>
 
@@ -59,6 +60,8 @@ const Waiting = () => {
           src={olaInterior}
           className="absolute top-[65%] md:top-[55%] lg:top-[50%] left-0 w-full h-auto z-10"
           alt=""
+          loading="lazy"
+          decoding="async"
         />
 
         {/* Seu Vella Castle (middle) */}
@@ -66,6 +69,8 @@ const Waiting = () => {
           src={seuVellaSolo}
           className="absolute bottom-[10%] md:bottom-[30%] lg:bottom-[5%] right-[5%] md:right-[10%] w-[55%] md:w-[35%] lg:w-[25%] h-auto z-20"
           alt="La Seu Vella de Lleida"
+          loading="eager"
+          decoding="async"
         />
 
         {/* Ola Exterior (foreground wave) */}
@@ -73,6 +78,8 @@ const Waiting = () => {
           src={olaExterior}
           className="absolute top-[85%] md:top-[65%] lg:top-[75%] left-0 w-full h-auto z-30"
           alt=""
+          loading="lazy"
+          decoding="async"
         />
       </div>
 
