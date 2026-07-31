@@ -11,10 +11,10 @@ describe("Terms - Render", () => {
       </MemoryRouter>,
     );
 
-    // Verifica que tengamos el footer y el header
-    const footerElement = screen.getByTestId("footerHackeps");
+    // Verifica que tenim el footer i el header
+    const footerElement = screen.getByTestId("launchFooterHackeps");
     expect(footerElement).toBeInTheDocument();
-    const headerElement = screen.getByTestId("headerHackeps");
+    const headerElement = screen.getByTestId("launchHeaderHackeps");
     expect(headerElement).toBeInTheDocument();
   });
 });

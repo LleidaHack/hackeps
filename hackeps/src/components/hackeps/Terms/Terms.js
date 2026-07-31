@@ -1,13 +1,16 @@
 import React from "react";
-import { Container } from "react-bootstrap";
 
 const TermsComponent = () => {
   return (
-    <div className="bg-secondaryHackeps">
-      <Container className="py-5 text-textSecondaryHackeps">
-        <h3 className="font-bold pb-2">TERMES I CONDICIONS</h3>
-        <h4>Objectiu</h4>
-        <p className="text-justify ml-4">
+    <div className="bg-secondaryHackeps flex-1 font-space-mono">
+      <div className="max-w-3xl mx-auto px-4 md:px-6 py-10 md:py-14">
+        <h1 className="text-2xl md:text-3xl font-bold uppercase text-[#304B91]">
+          Termes i Condicions
+        </h1>
+        <div className="w-16 h-1 bg-[#FF7430] mt-3 mb-8" />
+
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Objectiu</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           Pel present document es donen a conèixer els termes i condicions de la
           HackEPS i que, des d'ara, serà referit com la HACKATÓ. Aquesta HACKATÓ
           consisteix en un concurs de desenvolupament de programari o maquinari
@@ -16,8 +19,8 @@ const TermsComponent = () => {
           electrònica, etc.)
         </p>
 
-        <h4>L'organització</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">L'organització</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           La HACKATÓ és organitzada per l'associació d'estudiants vinculada a la
           Universitat de Lleida: Associació Juvenil LleidaHack (d'ara endavant,
           L'ORGANITZACIÓ), amb domicili en Carrer Jaume II, número 69, 25001
@@ -27,8 +30,8 @@ const TermsComponent = () => {
           del correu electrònic contacte@lleidahack.dev.
         </p>
 
-        <h4>Àmbit</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Àmbit</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           La HACKATÓ es realitzarà a Lleida, a l'Escola Politècnica Superior de
           la Universitat de Lleida, al carrer Jaume II número 69, els dies 22 i
           23 de novembre de 2025.
@@ -41,8 +44,8 @@ const TermsComponent = () => {
           L'ESDEVENIMENT: https://lleidahack.dev/hackeps/
         </p>
 
-        <h4>Requisits per a participar</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Requisits per a participar</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           És apta per a participar qualsevol persona major d'edat amb DNI/NIF o
           passaport en vigor que, conforme la legislació espanyola, acrediti la
           identitat i edat del participant. Així mateix, és apta per a
@@ -54,8 +57,8 @@ const TermsComponent = () => {
           identitat real o que incompleixin qualsevol altra condició exigida.
         </p>
 
-        <h4>Admissió dels participants</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Admissió dels participants</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           La inscripció a l'esdeveniment comporta a l'acceptació d'aquests
           termes i condicions, i es farà des de la WEB DE L'ESDEVENIMENT
           anteriorment esmentada.
@@ -77,8 +80,8 @@ const TermsComponent = () => {
           L'ORGANITZACIÓ es reserva el dret d'admissió.
         </p>
 
-        <h4>Dinàmica de l'esdeveniment</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Dinàmica de l'esdeveniment</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           Després del check-in, es procedirà a una presentació dels diversos
           reptes. Els participants disposaran de 25 des de la finalització de la
           presentació per a desenvolupar una solució per als reptes presentats
@@ -104,8 +107,8 @@ const TermsComponent = () => {
           projecte independent.
         </p>
 
-        <h4>Grups</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Grups</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           Els grups de la HACKATÓ estaran formats fins per quatre integrants,
           estant permesa, també, la participació individual.
           <br />
@@ -116,8 +119,8 @@ const TermsComponent = () => {
           la HACKATÓ podran formar grup amb altres participants.
         </p>
 
-        <h4>Condicions de participació</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Condicions de participació</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           L'ORGANITZACIÓ es compromet a dotar de tots els elements necessaris
           per al desenvolupament de la HACKATÓ en termes de connectivitat i
           assistència.
@@ -137,8 +140,8 @@ const TermsComponent = () => {
           l'esdeveniment.
         </p>
 
-        <h4>Premis</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Premis</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           El guanyador de cada repte serà triat per un jurat imparcial triat per
           l'empresa patrocinadora d'aquest repte, tenint en compte criteris com:
           originalitat de la idea, potencial de la idea, dificultat tècnica,
@@ -159,8 +162,8 @@ const TermsComponent = () => {
           seu plantejament original.
         </p>
 
-        <h4>Dades personals</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Dades personals</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           Les dades personals seran tractats per l'ORGANITZACIÓ per a gestionar
           i tramitar la participació del subjecte en LA HACKATÓ. Aquest
           tractament de dades és necessari i el participant consent expressament
@@ -175,8 +178,8 @@ const TermsComponent = () => {
           un correu a contacte@lleidahack.dev.
         </p>
 
-        <h4>Drets de Propietat Intel·lectual</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Drets de Propietat Intel·lectual</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           Els participants validen que totes les propostes que es presentin a
           l'esdeveniment, són originals i no infringeixen la propietat
           intel·lectual de terceres parts. Si es fes ús d'idees alienes als
@@ -189,14 +192,14 @@ const TermsComponent = () => {
           participant.
         </p>
 
-        <h4>Altres</h4>
-        <p className="text-justify ml-4">
+        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Altres</h2>
+        <p className="text-justify leading-relaxed text-gray-800">
           L'ORGANITZACIÓ es reserva el dret a introduir canvis en el
           funcionament de la HACKATÓ en qualsevol moment o finalitzar-lo de
           forma anticipada si fos necessari per causes justificades, sense que
           d'això pugui derivar-se cap responsabilitat.
         </p>
-      </Container>
+      </div>
     </div>
   );
 };
