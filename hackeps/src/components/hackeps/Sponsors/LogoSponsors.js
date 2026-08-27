@@ -1,46 +1,26 @@
 import React from "react";
 
-const LogoSponsors = ({ image, name, small = false }) => {
-  const backgrounds = [
-    "bg-background-cartellA",
-    "bg-background-cartellB",
-    "bg-background-cartellC",
-    "bg-background-cartellD",
-  ];
+const SIZES = {
+  gold: { box: "w-56 h-36 md:w-72 md:h-40", img: "max-h-24 md:max-h-28" },
+  silver: { box: "w-48 h-32 md:w-56 md:h-36", img: "max-h-20 md:max-h-24" },
+  bronze: { box: "w-40 h-28 md:w-48 md:h-32", img: "max-h-16 md:max-h-20" },
+};
 
-  const randomBackground =
-    backgrounds[Math.floor(Math.random() * backgrounds.length)];
-
-  // Canvi de tamany depenent de si es sponsor o patro
-  let containerSize, contentSize, imageSize;
-
-  if (small) {
-    containerSize = "w-44 h-40";
-    contentSize = "w-9/12 h-3/12 mt-7 px-2";
-    imageSize = "h-22";
-  } else {
-    containerSize = "w-52 h-48";
-    contentSize = "w-9/12 h-3/12 mt-8 px-2";
-    imageSize = "h-24";
-  }
+const LogoSponsors = ({ image, name, size = "silver", small = false }) => {
+  const tier = small ? "bronze" : size;
+  const { box, img } = SIZES[tier] || SIZES.silver;
 
   return (
     <div
-      className={`relative ${containerSize} ${randomBackground} bg-cover items-center justify-center content-center flex`}
+      className={`relative ${box} bg-white rounded-lg items-center justify-center content-center flex px-4`}
     >
-      {/* Contingut centrat dins el marc marró */}
-      <div
-        className={`${contentSize} flex flex-col items-center justify-center`}
-      >
-        <img
-          src={image}
-          alt={name}
-          className={`w-full ${imageSize} object-contain`}
-        />
-      </div>
-      {/* <p className="text-xs font-bold text-[#4b2e16] text-center mt-2">
-        {name}
-      </p> */}
+      <img
+        src={image}
+        alt={name}
+        width={180}
+        height={96}
+        className={`w-full ${img} object-contain`}
+      />
     </div>
   );
 };

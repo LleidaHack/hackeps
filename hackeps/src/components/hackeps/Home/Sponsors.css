@@ -1,19 +1,17 @@
 .sponsors {
-  width: 100vw;
+  width: 100%;
   max-width: 100%;
   height: auto;
-  max-height: 100%;
-  font-size: 50px;
-  font-family: "space mono";
+  font-family: "Space Mono", monospace;
   justify-content: center;
   text-align: center;
 }
 
 .sponsors p {
-  font-size: 0.3em;
+  font-size: 1rem;
   text-align: center;
   margin-top: 0px;
-  margin-bottom: 0px;
+  margin-bottom: 0.5rem;
 }
 
 .gostHunter {
@@ -21,10 +19,10 @@
   top: -9.4vh;
 }
 
-img {
+.sponsors img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Ajusta la imagen al formato de la caja */
+  object-fit: contain;
 }
 
 .sponsor-group-group-1 {

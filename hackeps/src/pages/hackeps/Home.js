@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Header from "src/components/hackeps/Header/Header.js";
-import Footer from "src/components/hackeps/Footer/Footer.js";
 import CalendarDates from "src/components/hackeps/Home/Calendar.js";
 import Sponsors from "src/components/hackeps/Home/Sponsors.js";
-import Schedule from "src/components/hackeps/Home/Schedule.js";
 import HeroSection from "src/components/hackeps/Home/HeroSection/HeroSection.js";
-import Mentoring from "src/components/hackeps/Home/Mentoring.js";
+import Identify from "src/components/hackeps/Home/Identify.js";
+import Newsletter from "src/components/hackeps/Home/Newsletter.js";
+import Activities from "src/components/hackeps/Home/Activities.js";
+import Records from "src/components/hackeps/Home/Records.js";
+import HomeFooter from "src/components/hackeps/Home/HomeFooter.js";
 import { getHackeps } from "src/services/EventService";
 import Animation from "src/pages/hackeps/Animation.js";
 import { getEventIsHackerRegistered } from "src/services/EventService";
@@ -55,72 +57,35 @@ const Home = () => {
 
   const timerActive = true;
 
-  const events = [
-    {
-      time: "8:30 h",
-      title: "Inici del check-in",
-      description: "Arribada i registre dels participants",
-    },
-    {
-      time: "10:00 h",
-      title: "Cerimònia d'obertura",
-      description: "Benvinguda i presentació de l'esdeveniment",
-    },
-    {
-      time: "11:00 h",
-      title: "Comença el temps de hacking",
-      description: "Inici oficial del hackathon",
-    },
-    {
-      time: "15:00 h",
-      title: "Finalitza el check-in",
-      description: "Tancament del registre per als participants",
-    },
-    {
-      time: "11:00 h",
-      title: "Finalitza el temps de hacking",
-      description: "Tancament del període de desenvolupament dels projectes",
-    },
-    {
-      time: "11:30 h",
-      title: "Presentacions dels projectes",
-      description:
-        "Presentació dels projectes desenvolupats durant el hackathon",
-    },
-    {
-      time: "14:00 h",
-      title: "Cerimònia de cloenda i entrega de premis",
-      description: "Cloenda del hackathon i entrega de premis als guanyadors",
-    },
-  ];
-
   if (!showAnimation) {
     return (
-      <div>
+      <div className="bg-skyDay">
         <Header />
         <HeroSection
           initialDate={startDate}
           finalDate={endDate}
           activeTimer={timerActive}
         />
+        <Identify />
         <CalendarDates startDate={startDate} endDate={endDate} />
-        <Schedule events={events} />
+        <Newsletter />
+        <Activities />
+        <Records />
         <Sponsors />
-        <Mentoring />
-        <Footer />
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <Animation
-          initialDate={startDate}
-          finalDate={endDate}
-          activeTimer={timerActive}
-        />
+        <HomeFooter />
       </div>
     );
   }
+
+  return (
+    <div>
+      <Animation
+        initialDate={startDate}
+        finalDate={endDate}
+        activeTimer={timerActive}
+      />
+    </div>
+  );
 };
 
 export default Home;

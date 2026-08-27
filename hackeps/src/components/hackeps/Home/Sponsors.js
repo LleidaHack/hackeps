@@ -3,34 +3,59 @@ import { Link } from "react-router-dom";
 import "src/components/hackeps/Home/Sponsors.css";
 import Button from "src/components/buttons/Button";
 import LogoSponsors from "../Sponsors/LogoSponsors";
-
-/*IMAGES IMPORTS*/
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
-import { getEventSponsors } from "src/services/EventService";
 import { getCompanyByTier } from "src/services/CompanyService";
-
-// Datos mock para pruebas sin backend
 
 function redirectToURL(url) {
   if (!url) return;
 
-  // Si la url es absoluta, ábrela directamente
   if (/^https?:\/\//i.test(url)) {
     window.open(url, "_blank", "noopener,noreferrer");
     return;
   }
 
-  // Si no es absoluta, usamos una ruta del mismo dominio empezando en "/"
   const path = "/" + url.replace(/^\/+/, "");
-
-  // Construye la URL absoluta con el mismo dominio
   const absoluteUrl = `${window.location.origin}${path}`;
   window.open(absoluteUrl, "_blank", "noopener,noreferrer");
 }
 
+const SponsorRow = ({ title, companies, size, loading, emptyLabel }) => (
+  <section className="justify-center w-full mt-10 md:mt-16">
+    <h2 className="font-space-mono text-white text-xl md:text-2xl text-center m-0">
+      {title}
+    </h2>
+    <div className="flex flex-wrap justify-center gap-4 p-4 mt-4">
+      {loading ? (
+        <div className="text-center text-white/80 py-8 text-base font-space-mono">
+          {emptyLabel.loading}
+        </div>
+      ) : companies.length > 0 ? (
+        companies.map((company, index) => (
+          <div
+            key={company.id || index}
+            className="cursor-pointer transition-transform duration-300 ease-in-out hover:scale-110"
+            onClick={() => redirectToURL(`sponsors/${company.id}`)}
+          >
+            <LogoSponsors
+              image={company.image}
+              name={company.name || `Empresa ${index + 1}`}
+              size={size}
+            />
+          </div>
+        ))
+      ) : (
+        <div className="text-center text-white/80 py-8 text-base font-space-mono">
+          {emptyLabel.empty}
+        </div>
+      )}
+    </div>
+  </section>
+);
+
 const Sponsors = () => {
-  const [challenger, setChallenger] = useState([]);
-  const [sponsors, setSponsors] = useState([]);
+  const [gold, setGold] = useState([]);
+  const [silver, setSilver] = useState([]);
+  const [bronze, setBronze] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,35 +69,26 @@ const Sponsors = () => {
 
       setLoading(true);
 
-      // Intentaremos un máximo de 2 veces (Intento 1 y un Reintento)
       for (let attempt = 1; attempt <= 2; attempt++) {
         try {
-          // 1. OBTENCIÓN DE DATOS COMPLETA
-          const challengerData = await getCompanyByTier(2);
-          const [tier1, tier3] = await Promise.all([
+          const [tier2, tier1, tier3] = await Promise.all([
+            getCompanyByTier(2),
             getCompanyByTier(1),
             getCompanyByTier(3),
           ]);
-          const sponsorsData = [tier1, tier3];
 
-          // 2. COMPROBACIÓN
           const dataIsEmpty =
-            challengerData.length === 0 ||
-            sponsorsData.every((group) => group.length === 0);
+            (tier2 || []).length === 0 &&
+            (tier1 || []).length === 0 &&
+            (tier3 || []).length === 0;
 
           if (dataIsEmpty && attempt < 2) {
-            console.warn(`Intento ${attempt} fallido. Reintentando...`);
-
             continue;
           }
 
-          // 3. ACTUALIZACIÓN DE ESTADO Y SALIDA
-          setChallenger(challengerData || []);
-          setSponsors(sponsorsData || []);
-
-          if (dataIsEmpty && attempt === 2) {
-            console.error("Los datos siguen vacíos tras el último reintento.");
-          }
+          setGold(tier2 || []);
+          setSilver(tier1 || []);
+          setBronze(tier3 || []);
 
           setLoading(false);
           return;
@@ -87,114 +103,57 @@ const Sponsors = () => {
   }, []);
 
   return (
-    <div className="sponsors bg-secondaryHackeps px-6 md:px-16">
+    <div className="sponsors bg-gradient-to-b from-nightNavy to-nightNavyDeep px-6 md:px-16 pt-16 pb-8">
       <div className="gostHunter" id="sponsors"></div>
-      {/* Title and content for Partners */}
       <TitleGeneralized
         padTop="0"
-        underline
         textNone
-        className="text-primaryHackeps font-semibold"
+        className="text-white font-space-mono font-bold uppercase tracking-tight"
       >
         Sponsors
       </TitleGeneralized>
-      <div>
-        <section className="justify-center w-full">
-          <TitleGeneralized
-            textNone
-            className="text-primaryHackeps font-semibold text-left text-2xl md:text-3xl"
-          >
-            Reptes Proposats per...
-          </TitleGeneralized>
-          <p className="mt-4 mb-8 max-w-2xl mx-auto text-base text-gray-600">
-            Descobreix els reptes tècnics i creatius que les següents empreses
-            han proposat per a la nostra hackathon.
-          </p>
-          <div className="flex flex-col pt-8 gap-y-6 text-xs">
-            <div className="flex flex-wrap justify-center gap-4 p-4">
-              {loading ? (
-                <div className="text-center text-gray-500 py-8">
-                  Carregant reptes de sponsors...
-                </div>
-              ) : challenger.length > 0 ? (
-                challenger.map((company, index) => (
-                  <div
-                    key={company.id || index}
-                    className="cursor-pointer transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-x-[3px] hover:-translate-y-[4px]"
-                    onClick={() => redirectToURL(`sponsors/${company.id}`)}
-                  >
-                    <LogoSponsors
-                      image={company.image}
-                      name={company.name || `Empresa ${index + 1}`}
-                      small={false}
-                    />
-                  </div>
-                ))
-              ) : (
-                <div className="text-center text-gray-500 py-8">
-                  No hi ha reptes disponibles actualment.
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
 
-        <section className="justify-center w-full">
-          <TitleGeneralized
-            textNone
-            className="text-primaryHackeps font-semibold text-left text-2xl md:text-3xl"
-          >
-            Amb la col·laboració de...
-          </TitleGeneralized>
-          <p className="mt-4 mb-8 max-w-2xl mx-auto text-base text-gray-600">
-            Volem agrair especialment a les empreses que han col·laborat amb
-            nosaltres per fer possible aquest esdeveniment.
-          </p>
-          <div className="flex flex-col pt-8 gap-y-6 text-xs">
-            {loading ? (
-              <div className="text-center text-gray-500 py-8">
-                Carregant sponsors...
-              </div>
-            ) : sponsors.some((group) => group.length > 0) ? (
-              sponsors.map((group, tier) => (
-                <div
-                  key={tier}
-                  className="flex flex-wrap justify-center gap-4 p-4"
-                >
-                  {group.map((company, index) => (
-                    <div
-                      key={company.id || index}
-                      className="cursor-pointer transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-x-[3px] hover:-translate-y-[4px]"
-                      onClick={() => redirectToURL(`sponsors/${company.id}`)}
-                    >
-                      <LogoSponsors
-                        image={company.image}
-                        name={company.name || `Empresa ${index + 1}`}
-                        small={company.tier === 3}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))
-            ) : (
-              <div className="text-center text-gray-500 py-8">
-                No hi ha sponsors disponibles actualment.
-              </div>
-            )}
-          </div>
-        </section>
-      </div>
+      <SponsorRow
+        title="Patrocinadors or"
+        companies={gold}
+        size="gold"
+        loading={loading}
+        emptyLabel={{
+          loading: "Carregant reptes de sponsors...",
+          empty: "No hi ha reptes disponibles actualment.",
+        }}
+      />
+      <SponsorRow
+        title="Patrocinadors plata"
+        companies={silver}
+        size="silver"
+        loading={loading}
+        emptyLabel={{
+          loading: "Carregant sponsors...",
+          empty: "No hi ha sponsors disponibles actualment.",
+        }}
+      />
+      <SponsorRow
+        title="Patrocinadors bronze"
+        companies={bronze}
+        size="bronze"
+        loading={loading}
+        emptyLabel={{
+          loading: "Carregant sponsors...",
+          empty: "No hi ha sponsors disponibles actualment.",
+        }}
+      />
 
-      <p>
-        T'agradaria ser un dels nostres col·laboradors o presentar un repte?
+      <p className="text-white">
+        T&apos;agradaria ser un dels nostres col·laboradors o presentar un
+        repte?
       </p>
-      <p>No ho dubtis, contacta amb nosaltres!</p>
+      <p className="text-white">No ho dubtis, contacta amb nosaltres!</p>
       <Link to={"/contacte"}>
-        <Button className="bg-secondaryColorButton text-white border-none" lg>
+        <Button className="bg-primaryLanding text-[#2e2e2e] border-none font-space-mono" lg>
           Contacta
         </Button>
       </Link>
-
       <br />
     </div>
   );
