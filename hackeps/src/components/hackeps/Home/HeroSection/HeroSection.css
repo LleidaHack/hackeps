@@ -3,12 +3,59 @@
    Sky + Bunting + Banner + Clouds + Sea Waves
    ============================================ */
 
-/* ---------- Sky gradient background ---------- */
+/* ---------- Sky background (Figma day: #94cbf5) ---------- */
 .hero-sky {
-  background: linear-gradient(180deg, #87CEEB 0%, #A8D8EA 50%, #B0E0E6 100%);
+  background: #94cbf5;
   position: relative;
   overflow: hidden;
   min-height: 100vh;
+  padding-bottom: 6rem;
+}
+
+.hero-bunting {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 20;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.hero-clouds {
+  pointer-events: none;
+}
+
+.hero-cloud {
+  position: absolute;
+  height: auto;
+  z-index: 5;
+  object-fit: contain;
+}
+
+.hero-cloud-1 {
+  width: min(425px, 38vw);
+  top: 18%;
+  right: 2%;
+}
+
+.hero-cloud-2 {
+  width: min(435px, 42vw);
+  bottom: 22%;
+  left: 2%;
+}
+
+.hero-cloud-3 {
+  width: min(368px, 34vw);
+  bottom: 8%;
+  right: 6%;
+}
+
+@media (max-width: 768px) {
+  .hero-cloud-1 { width: 42vw; top: 14%; }
+  .hero-cloud-2 { width: 46vw; bottom: 28%; }
+  .hero-cloud-3 { display: none; }
 }
 
 /* ---------- Bunting / Banderines ---------- */
@@ -288,8 +335,8 @@
 }
 
 .hero-logo-img {
-  max-width: 280px;
-  width: 60%;
+  max-width: 320px;
+  width: 70%;
   height: auto;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
   animation: float-logo 5s ease-in-out infinite;
@@ -302,14 +349,14 @@
 
 @media (min-width: 768px) {
   .hero-logo-img {
-    max-width: 340px;
+    max-width: 460px;
     width: 50%;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-logo-img {
-    max-width: 400px;
+    max-width: 520px;
   }
 }
 
@@ -318,23 +365,22 @@
   position: relative;
   z-index: 20;
   display: inline-block;
-  padding: 12px 40px;
-  border: 2px solid #333;
-  background: transparent;
-  color: #333;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background: #ff7430;
+  color: #2e2e2e;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  letter-spacing: -0.02em;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
   font-family: 'Space Mono', monospace;
 }
 
 .hero-cta-btn:hover {
-  background: #333;
-  color: #fff;
+  background: #e86828;
+  color: #2e2e2e;
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* ---------- Sea / Waves ---------- */
@@ -362,7 +408,8 @@
 }
 
 .hero-countdown .countdown-timer {
-  color: #333;
+  color: #1a1a1a;
+  font-family: "Space Mono", monospace;
 }
 
 /* ---------- MLH Badge ---------- */

@@ -1,35 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import TitleGeneralized from "src/components/hackeps/TitleGeneralized/TitleGeneralized";
-import Button from "src/components/buttons/Button";
-import { ROUTES } from "src/config/routes";
 
 const Newsletter = () => {
   return (
-    <section className="bg-white px-4 md:px-16 py-16 md:py-24 text-center">
-      <TitleGeneralized
-        padTop="0"
-        textNone
-        className="text-headingInk font-space-mono font-bold uppercase tracking-tight text-2xl md:text-4xl lg:text-5xl"
-      >
-        VOLS ENTERAR-TE DE TOT?
-      </TitleGeneralized>
-      <p className="mt-8 mx-auto max-w-3xl text-headingInk text-base md:text-lg leading-relaxed">
-        Segueix les novetats de la HackEPS: inscripcions, horaris, reptes i tot
-        el que passa durant l&apos;esdeveniment. Si ja tens compte, el perfil és
-        el millor lloc per estar al dia.
+    <section className="relative h-[556px] w-full overflow-hidden bg-white">
+      <h2 className="absolute left-1/2 top-[49px] m-0 -translate-x-1/2 whitespace-nowrap text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px] text-[#2e2e2e]">
+        VOLS ENTERARTE DE TOT?
+      </h2>
+      <p className="absolute left-1/2 top-[287px] m-0 w-[1152px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 text-center font-space-mono text-[24px] leading-normal tracking-[-0.48px] text-[#2e2e2e]">
+        Lorena Ipsum sobre que fa el life Lorena Ipsum sobre que fa el
+        lifeLorena Ipsum sobre que fa el lifeLorena Ipsum sobre que fa el
+        lifeLorena Ipsum sobre que fa el lifeLorena Ipsum sobre que fa el
+        lifeLorena Ipsum sobre que fa el lifeLorena Ipsum sobre que fa el life
       </p>
-      <div className="mt-10 flex justify-center">
-        <Link to={ROUTES.contact} className="no-underline">
-          <Button
-            primaryLanding
-            lg
-            className="font-space-mono border-none text-[#2e2e2e] px-6 py-2"
-          >
-            Dons i tant!
-          </Button>
-        </Link>
-      </div>
+      <a
+        href="https://live.lleidahack.dev"
+        className="absolute left-1/2 top-[432px] flex -translate-x-1/2 flex-col items-center justify-center rounded-[4px] bg-[#ff7430] px-4 py-2 no-underline"
+      >
+        <span className="font-space-mono text-[32px] leading-normal tracking-[-0.64px] text-[#2e2e2e]">
+          Web Live
+        </span>
+      </a>
     </section>
   );
 };

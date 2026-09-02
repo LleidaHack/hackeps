@@ -1,54 +1,84 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import TitleGeneralized from "src/components/hackeps/TitleGeneralized/TitleGeneralized";
-import marracoMentor from "src/assets/img/home10/marraco-mentor.png";
-import marracoHacker from "src/assets/img/home10/marraco-hacker.png";
+import marracoMentor from "src/assets/img/home10/marraco-mentor-raw.png";
+import marracoHacker from "src/assets/img/home10/marraco-hacker-raw.png";
+import mountain from "src/assets/img/home10/mountain.png";
+import cloud4 from "src/assets/img/home10/cloud-4.png";
+import cloud3 from "src/assets/img/home10/cloud-3.png";
 import { ROUTES } from "src/config/routes";
 
 const Identify = () => {
   return (
-    <section className="relative bg-skyDay px-4 md:px-16 py-16 md:py-24 overflow-hidden">
-      <TitleGeneralized
-        padTop="0"
-        textNone
-        className="text-headingInk font-space-mono font-bold uppercase tracking-tight text-3xl md:text-5xl lg:text-[56px]"
-      >
+    <section className="relative overflow-hidden bg-[#94cbf5] w-full min-h-[1447px]">
+      <img
+        src={cloud4}
+        alt=""
+        aria-hidden="true"
+        width={457}
+        height={209}
+        className="pointer-events-none absolute left-[1228px] top-[176px] h-[209px] w-[457px] max-w-none object-contain"
+      />
+      <img
+        src={cloud3}
+        alt=""
+        aria-hidden="true"
+        width={596}
+        height={265}
+        className="pointer-events-none absolute left-[566px] top-[908px] h-[265px] w-[596px] max-w-none object-contain"
+      />
+
+      <h1 className="absolute left-1/2 top-[156px] m-0 -translate-x-1/2 whitespace-nowrap text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px] text-[#2e2e2e]">
         IDENTIFICAT
-      </TitleGeneralized>
+      </h1>
 
-      <div className="mt-10 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8 max-w-6xl mx-auto items-end">
-        <Link
-          to={ROUTES.contactMentor}
-          className="no-underline text-headingInk flex flex-col items-center group"
-        >
-          <img
-            src={marracoMentor}
-            alt="Marraco mentor"
-            width={752}
-            height={747}
-            className="w-[78%] max-w-[380px] md:max-w-[520px] h-auto object-contain transition-transform duration-300 group-hover:scale-105"
-          />
-          <span className="mt-4 font-space-mono font-bold text-3xl md:text-5xl uppercase tracking-wide">
-            MENTOR
-          </span>
-        </Link>
+      <img
+        src={mountain}
+        alt=""
+        aria-hidden="true"
+        width={582}
+        height={712}
+        className="pointer-events-none absolute left-[159px] top-[315px] h-[712px] w-[582px] max-w-none object-cover"
+      />
+      <img
+        src={mountain}
+        alt=""
+        aria-hidden="true"
+        width={582}
+        height={712}
+        className="pointer-events-none absolute left-[987px] top-[315px] h-[712px] w-[582px] max-w-none object-cover"
+      />
 
-        <Link
-          to={ROUTES.inscription}
-          className="no-underline text-headingInk flex flex-col items-center group"
-        >
-          <img
-            src={marracoHacker}
-            alt="Marraco hacker"
-            width={773}
-            height={768}
-            className="w-[78%] max-w-[380px] md:max-w-[520px] h-auto object-contain transition-transform duration-300 group-hover:scale-105"
-          />
-          <span className="mt-4 font-space-mono font-bold text-3xl md:text-5xl uppercase tracking-wide">
-            HACKER
-          </span>
-        </Link>
-      </div>
+      <Link
+        to={ROUTES.contactMentor}
+        className="absolute left-[112px] top-[336px] block h-[747px] w-[752px] no-underline"
+      >
+        <img
+          src={marracoMentor}
+          alt="MENTOR"
+          width={752}
+          height={747}
+          className="h-[747px] w-[752px] max-w-none object-contain"
+        />
+      </Link>
+      <p className="absolute left-[141px] top-[1045px] m-0 flex h-[128px] w-[600px] items-center justify-center text-center font-space-mono text-[48px] font-bold leading-normal tracking-[-0.96px] text-[#2e2e2e]">
+        MENTOR
+      </p>
+
+      <Link
+        to={ROUTES.inscription}
+        className="absolute left-[912px] top-[315px] block h-[768px] w-[773px] no-underline"
+      >
+        <img
+          src={marracoHacker}
+          alt="HACKER"
+          width={773}
+          height={768}
+          className="h-[768px] w-[773px] max-w-none object-contain"
+        />
+      </Link>
+      <p className="absolute left-[959px] top-[1027px] m-0 flex h-[128px] w-[600px] items-center justify-center text-center font-space-mono text-[48px] font-bold leading-normal tracking-[-0.96px] text-[#2e2e2e]">
+        HACKER
+      </p>
     </section>
   );
 };

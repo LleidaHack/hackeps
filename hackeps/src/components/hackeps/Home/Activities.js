@@ -1,56 +1,56 @@
 import React from "react";
-import TitleGeneralized from "src/components/hackeps/TitleGeneralized/TitleGeneralized";
 import fumActivitats from "src/assets/img/home10/fum-activitats.png";
+import cloud5 from "src/assets/img/home10/cloud-5.png";
 
 const ACTIVITIES = [
-  { label: "Activitat 1", top: "18%", left: "8%" },
-  { label: "Activitat 2", top: "38%", left: "22%" },
-  { label: "Activitat 3", top: "22%", left: "42%" },
-  { label: "Activitat 4", top: "48%", left: "58%" },
-  { label: "Activitat 5", top: "62%", left: "12%" },
-  { label: "Activitat 6", top: "55%", left: "72%" },
+  { top: 1231.37, left: 386.42, rotate: 9.28 },
+  { top: 627.36, left: 375.05, rotate: -14.69 },
+  { top: 983.36, left: 542.75, rotate: 7.85 },
+  { top: 735.36, left: 799.98, rotate: 4.23 },
+  { top: 1134.8, left: 1013.25, rotate: -16.29 },
+  { top: 874.01, left: 1259.19, rotate: 3.03 },
 ];
 
 const Activities = () => {
   return (
-    <section className="relative bg-skyDay px-4 md:px-16 pt-16 md:pt-24 pb-8 overflow-hidden">
-      <TitleGeneralized
-        padTop="0"
-        textNone
-        className="text-headingInk font-space-mono font-bold uppercase tracking-tight text-2xl md:text-4xl lg:text-5xl"
-      >
-        QUÈ PODRÀS FER A LA HACKEPS?
-      </TitleGeneralized>
-      <p className="mt-6 mx-auto max-w-3xl text-center text-headingInk text-base md:text-lg">
-        A part de programar durant la HackEPS es fan diverses activitats a les
-        quals podeu participar per guanyar premis.
+    <section className="relative min-h-[1806px] w-full overflow-hidden bg-gradient-to-b from-[#94cbf5] from-[38.942%] to-[#65a9dd]">
+      <h2 className="absolute left-1/2 top-[90px] m-0 -translate-x-1/2 whitespace-nowrap text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px] text-[#2e2e2e]">
+        QUÈ PODRAS FER A LA HACKEPS?
+      </h2>
+      <p className="absolute left-1/2 top-[259px] m-0 w-[1152px] max-w-[90vw] -translate-x-1/2 text-center font-space-mono text-[24px] leading-normal tracking-[-0.48px] text-[#2e2e2e]">
+        A part de programar durant la HackEPS es fan varies activitats a les
+        quals podeu participar per guanyar premis
       </p>
-
-      <div className="relative mt-8 md:mt-4 max-w-6xl mx-auto">
+      <img
+        src={cloud5}
+        alt=""
+        aria-hidden="true"
+        width={433}
+        height={193}
+        className="pointer-events-none absolute left-[1223px] top-[385px] h-[193px] w-[433px] max-w-none object-contain"
+      />
+      <div className="absolute left-[-173px] top-[314px] h-[1503px] w-[1901px]">
         <img
           src={fumActivitats}
-          alt="Núvol d'activitats de la HackEPS"
+          alt=""
           width={1901}
           height={1503}
-          className="w-full h-auto object-contain"
+          className="h-[1503px] w-[1901px] max-w-none object-contain"
         />
-        <ul className="absolute inset-0 list-none m-0 p-0 hidden md:block">
-          {ACTIVITIES.map((activity) => (
-            <li
-              key={activity.label + activity.left}
-              className="absolute font-space-mono font-bold text-headingInk text-lg lg:text-2xl whitespace-nowrap"
-              style={{ top: activity.top, left: activity.left }}
-            >
-              {activity.label}
-            </li>
-          ))}
-        </ul>
-        <ul className="md:hidden list-none m-0 mt-4 p-0 grid grid-cols-2 gap-3 text-center font-space-mono font-bold text-headingInk">
-          {ACTIVITIES.map((activity) => (
-            <li key={activity.label}>{activity.label}</li>
-          ))}
-        </ul>
       </div>
+      {ACTIVITIES.map((activity, index) => (
+        <div
+          key={index}
+          className="absolute -translate-x-full -translate-y-1/2 whitespace-nowrap text-right font-space-mono text-[32px] font-bold leading-normal tracking-[-0.64px] text-[#2e2e2e]"
+          style={{
+            top: `${activity.top}px`,
+            left: `${activity.left}px`,
+            transform: `translate(-100%, -50%) rotate(${activity.rotate}deg)`,
+          }}
+        >
+          Activitat 1
+        </div>
+      ))}
     </section>
   );
 };

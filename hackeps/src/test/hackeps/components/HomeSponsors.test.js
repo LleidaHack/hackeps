@@ -39,7 +39,9 @@ describe("Home Sponsors Component", () => {
     expect(
       screen.getByText("Carregant reptes de sponsors..."),
     ).toBeInTheDocument();
-    expect(screen.getByText("Carregant sponsors...")).toBeInTheDocument();
+    expect(screen.getAllByText("Carregant sponsors...").length).toBeGreaterThan(
+      0,
+    );
   });
 
   test("displays sponsors and challengers when data loads successfully", async () => {
@@ -63,7 +65,6 @@ describe("Home Sponsors Component", () => {
       </MemoryRouter>,
     );
 
-    // Wait for loading to complete
     await waitFor(() => {
       expect(
         screen.queryByText("Carregant reptes de sponsors..."),
@@ -71,14 +72,12 @@ describe("Home Sponsors Component", () => {
     });
 
     await waitFor(() => {
-      expect(
-        screen.queryByText("Carregant sponsors..."),
-      ).not.toBeInTheDocument();
+      expect(screen.queryAllByText("Carregant sponsors...").length).toBe(0);
     });
 
-    // Check that sponsor sections are rendered (titles should be present)
-    expect(screen.getByText("Reptes Proposats per...")).toBeInTheDocument();
-    expect(screen.getByText("Amb la col·laboració de...")).toBeInTheDocument();
+    expect(screen.getByText("Patrocinadors or")).toBeInTheDocument();
+    expect(screen.getByText("Patrocinadors plata")).toBeInTheDocument();
+    expect(screen.getByText("Patrocinadors bronze")).toBeInTheDocument();
   });
 
   test("shows empty state when no event is in localStorage", async () => {
@@ -99,8 +98,8 @@ describe("Home Sponsors Component", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("No hi ha sponsors disponibles actualment."),
-      ).toBeInTheDocument();
+        screen.getAllByText("No hi ha sponsors disponibles actualment.").length,
+      ).toBeGreaterThan(0);
     });
   });
 
@@ -125,8 +124,8 @@ describe("Home Sponsors Component", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("No hi ha sponsors disponibles actualment."),
-      ).toBeInTheDocument();
+        screen.getAllByText("No hi ha sponsors disponibles actualment.").length,
+      ).toBeGreaterThan(0);
     });
   });
 
@@ -153,8 +152,8 @@ describe("Home Sponsors Component", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("No hi ha sponsors disponibles actualment."),
-      ).toBeInTheDocument();
+        screen.getAllByText("No hi ha sponsors disponibles actualment.").length,
+      ).toBeGreaterThan(0);
     });
 
     expect(consoleSpy).toHaveBeenCalledWith(

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import Header from "src/components/hackeps/Header/Header.js";
-import CalendarDates from "src/components/hackeps/Home/Calendar.js";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import HomeFrame from "src/components/hackeps/Home/HomeFrame.js";
+import HomeHeader from "src/components/hackeps/Home/HomeHeader.js";
 import Sponsors from "src/components/hackeps/Home/Sponsors.js";
 import HeroSection from "src/components/hackeps/Home/HeroSection/HeroSection.js";
 import Identify from "src/components/hackeps/Home/Identify.js";
@@ -9,8 +9,9 @@ import Activities from "src/components/hackeps/Home/Activities.js";
 import Records from "src/components/hackeps/Home/Records.js";
 import HomeFooter from "src/components/hackeps/Home/HomeFooter.js";
 import { getHackeps } from "src/services/EventService";
-import Animation from "src/pages/hackeps/Animation.js";
 import { getEventIsHackerRegistered } from "src/services/EventService";
+
+const Animation = lazy(() => import("src/pages/hackeps/Animation.js"));
 
 const Home = () => {
   const [startDate, setStartDate] = useState(undefined);
@@ -34,21 +35,30 @@ const Home = () => {
 
   useEffect(() => {
     async function getDates() {
-      const response = await getHackeps();
-      const start = new Date(response.start_date);
-      start.setMonth(start.getMonth());
-      const end = new Date(response.end_date);
-      localStorage.setItem("event", JSON.stringify(response));
-      end.setMonth(end.getMonth());
-      setStartDate(start);
-      setEndDate(end);
-      if (localStorage.getItem("userID") !== null) {
-        const isRegistered = await getEventIsHackerRegistered(
-          response.id,
-          localStorage.getItem("userID"),
-        );
-        if (isRegistered) {
-          localStorage.setItem("registeredOnEvent", "true");
+      try {
+        const response = await getHackeps();
+        if (!response || !response.start_date || !response.end_date) {
+          return;
+        }
+        const start = new Date(response.start_date);
+        start.setMonth(start.getMonth());
+        const end = new Date(response.end_date);
+        localStorage.setItem("event", JSON.stringify(response));
+        end.setMonth(end.getMonth());
+        setStartDate(start);
+        setEndDate(end);
+        if (localStorage.getItem("userID") !== null) {
+          const isRegistered = await getEventIsHackerRegistered(
+            response.id,
+            localStorage.getItem("userID"),
+          );
+          if (isRegistered) {
+            localStorage.setItem("registeredOnEvent", "true");
+          }
+        }
+      } catch (error) {
+        if (process.env.REACT_APP_DEBUG === "true") {
+          console.log(error);
         }
       }
     }
@@ -59,31 +69,34 @@ const Home = () => {
 
   if (!showAnimation) {
     return (
-      <div className="bg-skyDay">
-        <Header />
-        <HeroSection
-          initialDate={startDate}
-          finalDate={endDate}
-          activeTimer={timerActive}
-        />
-        <Identify />
-        <CalendarDates startDate={startDate} endDate={endDate} />
-        <Newsletter />
-        <Activities />
-        <Records />
-        <Sponsors />
-        <HomeFooter />
+      <div className="w-full overflow-x-hidden bg-white">
+        <HomeHeader />
+        <HomeFrame>
+          <HeroSection
+            initialDate={startDate}
+            finalDate={endDate}
+            activeTimer={timerActive}
+          />
+          <Identify />
+          <Newsletter />
+          <Activities />
+          <Records />
+          <Sponsors />
+          <HomeFooter />
+        </HomeFrame>
       </div>
     );
   }
 
   return (
     <div>
-      <Animation
-        initialDate={startDate}
-        finalDate={endDate}
-        activeTimer={timerActive}
-      />
+      <Suspense fallback={null}>
+        <Animation
+          initialDate={startDate}
+          finalDate={endDate}
+          activeTimer={timerActive}
+        />
+      </Suspense>
     </div>
   );
 };

@@ -1,34 +1,50 @@
-import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
+import cloud1 from "src/assets/img/home10/cloud-5.png";
+import cloud2 from "src/assets/img/home10/cloud-2.png";
 
 const CalendarDates = () => {
   return (
     <section
-      className="bg-skyDay px-4 md:px-16 py-16 md:py-24 flex flex-col items-center"
       id="dates"
+      className="relative w-full overflow-hidden bg-[#94cbf5] min-h-[898px]"
     >
-      <TitleGeneralized
-        padTop="0"
-        textNone
-        className="text-headingInk font-space-mono font-bold uppercase tracking-tight text-2xl md:text-4xl sr-only"
-      >
-        Dates
-      </TitleGeneralized>
-      <div className="max-w-3xl text-headingInk text-base md:text-lg leading-relaxed text-center space-y-4">
-        <p>
-          Lleidahack et dona la benvinguda a la HackEPS, la hackató de les
-          terres de Lleida!
+      <img
+        src={cloud1}
+        alt=""
+        aria-hidden="true"
+        width={359}
+        height={160}
+        className="pointer-events-none absolute left-[1340px] top-[152px] h-[160px] w-[359px] max-w-none object-contain"
+      />
+      <img
+        src={cloud2}
+        alt=""
+        aria-hidden="true"
+        width={435}
+        height={219}
+        className="pointer-events-none absolute left-[64px] top-[268px] h-[219px] w-[435px] max-w-none object-contain"
+      />
+      <div className="absolute left-1/2 top-[295px] w-[952px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 text-center font-space-mono text-[24px] leading-normal tracking-[-0.48px] text-[#2e2e2e]">
+        <p className="m-0 mb-0">
+          Lleidahack et dona la benvinguda a la HackEPS 2025, la primera hackató
+          de les terres de Lleida!
         </p>
-        <p>
-          La desena edició de la HackEPS tindrà lloc a l&apos;edifici de
-          l&apos;Escola Politècnica Superior de la Universitat de Lleida. Aquest
-          és un esdeveniment que no voldràs perdre&apos;t!
+        <p className="m-0 mb-0">
+          La novena edició de la HackEPS tindrà lloc a l&apos;edifici de l&apos;
+          <span className="font-bold">Escola Politècnica</span>{" "}
+          <span className="font-bold">
+            Superior de la Universitat de Lleida
+          </span>{" "}
+          els dies
+          <span className="font-bold"> 22 i 23 de novembre de 2025</span>.
+          Aquest és un esdeveniment que no voldràs perdre&apos;t!
         </p>
-        <p>
+        <p className="m-0 mb-0">
           Així que, si ets un apassionat de la tecnologia, amant dels reptes i
-          defensor del treball en equip, la HackEPS és el teu lloc. Uneix-te a
-          nosaltres per a una experiència inoblidable per a desenvolupar-te com
-          a futur programador!
+          defensor del treball en equip, la HackEPS 2025 és el teu lloc. Uneix-te
+          a nosaltres per a una experiència inoblidable per a desenvolupar-te
+          com a futur programador!
         </p>
+        <p className="m-0">FICAR QUAN ES FA</p>
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import { useEffect, useState } from "react";
 import Button from "src/components/buttons/Button";
-import hackLogo from "src/icons/banner_home_icon.png";
+import hackLogo from "src/assets/img/home10/logo-taronja.png";
 import "./MainTitle.css";
 import { useNavigate } from "react-router-dom";
 import { checkToken } from "src/services/AuthenticationService";
@@ -82,22 +82,22 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
 
   return (
     <>
-      <div className="justify-center items-center flex flex-col gap-6 w-full z-50">
-        {/* Logo */}
-        <div className="w-full flex justify-center">
+      <div className="flex w-full flex-col items-center justify-center gap-[29px] z-50">
+        <div className="flex h-[608px] w-[577px] max-h-[50vh] max-w-[90vw] justify-center">
           <img
             src={hackLogo}
             alt="HackEPS 10ª Edició"
-            className="hero-logo-img"
+            className="h-full w-full object-contain"
+            width={577}
+            height={608}
           />
         </div>
 
-        {/* CTA Button */}
-        <div className="relative z-50" style={{ zIndex: 5000 }}>
+        <div className="relative z-50">
           <button
             id="hero-cta-button"
             onClick={handleShow}
-            className="hero-cta-btn"
+            className="rounded-[4px] bg-[#ff7430] px-4 py-2 font-space-mono text-[32px] leading-normal tracking-[-0.64px] text-[#2e2e2e]"
           >
             {textButton}
           </button>

@@ -4,6 +4,7 @@ import Contacte from "src/pages/hackeps/Contacte";
 import Error404 from "src/pages/hackeps/Error404";
 import FAQPage from "src/pages/hackeps/FAQ";
 import Home from "src/pages/hackeps/Home";
+import DatesPage from "src/pages/hackeps/Dates";
 import Profile from "src/pages/hackeps/Profile.js";
 import HackerForm from "src/pages/hackeps/HackerSignup";
 import Terms from "src/pages/hackeps/Terms";
@@ -32,6 +33,7 @@ export default function MainRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path={ROUTES.dates} element={<DatesPage />} />
       <Route path={ROUTES.faq} element={<FAQPage />} />
       <Route path={ROUTES.contact} element={<Contacte />} />
       <Route path={ROUTES.contactMentor} element={<ContacteMentor />} />

@@ -13,7 +13,7 @@ import { ROUTES } from "src/config/routes";
    ---------------------------------------------------------------- */
 const NAV_LINKS = [
   { label: "Home", to: "/", isHashLink: false },
-  { label: "Dates i Horaris", to: "/#dates", isHashLink: true },
+  { label: "Dates i Horaris", to: ROUTES.dates, isHashLink: false },
   { label: "Sponsors", to: "/#sponsors", isHashLink: true },
   { label: "FAQ", to: ROUTES.faq, isHashLink: false },
   { label: "Contacte", to: ROUTES.contact, isHashLink: false },
@@ -89,7 +89,7 @@ const Header = () => {
         className="sticky top-0 z-50"
         style={{ background: "rgba(242, 140, 40, 0.92)", backdropFilter: "blur(8px)" }}
       >
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="w-full mx-auto px-4 h-16 flex items-center justify-between">
           {/* ── Logo ── */}
           <Link to="/" className="flex-shrink-0" aria-label="Home">
             <img src={hackIcon} alt="HackEPS logo" className="h-12 w-12" />

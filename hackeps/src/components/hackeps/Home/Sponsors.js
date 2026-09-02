@@ -1,160 +1,207 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "src/components/hackeps/Home/Sponsors.css";
-import Button from "src/components/buttons/Button";
-import LogoSponsors from "../Sponsors/LogoSponsors";
-import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
 import { getCompanyByTier } from "src/services/CompanyService";
+import sponsorSlot from "src/assets/img/home10/sponsor-slot.svg";
+import firework1 from "src/assets/img/home10/firework-1.png";
+import firework2 from "src/assets/img/home10/firework-2.png";
+import firework3 from "src/assets/img/home10/firework-3.png";
+import seuVella from "src/assets/img/home10/seu-vella.png";
+import arbre from "src/assets/img/home10/arbre.png";
+import arbre2 from "src/assets/img/home10/arbre-2.png";
+
+function asCompanyList(data) {
+  if (Array.isArray(data)) return data;
+  if (!data || typeof data !== "object" || data.errCode != null) return [];
+  if (Array.isArray(data.results)) return data.results;
+  if (Array.isArray(data.companies)) return data.companies;
+  if (Array.isArray(data.items)) return data.items;
+  if (Array.isArray(data.data)) return data.data;
+  return [];
+}
 
 function redirectToURL(url) {
   if (!url) return;
-
   if (/^https?:\/\//i.test(url)) {
     window.open(url, "_blank", "noopener,noreferrer");
     return;
   }
-
   const path = "/" + url.replace(/^\/+/, "");
-  const absoluteUrl = `${window.location.origin}${path}`;
-  window.open(absoluteUrl, "_blank", "noopener,noreferrer");
+  window.open(`${window.location.origin}${path}`, "_blank", "noopener,noreferrer");
 }
 
-const SponsorRow = ({ title, companies, size, loading, emptyLabel }) => (
-  <section className="justify-center w-full mt-10 md:mt-16">
-    <h2 className="font-space-mono text-white text-xl md:text-2xl text-center m-0">
-      {title}
-    </h2>
-    <div className="flex flex-wrap justify-center gap-4 p-4 mt-4">
-      {loading ? (
-        <div className="text-center text-white/80 py-8 text-base font-space-mono">
-          {emptyLabel.loading}
-        </div>
-      ) : companies.length > 0 ? (
-        companies.map((company, index) => (
-          <div
-            key={company.id || index}
-            className="cursor-pointer transition-transform duration-300 ease-in-out hover:scale-110"
-            onClick={() => redirectToURL(`sponsors/${company.id}`)}
-          >
-            <LogoSponsors
-              image={company.image}
-              name={company.name || `Empresa ${index + 1}`}
-              size={size}
-            />
-          </div>
-        ))
-      ) : (
-        <div className="text-center text-white/80 py-8 text-base font-space-mono">
-          {emptyLabel.empty}
-        </div>
-      )}
-    </div>
-  </section>
+const Slot = ({ company }) => (
+  <button
+    type="button"
+    className="relative h-[248px] w-[448px] border-0 bg-transparent p-0"
+    onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
+  >
+    <img
+      src={sponsorSlot}
+      alt=""
+      width={448}
+      height={248}
+      className="absolute inset-0 h-[248px] w-[448px] max-w-none"
+    />
+    {company?.image ? (
+      <img
+        src={company.image}
+        alt={company.name}
+        width={448}
+        height={248}
+        className="absolute inset-0 h-[248px] w-[448px] object-contain p-8"
+      />
+    ) : null}
+  </button>
 );
+
+const SlotRow = ({ companies }) => {
+  const cells = [0, 1, 2].map((i) => companies[i] || null);
+  return (
+    <div className="flex justify-center gap-[36px]">
+      {cells.map((company, i) => (
+        <Slot key={company?.id || i} company={company} />
+      ))}
+    </div>
+  );
+};
 
 const Sponsors = () => {
   const [gold, setGold] = useState([]);
   const [silver, setSilver] = useState([]);
   const [bronze, setBronze] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const event = localStorage.getItem("event");
-
+    if (!event) return;
     async function fetchData() {
-      if (!event) {
-        setLoading(false);
-        return;
+      try {
+        const [tier2, tier1, tier3] = await Promise.all([
+          getCompanyByTier(2),
+          getCompanyByTier(1),
+          getCompanyByTier(3),
+        ]);
+        setGold(asCompanyList(tier2));
+        setSilver(asCompanyList(tier1));
+        setBronze(asCompanyList(tier3));
+      } catch (error) {
+        console.error("Error fetching sponsors data:", error);
       }
-
-      setLoading(true);
-
-      for (let attempt = 1; attempt <= 2; attempt++) {
-        try {
-          const [tier2, tier1, tier3] = await Promise.all([
-            getCompanyByTier(2),
-            getCompanyByTier(1),
-            getCompanyByTier(3),
-          ]);
-
-          const dataIsEmpty =
-            (tier2 || []).length === 0 &&
-            (tier1 || []).length === 0 &&
-            (tier3 || []).length === 0;
-
-          if (dataIsEmpty && attempt < 2) {
-            continue;
-          }
-
-          setGold(tier2 || []);
-          setSilver(tier1 || []);
-          setBronze(tier3 || []);
-
-          setLoading(false);
-          return;
-        } catch (error) {
-          console.error("Error fetching data:", error);
-          break;
-        }
-      }
-      setLoading(false);
     }
     fetchData();
   }, []);
 
+  const silverRows = [silver.slice(0, 3), silver.slice(3, 6)];
+  const bronzeRows = [bronze.slice(0, 3), bronze.slice(3, 6)];
+
   return (
-    <div className="sponsors bg-gradient-to-b from-nightNavy to-nightNavyDeep px-6 md:px-16 pt-16 pb-8">
-      <div className="gostHunter" id="sponsors"></div>
-      <TitleGeneralized
-        padTop="0"
-        textNone
-        className="text-white font-space-mono font-bold uppercase tracking-tight"
-      >
-        Sponsors
-      </TitleGeneralized>
+    <div
+      id="sponsors"
+      className="relative w-full overflow-hidden bg-gradient-to-b from-[#365b77] from-[40%] to-[#2e2e2e] pt-0"
+    >
+      <div className="relative min-h-[2067px] w-full">
+        <h2 className="relative z-10 m-0 pt-[0px] text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px] text-white">
+          SPONSORS
+        </h2>
 
-      <SponsorRow
-        title="Patrocinadors or"
-        companies={gold}
-        size="gold"
-        loading={loading}
-        emptyLabel={{
-          loading: "Carregant reptes de sponsors...",
-          empty: "No hi ha reptes disponibles actualment.",
-        }}
-      />
-      <SponsorRow
-        title="Patrocinadors plata"
-        companies={silver}
-        size="silver"
-        loading={loading}
-        emptyLabel={{
-          loading: "Carregant sponsors...",
-          empty: "No hi ha sponsors disponibles actualment.",
-        }}
-      />
-      <SponsorRow
-        title="Patrocinadors bronze"
-        companies={bronze}
-        size="bronze"
-        loading={loading}
-        emptyLabel={{
-          loading: "Carregant sponsors...",
-          empty: "No hi ha sponsors disponibles actualment.",
-        }}
-      />
+        <img
+          src={firework3}
+          alt=""
+          aria-hidden="true"
+          width={435}
+          height={398}
+          className="pointer-events-none absolute left-[1043px] top-[243px] h-[398px] w-[435px] max-w-none -rotate-[19.78deg] object-cover"
+        />
+        <img
+          src={firework1}
+          alt=""
+          aria-hidden="true"
+          width={238}
+          height={235}
+          className="pointer-events-none absolute left-[45px] top-[615px] h-[235px] w-[238px] max-w-none rotate-[19.31deg] object-cover"
+        />
+        <img
+          src={firework3}
+          alt=""
+          aria-hidden="true"
+          width={327}
+          height={299}
+          className="pointer-events-none absolute left-[104px] top-[921px] h-[299px] w-[327px] max-w-none rotate-[12.02deg] object-cover"
+        />
+        <img
+          src={firework2}
+          alt=""
+          aria-hidden="true"
+          width={256}
+          height={222}
+          className="pointer-events-none absolute left-[1292px] top-[1194px] h-[222px] w-[256px] max-w-none -rotate-[14.03deg] object-cover"
+        />
+        <img
+          src={firework3}
+          alt=""
+          aria-hidden="true"
+          width={198}
+          height={181}
+          className="pointer-events-none absolute left-[1079px] top-[1894px] h-[181px] w-[198px] max-w-none rotate-[17.19deg] object-cover"
+        />
 
-      <p className="text-white">
-        T&apos;agradaria ser un dels nostres col·laboradors o presentar un
-        repte?
-      </p>
-      <p className="text-white">No ho dubtis, contacta amb nosaltres!</p>
-      <Link to={"/contacte"}>
-        <Button className="bg-primaryLanding text-[#2e2e2e] border-none font-space-mono" lg>
-          Contacta
-        </Button>
-      </Link>
-      <br />
+        <h3 className="relative z-10 mt-[70px] mb-8 text-center font-space-mono text-[64px] font-bold leading-none tracking-[-1.28px] text-white">
+          Patrocinadors or
+        </h3>
+        <div className="relative z-10 mb-[121px]">
+          <SlotRow companies={gold} />
+        </div>
+
+        <h3 className="relative z-10 mb-8 text-center font-space-mono text-[64px] font-bold leading-none tracking-[-1.28px] text-white">
+          Patrocinadors plata
+        </h3>
+        <div className="relative z-10 mb-[61px] flex flex-col gap-[61px]">
+          {silverRows.map((row, i) => (
+            <SlotRow key={`s-${i}`} companies={row} />
+          ))}
+        </div>
+
+        <h3 className="relative z-10 mb-8 mt-[61px] text-center font-space-mono text-[64px] font-bold leading-none tracking-[-1.28px] text-white">
+          Patrocinadors bronze
+        </h3>
+        <div className="relative z-10 flex flex-col gap-[61px]">
+          {bronzeRows.map((row, i) => (
+            <SlotRow key={`b-${i}`} companies={row} />
+          ))}
+        </div>
+      </div>
+
+      <div className="relative h-[1224px] w-full">
+        <img
+          src={seuVella}
+          alt=""
+          width={1728}
+          height={1224}
+          className="absolute left-0 top-0 h-[1224px] w-full object-contain"
+        />
+        <img
+          src={firework2}
+          alt=""
+          aria-hidden="true"
+          width={447}
+          height={387}
+          className="pointer-events-none absolute left-[45px] top-[42px] h-[387px] w-[447px] max-w-none -rotate-[19.48deg] object-cover"
+        />
+        <img
+          src={arbre}
+          alt=""
+          aria-hidden="true"
+          width={365}
+          height={451}
+          className="pointer-events-none absolute left-[380px] top-[330px] h-[451px] w-[365px] max-w-none object-cover"
+        />
+        <img
+          src={arbre2}
+          alt=""
+          aria-hidden="true"
+          width={229}
+          height={283}
+          className="pointer-events-none absolute left-[67px] top-[352px] h-[283px] w-[229px] max-w-none -scale-y-100 rotate-180 object-cover"
+        />
+      </div>
     </div>
   );
 };
