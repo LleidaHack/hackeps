@@ -5,9 +5,12 @@ import sponsorSlot from "src/assets/img/home10/sponsor-slot.svg";
 import firework1 from "src/assets/img/home10/firework-1.png";
 import firework2 from "src/assets/img/home10/firework-2.png";
 import firework3 from "src/assets/img/home10/firework-3.png";
-import seuVella from "src/assets/img/home10/seu-vella.png";
-import arbre from "src/assets/img/home10/arbre.png";
-import arbre2 from "src/assets/img/home10/arbre-2.png";
+import seuVellaSolo512 from "src/assets/img/seuvella-solo-512.webp";
+import seuVellaSolo1024 from "src/assets/img/seuvella-solo-1024.webp";
+import olaInterior1280 from "src/assets/img/ola-interior-1280.webp";
+import olaInterior2048 from "src/assets/img/ola-interior-2048.webp";
+import olaExterior1280 from "src/assets/img/ola-exterior-1280.webp";
+import olaExterior2048 from "src/assets/img/ola-exterior-2048.webp";
 
 function asCompanyList(data) {
   if (Array.isArray(data)) return data;
@@ -175,33 +178,39 @@ const Sponsors = () => {
 
 export const SeuVellaFooter = () => {
   return (
-    <div className="relative w-full bg-transparent">
-      <div className="relative mx-auto h-[680px] w-[58%] max-w-[1000px] leading-[0]">
+    <div className="relative w-full overflow-hidden">
+      <div className="relative h-[520px] w-full bg-transparent">
         <img
-          src={seuVella}
+          src={olaInterior1280}
+          srcSet={`${olaInterior1280} 1280w, ${olaInterior2048} 2048w`}
+          sizes="100vw"
+          width="2048"
+          height="784"
+          className="absolute left-0 top-[50%] z-10 w-full h-auto"
           alt=""
-          width={1000}
-          height={680}
-          className="absolute bottom-0 left-0 block h-full w-full max-w-none object-contain object-bottom"
         />
         <img
-          src={arbre}
-          alt=""
-          aria-hidden="true"
-          width={210}
-          height={260}
-          className="pointer-events-none absolute left-[22%] top-[38%] h-[260px] w-[210px] max-w-none object-contain"
+          src={seuVellaSolo512}
+          srcSet={`${seuVellaSolo512} 512w, ${seuVellaSolo1024} 1024w`}
+          sizes="25vw"
+          width="1024"
+          height="1036"
+          className="absolute bottom-[5%] right-[10%] z-20 h-auto w-[25%]"
+          alt="La Seu Vella de Lleida"
         />
         <img
-          src={arbre2}
+          src={olaExterior1280}
+          srcSet={`${olaExterior1280} 1280w, ${olaExterior2048} 2048w`}
+          sizes="100vw"
+          width="2048"
+          height="594"
+          className="absolute left-0 top-[75%] z-30 w-full h-auto"
           alt=""
-          aria-hidden="true"
-          width={132}
-          height={164}
-          className="pointer-events-none absolute left-[4%] top-[42%] h-[164px] w-[132px] max-w-none -scale-y-100 rotate-180 object-contain"
         />
       </div>
-      <HomeFooter />
+      <div className="relative z-40 -mt-[80px]">
+        <HomeFooter />
+      </div>
     </div>
   );
 };
