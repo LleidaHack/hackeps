@@ -11,7 +11,7 @@
  *   "night" → sempre nit
  */
 export const THEME_CONFIG = {
-  enabled: true,
+  enabled: false,
   mode: "auto",
   fallbackMode: "day",
   dayStartsAt: "07:00",

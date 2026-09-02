@@ -200,7 +200,7 @@ export const SeuVellaFooter = () => {
         />
       </div>
       <div className="relative z-40 -mt-[80px]">
-        <HomeFooter />
+        <HomeFooter tone="green" />
       </div>
     </div>
   );
