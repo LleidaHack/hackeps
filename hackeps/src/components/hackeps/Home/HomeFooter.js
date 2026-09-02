@@ -9,56 +9,56 @@ const HomeFooter = () => {
   return (
     <footer
       data-testid="footerHackeps"
-      className="relative m-0 block h-[406px] w-full overflow-hidden border-0 bg-[#78c6bd] p-0 leading-normal"
+      className="relative m-0 flex w-full flex-col items-center gap-3 border-0 bg-[#78c6bd] px-6 py-6 font-space-mono text-[#2e2e2e]"
     >
-      <div className="absolute left-[775px] top-[37px] flex items-start">
+      <div className="flex items-center justify-center gap-3">
         <a
           href="https://www.instagram.com/hackeps_/"
           target="_blank"
           rel="noopener noreferrer"
-          className="block h-[47px] w-[47px]"
+          className="block h-7 w-7"
         >
           <img
             src={iconInstagram}
             alt="Instagram"
-            width={47}
-            height={47}
-            className="h-[47px] w-[47px] max-w-none"
+            width={28}
+            height={28}
+            className="h-7 w-7 max-w-none"
           />
         </a>
         <a
           href="https://www.linkedin.com/company/hackeps/"
           target="_blank"
           rel="noopener noreferrer"
-          className="ml-[17px] block h-[47px] w-[48px]"
+          className="block h-7 w-7"
         >
           <img
             src={iconLinkedin}
             alt="LinkedIn"
-            width={48}
-            height={47}
-            className="h-[47px] w-[48px] max-w-none"
+            width={28}
+            height={28}
+            className="h-7 w-7 max-w-none"
           />
         </a>
         <a
           href="https://twitter.com/hackeps"
           target="_blank"
           rel="noopener noreferrer"
-          className="ml-[18px] block h-[47px] w-[47px]"
+          className="block h-7 w-7"
         >
           <img
             src={iconX}
             alt="X"
-            width={47}
-            height={47}
-            className="h-[47px] w-[47px] max-w-none"
+            width={28}
+            height={28}
+            className="h-7 w-7 max-w-none"
           />
         </a>
       </div>
 
-      <div className="absolute left-1/2 top-[187px] w-[676px] -translate-x-1/2 -translate-y-1/2 text-center font-space-mono text-[24px] font-bold leading-normal text-[#2e2e2e]">
+      <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-center text-[13px] font-bold leading-snug">
         <a
-          className="block underline"
+          className="underline"
           href={ROUTES.terms}
           target="_blank"
           rel="noopener noreferrer"
@@ -66,55 +66,52 @@ const HomeFooter = () => {
           Termes i Condicions
         </a>
         <a
-          className="block underline"
+          className="underline"
           href={ROUTES.privacy}
           target="_blank"
           rel="noopener noreferrer"
         >
-          Política de Privadesa de LledaHack
+          Política de Privadesa de LleidaHack
         </a>
         <a
-          className="block underline"
+          className="underline"
           href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
           target="_blank"
           rel="noopener noreferrer"
         >
           Codi de conducta de MLH
         </a>
-      </div>
+      </nav>
 
-      <div className="absolute left-1/2 top-[257px] w-[672px] -translate-x-1/2 text-center font-space-mono text-[24px] font-bold leading-normal text-[#2e2e2e]">
-        <p className="relative m-0">
-          Made with{" "}
-          <img
-            src={iconHeart}
-            alt=""
-            width={24}
-            height={24}
-            className="inline-block h-6 w-6 max-w-none align-middle"
-          />{" "}
-          by{" "}
-          <a
-            className="underline"
-            href="https://lleidahack.github.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LleidaHack
-          </a>
-        </p>
-        <p className="m-0">
-          Powered By{" "}
-          <a
-            className="underline"
-            href="https://clouding.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Clouding.io
-          </a>
-        </p>
-      </div>
+      <p className="m-0 text-center text-[13px] font-bold leading-snug">
+        Made with{" "}
+        <img
+          src={iconHeart}
+          alt=""
+          width={14}
+          height={14}
+          className="inline-block h-3.5 w-3.5 max-w-none align-middle"
+        />{" "}
+        by{" "}
+        <a
+          className="underline"
+          href="https://lleidahack.github.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LleidaHack
+        </a>
+        {" · "}
+        Powered By{" "}
+        <a
+          className="underline"
+          href="https://clouding.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Clouding.io
+        </a>
+      </p>
     </footer>
   );
 };

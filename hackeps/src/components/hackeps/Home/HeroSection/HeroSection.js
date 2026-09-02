@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import MainTitle from "src/components/hackeps/Home/MainTitle.js";
 import HomeCountdown from "src/components/hackeps/Home/HomeCountdown.js";
 import banderilles from "src/assets/img/home10/banderilles.png";
-import mlhBadge from "src/assets/img/home10/mlh.png";
 import cloud1 from "src/assets/img/home10/cloud-1.png";
 import cloud2 from "src/assets/img/home10/cloud-2.png";
 import cloud3 from "src/assets/img/home10/cloud-3.png";
@@ -28,24 +27,8 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           aria-hidden="true"
           width={1728}
           height={236}
-          className="pointer-events-none absolute left-[-6px] top-[23px] z-20 h-[236px] w-[1728px] max-w-none object-cover"
+          className="pointer-events-none absolute left-0 top-0 z-20 h-[236px] w-[1728px] max-w-none object-contain object-top"
         />
-
-        <a
-          href="https://mlh.io/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute left-[132px] top-[-23px] z-30 block h-[356px] w-[187px]"
-          aria-label="Major League Hacking"
-        >
-          <img
-            src={mlhBadge}
-            alt="MLH"
-            width={187}
-            height={356}
-            className="h-[356px] w-[187px] max-w-none object-cover"
-          />
-        </a>
 
         <img
           src={cloud1}
@@ -84,7 +67,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           aria-hidden="true"
           width={1728}
           height={321}
-          className="relative z-10 block h-[321px] w-full object-cover object-bottom"
+          className="relative z-10 block h-[321px] w-full object-contain object-bottom"
         />
         <div className="absolute inset-0 z-20 flex items-center justify-center px-4">
           <HomeCountdown

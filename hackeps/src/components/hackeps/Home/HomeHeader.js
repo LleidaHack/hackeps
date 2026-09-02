@@ -3,6 +3,7 @@ import { HashLink as Link } from "react-router-hash-link";
 import { ROUTES } from "src/config/routes";
 import isotip from "src/assets/img/home10/isotip.svg";
 import iconProfile from "src/assets/img/home10/icon-profile.svg";
+import mlhBadge from "src/assets/img/home10/mlh.png";
 
 const NAV_LINKS = [
   { label: "Home", to: "/" },
@@ -16,7 +17,26 @@ const HomeHeader = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div data-testid="headerHackeps" className="sticky top-0 z-50 w-full">
+    <div
+      data-testid="headerHackeps"
+      className="sticky top-0 z-50 w-full overflow-visible"
+    >
+      <a
+        href="https://mlh.io/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute left-[7.6%] top-0 z-[60] block h-[285px] w-[150px]"
+        aria-label="Major League Hacking"
+      >
+        <img
+          src={mlhBadge}
+          alt="MLH"
+          width={150}
+          height={285}
+          className="h-[285px] w-[150px] max-w-none object-contain object-top"
+        />
+      </a>
+
       <nav id="main-nav" className="relative h-[80px] w-full bg-[#ff7430]">
         <Link
           to="/"

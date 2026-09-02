@@ -9,7 +9,7 @@ import { ROUTES } from "src/config/routes";
 
 const Identify = () => {
   return (
-    <section className="relative overflow-hidden bg-[#94cbf5] w-full min-h-[1447px]">
+    <section className="relative w-full overflow-x-hidden bg-[#94cbf5] min-h-[1447px]">
       <img
         src={cloud4}
         alt=""
@@ -57,7 +57,7 @@ const Identify = () => {
           alt="MENTOR"
           width={752}
           height={747}
-          className="h-[747px] w-[752px] max-w-none object-contain"
+          className="h-[747px] w-[752px] max-w-none origin-center object-contain transition-transform duration-300 ease-out hover:scale-105 hover:rotate-[6deg]"
         />
       </Link>
       <p className="absolute left-[141px] top-[1045px] m-0 flex h-[128px] w-[600px] items-center justify-center text-center font-space-mono text-[48px] font-bold leading-normal tracking-[-0.96px] text-[#2e2e2e]">
@@ -73,7 +73,7 @@ const Identify = () => {
           alt="HACKER"
           width={773}
           height={768}
-          className="h-[768px] w-[773px] max-w-none object-contain"
+          className="h-[768px] w-[773px] max-w-none origin-center object-contain transition-transform duration-300 ease-out hover:scale-105 hover:rotate-[6deg]"
         />
       </Link>
       <p className="absolute left-[959px] top-[1027px] m-0 flex h-[128px] w-[600px] items-center justify-center text-center font-space-mono text-[48px] font-bold leading-normal tracking-[-0.96px] text-[#2e2e2e]">

@@ -1,7 +1,9 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import HomeFrame from "src/components/hackeps/Home/HomeFrame.js";
 import HomeHeader from "src/components/hackeps/Home/HomeHeader.js";
-import Sponsors from "src/components/hackeps/Home/Sponsors.js";
+import Sponsors, {
+  SeuVellaFooter,
+} from "src/components/hackeps/Home/Sponsors.js";
 import HeroSection from "src/components/hackeps/Home/HeroSection/HeroSection.js";
 import Identify from "src/components/hackeps/Home/Identify.js";
 import Newsletter from "src/components/hackeps/Home/Newsletter.js";
@@ -79,8 +81,17 @@ const Home = () => {
           <Identify />
           <Newsletter />
           <Activities />
-          <Records />
-          <Sponsors />
+          <div
+            className="w-full"
+            style={{
+              background:
+                "linear-gradient(180deg, #65A9DD 0%, #4A8FC4 28%, #365B77 62%, #2E2E2E 100%)",
+            }}
+          >
+            <Records />
+            <Sponsors />
+            <SeuVellaFooter />
+          </div>
         </HomeFrame>
       </div>
     );

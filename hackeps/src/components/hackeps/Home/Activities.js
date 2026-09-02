@@ -1,14 +1,14 @@
 import React from "react";
-import fumActivitats from "src/assets/img/home10/fum-activitats.png";
+import dimoniBig from "src/assets/img/home10/fum-activitats.png";
 import cloud5 from "src/assets/img/home10/cloud-5.png";
 
 const ACTIVITIES = [
-  { top: 1231.37, left: 386.42, rotate: 9.28 },
-  { top: 627.36, left: 375.05, rotate: -14.69 },
-  { top: 983.36, left: 542.75, rotate: 7.85 },
-  { top: 735.36, left: 799.98, rotate: 4.23 },
-  { top: 1134.8, left: 1013.25, rotate: -16.29 },
-  { top: 874.01, left: 1259.19, rotate: 3.03 },
+  { label: "Activitat 1", top: 627.36, left: 375.05, rotate: -14.69 },
+  { label: "Activitat 1", top: 735.36, left: 799.98, rotate: 4.23 },
+  { label: "Activitat 1", top: 874.01, left: 1259.19, rotate: 3.03 },
+  { label: "Activitat 1", top: 983.36, left: 542.75, rotate: 7.85 },
+  { label: "Activitat 1", top: 1134.8, left: 1013.25, rotate: -16.29 },
+  { label: "Activitat 1", top: 1231.37, left: 386.42, rotate: 9.28 },
 ];
 
 const Activities = () => {
@@ -31,7 +31,7 @@ const Activities = () => {
       />
       <div className="absolute left-[-173px] top-[314px] z-10 h-[1503px] w-[1901px]">
         <img
-          src={fumActivitats}
+          src={dimoniBig}
           alt=""
           width={1901}
           height={1503}
@@ -40,15 +40,15 @@ const Activities = () => {
       </div>
       {ACTIVITIES.map((activity, index) => (
         <div
-          key={index}
-          className="absolute z-20 -translate-x-full -translate-y-1/2 whitespace-nowrap text-right font-space-mono text-[32px] font-bold leading-normal tracking-[-0.64px] text-[#2e2e2e]"
+          key={`${activity.label}-${index}`}
+          className="absolute z-20 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[8px] bg-white/90 px-4 py-2 font-space-mono text-[28px] font-bold leading-none tracking-[-0.56px] text-[#2e2e2e] shadow-sm"
           style={{
             top: `${activity.top}px`,
             left: `${activity.left}px`,
-            transform: `translate(-100%, -50%) rotate(${activity.rotate}deg)`,
+            transform: `translate(-50%, -50%) rotate(${activity.rotate}deg)`,
           }}
         >
-          Activitat 1
+          {activity.label}
         </div>
       ))}
     </section>
