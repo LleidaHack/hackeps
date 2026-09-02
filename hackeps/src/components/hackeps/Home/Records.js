@@ -2,7 +2,6 @@ import React from "react";
 import firework1 from "src/assets/img/home10/firework-1.png";
 import firework3 from "src/assets/img/home10/firework-3.png";
 import cloud2 from "src/assets/img/home10/cloud-2.png";
-import iconArrow from "src/assets/img/home10/icon-arrow.svg";
 
 /*
   Afegeix aquí les fotos del carrusel.
@@ -77,7 +76,7 @@ const PolaroidCard = ({ title, color, image }) => (
 
 const Records = () => {
   return (
-    <section className="relative w-full overflow-hidden bg-transparent pb-[220px] pt-[48px]">
+    <section className="relative w-full overflow-hidden bg-transparent pb-[220px] pt-[24px]">
       <img
         src={firework1}
         alt=""
@@ -102,19 +101,6 @@ const Records = () => {
         height={219}
         className="pointer-events-none absolute left-[1156px] top-[669px] z-0 h-[219px] w-[435px] max-w-none object-contain opacity-80"
       />
-
-      <div className="relative z-10 mb-4 flex items-center gap-2 px-[80px]">
-        <img
-          src={iconArrow}
-          alt=""
-          width={24}
-          height={24}
-          className="h-6 w-6 max-w-none"
-        />
-        <p className="m-0 font-space-mono text-[24px] leading-normal tracking-[-0.48px] text-[#2e2e2e]">
-          Arrossega cap a la dreta
-        </p>
-      </div>
 
       <div className="relative z-10">
         <svg

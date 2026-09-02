@@ -80,14 +80,14 @@ const Home = () => {
           />
           <Identify />
           <Newsletter />
-          <Activities />
           <div
             className="w-full"
             style={{
               background:
-                "linear-gradient(180deg, #65A9DD 0%, #4A8FC4 28%, #365B77 62%, #2E2E2E 100%)",
+                "linear-gradient(180deg, #94CBF5 0%, #65A9DD 18%, #4A8FC4 42%, #365B77 70%, #2E2E2E 100%)",
             }}
           >
+            <Activities />
             <Records />
             <Sponsors />
             <SeuVellaFooter />
