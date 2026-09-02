@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getCompanyByTier } from "src/services/CompanyService";
+import HomeFooter from "src/components/hackeps/Home/HomeFooter.js";
 import sponsorSlot from "src/assets/img/home10/sponsor-slot.svg";
 import firework1 from "src/assets/img/home10/firework-1.png";
 import firework2 from "src/assets/img/home10/firework-2.png";
@@ -95,7 +96,7 @@ const Sponsors = () => {
   return (
     <div
       id="sponsors"
-      className="relative w-full overflow-hidden bg-gradient-to-b from-[#365b77] from-[40%] to-[#2e2e2e] pt-0"
+      className="relative w-full overflow-hidden bg-gradient-to-b from-[#2c465e] via-[#1a2f42] to-[#15202b] pt-0"
     >
       <div className="relative min-h-[2067px] w-full">
         <h2 className="relative z-10 m-0 pt-[0px] text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px] text-white">
@@ -169,38 +170,41 @@ const Sponsors = () => {
         </div>
       </div>
 
-      <div className="relative h-[1224px] w-full">
-        <img
-          src={seuVella}
-          alt=""
-          width={1728}
-          height={1224}
-          className="absolute left-0 top-0 h-[1224px] w-full object-contain"
-        />
-        <img
-          src={firework2}
-          alt=""
-          aria-hidden="true"
-          width={447}
-          height={387}
-          className="pointer-events-none absolute left-[45px] top-[42px] h-[387px] w-[447px] max-w-none -rotate-[19.48deg] object-cover"
-        />
-        <img
-          src={arbre}
-          alt=""
-          aria-hidden="true"
-          width={365}
-          height={451}
-          className="pointer-events-none absolute left-[380px] top-[330px] h-[451px] w-[365px] max-w-none object-cover"
-        />
-        <img
-          src={arbre2}
-          alt=""
-          aria-hidden="true"
-          width={229}
-          height={283}
-          className="pointer-events-none absolute left-[67px] top-[352px] h-[283px] w-[229px] max-w-none -scale-y-100 rotate-180 object-cover"
-        />
+      <div className="relative w-full bg-[#78c6bd]">
+        <div className="relative h-[1224px] w-full bg-[#15202b] leading-[0]">
+          <img
+            src={seuVella}
+            alt=""
+            width={1728}
+            height={1224}
+            className="absolute bottom-0 left-0 block h-[1224px] w-full max-w-none object-cover object-bottom"
+          />
+          <img
+            src={firework2}
+            alt=""
+            aria-hidden="true"
+            width={447}
+            height={387}
+            className="pointer-events-none absolute left-[45px] top-[42px] h-[387px] w-[447px] max-w-none -rotate-[19.48deg] object-cover"
+          />
+          <img
+            src={arbre}
+            alt=""
+            aria-hidden="true"
+            width={365}
+            height={451}
+            className="pointer-events-none absolute left-[380px] top-[330px] h-[451px] w-[365px] max-w-none object-cover"
+          />
+          <img
+            src={arbre2}
+            alt=""
+            aria-hidden="true"
+            width={229}
+            height={283}
+            className="pointer-events-none absolute left-[67px] top-[352px] h-[283px] w-[229px] max-w-none -scale-y-100 rotate-180 object-cover"
+          />
+        </div>
+        <HomeFooter />
       </div>
     </div>
   );

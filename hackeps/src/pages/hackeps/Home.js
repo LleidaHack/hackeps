@@ -7,7 +7,6 @@ import Identify from "src/components/hackeps/Home/Identify.js";
 import Newsletter from "src/components/hackeps/Home/Newsletter.js";
 import Activities from "src/components/hackeps/Home/Activities.js";
 import Records from "src/components/hackeps/Home/Records.js";
-import HomeFooter from "src/components/hackeps/Home/HomeFooter.js";
 import { getHackeps } from "src/services/EventService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
 
@@ -69,7 +68,7 @@ const Home = () => {
 
   if (!showAnimation) {
     return (
-      <div className="w-full overflow-x-hidden bg-white">
+      <div className="w-full overflow-x-hidden bg-[#94cbf5]">
         <HomeHeader />
         <HomeFrame>
           <HeroSection
@@ -82,7 +81,6 @@ const Home = () => {
           <Activities />
           <Records />
           <Sponsors />
-          <HomeFooter />
         </HomeFrame>
       </div>
     );

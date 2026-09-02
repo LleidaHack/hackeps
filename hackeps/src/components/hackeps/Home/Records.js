@@ -7,7 +7,7 @@ import iconArrow from "src/assets/img/home10/icon-arrow.svg";
 
 const Records = () => {
   return (
-    <section className="relative min-h-[1090px] w-full overflow-hidden bg-gradient-to-b from-[#65a9dd] from-[49.038%] to-[#365b77]">
+    <section className="relative min-h-[1090px] w-full overflow-hidden bg-gradient-to-b from-[#94cbf5] to-[#2c465e]">
       <img
         src={firework1}
         alt=""

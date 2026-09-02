@@ -9,7 +9,7 @@ const HomeFooter = () => {
   return (
     <footer
       data-testid="footerHackeps"
-      className="relative h-[406px] w-full overflow-hidden bg-[#78c6bd]"
+      className="relative m-0 block h-[406px] w-full overflow-hidden border-0 bg-[#78c6bd] p-0 leading-normal"
     >
       <div className="absolute left-[775px] top-[37px] flex items-start">
         <a

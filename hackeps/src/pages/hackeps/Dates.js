@@ -6,7 +6,7 @@ import DatesContent from "src/components/hackeps/Dates/DatesContent.js";
 
 const DatesPage = () => {
   return (
-    <div className="w-full overflow-x-hidden bg-white">
+    <div className="w-full overflow-x-hidden bg-[#94cbf5]">
       <HomeHeader />
       <HomeFrame>
         <DatesContent />

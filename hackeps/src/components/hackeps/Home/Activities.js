@@ -13,11 +13,11 @@ const ACTIVITIES = [
 
 const Activities = () => {
   return (
-    <section className="relative min-h-[1806px] w-full overflow-hidden bg-gradient-to-b from-[#94cbf5] from-[38.942%] to-[#65a9dd]">
-      <h2 className="absolute left-1/2 top-[90px] m-0 -translate-x-1/2 whitespace-nowrap text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px] text-[#2e2e2e]">
+    <section className="relative min-h-[1806px] w-full overflow-hidden bg-[#94cbf5]">
+      <h2 className="absolute left-1/2 top-[90px] z-20 m-0 -translate-x-1/2 whitespace-nowrap text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px] text-[#2e2e2e]">
         QUÈ PODRAS FER A LA HACKEPS?
       </h2>
-      <p className="absolute left-1/2 top-[259px] m-0 w-[1152px] max-w-[90vw] -translate-x-1/2 text-center font-space-mono text-[24px] leading-normal tracking-[-0.48px] text-[#2e2e2e]">
+      <p className="absolute left-1/2 top-[259px] z-20 m-0 w-[1152px] max-w-[90vw] -translate-x-1/2 text-center font-space-mono text-[24px] leading-normal tracking-[-0.48px] text-[#2e2e2e]">
         A part de programar durant la HackEPS es fan varies activitats a les
         quals podeu participar per guanyar premis
       </p>
@@ -29,7 +29,7 @@ const Activities = () => {
         height={193}
         className="pointer-events-none absolute left-[1223px] top-[385px] h-[193px] w-[433px] max-w-none object-contain"
       />
-      <div className="absolute left-[-173px] top-[314px] h-[1503px] w-[1901px]">
+      <div className="absolute left-[-173px] top-[314px] z-10 h-[1503px] w-[1901px]">
         <img
           src={fumActivitats}
           alt=""
@@ -41,7 +41,7 @@ const Activities = () => {
       {ACTIVITIES.map((activity, index) => (
         <div
           key={index}
-          className="absolute -translate-x-full -translate-y-1/2 whitespace-nowrap text-right font-space-mono text-[32px] font-bold leading-normal tracking-[-0.64px] text-[#2e2e2e]"
+          className="absolute z-20 -translate-x-full -translate-y-1/2 whitespace-nowrap text-right font-space-mono text-[32px] font-bold leading-normal tracking-[-0.64px] text-[#2e2e2e]"
           style={{
             top: `${activity.top}px`,
             left: `${activity.left}px`,

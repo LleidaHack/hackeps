@@ -20,7 +20,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
   }, [initialDate, finalDate, activeTimer]);
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden bg-[#94cbf5]">
       <div className="relative w-full bg-[#94cbf5] min-h-[1037px]">
         <img
           src={banderilles}
@@ -77,21 +77,22 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
         </div>
       </div>
 
-      <img
-        src={cloudWave}
-        alt=""
-        aria-hidden="true"
-        width={1728}
-        height={321}
-        className="relative z-10 -mt-[80px] block h-[321px] w-full object-cover object-bottom"
-      />
-
-      <div className="relative z-20 flex h-[206px] w-full items-center justify-center bg-white px-4">
-        <HomeCountdown
-          startTime={startDate}
-          endTime={endDate}
-          timerActive={timerActive}
+      <div className="relative z-10 -mt-[80px] w-full bg-[#94cbf5]">
+        <img
+          src={cloudWave}
+          alt=""
+          aria-hidden="true"
+          width={1728}
+          height={321}
+          className="relative z-10 block h-[321px] w-full object-cover object-bottom"
         />
+        <div className="absolute inset-0 z-20 flex items-center justify-center px-4">
+          <HomeCountdown
+            startTime={startDate}
+            endTime={endDate}
+            timerActive={timerActive}
+          />
+        </div>
       </div>
     </div>
   );

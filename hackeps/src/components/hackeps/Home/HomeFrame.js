@@ -9,7 +9,7 @@ const HomeFrame = ({ children }) => {
 
   useEffect(() => {
     const update = () => {
-      const nextScale = Math.min(1, window.innerWidth / FRAME_WIDTH);
+      const nextScale = window.innerWidth / FRAME_WIDTH;
       setScale(nextScale);
       if (innerRef.current) {
         setHeight(`${innerRef.current.offsetHeight * nextScale}px`);
@@ -29,7 +29,7 @@ const HomeFrame = ({ children }) => {
   }, []);
 
   return (
-    <div className="w-full overflow-x-hidden bg-white" style={{ height }}>
+    <div className="w-full overflow-x-hidden bg-[#94cbf5]" style={{ height }}>
       <div
         ref={innerRef}
         className="font-space-mono"
