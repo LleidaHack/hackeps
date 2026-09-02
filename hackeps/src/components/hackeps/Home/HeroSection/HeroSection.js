@@ -7,7 +7,10 @@ import cloud2 from "src/assets/img/home10/cloud-2.png";
 import cloud3 from "src/assets/img/home10/cloud-3.png";
 import cloudWave from "src/assets/img/home10/cloud-wave.png";
 
+import { useSiteTheme } from "src/hooks/useSiteTheme";
+
 const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
+  const { sky } = useSiteTheme();
   const [startDate, setStartDate] = useState(initialDate);
   const [endDate, setEndDate] = useState(finalDate);
   const [timerActive, setTimerActive] = useState(activeTimer);
@@ -19,8 +22,8 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
   }, [initialDate, finalDate, activeTimer]);
 
   return (
-    <div className="relative w-full overflow-hidden bg-[#94cbf5]">
-      <div className="relative w-full bg-[#94cbf5] min-h-[1037px]">
+    <div className="relative w-full overflow-hidden" style={{ backgroundColor: sky }}>
+      <div className="relative min-h-[1037px] w-full" style={{ backgroundColor: sky }}>
         <img
           src={banderilles}
           alt=""
@@ -60,7 +63,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
         </div>
       </div>
 
-      <div className="relative z-10 -mt-[80px] w-full bg-[#94cbf5]">
+      <div className="relative z-10 -mt-[80px] w-full" style={{ backgroundColor: sky }}>
         <img
           src={cloudWave}
           alt=""

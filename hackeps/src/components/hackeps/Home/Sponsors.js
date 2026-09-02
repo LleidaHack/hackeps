@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getCompanyByTier } from "src/services/CompanyService";
 import HomeFooter from "src/components/hackeps/Home/HomeFooter.js";
+import Firework from "src/components/hackeps/Home/Firework.js";
 import sponsorSlot from "src/assets/img/home10/sponsor-slot.svg";
 import firework1 from "src/assets/img/home10/firework-1.png";
 import firework2 from "src/assets/img/home10/firework-2.png";
@@ -35,23 +36,23 @@ function redirectToURL(url) {
 const Slot = ({ company }) => (
   <button
     type="button"
-    className="relative h-[248px] w-[448px] border-0 bg-transparent p-0"
+    className="relative h-[198px] w-[358px] border-0 bg-transparent p-0"
     onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
   >
     <img
       src={sponsorSlot}
       alt=""
-      width={448}
-      height={248}
-      className="absolute inset-0 h-[248px] w-[448px] max-w-none"
+      width={358}
+      height={198}
+      className="absolute inset-0 h-[198px] w-[358px] max-w-none"
     />
     {company?.image ? (
       <img
         src={company.image}
         alt={company.name}
-        width={448}
-        height={248}
-        className="absolute inset-0 h-[248px] w-[448px] object-contain p-8"
+        width={358}
+        height={198}
+        className="absolute inset-0 h-[198px] w-[358px] object-contain p-6"
       />
     ) : null}
   </button>
@@ -60,7 +61,7 @@ const Slot = ({ company }) => (
 const SlotRow = ({ companies }) => {
   const cells = [0, 1, 2].map((i) => companies[i] || null);
   return (
-    <div className="flex justify-center gap-[36px]">
+    <div className="flex justify-center gap-[29px]">
       {cells.map((company, i) => (
         <Slot key={company?.id || i} company={company} />
       ))}
@@ -101,72 +102,62 @@ const Sponsors = () => {
       id="sponsors"
       className="relative w-full overflow-hidden bg-transparent pt-0"
     >
-      <div className="relative min-h-[2067px] w-full">
-        <h2 className="relative z-10 m-0 pt-[0px] text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px] text-white">
+      <div className="relative min-h-[1654px] w-full">
+        <h2 className="relative z-10 m-0 pt-0 text-center font-space-mono text-[51px] font-bold leading-normal tracking-[-1.02px] text-white">
           SPONSORS
         </h2>
 
-        <img
+        <Firework
           src={firework3}
-          alt=""
-          aria-hidden="true"
-          width={435}
-          height={398}
-          className="pointer-events-none absolute left-[1043px] top-[243px] h-[398px] w-[435px] max-w-none -rotate-[19.78deg] object-cover"
+          width={348}
+          height={318}
+          className="left-[834px] top-[194px] z-0 h-[318px] w-[348px] -rotate-[19.78deg]"
         />
-        <img
+        <Firework
           src={firework1}
-          alt=""
-          aria-hidden="true"
-          width={238}
-          height={235}
-          className="pointer-events-none absolute left-[45px] top-[615px] h-[235px] w-[238px] max-w-none rotate-[19.31deg] object-cover"
+          width={190}
+          height={188}
+          className="left-[36px] top-[492px] z-0 h-[188px] w-[190px] rotate-[19.31deg]"
         />
-        <img
+        <Firework
           src={firework3}
-          alt=""
-          aria-hidden="true"
-          width={327}
-          height={299}
-          className="pointer-events-none absolute left-[104px] top-[921px] h-[299px] w-[327px] max-w-none rotate-[12.02deg] object-cover"
+          width={262}
+          height={239}
+          className="left-[83px] top-[737px] z-0 h-[239px] w-[262px] rotate-[12.02deg]"
         />
-        <img
+        <Firework
           src={firework2}
-          alt=""
-          aria-hidden="true"
-          width={256}
-          height={222}
-          className="pointer-events-none absolute left-[1292px] top-[1194px] h-[222px] w-[256px] max-w-none -rotate-[14.03deg] object-cover"
+          width={205}
+          height={178}
+          className="left-[1034px] top-[955px] z-0 h-[178px] w-[205px] -rotate-[14.03deg]"
         />
-        <img
+        <Firework
           src={firework3}
-          alt=""
-          aria-hidden="true"
-          width={198}
-          height={181}
-          className="pointer-events-none absolute left-[1079px] top-[1894px] h-[181px] w-[198px] max-w-none rotate-[17.19deg] object-cover"
+          width={158}
+          height={145}
+          className="left-[863px] top-[1515px] z-0 h-[145px] w-[158px] rotate-[17.19deg]"
         />
 
-        <h3 className="relative z-10 mt-[70px] mb-8 text-center font-space-mono text-[64px] font-bold leading-none tracking-[-1.28px] text-white">
+        <h3 className="relative z-10 mb-6 mt-[56px] text-center font-space-mono text-[51px] font-bold leading-none tracking-[-1.02px] text-white">
           Patrocinadors or
         </h3>
-        <div className="relative z-10 mb-[121px]">
+        <div className="relative z-10 mb-[97px]">
           <SlotRow companies={gold} />
         </div>
 
-        <h3 className="relative z-10 mb-8 text-center font-space-mono text-[64px] font-bold leading-none tracking-[-1.28px] text-white">
+        <h3 className="relative z-10 mb-6 text-center font-space-mono text-[51px] font-bold leading-none tracking-[-1.02px] text-white">
           Patrocinadors plata
         </h3>
-        <div className="relative z-10 mb-[61px] flex flex-col gap-[61px]">
+        <div className="relative z-10 mb-[49px] flex flex-col gap-[49px]">
           {silverRows.map((row, i) => (
             <SlotRow key={`s-${i}`} companies={row} />
           ))}
         </div>
 
-        <h3 className="relative z-10 mb-8 mt-[61px] text-center font-space-mono text-[64px] font-bold leading-none tracking-[-1.28px] text-white">
+        <h3 className="relative z-10 mb-6 mt-[49px] text-center font-space-mono text-[51px] font-bold leading-none tracking-[-1.02px] text-white">
           Patrocinadors bronze
         </h3>
-        <div className="relative z-10 flex flex-col gap-[61px] pb-[80px]">
+        <div className="relative z-10 flex flex-col gap-[49px] pb-[64px]">
           {bronzeRows.map((row, i) => (
             <SlotRow key={`b-${i}`} companies={row} />
           ))}

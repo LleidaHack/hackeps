@@ -11,10 +11,12 @@ import Activities from "src/components/hackeps/Home/Activities.js";
 import Records from "src/components/hackeps/Home/Records.js";
 import { getHackeps } from "src/services/EventService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
+import { useSiteTheme } from "src/hooks/useSiteTheme";
 
 const Animation = lazy(() => import("src/pages/hackeps/Animation.js"));
 
 const Home = () => {
+  const { sky, gradient } = useSiteTheme();
   const [startDate, setStartDate] = useState(undefined);
   const [endDate, setEndDate] = useState(undefined);
   const [showAnimation, setShowAnimation] = useState(false);
@@ -70,7 +72,7 @@ const Home = () => {
 
   if (!showAnimation) {
     return (
-      <div className="w-full overflow-x-hidden bg-[#94cbf5]">
+      <div className="w-full overflow-x-hidden" style={{ backgroundColor: sky }}>
         <HomeHeader />
         <HomeFrame>
           <HeroSection
@@ -80,13 +82,7 @@ const Home = () => {
           />
           <Identify />
           <Newsletter />
-          <div
-            className="w-full"
-            style={{
-              background:
-                "linear-gradient(180deg, #94CBF5 0%, #65A9DD 18%, #4A8FC4 42%, #365B77 70%, #2E2E2E 100%)",
-            }}
-          >
+          <div className="w-full" style={{ background: gradient }}>
             <Activities />
             <Records />
             <Sponsors />

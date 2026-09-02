@@ -5,7 +5,7 @@ const HomeFooter = () => {
   return (
     <footer
       data-testid="footerHackeps"
-      className="relative z-40 m-0 flex w-full flex-col items-center bg-[#78C6BD] px-4 pt-8 pb-8 font-space-mono text-gray-800"
+      className="relative z-40 m-0 flex w-full flex-col items-center bg-[#ff7430] px-4 pt-8 pb-8 font-space-mono text-gray-800"
     >
       <div className="mb-6 mt-8 flex gap-6">
         <a

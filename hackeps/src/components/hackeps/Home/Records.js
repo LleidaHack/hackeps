@@ -1,4 +1,5 @@
 import React from "react";
+import Firework from "src/components/hackeps/Home/Firework.js";
 import firework1 from "src/assets/img/home10/firework-1.png";
 import firework3 from "src/assets/img/home10/firework-3.png";
 import cloud2 from "src/assets/img/home10/cloud-2.png";
@@ -48,13 +49,13 @@ const GALLERY_ITEMS = [
 ];
 
 const PolaroidCard = ({ title, color, image }) => (
-  <article className="relative w-[260px] shrink-0 pt-4">
+  <article className="relative w-[340px] shrink-0 pt-4">
     <span
       aria-hidden="true"
       className="absolute left-1/2 top-0 z-20 h-[18px] w-[28px] -translate-x-1/2 -translate-y-1/2 rounded-[3px]"
       style={{ backgroundColor: color }}
     />
-    <div className="flex h-[420px] flex-col rounded-[28px] bg-white px-5 pb-5 pt-7 shadow-[0_8px_20px_rgba(46,46,46,0.12)]">
+    <div className="flex h-[420px] flex-col rounded-[28px] bg-white px-3 pb-5 pt-7 shadow-[0_8px_20px_rgba(46,46,46,0.12)]">
       <div className="relative min-h-0 flex-1 overflow-hidden rounded-[16px] bg-[#d7e9f7]">
         {image ? (
           <img
@@ -77,21 +78,17 @@ const PolaroidCard = ({ title, color, image }) => (
 const Records = () => {
   return (
     <section className="relative w-full overflow-hidden bg-transparent pb-[220px] pt-[24px]">
-      <img
+      <Firework
         src={firework1}
-        alt=""
-        aria-hidden="true"
         width={299}
         height={296}
-        className="pointer-events-none absolute left-[36px] top-[277px] z-0 h-[296px] w-[299px] max-w-none origin-center rotate-[24.04deg] object-cover"
+        className="left-[36px] top-[277px] z-0 h-[296px] w-[299px] origin-center rotate-[24.04deg]"
       />
-      <img
+      <Firework
         src={firework3}
-        alt=""
-        aria-hidden="true"
         width={194}
         height={178}
-        className="pointer-events-none absolute left-[984px] top-[756px] z-0 h-[178px] w-[194px] max-w-none object-cover"
+        className="left-[984px] top-[756px] z-0 h-[178px] w-[194px]"
       />
       <img
         src={cloud2}
