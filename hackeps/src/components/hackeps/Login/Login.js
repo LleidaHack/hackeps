@@ -1,28 +1,20 @@
-import React, { useState } from "react";
-import logo from "src/assets/img/logoHackeps2025.png";
+import React from "react";
+import logo from "src/assets/img/home10/logonaranja.png";
 import LoginForm from "src/components/loginForm/LoginForm";
 
 const LoginPage = ({ nextScreen }) => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-1 w-full flex items-center justify-center bg-loginPage">
-        <div className="w-full">
-          <div className="justify-content-center">
-            <div className=" md:mx-0 md:my-0 mx-4 my-2">
-              <div className="rounded-xl flex flex-col items-center">
-                <img
-                  src={logo}
-                  className="w-24 md:w-48 h-auto block mx-auto mb-3"
-                  alt="Logo"
-                />
-                <h2 className="text-white md:mb-2 text-3xl md:text-5xl flex items-center text-center">
-                  Hola de nou!
-                </h2>
-                <LoginForm nextScreen={nextScreen} />
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="flex w-full items-center justify-center px-8 py-10">
+      <div className="flex w-full max-w-[520px] flex-col items-center">
+        <img
+          src={logo}
+          className="mb-3 block h-auto w-40 md:w-56"
+          alt="Logo"
+        />
+        <h2 className="mb-0 flex items-center text-center font-space-mono text-3xl text-white md:text-5xl">
+          Hola de nou!
+        </h2>
+        <LoginForm nextScreen={nextScreen} />
       </div>
     </div>
   );

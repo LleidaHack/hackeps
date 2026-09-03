@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import logo from "src/assets/img/logoHackeps2025.png";
+import logo from "src/assets/img/home10/logonaranja.png";
 import { resetPassword } from "src/services/AuthenticationService";
 import SuccessFeedback from "../Feedbacks/SuccesFeedback";
 

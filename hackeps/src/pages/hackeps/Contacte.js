@@ -1,15 +1,12 @@
 import React from "react";
-import Header from "src/components/hackeps/Header/Header";
-import Footer from "src/components/hackeps/Footer/Footer";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 import ContactPage from "src/components/hackeps/Contacte/Contacte";
 
 const Contacte = () => {
   return (
-    <div>
-      <Header />
+    <DarkPage>
       <ContactPage />
-      <Footer />
-    </div>
+    </DarkPage>
   );
 };
 

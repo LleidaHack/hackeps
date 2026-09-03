@@ -8,6 +8,7 @@ import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
 import { useForm } from "react-hook-form";
 import Button from "src/components/buttons/Button";
 import { ROUTES } from "src/config/routes";
+import logo from "src/assets/img/home10/logonaranja.png";
 
 const minAge = "14";
 const date = new Date();
@@ -111,7 +112,7 @@ export const HackerStepperForm = () => {
     <>
       <div
         id="hackerForm"
-        className="sm:px-56 justify-center min-h-screen flex pb-5 align-top bg-secondaryHackeps"
+        className="flex justify-center px-8 pb-8 pt-4 align-top text-white sm:px-56"
       >
         {!submiting ? (
           <div className="flex flex-col gap-3 w-full">
@@ -120,7 +121,7 @@ export const HackerStepperForm = () => {
                 {[1, 2, 3].map((num) => (
                   <div
                     key={num}
-                    className={`w-8 h-8 flex items-center justify-center rounded-full ${step === num ? "bg-primaryHackeps text-white" : "bg-gray-300 text-black"}`}
+                    className={`w-8 h-8 flex items-center justify-center rounded-full ${step === num ? "bg-[#ff7430] text-[#2e2e2e]" : "bg-gray-300 text-black"}`}
                   >
                     {num}
                   </div>
@@ -133,16 +134,17 @@ export const HackerStepperForm = () => {
               <div className="basis-1/2 justify-items-center content-center hidden md:block">
                 <div>
                   <img
-                    src={require("src/imgs/hacker_image.svg").default}
-                    className=" md:w-48"
+                    src={logo}
+                    alt="HackEPS"
+                    className="w-[420px] max-w-full"
                   />
-                  <h2 className="text-center mt-3">Hacker</h2>
+                  <h2 className="text-center mt-3 text-white">Hacker</h2>
                 </div>
               </div>
               <div className="basis-1/2 ">
                 {step === 1 ? (
                   <>
-                    <TitleGeneralized alignText={"left"}>
+                    <TitleGeneralized alignText={"left"} primary>
                       {" "}
                       Informació Personal
                     </TitleGeneralized>
@@ -205,7 +207,7 @@ export const HackerStepperForm = () => {
                             },
                           })}
                         />
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-gray-400">
                           La contrasenya ha de tenir almenys 8 caràcters, una
                           majúscula, una minúscula i un número.
                         </span>
@@ -270,8 +272,9 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <Button
+                        orange
                         disabled={!isValid}
-                        className={`bg-primaryHackeps text-white min-h-10 ${!isValid ? "opacity-50" : ""}`}
+                        className={`min-h-10 ${!isValid ? "opacity-50" : ""}`}
                         onClick={() => setStep(2)}
                       >
                         Següent
@@ -281,7 +284,7 @@ export const HackerStepperForm = () => {
                 ) : null}
                 {step === 2 ? (
                   <>
-                    <TitleGeneralized alignText={"left"}>
+                    <TitleGeneralized alignText={"left"} primary>
                       Contacte{" "}
                     </TitleGeneralized>
                     <form className="flex flex-col gap-3">
@@ -340,14 +343,16 @@ export const HackerStepperForm = () => {
 
                       <div className="buttonsBox flex flex-row justify-between gap-2 md:gap-0">
                         <Button
-                          className="bg-primaryHackeps text-white min-h-10"
+                          orange
+                          className="min-h-10"
                           onClick={() => setStep(1)}
                         >
                           Anterior
                         </Button>
                         <Button
+                          orange
                           disabled={!isValid}
-                          className={`bg-primaryHackeps text-white min-h-10 ${!isValid ? "opacity-50" : ""}`}
+                          className={`min-h-10 ${!isValid ? "opacity-50" : ""}`}
                           onClick={() => setStep(3)}
                         >
                           Següent
@@ -365,7 +370,7 @@ export const HackerStepperForm = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <TitleGeneralized alignText={"left"}>
+                    <TitleGeneralized alignText={"left"} primary>
                       Avatar
                     </TitleGeneralized>
                     <form className="flex flex-col gap-3">
@@ -425,7 +430,7 @@ export const HackerStepperForm = () => {
                           Acceptes els nostres{" "}
                           <a
                             href={ROUTES.terms}
-                            className="text-primaryHackeps"
+                            className="text-[#ff7430]"
                           >
                             termes i condicions
                           </a>
@@ -435,16 +440,18 @@ export const HackerStepperForm = () => {
 
                       <div className="buttonsBox flex flex-row justify-between gap-2 md:gap-0">
                         <Button
-                          className="bg-primaryHackeps text-white min-h-10"
+                          orange
+                          className="min-h-10"
                           onClick={() => setStep(2)}
                         >
                           Anterior
                         </Button>
                         <Button
+                          orange
                           disabled={
                             !isValid || !watch("termsConditions") || hideSubmit
                           }
-                          className={`bg-primaryHackeps text-white min-h-10 ${!isValid || !watch("termsConditions" || hideSubmit) ? "opacity-50" : ""}`}
+                          className={`min-h-10 ${!isValid || !watch("termsConditions" || hideSubmit) ? "opacity-50" : ""}`}
                           onClick={handleSubmit(onSubmit)}
                         >
                           Enviar

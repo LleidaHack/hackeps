@@ -3,11 +3,12 @@ import { useSiteTheme } from "src/hooks/useSiteTheme";
 
 const FRAME_WIDTH = 1728;
 
-const HomeFrame = ({ children }) => {
+const HomeFrame = ({ children, canvasBg }) => {
   const innerRef = useRef(null);
   const [scale, setScale] = useState(1);
   const [height, setHeight] = useState("auto");
   const { sky } = useSiteTheme();
+  const backgroundColor = canvasBg || sky;
 
   useEffect(() => {
     const update = () => {
@@ -31,7 +32,7 @@ const HomeFrame = ({ children }) => {
   }, []);
 
   return (
-    <div className="w-full overflow-x-hidden" style={{ height, backgroundColor: sky }}>
+    <div className="w-full overflow-hidden" style={{ height, backgroundColor }}>
       <div
         ref={innerRef}
         className="font-space-mono"

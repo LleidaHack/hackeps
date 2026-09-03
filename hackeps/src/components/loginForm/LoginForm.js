@@ -5,19 +5,14 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import Button from "src/components/buttons/Button";
 
-const LoginForm = ({ nextScreen, textWhite = false }) => {
+const LoginForm = ({ nextScreen }) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isValid },
-    trigger,
   } = useForm({
     mode: "onChange",
   });
-  const [textColor, setTextColor] = useState(
-    textWhite ? "text-white" : "text-grayColor",
-  );
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const [errorText, setErrorText] = useState("");
@@ -81,12 +76,12 @@ const LoginForm = ({ nextScreen, textWhite = false }) => {
 
         <div className="my-3 md:my-7 text-base md:text-xl text-center">
           <p className="mb-1">
-            <Link to="/forgot-password" className={` ${textColor}`}>
+            <Link to="/forgot-password" className="text-[#ff7430]">
               Has oblidat les teves credencials?
             </Link>
           </p>
           <p className="mb-0">
-            <Link to="/hacker-form" className={` ${textColor}`}>
+            <Link to="/hacker-form" className="text-[#ff7430]">
               Encara no tens compte?
             </Link>
           </p>
@@ -94,14 +89,11 @@ const LoginForm = ({ nextScreen, textWhite = false }) => {
         <div className="flex flex-col justify-center mt-3">
           <Button
             type="submit"
-            {...(textWhite
-              ? { secondaryLanding: true }
-              : { primaryHackeps: true })}
+            orange
             lg
             onClick={handleSubmit(submit)}
-            className={` ${!isValid ? "opacity-50 hover:none bg-secondaryHackeps" : "hover:bg-secondaryHackeps"}`}
+            className={!isValid ? "opacity-50" : ""}
             disabled={!isValid}
-            light
           >
             {isSubmitting ? "Iniciant sessió..." : "Inicia sessió"}
           </Button>

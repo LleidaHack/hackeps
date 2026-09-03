@@ -1,25 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "src/components/hackeps/Sponsors/IfSponsors.css";
 import { getCompanyById, getCompanyEvents } from "src/services/CompanyService";
-//import UserCircle from "./others/circles";
+import cloudWave from "src/assets/img/home10/cloud-wave.png";
 
-let images = [
-  /*'https://upload.wikimedia.org/wikipedia/commons/7/7b/Lleida.net_logo_no_claim.png',
-        'https://cdn.freebiesupply.com/logos/large/2x/ajuntament-de-lleida-logo-png-transparent.png',
-        'https://www.diputaciolleida.cat/wp-content/uploads/2021/01/DLL-for%C3%A7a_municipis-1024x568.png',
-        'https://upload.wikimedia.org/wikipedia/commons/7/7b/Lleida.net_logo_no_claim.png',
-        'https://cdn.freebiesupply.com/logos/large/2x/ajuntament-de-lleida-logo-png-transparent.png',
-        'https://www.diputaciolleida.cat/wp-content/uploads/2021/01/DLL-for%C3%A7a_municipis-1024x568.png','https://upload.wikimedia.org/wikipedia/commons/7/7b/Lleida.net_logo_no_claim.png',
-        'https://cdn.freebiesupply.com/logos/large/2x/ajuntament-de-lleida-logo-png-transparent.png',
-        'https://www.diputaciolleida.cat/wp-content/uploads/2021/01/DLL-for%C3%A7a_municipis-1024x568.png','https://upload.wikimedia.org/wikipedia/commons/7/7b/Lleida.net_logo_no_claim.png',
-        'https://cdn.freebiesupply.com/logos/large/2x/ajuntament-de-lleida-logo-png-transparent.png',
-        'https://www.diputaciolleida.cat/wp-content/uploads/2021/01/DLL-for%C3%A7a_municipis-1024x568.png',*/
-  // ... y así sucesivamente con tal de meter la cantidad de logos disponibles que se obtendran de base de datos. (Se puede obtener simplementa el año y concatenarlo a un enlace junto a un bucle for que añada tantas insignias como se obtengan.)
-];
+let images = [];
 
 const InfoSponsors = ({ id }) => {
   const [infoCompany, setInfoCompany] = useState(null);
-  const [events, setInfoCompany2] = useState(null);
+  const [, setInfoCompany2] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +18,7 @@ const InfoSponsors = ({ id }) => {
         try {
           const companyEvents = await getCompanyEvents(id);
           setInfoCompany2(companyEvents);
-          companyEvents.map((events, index) => (images[index] = events.image));
+          companyEvents.map((item, index) => (images[index] = item.image));
         } catch (errors) {
           console.log("El error obtenido es:", errors);
         }
@@ -44,191 +32,101 @@ const InfoSponsors = ({ id }) => {
 
   if (!infoCompany) {
     return (
-      <div className="The-Grand-Phather bg-secondaryHackeps">Cargando...</div>
+      <div className="flex min-h-[600px] items-center justify-center font-space-mono text-[24px] text-white">
+        Cargando...
+      </div>
     );
   }
 
   console.log("la longitud de la tabla es:", infoCompany.name);
   if (Object.keys(infoCompany) && Object.keys(infoCompany).length > 0) {
-    //Pagina que es mostrará si amb la id s'ha obtingut alguna cosa
-
-    let SpnName = infoCompany.name; //Nom del Sponsor
-    let text; //Variable necesaria per a realizar la concatenació de codi HTML depenent de si te web o no.
-    let linkedintag = infoCompany.linkdin; //Enllaç del likedin tag de la empresa.
-    let correu = infoCompany.address; //Correu de la empresa
-    let webtag = infoCompany.website; //Web de la empresa
-    let imgLogo = infoCompany.image;
-    //un cop existeixi l'importancia a get/company/{id} let importancia = infoCompany.importancia;
-    let description = infoCompany.description;
-    let edicions = []; //Aqui afegir les edicions en les que han participat (2020, 2021, 2022, 2023,....)
-    let xarxes = false; //Variable que servira per a informar si la empresa te enllaç web o no. Per defecte false. Si te web, s'ha de posar true
-    if (webtag && webtag.length > 0) {
-      xarxes = true;
-    }
-
-    /*const users = [
-      {
-        imageSrc:
-          "https://cdn.openart.ai/stable_diffusion/8bf72432bf8515ebdac9fa6f921cddaa94a61ecf_2000x2000.webp",
-        name: "Manolo Mallin",
-        description:
-          "Es un muchayo muy majo que se le da bien darle patadas a la pelota. De vez en cuando, juega a la nintento y se hecha unas risas con el gato",
-      },
-      {
-        imageSrc:
-          "https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcR5flXcU-23Auy8k0wNejkPSmb3yq5vinWZoGuexKZro3FCOHnbFC0FrGcdDO6hG5TF",
-        name: "Javier Mallin",
-        description:
-          "Javier Gerardo Milei  es un economista, político y docente argentino, líder del espacio político La Libertad Avanza.",
-      },
-      {
-        imageSrc:
-          "https://concertmusicfestival.com/wp-content/uploads/2022/12/TINI_1000x1000.jpg",
-        name: "Tini Tini Tini",
-        description:
-          "Martina Stoessel​​ , conocida artísticamente como Tini, es una actriz, cantante y compositora argentina",
-      },
-
-      // Agrega más usuarios aquí
-    ];*/
-
-    if (edicions.length > 0) {
-      images = edicions;
-    }
-
-    if (xarxes) {
-      text = [
-        <a
-          href={linkedintag}
-          target="_blank"
-          rel="noreferrer"
-          className="rel text-textPrimaryHackeps"
-        >
-          <i className="fa-brands fa-linkedin" /> LinkedIn
-        </a>,
-        "|",
-        <a
-          href={webtag}
-          target="_blank"
-          rel="noreferrer"
-          className="rel text-textPrimaryHackeps"
-        >
-          <i className="fa-solid fa-globe " /> Web
-        </a>,
-      ];
-    } else {
-      text = [
-        <a
-          href={linkedintag}
-          target="_blank"
-          rel="noreferrer"
-          className="rel text-textPrimaryHackeps"
-        >
-          <i className="fa-brands fa-linkedin" /> LinkedIn
-        </a>,
-      ];
-    }
+    const SpnName = infoCompany.name;
+    const linkedintag = infoCompany.linkdin;
+    const webtag = infoCompany.website;
+    const imgLogo = infoCompany.image;
+    const description = infoCompany.description;
+    const xarxes = Boolean(webtag && webtag.length > 0);
 
     return (
-      <div className="The-Grand-Phather">
-        <section className="SpnTitle">
-          <h1 className="title-Info-sponsors">- {SpnName} -</h1>
-          <br />
+      <div className="relative pb-24 pt-12 text-white">
+        <h1 className="m-0 mb-10 text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px]">
+          -{SpnName}-
+        </h1>
 
-          <p className="text-aftTitle text-textSecondaryHackeps">
-            Benvingut/da <br /> al panell de patrocinador
-          </p>
-          <br />
-        </section>
-        <section className="Imagecontener">
-          <img className="peperoni" src={imgLogo} alt="Logo de la empresa" />
-        </section>
-        <br />
-        <section className="redesYOthers bg-grayStrongHackeps">
-          <p className="text-aftTitle2 text-textSecondaryHackeps text-white">
-            📩 {correu} |{text}
-          </p>
-        </section>
-        <section className="descriptions text-textSecondaryHackeps">
-          <br />
-          <h2>Descripció</h2>
-          <br />
-          <p>{description}</p>
-          <br />
-        </section>
-
-        {/*<section className="descriptions">
-          <br/>
-          <h2>Representants de l'Empresa</h2>
-          <br/>
-          <p>
-            Com a representants de l'empresa conteu amb els seguents membres
-            juntament amb la seva eina de contacte d'empresa
-          </p>
-          <br/>
-          <div className="circle-list">
-            {users.map((user, index) => (
-              <UserCircle
-                key={index}
-                imageSrc={user.imageSrc}
-                name={user.name}
-                description={user.description}
-              />
-            ))}
+        <div className="relative mx-auto w-full max-w-[1728px]">
+          <img
+            src={cloudWave}
+            alt=""
+            aria-hidden="true"
+            width={1728}
+            height={321}
+            className="relative z-10 block h-[321px] w-full object-contain object-center"
+          />
+          <div className="absolute inset-0 z-20 flex items-center justify-center px-8">
+            <img
+              src={imgLogo}
+              alt={`Logo de ${SpnName}`}
+              className="max-h-[180px] w-auto max-w-[55%] object-contain"
+            />
           </div>
-            </section>*/}
+        </div>
 
-        <br />
-        <br />
-
-        {/*<section className="bussinesActivity bg-primaryHackeps text-textPrimaryHackeps">
-          <br />
-          <h2>Historial d'activitats</h2>
-
-          <br />
-          <div className="logos">
-            {images.map((image, index) => (
-              <img key={index} src={image} alt={`Imagen ${index}`} /> //Editar aixo per a que sigui una url fixa i nomes camvii la edicio Eg: C/wefwf/efwef/2021.jpg, C/wefwf/efwef/2022.jpg...
-            ))}
+        <div className="mx-auto mt-10 max-w-[980px] px-8 text-center">
+          <h2 className="m-0 mb-6 font-space-mono text-[32px] font-bold tracking-[-0.64px] text-[#ff7430]">
+            Contacte de l'empresa
+          </h2>
+          <div className="mb-10 flex items-center justify-center gap-8 text-[40px] text-[#ff7430]">
+            {linkedintag ? (
+              <a
+                href={linkedintag}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[#ff7430] no-underline hover:text-[#ff8a52]"
+                aria-label="LinkedIn"
+              >
+                <i className="fa-brands fa-linkedin" />
+              </a>
+            ) : null}
+            {xarxes ? (
+              <a
+                href={webtag}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[#ff7430] no-underline hover:text-[#ff8a52]"
+                aria-label="Web"
+              >
+                <i className="fa-solid fa-globe" />
+              </a>
+            ) : null}
           </div>
-        </section>*/}
-        <br />
-        <br />
-      </div>
-    );
-  } else {
-    //Info que es mostra si amb la id, els resultats no son concoents
-    console.log("El nombre del sponsor es: ", infoCompany.name);
-
-    let errorImages = [
-      "https://media.tenor.com/Wv6zVQPZFtcAAAAC/error.gif",
-      "https://media.tenor.com/hI4TN7nt06oAAAAC/error.gif",
-      "https://media.tenor.com/89X5kccfNy0AAAAC/theoffice-michaelscott.gif",
-      "https://media.tenor.com/JKPJy9fQiAAAAAAi/cat-diragana.gif",
-      "https://media.tenor.com/nKPZSs1a6WMAAAAC/back-pocket-skadi.gif",
-      "https://media.tenor.com/ENxVWo1KcnsAAAAC/error.gif",
-    ];
-    let errorImage =
-      errorImages[Math.floor(Math.random() * (errorImages.length + 1))];
-
-    return (
-      <div className="The-Grand-Phather">
-        <section className="Imagecontener2">
-          <h1 className="title-Info-sponsors text-textSecondaryHackeps">
-            Oh No, Something happened..
-          </h1>
-          <br />
-          <img className="peperoni" src={errorImage} alt="Gif" />
-        </section>
-
-        <section className="NotFound">
-          <h1 className="title-Info-sponsors">😶🪑🐾🐣</h1>
-          <h1 className="title-Info-sponsors">ERROR! Sponsore Not Found</h1>
-          <p>GIF</p>
-        </section>
+          <p className="m-0 whitespace-pre-line text-left font-space-mono text-[20px] leading-relaxed tracking-[-0.4px]">
+            {description}
+          </p>
+        </div>
       </div>
     );
   }
+
+  console.log("El nombre del sponsor es: ", infoCompany.name);
+
+  let errorImages = [
+    "https://media.tenor.com/Wv6zVQPZFtcAAAAC/error.gif",
+    "https://media.tenor.com/hI4TN7nt06oAAAAC/error.gif",
+    "https://media.tenor.com/89X5kccfNy0AAAAC/theoffice-michaelscott.gif",
+    "https://media.tenor.com/JKPJy9fQiAAAAAAi/cat-diragana.gif",
+    "https://media.tenor.com/nKPZSs1a6WMAAAAC/back-pocket-skadi.gif",
+    "https://media.tenor.com/ENxVWo1KcnsAAAAC/error.gif",
+  ];
+  let errorImage =
+    errorImages[Math.floor(Math.random() * errorImages.length)];
+
+  return (
+    <div className="flex min-h-[700px] flex-col items-center px-8 py-16 text-center text-white">
+      <h1 className="font-space-mono text-[40px]">Oh No, Something happened..</h1>
+      <img className="mt-8 max-h-[280px]" src={errorImage} alt="Gif" />
+      <h1 className="mt-8 font-space-mono text-[32px]">ERROR! Sponsore Not Found</h1>
+    </div>
+  );
 };
 
 export default InfoSponsors;

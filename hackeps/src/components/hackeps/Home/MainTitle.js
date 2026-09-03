@@ -113,10 +113,10 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
           Has d&apos;iniciar sessió per apuntar-te!
         </Modal.Body>
         <Modal.Footer className="no-border justify-content-center">
-          <Button primary onClick={handleSignIn}>
+          <Button orange onClick={handleSignIn}>
             Tinc compte
           </Button>
-          <Button primary onClick={handleSignUp}>
+          <Button orange onClick={handleSignUp}>
             Crear compte
           </Button>
         </Modal.Footer>

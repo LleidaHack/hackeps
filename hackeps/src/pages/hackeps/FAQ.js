@@ -1,8 +1,6 @@
-// FAQPage.js
 import React from "react";
 import FAQContainer from "src/components/hackeps/FAQ_container/FAQ_container.js";
-import Header from "src/components/hackeps/Header/Header.js";
-import Footer from "src/components/hackeps/Footer/Footer.js";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 
 const faqs = [
   {
@@ -54,11 +52,9 @@ const faqs = [
 
 const FAQPage = () => {
   return (
-    <div className="faq-page">
-      <Header />
+    <DarkPage>
       <FAQContainer faqs={faqs} />
-      <Footer />
-    </div>
+    </DarkPage>
   );
 };
 

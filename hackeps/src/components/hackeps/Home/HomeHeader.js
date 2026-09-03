@@ -13,7 +13,7 @@ const NAV_LINKS = [
   { label: "Contacte", to: ROUTES.contact },
 ];
 
-const HomeHeader = () => {
+const HomeHeader = ({ showMlh = true }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -21,21 +21,23 @@ const HomeHeader = () => {
       data-testid="headerHackeps"
       className="sticky top-0 z-50 w-full overflow-visible"
     >
-      <a
-        href="https://mlh.io/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="absolute left-[7.6%] top-0 z-[60] block h-[285px] w-[150px]"
-        aria-label="Major League Hacking"
-      >
-        <img
-          src={mlhBadge}
-          alt="MLH"
-          width={150}
-          height={285}
-          className="h-[285px] w-[150px] max-w-none object-contain object-top"
-        />
-      </a>
+      {showMlh && (
+        <a
+          href="https://mlh.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute left-[7.6%] top-0 z-[60] block h-[285px] w-[150px]"
+          aria-label="Major League Hacking"
+        >
+          <img
+            src={mlhBadge}
+            alt="MLH"
+            width={150}
+            height={285}
+            className="h-[285px] w-[150px] max-w-none object-contain object-top"
+          />
+        </a>
+      )}
 
       <nav id="main-nav" className="relative h-[80px] w-full bg-[#ff7430]">
         <Link

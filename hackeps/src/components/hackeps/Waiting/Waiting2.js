@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import isla from "src/assets/img/isla.png";
 import barco from "src/assets/img/barco.png";
-import hackLogo from "src/assets/img/logoHackeps2025.png";
+import hackLogo from "src/assets/img/home10/logonaranja.png";
 import nube from "src/assets/img/nuve.png";
 import nubeClouding from "src/assets/img/nuveClouding.png";
 import "./Waiting.css";

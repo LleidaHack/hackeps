@@ -9,7 +9,14 @@ beforeAll(() => {
     disconnect = jest.fn();
   }
 
+  class MockResizeObserver {
+    observe = jest.fn();
+    unobserve = jest.fn();
+    disconnect = jest.fn();
+  }
+
   global.IntersectionObserver = MockIntersectionObserver;
+  global.ResizeObserver = MockResizeObserver;
 });
 
 // Mock de window.scrollTo
