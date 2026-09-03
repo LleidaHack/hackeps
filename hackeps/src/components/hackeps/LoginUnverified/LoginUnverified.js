@@ -43,17 +43,17 @@ const LoginUnverified = ({ email }) => {
   };
 
   return (
-    <div className="faq-container bg-secondaryHackeps flex flex-col items-center justify-start">
-      <TitleGeneralized big className="mt-48">
+    <div className="flex flex-col items-center justify-start px-6 py-16">
+      <TitleGeneralized big className="mt-8 md:mt-16">
         {">:("}
       </TitleGeneralized>
-      <h3 className="text">
+      <h3 className="px-2 text-center text-white">
         Verifica el teu compte obrint el link que t'hem enviat al correu.
       </h3>
       <Button
         onClick={handleClick}
         disabled={isCooldownActive}
-        primary
+        orange
         className="mt-4 py-3"
       >
         No m'ha arribat el correu{isCooldownActive && `: ${countdown}`}

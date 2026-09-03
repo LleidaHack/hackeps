@@ -36,12 +36,12 @@ const DatesContent = () => {
         />
 
         <h1
-          className="relative z-10 m-0 mb-16 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] md:mb-20 md:text-[48px] lg:mb-24 lg:text-[64px] lg:tracking-[-1.28px]"
+          className="relative z-10 m-0 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]"
           style={{ color: text }}
         >
           DATES
         </h1>
-        <div className="relative z-10">
+        <div className="relative z-10 mt-28 md:mt-36 lg:mt-44">
           <DatesCalendar />
         </div>
         <div

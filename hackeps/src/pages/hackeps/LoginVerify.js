@@ -1,7 +1,6 @@
 import React from "react";
-import Header from "src/components/hackeps/Header/Header.js";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 import LoginUnverified from "src/components/hackeps/LoginUnverified/LoginUnverified";
-import Footer from "src/components/hackeps/Footer/Footer.js";
 import { useLocation } from "react-router-dom";
 
 const LoginVerify = (props) => {
@@ -10,11 +9,9 @@ const LoginVerify = (props) => {
   if (state) email = state.email;
 
   return (
-    <div className="faq-page">
-      <Header />
+    <DarkPage>
       <LoginUnverified email={email} />
-      <Footer />
-    </div>
+    </DarkPage>
   );
 };
 

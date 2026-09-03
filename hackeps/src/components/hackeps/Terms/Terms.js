@@ -2,15 +2,15 @@ import React from "react";
 
 const TermsComponent = () => {
   return (
-    <div className="bg-secondaryHackeps flex-1 font-space-mono">
-      <div className="max-w-3xl mx-auto px-4 md:px-6 py-10 md:py-14">
-        <h1 className="text-2xl md:text-3xl font-bold uppercase text-[#304B91]">
+    <div className="flex-1 font-space-mono text-white">
+      <div className="mx-auto max-w-3xl px-4 py-10 md:px-6 md:py-14">
+        <h1 className="text-2xl font-bold uppercase text-white md:text-3xl">
           Termes i Condicions
         </h1>
         <div className="w-16 h-1 bg-[#FF7430] mt-3 mb-8" />
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Objectiu</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Objectiu</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           Pel present document es donen a conèixer els termes i condicions de la
           HackEPS i que, des d'ara, serà referit com la HACKATÓ. Aquesta HACKATÓ
           consisteix en un concurs de desenvolupament de programari o maquinari
@@ -19,8 +19,8 @@ const TermsComponent = () => {
           electrònica, etc.)
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">L'organització</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">L'organització</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           La HACKATÓ és organitzada per l'associació d'estudiants vinculada a la
           Universitat de Lleida: Associació Juvenil LleidaHack (d'ara endavant,
           L'ORGANITZACIÓ), amb domicili en Carrer Jaume II, número 69, 25001
@@ -30,8 +30,8 @@ const TermsComponent = () => {
           del correu electrònic contacte@lleidahack.dev.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Àmbit</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Àmbit</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           La HACKATÓ es realitzarà a Lleida, a l'Escola Politècnica Superior de
           la Universitat de Lleida, al carrer Jaume II número 69, els dies 22 i
           23 de novembre de 2025.
@@ -44,8 +44,8 @@ const TermsComponent = () => {
           L'ESDEVENIMENT: https://lleidahack.dev/hackeps/
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Requisits per a participar</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Requisits per a participar</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           És apta per a participar qualsevol persona major d'edat amb DNI/NIF o
           passaport en vigor que, conforme la legislació espanyola, acrediti la
           identitat i edat del participant. Així mateix, és apta per a
@@ -57,8 +57,8 @@ const TermsComponent = () => {
           identitat real o que incompleixin qualsevol altra condició exigida.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Admissió dels participants</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Admissió dels participants</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           La inscripció a l'esdeveniment comporta a l'acceptació d'aquests
           termes i condicions, i es farà des de la WEB DE L'ESDEVENIMENT
           anteriorment esmentada.
@@ -80,8 +80,8 @@ const TermsComponent = () => {
           L'ORGANITZACIÓ es reserva el dret d'admissió.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Dinàmica de l'esdeveniment</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Dinàmica de l'esdeveniment</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           Després del check-in, es procedirà a una presentació dels diversos
           reptes. Els participants disposaran de 25 des de la finalització de la
           presentació per a desenvolupar una solució per als reptes presentats
@@ -107,8 +107,8 @@ const TermsComponent = () => {
           projecte independent.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Grups</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Grups</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           Els grups de la HACKATÓ estaran formats fins per quatre integrants,
           estant permesa, també, la participació individual.
           <br />
@@ -119,8 +119,8 @@ const TermsComponent = () => {
           la HACKATÓ podran formar grup amb altres participants.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Condicions de participació</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Condicions de participació</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           L'ORGANITZACIÓ es compromet a dotar de tots els elements necessaris
           per al desenvolupament de la HACKATÓ en termes de connectivitat i
           assistència.
@@ -140,8 +140,8 @@ const TermsComponent = () => {
           l'esdeveniment.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Premis</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Premis</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           El guanyador de cada repte serà triat per un jurat imparcial triat per
           l'empresa patrocinadora d'aquest repte, tenint en compte criteris com:
           originalitat de la idea, potencial de la idea, dificultat tècnica,
@@ -162,8 +162,8 @@ const TermsComponent = () => {
           seu plantejament original.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Dades personals</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Dades personals</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           Les dades personals seran tractats per l'ORGANITZACIÓ per a gestionar
           i tramitar la participació del subjecte en LA HACKATÓ. Aquest
           tractament de dades és necessari i el participant consent expressament
@@ -178,8 +178,8 @@ const TermsComponent = () => {
           un correu a contacte@lleidahack.dev.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Drets de Propietat Intel·lectual</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Drets de Propietat Intel·lectual</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           Els participants validen que totes les propostes que es presentin a
           l'esdeveniment, són originals i no infringeixen la propietat
           intel·lectual de terceres parts. Si es fes ús d'idees alienes als
@@ -192,8 +192,8 @@ const TermsComponent = () => {
           participant.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Altres</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Altres</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           L'ORGANITZACIÓ es reserva el dret a introduir canvis en el
           funcionament de la HACKATÓ en qualsevol moment o finalitzar-lo de
           forma anticipada si fos necessari per causes justificades, sense que

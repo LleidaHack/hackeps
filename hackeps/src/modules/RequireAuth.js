@@ -2,8 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkToken } from "src/services/AuthenticationService";
-import Header from "src/components/hackeps/Header/Header";
-import Footer from "src/components/hackeps/Footer/Footer";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 import LoadSection from "src/components/hackeps/LoadSection/Loadsection";
 
 export default function RequireAuth({ children, originalRoute }) {
@@ -27,11 +26,9 @@ export default function RequireAuth({ children, originalRoute }) {
   }, []);
 
   return loading ? ( // The code that did the magic
-    <>
-      <Header />
+    <DarkPage>
       <LoadSection />
-      <Footer />
-    </>
+    </DarkPage>
   ) : auth ? (
     children
   ) : (

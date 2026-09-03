@@ -11,9 +11,9 @@ describe("Privacy - Render", () => {
       </MemoryRouter>,
     );
     // Verifica que tenim el footer i el header
-    const footerElement = screen.getByTestId("launchFooterHackeps");
+    const footerElement = screen.getByTestId("footerHackeps");
     expect(footerElement).toBeInTheDocument();
-    const headerElement = screen.getByTestId("launchHeaderHackeps");
+    const headerElement = screen.getByTestId("headerHackeps");
     expect(headerElement).toBeInTheDocument();
   });
 });

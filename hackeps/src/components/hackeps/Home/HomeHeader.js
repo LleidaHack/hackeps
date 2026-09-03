@@ -21,45 +21,40 @@ const HomeHeader = ({ showMlh = true }) => {
       data-testid="headerHackeps"
       className="sticky top-0 z-50 w-full overflow-visible"
     >
-      {showMlh && (
-        <a
-          href="https://mlh.io/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute left-2 top-0 z-[60] hidden w-[48px] md:block lg:left-4 lg:w-[72px] xl:w-[110px]"
-          aria-label="Major League Hacking"
-        >
-          <img
-            src={mlhBadge}
-            alt="MLH"
-            width={150}
-            height={285}
-            className="h-auto w-full max-w-none object-contain object-top"
-          />
-        </a>
-      )}
-
       <nav
         id="main-nav"
         className="relative flex h-16 w-full items-center justify-between gap-2 bg-[#ff7430] px-3 md:h-20 md:px-5 lg:px-8"
       >
-        <Link
-          to="/"
-          className={`flex shrink-0 items-center ${
-            showMlh ? "md:ml-14 lg:ml-[88px] xl:ml-[128px]" : ""
-          }`}
-          aria-label="Home"
-        >
-          <img
-            src={isotip}
-            alt="HackEPS"
-            width={75}
-            height={48}
-            className="h-9 w-auto md:h-12"
-          />
-        </Link>
+        <div className="relative flex h-full shrink-0 items-center self-stretch">
+          <Link to="/" className="flex items-center" aria-label="Home">
+            <img
+              src={isotip}
+              alt="HackEPS"
+              width={75}
+              height={48}
+              className="h-9 w-auto md:h-12"
+            />
+          </Link>
+          {showMlh && (
+            <a
+              href="https://mlh.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="z-[60] ml-2 hidden w-[48px] self-start md:block lg:ml-3 lg:w-[72px] xl:w-[110px]"
+              aria-label="Major League Hacking"
+            >
+              <img
+                src={mlhBadge}
+                alt="MLH"
+                width={150}
+                height={285}
+                className="h-auto w-full max-w-none object-contain object-top"
+              />
+            </a>
+          )}
+        </div>
 
-        <ul className="m-0 hidden min-w-0 list-none items-center justify-center gap-4 p-0 lg:flex lg:flex-1 xl:gap-8">
+        <ul className="m-0 hidden min-w-0 list-none items-center justify-center gap-10 p-0 lg:flex lg:flex-1 xl:gap-16">
           {NAV_LINKS.map((link) => (
             <li key={link.label}>
               <Link

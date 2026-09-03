@@ -1,15 +1,12 @@
 import React from "react";
-import Header from "src/components/hackeps/Header/Header";
-import Footer from "src/components/hackeps/Footer/Footer";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 import ContacteMentorPage from "src/components/hackeps/Contacte/ContacteMentor";
 
 const ContacteMentor = () => {
   return (
-    <div>
-      <Header />
+    <DarkPage>
       <ContacteMentorPage />
-      <Footer />
-    </div>
+    </DarkPage>
   );
 };
 
