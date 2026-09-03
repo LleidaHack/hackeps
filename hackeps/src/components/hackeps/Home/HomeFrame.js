@@ -3,7 +3,7 @@ import { useSiteTheme } from "src/hooks/useSiteTheme";
 
 const FRAME_WIDTH = 1728;
 
-const HomeFrame = ({ children, canvasBg }) => {
+const HomeFrame = ({ children, canvasBg, fluid = false }) => {
   const innerRef = useRef(null);
   const [scale, setScale] = useState(1);
   const [height, setHeight] = useState("auto");
@@ -11,6 +11,10 @@ const HomeFrame = ({ children, canvasBg }) => {
   const backgroundColor = canvasBg || sky;
 
   useEffect(() => {
+    if (fluid) {
+      return undefined;
+    }
+
     const update = () => {
       const nextScale = window.innerWidth / FRAME_WIDTH;
       setScale(nextScale);
@@ -29,7 +33,15 @@ const HomeFrame = ({ children, canvasBg }) => {
       observer.disconnect();
       window.removeEventListener("resize", update);
     };
-  }, []);
+  }, [fluid]);
+
+  if (fluid) {
+    return (
+      <div className="w-full overflow-x-hidden font-space-mono" style={{ backgroundColor }}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div className="w-full overflow-hidden" style={{ height, backgroundColor }}>

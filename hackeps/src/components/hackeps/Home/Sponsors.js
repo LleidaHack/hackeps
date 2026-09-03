@@ -157,7 +157,7 @@ const Sponsors = () => {
         <h3 className="relative z-10 mb-6 mt-[49px] text-center font-space-mono text-[51px] font-bold leading-none tracking-[-1.02px] text-white">
           Patrocinadors bronze
         </h3>
-        <div className="relative z-10 flex flex-col gap-[49px] pb-[64px]">
+        <div className="relative z-10 flex flex-col gap-[49px] pb-[180px]">
           {bronzeRows.map((row, i) => (
             <SlotRow key={`b-${i}`} companies={row} />
           ))}
@@ -169,25 +169,16 @@ const Sponsors = () => {
 
 export const SeuVellaFooter = () => {
   return (
-    <div className="relative w-full overflow-hidden">
-      <div className="relative h-[520px] w-full bg-transparent">
+    <div className="relative w-full overflow-x-hidden bg-[#2e2e2e]">
+      <div className="relative h-[320px] w-full bg-transparent sm:h-[400px] md:h-[520px]">
         <img
           src={olaInterior1280}
           srcSet={`${olaInterior1280} 1280w, ${olaInterior2048} 2048w`}
           sizes="100vw"
           width="2048"
           height="784"
-          className="absolute left-0 top-[50%] z-10 w-full h-auto"
+          className="absolute left-0 top-[42%] z-10 h-auto w-full sm:top-[48%] md:top-[50%]"
           alt=""
-        />
-        <img
-          src={seuVellaSolo512}
-          srcSet={`${seuVellaSolo512} 512w, ${seuVellaSolo1024} 1024w`}
-          sizes="25vw"
-          width="1024"
-          height="1036"
-          className="absolute bottom-[5%] right-[10%] z-20 h-auto w-[25%]"
-          alt="La Seu Vella de Lleida"
         />
         <img
           src={olaExterior1280}
@@ -195,11 +186,20 @@ export const SeuVellaFooter = () => {
           sizes="100vw"
           width="2048"
           height="594"
-          className="absolute left-0 top-[75%] z-30 w-full h-auto"
+          className="absolute left-0 top-[68%] z-20 h-auto w-full sm:top-[72%] md:top-[75%]"
           alt=""
         />
+        <img
+          src={seuVellaSolo512}
+          srcSet={`${seuVellaSolo512} 512w, ${seuVellaSolo1024} 1024w`}
+          sizes="(max-width: 768px) 42vw, 25vw"
+          width="1024"
+          height="1036"
+          className="absolute bottom-[18%] right-[6%] z-30 h-auto w-[42%] max-w-[180px] sm:bottom-[14%] sm:w-[32%] sm:max-w-[240px] md:bottom-[8%] md:right-[10%] md:w-[25%] md:max-w-none"
+          alt="La Seu Vella de Lleida"
+        />
       </div>
-      <div className="relative z-40 -mt-[80px]">
+      <div className="relative z-40 -mt-[56px] sm:-mt-[64px] md:-mt-[80px]">
         <HomeFooter tone="green" />
       </div>
     </div>

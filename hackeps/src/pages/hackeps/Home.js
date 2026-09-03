@@ -86,9 +86,9 @@ const Home = () => {
             <Activities />
             <Records />
             <Sponsors />
-            <SeuVellaFooter />
           </div>
         </HomeFrame>
+        <SeuVellaFooter />
       </div>
     );
   }

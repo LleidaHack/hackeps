@@ -26,7 +26,7 @@ const HomeHeader = ({ showMlh = true }) => {
           href="https://mlh.io/"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute left-[7.6%] top-0 z-[60] block h-[285px] w-[150px]"
+          className="absolute left-2 top-0 z-[60] hidden w-[48px] md:block lg:left-4 lg:w-[72px] xl:w-[110px]"
           aria-label="Major League Hacking"
         >
           <img
@@ -34,15 +34,20 @@ const HomeHeader = ({ showMlh = true }) => {
             alt="MLH"
             width={150}
             height={285}
-            className="h-[285px] w-[150px] max-w-none object-contain object-top"
+            className="h-auto w-full max-w-none object-contain object-top"
           />
         </a>
       )}
 
-      <nav id="main-nav" className="relative h-[80px] w-full bg-[#ff7430]">
+      <nav
+        id="main-nav"
+        className="relative flex h-16 w-full items-center justify-between gap-2 bg-[#ff7430] px-3 md:h-20 md:px-5 lg:px-8"
+      >
         <Link
           to="/"
-          className="absolute left-[28px] top-[18px] block h-[48px] w-[75px]"
+          className={`flex shrink-0 items-center ${
+            showMlh ? "md:ml-14 lg:ml-[88px] xl:ml-[128px]" : ""
+          }`}
           aria-label="Home"
         >
           <img
@@ -50,16 +55,16 @@ const HomeHeader = ({ showMlh = true }) => {
             alt="HackEPS"
             width={75}
             height={48}
-            className="h-[48px] w-[75px] max-w-none"
+            className="h-9 w-auto md:h-12"
           />
         </Link>
 
-        <ul className="absolute inset-y-0 left-[19.85%] right-[19.85%] hidden list-none items-center justify-between m-0 p-0 md:flex">
+        <ul className="m-0 hidden min-w-0 list-none items-center justify-center gap-4 p-0 lg:flex lg:flex-1 xl:gap-8">
           {NAV_LINKS.map((link) => (
             <li key={link.label}>
               <Link
                 to={link.to}
-                className="font-space-mono text-[24px] leading-normal tracking-[-0.48px] text-[#2e2e2e] no-underline whitespace-nowrap"
+                className="whitespace-nowrap font-space-mono text-[16px] leading-normal tracking-[-0.32px] text-[#2e2e2e] no-underline xl:text-[22px] xl:tracking-[-0.44px]"
               >
                 {link.label}
               </Link>
@@ -67,37 +72,35 @@ const HomeHeader = ({ showMlh = true }) => {
           ))}
         </ul>
 
-        <button
-          type="button"
-          className="absolute right-16 top-1/2 z-10 -translate-y-1/2 border-0 bg-transparent text-[32px] text-[#2e2e2e] md:hidden"
-          aria-label="Menú"
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? "×" : "☰"}
-        </button>
-
-        <Link
-          to={ROUTES.profile}
-          className="absolute right-[2.31%] top-[38.75%] block h-[22px] w-[18px]"
-          aria-label="Perfil"
-        >
-          <img
-            src={iconProfile}
-            alt=""
-            width={18}
-            height={22}
-            className="h-[22px] w-[18px] max-w-none"
-          />
-        </Link>
+        <div className="flex shrink-0 items-center gap-3">
+          <button
+            type="button"
+            className="border-0 bg-transparent p-1 text-[28px] leading-none text-[#2e2e2e] lg:hidden"
+            aria-label={open ? "Tancar menú" : "Obrir menú"}
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? "×" : "☰"}
+          </button>
+          <Link to={ROUTES.profile} className="block p-1" aria-label="Perfil">
+            <img
+              src={iconProfile}
+              alt=""
+              width={18}
+              height={22}
+              className="h-5 w-4 md:h-[22px] md:w-[18px]"
+            />
+          </Link>
+        </div>
       </nav>
 
       {open && (
-        <ul className="m-0 list-none bg-[#ff7430] p-4 md:hidden">
+        <ul className="m-0 list-none bg-[#ff7430] px-4 py-2 lg:hidden">
           {NAV_LINKS.map((link) => (
-            <li key={link.label} className="py-2">
+            <li key={link.label} className="border-t border-black/10 py-3">
               <Link
                 to={link.to}
-                className="font-space-mono text-[20px] text-[#2e2e2e] no-underline"
+                className="block font-space-mono text-[18px] text-[#2e2e2e] no-underline"
                 onClick={() => setOpen(false)}
               >
                 {link.label}

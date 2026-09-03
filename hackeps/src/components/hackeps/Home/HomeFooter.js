@@ -6,11 +6,11 @@ const HomeFooter = ({ tone = "orange", compact = false }) => {
   return (
     <footer
       data-testid="footerHackeps"
-      className={`relative z-40 m-0 flex w-full flex-col items-center px-4 font-space-mono text-gray-800 ${background} ${
-        compact ? "pt-4 pb-4" : "pt-8 pb-8"
+      className={`relative z-40 m-0 flex w-full flex-col items-center px-5 font-space-mono text-gray-800 sm:px-6 ${background} ${
+        compact ? "pt-5 pb-5" : "pt-6 pb-6 md:pt-8 md:pb-8"
       }`}
     >
-      <div className={`flex gap-6 ${compact ? "mb-3 mt-2" : "mb-6 mt-8"}`}>
+      <div className={`flex gap-6 md:gap-7 ${compact ? "mb-4 mt-1" : "mb-5 mt-2 md:mb-6"}`}>
         <a
           href="https://www.instagram.com/hackeps_/"
           target="_blank"
@@ -23,7 +23,7 @@ const HomeFooter = ({ tone = "orange", compact = false }) => {
             width="32"
             height="32"
             fill="currentColor"
-            className="h-8 w-8"
+            className="h-8 w-8 md:h-8 md:w-8"
             viewBox="0 0 16 16"
             aria-hidden="true"
           >
@@ -42,7 +42,7 @@ const HomeFooter = ({ tone = "orange", compact = false }) => {
             width="32"
             height="32"
             fill="currentColor"
-            className="h-8 w-8"
+            className="h-8 w-8 md:h-8 md:w-8"
             viewBox="0 0 16 16"
             aria-hidden="true"
           >
@@ -61,7 +61,7 @@ const HomeFooter = ({ tone = "orange", compact = false }) => {
             width="32"
             height="32"
             fill="currentColor"
-            className="h-8 w-8"
+            className="h-8 w-8 md:h-8 md:w-8"
             viewBox="0 0 16 16"
             aria-hidden="true"
           >
@@ -70,7 +70,7 @@ const HomeFooter = ({ tone = "orange", compact = false }) => {
         </a>
       </div>
 
-      <div className="mb-4 flex flex-col items-center gap-2 text-center text-xs font-bold underline decoration-1 underline-offset-4">
+      <div className="mb-3 flex max-w-full flex-col items-center gap-2 px-2 text-center text-sm font-bold underline decoration-1 underline-offset-4 md:mb-4 md:text-sm">
         <a href={ROUTES.terms} className="text-black" target="_blank" rel="noreferrer">
           Termes i Condicions
         </a>
@@ -87,7 +87,7 @@ const HomeFooter = ({ tone = "orange", compact = false }) => {
         </a>
       </div>
 
-      <div className="flex flex-col items-center gap-1 text-xs font-bold md:flex-row md:gap-4">
+      <div className="flex max-w-full flex-col items-center gap-1 px-2 text-center text-xs font-bold md:flex-row md:gap-4 md:text-sm">
         <p className="m-0">
           Made with <span className="text-black">❤</span> by{" "}
           <a
