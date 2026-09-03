@@ -10,10 +10,10 @@ const DatesPage = () => {
   return (
     <div className="w-full overflow-x-hidden" style={{ backgroundColor: sky }}>
       <HomeHeader />
-      <HomeFrame>
+      <HomeFrame fluid>
         <DatesContent />
-        <HomeFooter />
       </HomeFrame>
+      <HomeFooter />
     </div>
   );
 };

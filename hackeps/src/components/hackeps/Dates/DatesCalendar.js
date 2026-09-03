@@ -9,8 +9,8 @@ const HIGHLIGHT = 29;
 
 const DatesCalendar = () => {
   return (
-    <div className="relative mx-auto w-[60%] rounded-[30px] bg-[#ff782e] px-8 pb-8 pt-6">
-      <p className="mb-4 mt-1 text-center font-space-mono text-[28px] font-bold leading-none text-black">
+    <div className="relative mx-auto w-full max-w-[1036px] rounded-[20px] bg-[#ff782e] px-3 pb-4 pt-4 sm:px-6 sm:pb-6 sm:pt-5 md:w-[85%] md:rounded-[30px] md:px-8 md:pb-8 md:pt-6 lg:w-[60%]">
+      <p className="mb-3 mt-0 text-center font-space-mono text-[20px] font-bold leading-none text-black sm:mb-4 sm:mt-1 md:text-[28px]">
         Septembre
       </p>
       <div className="overflow-hidden rounded-[4px] bg-white">
@@ -18,7 +18,7 @@ const DatesCalendar = () => {
           {WEEKDAYS.map((day) => (
             <div
               key={day}
-              className="py-2 text-center font-sans text-[13px] font-semibold text-[#4a4a4a]"
+              className="py-1.5 text-center font-sans text-[10px] font-semibold text-[#4a4a4a] sm:py-2 sm:text-[13px]"
             >
               {day}
             </div>
@@ -31,7 +31,7 @@ const DatesCalendar = () => {
             return (
               <div
                 key={`${day}-${index}`}
-                className={`flex h-[72px] items-center justify-center border-b border-r border-[#ececec] font-sans text-[22px] ${
+                className={`flex h-10 items-center justify-center border-b border-r border-[#ececec] font-sans text-[14px] sm:h-14 sm:text-[18px] md:h-[72px] md:text-[22px] ${
                   isHighlight ? "bg-[#e6f2ff] font-semibold text-[#3b82c4]" : "text-[#2e2e2e]"
                 } ${isNextMonth ? "text-[#b0b0b0]" : ""} ${
                   index % 7 === 6 ? "border-r-0" : ""

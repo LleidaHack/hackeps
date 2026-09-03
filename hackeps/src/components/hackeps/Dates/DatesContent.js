@@ -15,7 +15,7 @@ const DatesContent = () => {
     <div className="w-full" style={{ backgroundColor: sky }}>
       <section
         id="dates"
-        className="relative w-full overflow-hidden pb-[80px] pt-[72px]"
+        className="relative w-full overflow-hidden px-4 pb-12 pt-10 md:px-8 md:pb-16 md:pt-16 lg:px-12 lg:pb-[80px] lg:pt-[72px]"
         style={{ backgroundColor: sky }}
       >
         <img
@@ -24,7 +24,7 @@ const DatesContent = () => {
           aria-hidden="true"
           width={380}
           height={170}
-          className="pointer-events-none absolute right-[-30px] top-[40px] h-[170px] w-[380px] max-w-none object-contain"
+          className="pointer-events-none absolute right-[-12%] top-[24px] h-auto w-[42%] max-w-[280px] object-contain md:right-[-30px] md:top-[40px] md:w-[380px] md:max-w-none lg:h-[170px]"
         />
         <img
           src={cloud2}
@@ -32,11 +32,11 @@ const DatesContent = () => {
           aria-hidden="true"
           width={420}
           height={210}
-          className="pointer-events-none absolute bottom-[-20px] left-[-40px] h-[210px] w-[420px] max-w-none object-contain"
+          className="pointer-events-none absolute bottom-[-12px] left-[-14%] h-auto w-[48%] max-w-[300px] object-contain md:bottom-[-20px] md:left-[-40px] md:w-[420px] md:max-w-none lg:h-[210px]"
         />
 
         <h1
-          className="relative z-10 m-0 mb-[64px] text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px]"
+          className="relative z-10 m-0 mb-16 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] md:mb-20 md:text-[48px] lg:mb-24 lg:text-[64px] lg:tracking-[-1.28px]"
           style={{ color: text }}
         >
           DATES
@@ -45,14 +45,14 @@ const DatesContent = () => {
           <DatesCalendar />
         </div>
         <div
-          className="relative z-10 mx-auto mt-[80px] w-[952px] max-w-[90vw] text-center font-space-mono text-[24px] leading-normal tracking-[-0.48px]"
+          className="relative z-10 mx-auto mt-10 w-full max-w-[952px] px-1 text-center font-space-mono text-[16px] leading-relaxed tracking-[-0.32px] md:mt-14 md:text-[20px] md:leading-normal lg:mt-[80px] lg:text-[24px] lg:tracking-[-0.48px]"
           style={{ color: text }}
         >
-          <p className="m-0 mb-0">
+          <p className="m-0 mb-4 md:mb-0">
             Lleidahack et dona la benvinguda a la HackEPS 2025, la primera
             hackató de les terres de Lleida!
           </p>
-          <p className="m-0 mb-0">
+          <p className="m-0 mb-4 md:mb-0">
             La novena edició de la HackEPS tindrà lloc a l&apos;edifici de
             l&apos;
             <span className="font-bold">Escola Politècnica</span>{" "}
