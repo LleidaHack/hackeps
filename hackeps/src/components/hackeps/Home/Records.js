@@ -49,13 +49,13 @@ const GALLERY_ITEMS = [
 ];
 
 const PolaroidCard = ({ title, color, image }) => (
-  <article className="relative w-[340px] shrink-0 pt-4">
+  <article className="relative w-[220px] shrink-0 pt-4 sm:w-[280px] md:w-[340px]">
     <span
       aria-hidden="true"
       className="absolute left-1/2 top-0 z-20 h-[18px] w-[28px] -translate-x-1/2 -translate-y-1/2 rounded-[3px]"
       style={{ backgroundColor: color }}
     />
-    <div className="flex h-[420px] flex-col rounded-[28px] bg-white px-3 pb-5 pt-7 shadow-[0_8px_20px_rgba(46,46,46,0.12)]">
+    <div className="flex h-[280px] flex-col rounded-[28px] bg-white px-3 pb-5 pt-7 shadow-[0_8px_20px_rgba(46,46,46,0.12)] sm:h-[340px] md:h-[420px]">
       <div className="relative min-h-0 flex-1 overflow-hidden rounded-[16px] bg-[#d7e9f7]">
         {image ? (
           <img
@@ -66,7 +66,7 @@ const PolaroidCard = ({ title, color, image }) => (
         ) : null}
       </div>
       <p
-        className="mb-0 mt-4 text-center font-space-mono text-[22px] font-bold leading-none tracking-[-0.44px]"
+        className="mb-0 mt-4 text-center font-space-mono text-[16px] font-bold leading-none tracking-[-0.32px] md:text-[22px] md:tracking-[-0.44px]"
         style={{ color }}
       >
         {title}
@@ -77,18 +77,18 @@ const PolaroidCard = ({ title, color, image }) => (
 
 const Records = () => {
   return (
-    <section className="relative w-full overflow-hidden bg-transparent pb-[220px] pt-[24px]">
+    <section className="relative w-full overflow-hidden bg-transparent pb-16 pt-6 md:pb-[180px] md:pt-6">
       <Firework
         src={firework1}
         width={299}
         height={296}
-        className="left-[36px] top-[277px] z-0 h-[296px] w-[299px] origin-center rotate-[24.04deg]"
+        className="left-[2%] top-[20%] z-0 hidden h-[160px] w-[160px] origin-center rotate-[24.04deg] md:block md:h-[220px] md:w-[220px] lg:h-[296px] lg:w-[299px]"
       />
       <Firework
         src={firework3}
         width={194}
         height={178}
-        className="left-[984px] top-[756px] z-0 h-[178px] w-[194px]"
+        className="right-[4%] bottom-[10%] z-0 hidden h-[120px] w-[130px] md:block lg:h-[178px] lg:w-[194px]"
       />
       <img
         src={cloud2}
@@ -96,7 +96,7 @@ const Records = () => {
         aria-hidden="true"
         width={435}
         height={219}
-        className="pointer-events-none absolute left-[1156px] top-[669px] z-0 h-[219px] w-[435px] max-w-none object-contain opacity-80"
+        className="pointer-events-none absolute right-[-8%] bottom-[8%] z-0 hidden h-auto w-[28%] max-w-[320px] object-contain opacity-80 lg:block"
       />
 
       <div className="relative z-10">
@@ -115,7 +115,7 @@ const Records = () => {
           />
         </svg>
 
-        <div className="flex snap-x snap-mandatory gap-24 overflow-x-auto px-[64px] pb-8 pt-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex snap-x snap-mandatory gap-8 overflow-x-auto px-4 pb-8 pt-8 sm:gap-12 md:gap-24 md:px-12 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {GALLERY_ITEMS.map((item) => (
             <div key={item.id} className="snap-start">
               <PolaroidCard

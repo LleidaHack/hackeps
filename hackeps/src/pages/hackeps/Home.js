@@ -74,7 +74,7 @@ const Home = () => {
     return (
       <div className="w-full overflow-x-hidden" style={{ backgroundColor: sky }}>
         <HomeHeader />
-        <HomeFrame>
+        <HomeFrame fluid>
           <HeroSection
             initialDate={startDate}
             finalDate={endDate}

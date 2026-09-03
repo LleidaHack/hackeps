@@ -36,7 +36,7 @@ function redirectToURL(url) {
 const Slot = ({ company }) => (
   <button
     type="button"
-    className="relative h-[198px] w-[358px] border-0 bg-transparent p-0"
+    className="relative aspect-[358/198] w-[min(100%,320px)] border-0 bg-transparent p-0 md:w-[358px]"
     onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
   >
     <img
@@ -44,7 +44,7 @@ const Slot = ({ company }) => (
       alt=""
       width={358}
       height={198}
-      className="absolute inset-0 h-[198px] w-[358px] max-w-none"
+      className="absolute inset-0 h-full w-full"
     />
     {company?.image ? (
       <img
@@ -52,7 +52,7 @@ const Slot = ({ company }) => (
         alt={company.name}
         width={358}
         height={198}
-        className="absolute inset-0 h-[198px] w-[358px] object-contain p-6"
+        className="absolute inset-0 h-full w-full object-contain p-4 md:p-6"
       />
     ) : null}
   </button>
@@ -61,7 +61,7 @@ const Slot = ({ company }) => (
 const SlotRow = ({ companies }) => {
   const cells = [0, 1, 2].map((i) => companies[i] || null);
   return (
-    <div className="flex justify-center gap-[29px]">
+    <div className="flex flex-wrap justify-center gap-4 md:gap-7">
       {cells.map((company, i) => (
         <Slot key={company?.id || i} company={company} />
       ))}
@@ -100,10 +100,10 @@ const Sponsors = () => {
   return (
     <div
       id="sponsors"
-      className="relative w-full overflow-hidden bg-transparent pt-0"
+      className="relative w-full overflow-hidden bg-transparent px-4 pt-8 md:px-8 md:pt-0"
     >
-      <div className="relative min-h-[1654px] w-full">
-        <h2 className="relative z-10 m-0 pt-0 text-center font-space-mono text-[51px] font-bold leading-normal tracking-[-1.02px] text-white">
+      <div className="relative w-full">
+        <h2 className="relative z-10 m-0 pt-0 text-center font-space-mono text-[32px] font-bold leading-normal tracking-[-0.64px] text-white md:text-[44px] lg:text-[51px] lg:tracking-[-1.02px]">
           SPONSORS
         </h2>
 
@@ -111,53 +111,53 @@ const Sponsors = () => {
           src={firework3}
           width={348}
           height={318}
-          className="left-[834px] top-[194px] z-0 h-[318px] w-[348px] -rotate-[19.78deg]"
+          className="right-[8%] top-[8%] z-0 hidden h-[140px] w-[150px] -rotate-[19.78deg] md:block lg:h-[220px] lg:w-[240px]"
         />
         <Firework
           src={firework1}
           width={190}
           height={188}
-          className="left-[36px] top-[492px] z-0 h-[188px] w-[190px] rotate-[19.31deg]"
+          className="left-[2%] top-[22%] z-0 hidden h-[100px] w-[100px] rotate-[19.31deg] md:block"
         />
         <Firework
           src={firework3}
           width={262}
           height={239}
-          className="left-[83px] top-[737px] z-0 h-[239px] w-[262px] rotate-[12.02deg]"
+          className="left-[4%] top-[48%] z-0 hidden h-[120px] w-[130px] rotate-[12.02deg] lg:block"
         />
         <Firework
           src={firework2}
           width={205}
           height={178}
-          className="left-[1034px] top-[955px] z-0 h-[178px] w-[205px] -rotate-[14.03deg]"
+          className="right-[6%] top-[58%] z-0 hidden h-[110px] w-[120px] -rotate-[14.03deg] lg:block"
         />
         <Firework
           src={firework3}
           width={158}
           height={145}
-          className="left-[863px] top-[1515px] z-0 h-[145px] w-[158px] rotate-[17.19deg]"
+          className="right-[12%] bottom-[8%] z-0 hidden h-[90px] w-[100px] rotate-[17.19deg] md:block"
         />
 
-        <h3 className="relative z-10 mb-6 mt-[56px] text-center font-space-mono text-[51px] font-bold leading-none tracking-[-1.02px] text-white">
+        <h3 className="relative z-10 mb-5 mt-20 text-center font-space-mono text-[24px] font-bold leading-none tracking-[-0.48px] text-white md:mb-6 md:mt-28 md:text-[40px] lg:text-[51px]">
           Patrocinadors or
         </h3>
-        <div className="relative z-10 mb-[97px]">
+        <div className="relative z-10 mb-10 md:mb-20">
           <SlotRow companies={gold} />
         </div>
 
-        <h3 className="relative z-10 mb-6 text-center font-space-mono text-[51px] font-bold leading-none tracking-[-1.02px] text-white">
+        <h3 className="relative z-10 mb-5 text-center font-space-mono text-[24px] font-bold leading-none tracking-[-0.48px] text-white md:mb-6 md:text-[40px] lg:text-[51px]">
           Patrocinadors plata
         </h3>
-        <div className="relative z-10 mb-[49px] flex flex-col gap-[49px]">
+        <div className="relative z-10 mb-8 flex flex-col gap-6 md:mb-12 md:gap-12">
           {silverRows.map((row, i) => (
             <SlotRow key={`s-${i}`} companies={row} />
           ))}
         </div>
 
-        <h3 className="relative z-10 mb-6 mt-[49px] text-center font-space-mono text-[51px] font-bold leading-none tracking-[-1.02px] text-white">
+        <h3 className="relative z-10 mb-5 mt-8 text-center font-space-mono text-[24px] font-bold leading-none tracking-[-0.48px] text-white md:mb-6 md:mt-12 md:text-[40px] lg:text-[51px]">
           Patrocinadors bronze
         </h3>
-        <div className="relative z-10 flex flex-col gap-[49px] pb-[180px]">
+        <div className="relative z-10 flex flex-col gap-6 pb-12 md:gap-12 md:pb-20">
           {bronzeRows.map((row, i) => (
             <SlotRow key={`b-${i}`} companies={row} />
           ))}
@@ -169,8 +169,8 @@ const Sponsors = () => {
 
 export const SeuVellaFooter = () => {
   return (
-    <div className="relative w-full overflow-x-hidden bg-[#2e2e2e]">
-      <div className="relative h-[320px] w-full bg-transparent sm:h-[400px] md:h-[520px]">
+    <div className="relative w-full overflow-hidden bg-[#2e2e2e]">
+      <div className="relative h-[320px] w-full overflow-hidden bg-transparent sm:h-[400px] md:h-[520px]">
         <img
           src={olaInterior1280}
           srcSet={`${olaInterior1280} 1280w, ${olaInterior2048} 2048w`}

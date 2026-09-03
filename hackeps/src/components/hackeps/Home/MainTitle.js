@@ -82,12 +82,12 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center justify-center gap-[29px] z-50">
-        <div className="flex h-[608px] w-[577px] max-h-[50vh] max-w-[90vw] justify-center">
+      <div className="z-50 flex w-full flex-col items-center justify-center gap-4 md:gap-7">
+        <div className="flex w-full max-w-[577px] justify-center px-2">
           <img
             src={hackLogo}
             alt="HackEPS 10ª Edició"
-            className="h-full w-full object-contain"
+            className="h-auto w-[70%] max-w-[280px] object-contain sm:w-[75%] sm:max-w-[360px] md:w-full md:max-w-[520px]"
             width={577}
             height={608}
           />
@@ -97,7 +97,7 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
           <button
             id="hero-cta-button"
             onClick={handleShow}
-            className="rounded-[4px] bg-[#ff7430] px-4 py-2 font-space-mono text-[32px] leading-normal tracking-[-0.64px] text-[#2e2e2e]"
+            className="rounded-[4px] bg-[#ff7430] px-4 py-2 font-space-mono text-[22px] leading-normal tracking-[-0.44px] text-[#2e2e2e] md:text-[32px] md:tracking-[-0.64px]"
           >
             {textButton}
           </button>

@@ -23,14 +23,14 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
 
   return (
     <div className="relative w-full overflow-hidden" style={{ backgroundColor: sky }}>
-      <div className="relative min-h-[1037px] w-full" style={{ backgroundColor: sky }}>
+      <div className="relative w-full pb-8 pt-2 md:pb-12 md:pt-4" style={{ backgroundColor: sky }}>
         <img
           src={banderilles}
           alt=""
           aria-hidden="true"
           width={1728}
           height={236}
-          className="pointer-events-none absolute left-0 top-0 z-20 h-[236px] w-[1728px] max-w-none object-contain object-top"
+          className="pointer-events-none relative z-20 mx-auto block h-auto w-full max-w-[1728px] object-contain object-top"
         />
 
         <img
@@ -39,7 +39,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           aria-hidden="true"
           width={425}
           height={214}
-          className="pointer-events-none absolute left-[1221px] top-[259px] z-[5] h-[214px] w-[425px] max-w-none object-contain"
+          className="pointer-events-none absolute right-[-8%] top-[18%] z-[5] hidden h-auto w-[28%] max-w-[320px] object-contain md:block"
         />
         <img
           src={cloud2}
@@ -47,7 +47,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           aria-hidden="true"
           width={435}
           height={219}
-          className="pointer-events-none absolute left-[78px] top-[684px] z-[5] h-[219px] w-[435px] max-w-none object-contain"
+          className="pointer-events-none absolute bottom-[8%] left-[-6%] z-[5] hidden h-auto w-[30%] max-w-[340px] object-contain lg:block"
         />
         <img
           src={cloud3}
@@ -55,24 +55,24 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           aria-hidden="true"
           width={368}
           height={163}
-          className="pointer-events-none absolute left-[1126px] top-[813px] z-[5] h-[163px] w-[368px] max-w-none object-contain"
+          className="pointer-events-none absolute bottom-[4%] right-[4%] z-[5] hidden h-auto w-[24%] max-w-[280px] object-contain lg:block"
         />
 
-        <div className="absolute left-1/2 top-[259px] z-10 w-[577px] max-w-[90vw] -translate-x-1/2">
+        <div className="relative z-10 mx-auto mt-2 w-full max-w-[577px] px-4 md:mt-[-40px]">
           <MainTitle buttonText="Apuntat!" />
         </div>
       </div>
 
-      <div className="relative z-10 -mt-[80px] w-full" style={{ backgroundColor: sky }}>
+      <div className="relative z-10 -mt-6 w-full md:-mt-10" style={{ backgroundColor: sky }}>
         <img
           src={cloudWave}
           alt=""
           aria-hidden="true"
           width={1728}
           height={321}
-          className="relative z-10 block h-[321px] w-full object-contain object-bottom"
+          className="relative z-10 block h-auto w-full max-w-none"
         />
-        <div className="absolute inset-0 z-20 flex items-center justify-center px-4">
+        <div className="absolute inset-0 z-20 flex items-center justify-center px-3">
           <HomeCountdown
             startTime={startDate}
             endTime={endDate}

@@ -49,22 +49,17 @@ const HomeCountdown = (props) => {
   }
 
   return (
-    <p className="m-0 max-w-full overflow-x-auto whitespace-nowrap text-center font-space-mono tracking-[-2.56px] text-[#2e2e2e]">
-      <span className="text-[96px] leading-normal">{remainingTime.months}</span>
-      <span className="text-[64px] leading-normal"> </span>
-      <span className="text-[48px] leading-normal">
+    <p className="m-0 flex max-w-full flex-wrap items-baseline justify-center gap-x-1 whitespace-normal text-center font-space-mono tracking-[-0.06em] text-[#2e2e2e] sm:whitespace-nowrap sm:tracking-[-2.56px]">
+      <span className="text-[40px] leading-none sm:text-[64px] md:text-[96px] md:leading-normal">{remainingTime.months}</span>
+      <span className="text-[20px] leading-none sm:text-[32px] md:text-[48px] md:leading-normal">
         mes{remainingTime.months !== 1 ? "os" : ""}
       </span>
-      <span className="text-[64px] leading-normal"> </span>
-      <span className="text-[96px] leading-normal">{remainingTime.days}</span>
-      <span className="text-[64px] leading-normal"> </span>
-      <span className="text-[48px] leading-normal">
+      <span className="text-[40px] leading-none sm:text-[64px] md:text-[96px] md:leading-normal">{remainingTime.days}</span>
+      <span className="text-[20px] leading-none sm:text-[32px] md:text-[48px] md:leading-normal">
         di{remainingTime.days === 1 ? "a" : "es"}
       </span>
-      <span className="text-[64px] leading-normal"> </span>
-      <span className="text-[96px] leading-normal">{remainingTime.hours}</span>
-      <span className="text-[64px] leading-normal"> </span>
-      <span className="text-[48px] leading-normal">
+      <span className="text-[40px] leading-none sm:text-[64px] md:text-[96px] md:leading-normal">{remainingTime.hours}</span>
+      <span className="text-[20px] leading-none sm:text-[32px] md:text-[48px] md:leading-normal">
         hor{remainingTime.hours === 1 ? "a" : "es"}
       </span>
     </p>
