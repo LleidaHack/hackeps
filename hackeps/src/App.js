@@ -3,6 +3,7 @@ import React, { Suspense, lazy, useEffect } from "react";
 import WaitingPage from "src/pages/hackeps/WaitingPage";
 import "src/styles/styles.css";
 import "src/styles/ambient-clouds.css";
+import "src/styles/page-transitions.css";
 import { ROUTES } from "src/config/routes";
 
 // Evaluated at build time (webpack inlines process.env), so the branch that is
@@ -29,7 +30,15 @@ export default function App() {
             <Route
               path={ROUTES.terms}
               element={
-                <Suspense fallback={null}>
+                <Suspense
+                  fallback={
+                    <div
+                      className="route-loading"
+                      role="status"
+                      aria-label="Carregant la pàgina"
+                    />
+                  }
+                >
                   <Terms />
                 </Suspense>
               }
@@ -37,14 +46,30 @@ export default function App() {
             <Route
               path={ROUTES.privacy}
               element={
-                <Suspense fallback={null}>
+                <Suspense
+                  fallback={
+                    <div
+                      className="route-loading"
+                      role="status"
+                      aria-label="Carregant la pàgina"
+                    />
+                  }
+                >
                   <Privacy />
                 </Suspense>
               }
             />
           </Routes>
         ) : (
-          <Suspense fallback={null}>
+          <Suspense
+            fallback={
+              <div
+                className="route-loading"
+                role="status"
+                aria-label="Carregant la pàgina"
+              />
+            }
+          >
             <MainRoutes />
           </Suspense>
         )}
