@@ -41,7 +41,7 @@ const DatesContent = () => {
         >
           DATES
         </h1>
-        <div className="relative z-10 mt-28 md:mt-36 lg:mt-44">
+        <div className="relative z-10 mt-6 md:mt-8 lg:mt-10">
           <DatesCalendar />
         </div>
         <div
