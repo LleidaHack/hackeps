@@ -8,7 +8,7 @@ export const DARK_BG = "#2e2e2e";
 const DarkPage = ({ children, minHeight }) => {
   return (
     <div className="w-full overflow-x-hidden" style={{ backgroundColor: DARK_BG }}>
-      <HomeHeader showMlh={false} />
+      <HomeHeader />
       <HomeFrame canvasBg={DARK_BG} fluid>
         <div
           className="relative overflow-hidden"

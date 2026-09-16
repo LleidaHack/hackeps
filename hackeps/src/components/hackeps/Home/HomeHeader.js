@@ -14,7 +14,7 @@ const NAV_LINKS = [
   { label: "Contacte", to: ROUTES.contact },
 ];
 
-const HomeHeader = ({ showMlh = true }) => {
+const HomeHeader = () => {
   const [open, setOpen] = useState(false);
   const hasSession = isToken(localStorage.getItem("userToken"));
 
@@ -37,25 +37,23 @@ const HomeHeader = ({ showMlh = true }) => {
               className="h-8 w-auto md:h-10"
             />
           </Link>
-          {showMlh && (
-            <a
-              href="https://mlh.io/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="z-[60] ml-2 hidden w-[48px] self-start md:block lg:ml-3 lg:w-[72px] xl:w-[110px]"
-              aria-label="Major League Hacking"
-            >
-              <img
-                src={mlhBadge}
-                alt="MLH"
-                width={150}
-                height={285}
-                className="relative top-0 block h-auto w-full max-w-none object-contain object-top"
-                // Compensate for the asset's 46 transparent top pixels (712 px tall).
-                style={{ transform: "translateY(-6.460674%)" }}
-              />
-            </a>
-          )}
+          <a
+            href="https://mlh.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="z-[60] ml-2 hidden w-[48px] self-start md:block lg:ml-3 lg:w-[72px] xl:w-[110px]"
+            aria-label="Major League Hacking"
+          >
+            <img
+              src={mlhBadge}
+              alt="MLH"
+              width={150}
+              height={285}
+              className="relative top-0 block h-auto w-full max-w-none object-contain object-top"
+              // Compensate for the asset's 46 transparent top pixels (712 px tall).
+              style={{ transform: "translateY(-6.460674%)" }}
+            />
+          </a>
         </div>
 
         <ul className="m-0 hidden min-w-0 list-none items-center justify-center gap-10 p-0 lg:flex lg:flex-1 xl:gap-16">
