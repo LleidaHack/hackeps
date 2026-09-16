@@ -11,9 +11,9 @@ import { ROUTES } from "src/config/routes";
 import logo from "src/assets/img/home10/logonaranja.png";
 import "./HackerFormLayout.css";
 
-const minAge = "14";
-const date = new Date();
-date.setFullYear(date.getFullYear() - minAge);
+import { isAtLeastAge } from "src/modules/ageValidation";
+
+const MINIMUM_ACCOUNT_AGE = 14;
 
 export const HackerStepperForm = () => {
   const {
@@ -21,7 +21,6 @@ export const HackerStepperForm = () => {
     handleSubmit,
     watch,
     formState: { errors, isValid },
-    trigger,
   } = useForm({
     mode: "onChange",
   });
@@ -37,6 +36,8 @@ export const HackerStepperForm = () => {
   const [hideSubmit, setHideSubmit] = useState(false);
 
   const onSubmit = async (values) => {
+    if (hideSubmit) return;
+    setErrorMsg("");
     setHideSubmit(true);
     const hacker = {
       name: [values.firstName, values.lastName].join(" "),
@@ -59,7 +60,7 @@ export const HackerStepperForm = () => {
     };
     if (values.termsConditions) {
       const res = await signupHacker(hacker);
-      if (res.errCode) {
+      if (res?.errCode) {
         setStatusSubmit(false);
         let causeError = "";
         if (res.errMssg === "Email already exists") {
@@ -71,23 +72,27 @@ export const HackerStepperForm = () => {
         } else {
           causeError = isPfpTooLarge
             ? "La foto de perfil introduida és massa gran"
-            : "Imatge no vàlida";
+            : "No hem pogut crear el compte. Torna-ho a provar.";
         }
         setCauseError(causeError);
         setErrorMsg(causeError);
         setHideSubmit(false);
         return;
-      } else if (res.detail) {
+      } else if (res?.detail) {
         setStatusSubmit(false);
         setCauseError(res.detail[0].msg);
         setErrorMsg(res.detail[0].msg);
         setHideSubmit(false);
-      } else if (res.success) {
+      } else if (res?.success === true) {
         setStatusSubmit(true);
         setSubmiting(true);
         setHideSubmit(false);
+      } else {
+        setErrorMsg("No hem pogut crear el compte. Torna-ho a provar.");
+        setHideSubmit(false);
       }
     } else {
+      setHideSubmit(false);
       setErrorMsg("Has d'acceptar els termes i condicions");
     }
   };
@@ -150,16 +155,16 @@ export const HackerStepperForm = () => {
                       <label>
                         Nom:
                         <input
-                          className={`${errors.name ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
+                          className={`${errors.firstName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
                           autoComplete="given-name"
                           placeholder="Nom"
                           {...register("firstName", {
                             required: "El nom no pot estar buit",
                           })}
                         />
-                        {errors.name && (
+                        {errors.firstName && (
                           <span className="text-red-400">
-                            {errors.name.message}
+                            {errors.firstName.message}
                           </span>
                         )}
                       </label>
@@ -167,16 +172,16 @@ export const HackerStepperForm = () => {
                       <label>
                         Cognoms:
                         <input
-                          className={`${errors.name ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
+                          className={`${errors.lastName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
                           autoComplete="family-name"
                           placeholder="Cognoms"
                           {...register("lastName", {
                             required: "Els cognoms no pot estar buit",
                           })}
                         />
-                        {errors.name && (
+                        {errors.lastName && (
                           <span className="text-red-400">
-                            {errors.name.message}
+                            {errors.lastName.message}
                           </span>
                         )}
                       </label>
@@ -249,20 +254,9 @@ export const HackerStepperForm = () => {
                           {...register("birthdate", {
                             required: "La data de naixement és obligatòria",
                             validate: {
-                              isOldEnough: (value) => {
-                                const birthDate = new Date(value);
-                                const today = new Date();
-                                const age =
-                                  today.getFullYear() - birthDate.getFullYear();
-
-                                // Si no ha llegado su cumpleaños este año, restamos 1 año a la edad
-                                return (
-                                  age > 14 ||
-                                  (age === 14 &&
-                                    today.getMonth() >= birthDate.getMonth()) ||
-                                  "Has de ser major de 14 anys"
-                                );
-                              },
+                              isOldEnough: (value) =>
+                                isAtLeastAge(value, MINIMUM_ACCOUNT_AGE) ||
+                                "Has de tenir almenys 14 anys",
                             },
                           })}
                         />
@@ -452,7 +446,7 @@ export const HackerStepperForm = () => {
                           disabled={
                             !isValid || !watch("termsConditions") || hideSubmit
                           }
-                          className={`min-h-10 ${!isValid || !watch("termsConditions" || hideSubmit) ? "opacity-50" : ""}`}
+                          className={`min-h-10 ${!isValid || !watch("termsConditions") || hideSubmit ? "opacity-50" : ""}`}
                           onClick={handleSubmit(onSubmit)}
                         >
                           Enviar
