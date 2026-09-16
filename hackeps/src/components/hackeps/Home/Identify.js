@@ -36,7 +36,7 @@ const Identify = () => {
         className="relative z-20 m-0 mb-14 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] md:mb-20 md:text-[48px] lg:mb-24 lg:text-[64px] lg:tracking-[-1.28px]"
         style={{ color: text }}
       >
-        IDENTIFICAT
+        REGISTRAT
       </h1>
 
       <div className="relative z-10 mx-auto mt-4 grid max-w-[1440px] grid-cols-1 gap-10 md:mt-6 md:grid-cols-2 md:gap-8">
