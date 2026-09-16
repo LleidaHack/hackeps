@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { HashLink as Link } from "react-router-hash-link";
+import { isToken } from "src/modules/session";
 import { ROUTES } from "src/config/routes";
 import isotip from "src/assets/img/home10/isotip.svg";
 import iconProfile from "src/assets/img/home10/icon-profile.svg";
@@ -15,6 +16,7 @@ const NAV_LINKS = [
 
 const HomeHeader = ({ showMlh = true }) => {
   const [open, setOpen] = useState(false);
+  const hasSession = isToken(localStorage.getItem("userToken"));
 
   return (
     <div
@@ -79,7 +81,12 @@ const HomeHeader = ({ showMlh = true }) => {
           >
             {open ? "×" : "☰"}
           </button>
-          <Link to={ROUTES.profile} className="block p-1" aria-label="Perfil">
+          <Link
+            to={hasSession ? ROUTES.profile : ROUTES.login}
+            state={hasSession ? undefined : { nextScreen: ROUTES.profile }}
+            className="block p-1"
+            aria-label="Perfil"
+          >
             <img
               src={iconProfile}
               alt=""
