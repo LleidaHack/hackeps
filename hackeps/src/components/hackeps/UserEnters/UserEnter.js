@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import LoginForm from "src/components/loginForm/LoginForm";
 import { ROUTES } from "src/config/routes";
 import hacker from "src/assets/img/home10/marraco-hacker-raw.png";
 import mentor from "src/assets/img/home10/marraco-mentor-raw.png";
@@ -9,13 +10,9 @@ const LinkAccounts = () => {
   return (
     <section className="account-welcome">
       <h1>Benvingut/da!</h1>
-      <Link
-        className="account-welcome-login"
-        to={ROUTES.login}
-        state={{ ...state, showLogin: true }}
-      >
-        Inicia sessió
-      </Link>
+      <div className="account-welcome-form">
+        <LoginForm nextScreen={state?.nextScreen || ROUTES.home} />
+      </div>
       <div className="account-welcome-divider"><span>o també</span></div>
       <h2>Crea un compte</h2>
       <div className="account-welcome-options">
