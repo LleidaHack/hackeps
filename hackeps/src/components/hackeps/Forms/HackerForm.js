@@ -2,8 +2,6 @@ import hackerIllustration from "src/assets/img/home10/marraco-hacker-raw.png";
 import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import { useState } from "react";
 import { signupHacker } from "src/services/HackerService";
-import FileBase from "react-file-base64";
-import userIcon from "src/icons/user2.png";
 import FailFeedback from "../Feedbacks/FailFeedback";
 import SuccessFeedback from "../Feedbacks/SuccesFeedback";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
@@ -23,13 +21,12 @@ export const HackerStepperForm = () => {
     register,
     control,
     handleSubmit,
+    trigger,
     watch,
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
   });
-  const [pfpImage, setImage] = useState("");
-  const [isPfpTooLarge, setPfpTooLarge] = useState(false);
   // Error message for last page of the form
   const [errorMsg, setErrorMsg] = useState("");
   //Feedback component
@@ -58,7 +55,7 @@ export const HackerStepperForm = () => {
       },
       telephone: values.phone.replace(/\s+/g, ""),
       address: "",
-      image: pfpImage,
+      image: "",
       github: "",
       linkedin: "",
     };
@@ -74,9 +71,7 @@ export const HackerStepperForm = () => {
         } else if (res.errMssg === "Telephone already exists") {
           causeError = "El telefon que has introduit es troba registrat.";
         } else {
-          causeError = isPfpTooLarge
-            ? "La foto de perfil introduida és massa gran"
-            : "No hem pogut crear el compte. Torna-ho a provar.";
+          causeError = "No hem pogut crear el compte. Torna-ho a provar.";
         }
         setCauseError(causeError);
         setErrorMsg(causeError);
@@ -101,17 +96,6 @@ export const HackerStepperForm = () => {
     }
   };
 
-  const handleImageChange = (event) => {
-    setErrorMsg("");
-    setPfpTooLarge(parseFloat(event.size) > 1024);
-    setImage(event.base64);
-  };
-  const handleImageUrlChange = (event) => {
-    setErrorMsg("");
-    setImage(event.target.value.trim());
-    setPfpTooLarge(false);
-  };
-
   const handleButtonClick = () => {
     window.location.reload();
   };
@@ -130,7 +114,10 @@ export const HackerStepperForm = () => {
                       {" "}
                       Informació Personal
                     </TitleGeneralized>
-                    <form className="flex flex-col gap-3">
+                    <form className="flex flex-col gap-3" onSubmit={async (event) => {
+                      event.preventDefault();
+                      if (await trigger(["firstName", "lastName", "password", "confirmPassword", "birthdate"])) setStep(2);
+                    }}>
                       <label>
                         Nom:
                         <input
@@ -258,9 +245,8 @@ export const HackerStepperForm = () => {
 
                       <Button
                         orange
-                        disabled={!isValid}
-                        className={`min-h-10 ${!isValid ? "opacity-50" : ""}`}
-                        onClick={() => setStep(2)}
+                        type="submit"
+                        className="min-h-10"
                       >
                         Següent
                       </Button>
@@ -272,7 +258,24 @@ export const HackerStepperForm = () => {
                     <TitleGeneralized alignText={"left"} primary>
                       Contacte{" "}
                     </TitleGeneralized>
-                    <form className="flex flex-col gap-3">
+                    <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+                      <label>
+                        Àlies:
+                        <input
+                          className={`${errors.nickname ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
+                          placeholder="Àlies"
+                          {...register("nickname", {
+                            required: "El nickname és obligatori",
+                          })}
+                        />
+                        {errors.nickname && (
+                          <span className="text-red-400">
+                            {errors.nickname.message}
+                          </span>
+                        )}
+                      </label>
+
+
                       <label>
                         Telèfon:
                         <input
@@ -328,83 +331,6 @@ export const HackerStepperForm = () => {
                         informatiu, comercial i promocional.
                       </label>
 
-                      <div className="buttonsBox flex flex-wrap gap-3">
-                        <Button
-                          orange
-                          className="min-h-10"
-                          onClick={() => setStep(1)}
-                        >
-                          Anterior
-                        </Button>
-                        <Button
-                          orange
-                          disabled={!isValid}
-                          className={`min-h-10 ${!isValid ? "opacity-50" : ""}`}
-                          onClick={() => setStep(3)}
-                        >
-                          Següent
-                        </Button>
-                      </div>
-                    </form>
-                  </>
-                ) : null}
-                {step === 3 ? (
-                  <div className="flex flex-col items-center">
-                    <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
-                      <img
-                        src={pfpImage || userIcon}
-                        alt="Foto de perfil"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <TitleGeneralized alignText={"left"} primary>
-                      Avatar
-                    </TitleGeneralized>
-                    <form className="flex flex-col gap-3">
-                      <label>
-                        Àlies:
-                        <input
-                          className={`${errors.nickname ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="Àlies"
-                          {...register("nickname", {
-                            required: "El nickname és obligatori",
-                          })}
-                        />
-                        {errors.nickname && (
-                          <span className="text-red-400">
-                            {errors.nickname.message}
-                          </span>
-                        )}
-                      </label>
-
-                      <label>
-                        URL de la imatge:
-                        <input
-                          className={`${errors.imageUrl ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="URL de la imatge"
-                          {...register("imageUrl")}
-                          onChange={handleImageUrlChange}
-                        />
-                        {errors.imageUrl && (
-                          <span className="text-red-400">
-                            {errors.imageUrl.message}
-                          </span>
-                        )}
-                      </label>
-                      <div className="image-input-container">
-                        <FileBase
-                          id="avatarInput"
-                          type="file"
-                          multiple={false}
-                          onDone={handleImageChange}
-                        />
-                      </div>
-                      {isPfpTooLarge && (
-                        <span className="text-red-400">
-                          La foto de perfil introduida és massa gran
-                        </span>
-                      )}
-
                       <label className="hacker-signup-consent">
                         <input
                           type="checkbox"
@@ -426,7 +352,8 @@ export const HackerStepperForm = () => {
                         <Button
                           orange
                           className="min-h-10"
-                          onClick={() => setStep(2)}
+                          type="button"
+                          onClick={() => setStep(1)}
                         >
                           Anterior
                         </Button>
@@ -436,7 +363,7 @@ export const HackerStepperForm = () => {
                             !isValid || !watch("termsConditions") || hideSubmit
                           }
                           className={`form-submit-action ${!isValid || !watch("termsConditions") || hideSubmit ? "opacity-50" : ""}`}
-                          onClick={handleSubmit(onSubmit)}
+                          type="submit"
                         >
                           Enviar
                         </Button>
@@ -445,7 +372,7 @@ export const HackerStepperForm = () => {
                         <span className="text-red-400">{errorMsg}</span>
                       )}
                     </form>
-                  </div>
+                  </>
                 ) : null}
                 </div>
           </FormLayout>
