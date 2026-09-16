@@ -92,11 +92,6 @@ const LoginForm = ({ nextScreen }) => {
               Has oblidat les teves credencials?
             </Link>
           </p>
-          <p className="mb-0">
-            <Link to="/hacker-form" className="text-[#ff7430]">
-              Encara no tens compte?
-            </Link>
-          </p>
         </div>
         <div className="flex flex-col justify-center mt-3">
           <Button
