@@ -107,20 +107,20 @@ const Identify = () => {
         style={{ color: text }}
       >
         <p>
-          LleidaHack et dona la benvinguda a la HackEPS 2025, la primera hackató
+          LleidaHack et dona la benvinguda a la HackEPS 2026, la primera hackató
           de les terres de Lleida!
         </p>
         <p>
-          La novena edició de la HackEPS tindrà lloc a l’edifici de l’
+          La desena edició de la HackEPS tindrà lloc a l’edifici de l’
           <strong>
             Escola Politècnica Superior de la Universitat de Lleida
           </strong>{" "}
-          els dies <strong>22 i 23 de novembre de 2025</strong>. Aquest és un
+          els dies <strong>28 i 29 de novembre de 2026</strong>. Aquest és un
           esdeveniment que no voldràs perdre’t!
         </p>
         <p className="mb-0">
           Així que, si ets un apassionat de la tecnologia, amant dels reptes i
-          defensor del treball en equip, la HackEPS 2025 és el teu lloc.
+          defensor del treball en equip, la HackEPS 2026 és el teu lloc.
           Uneix-te a nosaltres per a una experiència inoblidable per a
           desenvolupar-te com a futur programador!
         </p>

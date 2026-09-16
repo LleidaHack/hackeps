@@ -33,11 +33,11 @@ const TermsComponent = () => {
         <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Àmbit</h2>
         <p className="text-justify leading-relaxed text-white/90">
           La HACKATÓ es realitzarà a Lleida, a l'Escola Politècnica Superior de
-          la Universitat de Lleida, al carrer Jaume II número 69, els dies 22 i
-          23 de novembre de 2025.
+          la Universitat de Lleida, al carrer Jaume II número 69, els dies 28 i
+          29 de novembre de 2026.
           <br />
-          L'inici de la HACKATÓ es durà a terme el dissabte 22 de novembre a les
-          9 hores i acabarà el diumenge 23 de novembre a les 16 hores.
+          L'inici de la HACKATÓ es durà a terme el dissabte 28 de novembre a les
+          9 hores i acabarà el diumenge 29 de novembre a les 16 hores.
           <br />
           La informació actualitzada sobre l'agenda i els patrocinadors de
           l'esdeveniment és farà pública al seu degut temps en la WEB DE

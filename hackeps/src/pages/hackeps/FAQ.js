@@ -6,12 +6,12 @@ const faqs = [
   {
     question: "Què és la HackEPS?",
     answer:
-      "És la novena edició de la hackató organitzada per l'Associació Juvenil LleidaHack. Té com a objectiu motivar la programació com a afició i forjar relacions laborals entre la universitat, els programadors i les empreses del sector.",
+      "És la desena edició de la hackató organitzada per l'Associació Juvenil LleidaHack. Té com a objectiu motivar la programació com a afició i forjar relacions laborals entre la universitat, els programadors i les empreses del sector.",
   },
   {
     question: "Quan és la HackEPS?",
     answer:
-      "El cap de setmana del 22 i 23 de novembre del 2025. 24h de pura programació!",
+      "El cap de setmana del 28 i 29 de novembre del 2026. 24h de pura programació!",
   },
   {
     question: "On serà la HackEPS?",
