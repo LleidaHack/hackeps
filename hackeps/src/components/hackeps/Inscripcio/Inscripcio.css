@@ -11,3 +11,16 @@
 .event-registration-submit:disabled { opacity: .55; cursor: not-allowed; }
 .event-registration .image-input-container { min-width: 0; }
 .event-registration .image-input-container input { min-width: 0; }
+
+.event-registration-layout.shared-form-fields { max-width: 1400px; min-height: 0; margin-inline: auto; padding: clamp(24px, 4vw, 56px) clamp(16px, 4vw, 48px); }
+.event-registration-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: start; }
+.event-registration-section { min-width: 0; display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; border: 0; }
+.event-registration-section legend { float: none; width: 100%; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #626262; font-size: 20px; color: #ff9b66; }
+.event-registration-section legend span { font-size: 14px; color: #ccc; }
+.event-registration-footer { border-top: 1px solid #626262; padding-top: 4px; }
+.event-registration-actions { width: 100%; }
+@media (min-width: 900px) {
+  .event-registration-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; }
+  .event-registration-footer { grid-column: 1 / -1; }
+  .event-registration-actions { grid-column: 1 / -1; max-width: 480px; justify-self: end; }
+}

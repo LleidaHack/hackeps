@@ -9,7 +9,8 @@ import FileBase from "react-file-base64";
 import { getHackerById } from "src/services/HackerService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
 import { updateHacker } from "src/services/HackerService";
-import FormLayout from "../Forms/FormLayout";
+import "../Forms/FormLayout.css";
+import "../Forms/PublicFormLayout.css";
 import "./Inscripcio.css";
 import { ROUTES } from "src/config/routes";
 
@@ -160,9 +161,12 @@ const InscripcioForm = () => {
   return (
     <div className="event-registration text-white">
       {!submittRegister ? (
-        <FormLayout title="Inscripció HackEPS 2026">
+        <section className="event-registration-layout shared-form-fields">
+              <h1 className="shared-form-title">Inscripció HackEPS 2026</h1>
               <p className="event-registration-intro">Completa les dades per participar-hi el 28 i 29 de novembre.</p>
-              <form className="public-form flex flex-col gap-4" onSubmit={handleSubmit(submit)}>
+              <form className="public-form event-registration-grid" onSubmit={handleSubmit(submit)}>
+                <fieldset className="event-registration-section">
+                  <legend>Dades de participació</legend>
                 <label className="mb-3">
                   Què estudies o has estudiat?
                   <input
@@ -301,12 +305,9 @@ const InscripcioForm = () => {
                   <span className="text-red-400">{errors.meet.message}</span>
                 )}
 
-                <hr className="my-4" />
-
-                <div className="flex flex-col w-full">
-                  <p className="text-xl">
-                    Vols que les empreses de Lleida et coneguin? (Opcional)
-                  </p>
+                </fieldset>
+                <fieldset className="event-registration-section">
+                  <legend>Perfil professional <span>(opcional)</span></legend>
                   <label className="mb-3">
                     <p className="text-sm">
                       Tens experiència en altres hackatons? Algun projecte
@@ -363,6 +364,8 @@ const InscripcioForm = () => {
                     )}
                   </label>
 
+                </fieldset>
+                <div className="event-registration-footer">
                   <label className="event-registration-consent">
                     <input
                       type="checkbox"
@@ -391,7 +394,7 @@ const InscripcioForm = () => {
                     </p>
                   </label>
                 </div>
-                <div className="flex flex-col mt-4">
+                <div className="event-registration-actions">
                   <Button
                     type="submit"
                     orange
@@ -402,7 +405,7 @@ const InscripcioForm = () => {
                   </Button>
                 </div>
               </form>
-        </FormLayout>
+        </section>
       ) : (
         <>
           {!stateRegister ? (
