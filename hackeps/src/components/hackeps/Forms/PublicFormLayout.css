@@ -59,3 +59,12 @@
   -webkit-text-fill-color: #2e2e2e;
   caret-color: #2e2e2e;
 }
+
+/* Keep paired mentor textareas aligned when one label wraps onto two lines. */
+@media (min-width: 768px) {
+  .public-form .mentor-textarea-label {
+    display: block;
+    min-height: 3em;
+    line-height: 1.5;
+  }
+}

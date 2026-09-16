@@ -190,8 +190,8 @@ const ContacteMentorPage = () => {
             />
           </label>
 
-          <label className="font-space-mono text-[15px]">
-            Experiència prèvia com a mentor
+          <label className="mentor-textarea-field font-space-mono text-[15px]">
+            <span className="mentor-textarea-label">Experiència prèvia com a mentor</span>
             <textarea
               className={`${fieldClass(errors.mentorExperience)} min-h-[64px] py-2`}
               placeholder="Has fet de mentor abans? En quin context?"
@@ -208,8 +208,8 @@ const ContacteMentorPage = () => {
             )}
           </label>
 
-          <label className="font-space-mono text-[15px]">
-            Motivació
+          <label className="mentor-textarea-field font-space-mono text-[15px]">
+            <span className="mentor-textarea-label">Motivació</span>
             <textarea
               className={`${fieldClass(errors.motivation)} min-h-[64px] py-2`}
               placeholder="Què et motiva a ser mentor a HackEPS?"
