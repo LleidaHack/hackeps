@@ -75,8 +75,8 @@ const ContactePage = () => {
       <h1 className="mb-4 mt-0 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.8px] md:text-[40px]">
         Contacte
       </h1>
-      <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-        <div className="flex w-full flex-col items-center lg:w-[38%]">
+      <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10">
+        <div className="flex w-full min-w-0 flex-col items-center">
           <img
             src={logo}
             alt="HackEPS 10a edició"
@@ -115,7 +115,7 @@ const ContactePage = () => {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="public-form flex w-full min-w-0 flex-col gap-5 lg:w-[54%]"
+          className="public-form flex w-full min-w-0 flex-col gap-5"
         >
           <label className="font-space-mono text-[16px]">
             Nom:
