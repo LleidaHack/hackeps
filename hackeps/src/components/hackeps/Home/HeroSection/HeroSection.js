@@ -23,7 +23,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
 
   return (
     <div className="relative w-full overflow-hidden" style={{ backgroundColor: sky }}>
-      <div className="relative w-full pb-8 pt-2 md:pb-12 md:pt-4" style={{ backgroundColor: sky }}>
+      <div className="relative w-full pb-14 pt-2 md:pb-12 md:pt-4" style={{ backgroundColor: sky }}>
         <img
           src={banderilles}
           alt=""
@@ -63,7 +63,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
         </div>
       </div>
 
-      <div className="relative z-10 -mt-6 w-full md:-mt-10" style={{ backgroundColor: sky }}>
+      <div className="relative z-10 mt-0 w-full md:-mt-10" style={{ backgroundColor: sky }}>
         <img
           src={cloudWave}
           alt=""
