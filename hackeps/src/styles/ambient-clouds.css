@@ -11,7 +11,14 @@
 .ambient-cloud--2 {
   animation-duration: 26s;
   animation-delay: -15s;
+}
+
+.ambient-cloud--left {
   animation-direction: alternate-reverse;
+}
+
+.ambient-cloud--right {
+  animation-direction: alternate;
 }
 
 @keyframes ambient-cloud-drift {

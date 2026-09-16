@@ -21,7 +21,7 @@ const Identify = () => {
         aria-hidden="true"
         width={457}
         height={209}
-        className="ambient-cloud ambient-cloud--1 pointer-events-none absolute right-[-10%] top-[8%] hidden h-auto w-[30%] max-w-[360px] object-contain lg:block"
+        className="ambient-cloud ambient-cloud--1 ambient-cloud--left pointer-events-none absolute right-[-10%] top-[8%] hidden h-auto w-[30%] max-w-[360px] object-contain lg:block"
       />
 
       <h1
@@ -38,7 +38,7 @@ const Identify = () => {
           aria-hidden="true"
           width={596}
           height={265}
-          className="ambient-cloud ambient-cloud--0 pointer-events-none absolute bottom-[-64px] left-1/2 hidden h-auto w-[36%] max-w-[480px] -translate-x-1/2 object-contain lg:block"
+          className="ambient-cloud ambient-cloud--0 ambient-cloud--right pointer-events-none absolute bottom-[-64px] left-1/2 hidden h-auto w-[36%] max-w-[480px] -translate-x-1/2 object-contain lg:block"
         />
         <div className="flex flex-col items-center">
           <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
