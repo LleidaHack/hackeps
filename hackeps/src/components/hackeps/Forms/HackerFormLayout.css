@@ -48,6 +48,18 @@
   font-size: 1rem;
 }
 
+/* White fields must not inherit the surrounding white label text. */
+#hackerForm input:not([type="checkbox"]):not([type="file"]) {
+  color: #2e2e2e;
+  caret-color: #2e2e2e;
+  color-scheme: light;
+}
+
+#hackerForm input::placeholder {
+  color: #626262;
+  opacity: 1;
+}
+
 #hackerForm label > span {
   display: block;
   margin-top: 0.5rem;
