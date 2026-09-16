@@ -346,3 +346,34 @@
   .profile-editor-photo label { width: 100%; }
   .profile-editor fieldset { padding: 1rem; }
 }
+
+/* Compact mobile workspace with every section reachable without horizontal scrolling. */
+@media (max-width: 767px) {
+  .hacker-profile { padding: 1.25rem 0.75rem 2rem; }
+  .hacker-profile-header { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; text-align: left; margin-bottom: 1.25rem; }
+  .hacker-profile-avatar { min-width: 0; }
+  .hacker-profile #profile-pic-big { width: 64px; height: 64px; border-width: 3px !important; }
+  .hacker-profile-identity h1 { font-size: 1.35rem; margin-bottom: 0.5rem; }
+  .hacker-profile-identity p { font-size: 0.8rem; margin-bottom: 0.5rem; }
+  .hacker-profile-ticket { grid-column: 1 / -1; width: 100%; max-width: none; min-height: 48px; flex-direction: row; justify-content: center; padding: 0.65rem; border-radius: 6px; }
+  .hacker-profile-ticket img { width: 28px; height: 28px; }
+  .profile-navigation { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; overflow: visible; padding: 0; }
+  .profile-navigation a { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0.65rem 0.5rem; font-size: 0.8rem; white-space: normal; text-align: center; background: #3b3b3b; }
+  .profile-navigation .profile-signout { grid-column: 1 / -1; min-height: 44px; background: transparent; justify-content: flex-end; padding-right: 0; }
+  .profile-panel { padding: 1rem 0.75rem; min-height: 0; }
+  .profile-panel h2 { font-size: 1.35rem; }
+  .profile-description { font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .profile-summary-card { padding: 1rem; }
+  .profile-primary-link { display: flex; justify-content: center; width: 100%; text-align: center; }
+  .profile-editor fieldset { padding: 1rem 0 0; border: 0; border-top: 1px solid #666; border-radius: 0; margin-bottom: 1.5rem; }
+  .profile-editor legend { font-size: 1rem; padding-left: 0; padding-right: 0.75rem; }
+  .profile-editor-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .profile-editor-photo { flex-direction: column; align-items: center; gap: 1rem; }
+  .profile-editor-photo label { width: 100%; }
+  .profile-editor input[type="file"] { max-width: 100%; font-size: 0.8rem; }
+  .profile-editor input::file-selector-button { display: block; width: 100%; margin: 0 0 0.5rem; min-height: 48px; }
+  .profile-editor-save { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .profile-editor-file button { width: 100%; min-height: 44px; border-radius: 4px; }
+  .hacker-profile-accounts { max-width: 100%; }
+  .hacker-profile-accounts .join-container { flex-wrap: wrap; justify-content: center; }
+}
