@@ -1,0 +1,24 @@
+/* Independent translation preserves the positioning transforms on each cloud. */
+.ambient-cloud {
+  animation: ambient-cloud-drift 38s ease-in-out infinite alternate;
+}
+
+.ambient-cloud--1 {
+  animation-duration: 46s;
+  animation-delay: -16s;
+}
+
+.ambient-cloud--2 {
+  animation-duration: 54s;
+  animation-delay: -32s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes ambient-cloud-drift {
+  from { translate: -12px 0; }
+  to { translate: 12px -3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-cloud { animation: none; }
+}

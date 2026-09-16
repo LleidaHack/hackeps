@@ -24,7 +24,7 @@ const DatesContent = () => {
           aria-hidden="true"
           width={380}
           height={170}
-          className="pointer-events-none absolute right-[-12%] top-[24px] h-auto w-[42%] max-w-[280px] object-contain md:right-[-30px] md:top-[40px] md:w-[380px] md:max-w-none lg:h-[170px]"
+          className="ambient-cloud ambient-cloud--2 pointer-events-none absolute right-[-12%] top-[24px] h-auto w-[42%] max-w-[280px] object-contain md:right-[-30px] md:top-[40px] md:w-[380px] md:max-w-none lg:h-[170px]"
         />
         <img
           src={cloud2}
@@ -32,7 +32,7 @@ const DatesContent = () => {
           aria-hidden="true"
           width={420}
           height={210}
-          className="pointer-events-none absolute bottom-[-12px] left-[-14%] h-auto w-[48%] max-w-[300px] object-contain md:bottom-[-20px] md:left-[-40px] md:w-[420px] md:max-w-none lg:h-[210px]"
+          className="ambient-cloud ambient-cloud--2 pointer-events-none absolute bottom-[-12px] left-[-14%] h-auto w-[48%] max-w-[300px] object-contain md:bottom-[-20px] md:left-[-40px] md:w-[420px] md:max-w-none lg:h-[210px]"
         />
 
         <h1

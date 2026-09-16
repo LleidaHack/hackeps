@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { Suspense, lazy, useEffect } from "react";
 import WaitingPage from "src/pages/hackeps/WaitingPage";
 import "src/styles/styles.css";
+import "src/styles/ambient-clouds.css";
 import { ROUTES } from "src/config/routes";
 
 // Evaluated at build time (webpack inlines process.env), so the branch that is

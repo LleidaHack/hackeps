@@ -27,7 +27,7 @@ const Activities = () => {
         aria-hidden="true"
         width={433}
         height={193}
-        className="pointer-events-none absolute right-[-8%] top-[18%] hidden h-auto w-[28%] max-w-[320px] object-contain lg:block"
+        className="ambient-cloud ambient-cloud--2 pointer-events-none absolute right-[-8%] top-[18%] hidden h-auto w-[28%] max-w-[320px] object-contain lg:block"
       />
       <div className="relative z-10 -ml-4 w-[calc(100%+1rem)] max-w-none md:-ml-8 md:w-[85%] lg:w-[78%]">
         <img

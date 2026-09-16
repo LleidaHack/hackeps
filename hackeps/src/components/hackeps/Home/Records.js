@@ -29,7 +29,7 @@ const Records = () => {
         aria-hidden="true"
         width={435}
         height={219}
-        className="pointer-events-none absolute right-[-8%] bottom-[8%] z-0 hidden h-auto w-[28%] max-w-[320px] object-contain opacity-80 lg:block"
+        className="ambient-cloud ambient-cloud--2 pointer-events-none absolute right-[-8%] bottom-[8%] z-0 hidden h-auto w-[28%] max-w-[320px] object-contain opacity-80 lg:block"
       />
 
       <div className="relative z-10">

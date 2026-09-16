@@ -13,7 +13,7 @@ const CalendarDates = () => {
         aria-hidden="true"
         width={359}
         height={160}
-        className="pointer-events-none absolute left-[1340px] top-[152px] h-[160px] w-[359px] max-w-none object-contain"
+        className="ambient-cloud ambient-cloud--1 pointer-events-none absolute left-[1340px] top-[152px] h-[160px] w-[359px] max-w-none object-contain"
       />
       <img
         src={cloud2}
@@ -21,7 +21,7 @@ const CalendarDates = () => {
         aria-hidden="true"
         width={435}
         height={219}
-        className="pointer-events-none absolute left-[64px] top-[268px] h-[219px] w-[435px] max-w-none object-contain"
+        className="ambient-cloud ambient-cloud--2 pointer-events-none absolute left-[64px] top-[268px] h-[219px] w-[435px] max-w-none object-contain"
       />
       <div className="absolute left-1/2 top-[295px] w-[952px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 text-center font-space-mono text-[24px] leading-normal tracking-[-0.48px] text-[#2e2e2e]">
         <p className="m-0 mb-0">
