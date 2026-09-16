@@ -158,7 +158,10 @@ textarea {
   width: 32px;
   height: 32px;
 }
-.contact-social-icon path { fill: currentColor; }
+.contact-social-icon path {
+  fill: none;
+  stroke: currentColor;
+}
 .contact-social-links a:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 4px;
