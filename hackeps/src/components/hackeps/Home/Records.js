@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { GALLERY_ITEMS } from "./galleryItems";
 import Firework from "src/components/hackeps/Home/Firework.js";
 import firework1 from "src/assets/img/home10/firework-1.svg";
@@ -6,17 +6,6 @@ import firework3 from "src/assets/img/home10/firework-3.svg";
 import cloud2 from "src/assets/img/home10/cloud-2.svg";
 
 const Records = () => {
-  const track = useRef(null);
-  const scroll = (direction) => {
-    const element = track.current;
-    if (!element) return;
-    element.scrollBy({
-      left: direction * element.clientWidth * 0.8,
-      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches
-        ? "auto"
-        : "smooth",
-    });
-  };
   return (
     <section
       aria-label="Records de la HackEPS"
@@ -61,7 +50,6 @@ const Records = () => {
 
         <div
           id="hackeps-gallery"
-          ref={track}
           tabIndex={0}
           role="region"
           aria-label="Fotografies d’edicions anteriors"
@@ -83,26 +71,6 @@ const Records = () => {
               />
             </article>
           ))}
-        </div>
-        <div className="flex justify-center gap-4 px-4">
-          <button
-            type="button"
-            aria-label="Fotografies anteriors"
-            aria-controls="hackeps-gallery"
-            onClick={() => scroll(-1)}
-            className="min-h-[44px] min-w-[44px] rounded bg-[#ff7430] px-4 py-2 text-[#242424] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            aria-label="Fotografies següents"
-            aria-controls="hackeps-gallery"
-            onClick={() => scroll(1)}
-            className="min-h-[44px] min-w-[44px] rounded bg-[#ff7430] px-4 py-2 text-[#242424] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
-          >
-            →
-          </button>
         </div>
       </div>
     </section>
