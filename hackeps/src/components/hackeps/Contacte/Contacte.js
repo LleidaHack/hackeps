@@ -36,7 +36,7 @@ const ContactePage = () => {
     setIsLoading(true);
     try {
       const success = await contacte(data);
-      setMailStatus(success);
+      setMailStatus(success?.success === true);
       setMailSended(true);
     } catch (error) {
       setMailStatus(false);
