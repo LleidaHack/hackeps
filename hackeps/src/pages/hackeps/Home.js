@@ -48,7 +48,7 @@ const Home = () => {
         const start = new Date(response.start_date);
         start.setMonth(start.getMonth());
         const end = new Date(response.end_date);
-        localStorage.setItem("event", JSON.stringify(response));
+
         end.setMonth(end.getMonth());
         setStartDate(start);
         setEndDate(end);
@@ -57,9 +57,7 @@ const Home = () => {
             response.id,
             localStorage.getItem("userID"),
           );
-          if (isRegistered === true) {
-            localStorage.setItem("registeredOnEvent", "true");
-          }
+          localStorage.setItem("registeredOnEvent", isRegistered === true ? String(response.id) : "");
         }
       } catch (error) {
         if (process.env.REACT_APP_DEBUG === "true") {

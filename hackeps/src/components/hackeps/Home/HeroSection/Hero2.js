@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import burbujas from "src/assets/img/burbujas.png";
-import anclaCadena from "src/assets/img/cadenalarga.png";
-import sirena from "src/assets/img/sirenapiedra.png";
-import logoHackeps from "src/assets/img/logoHackeps2025.png";
-import cartell from "src/assets/img/cartellPowered.png";
+import burbujas from "src/assets/img/burbujas.webp";
+import anclaCadena from "src/assets/img/cadenalarga.webp";
+import sirena from "src/assets/img/sirenapiedra.webp";
+import logoHackeps from "src/assets/img/logoHackeps2025.webp";
+import cartell from "src/assets/img/cartellPowered.webp";
 import CountdownTimer from "src/components/hackeps/Home/Timer.js";
 import Button from "src/components/buttons/Button";
 import peix1 from "src/assets/img/fish1.png";

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { updateHacker } from "src/services/HackerService";
-import defaultAvatar from "src/assets/img/home10/marraco-mentor-raw.png";
+import defaultAvatar from "src/assets/img/home10/marraco-mentor-raw.webp";
 
 const EditProfile = ({ hackerObj, onSaved }) => {
   const [values, setValues] = useState({});

@@ -23,7 +23,7 @@ export default function App() {
 
   return (
     <div className="App overflow-x-hidden">
-      <Router>
+      <Router future={{ v7_startTransition: true }}>
         {LAUNCH_PENDING ? (
           <Routes>
             <Route path="/" element={<WaitingPage />} />

@@ -1,182 +1,26 @@
-/* ContactPage.css */
-.container-all-inscripcio {
-  min-height: 100vh;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
+.event-registration { width: 100%; color: #fff; }
+.event-registration-intro { margin: 0 0 2rem; color: #ddd; line-height: 1.7; }
+.event-registration .public-form label { color: #fff; }
+.event-registration .public-form :is(input:not([type="checkbox"]):not([type="file"]), textarea, select) { background: #fff; color: #2e2e2e; border: 1px solid #bdbdbd; border-radius: 4px; }
+.event-registration .public-form .event-registration-consent { display: flex; align-items: flex-start; gap: 12px; margin-top: 20px; font-size: 14px; line-height: 1.6; }
+.event-registration .event-registration-consent input { flex: 0 0 20px; width: 20px; height: 20px; min-height: 20px; margin: 2px 0 0; padding: 0; accent-color: #ff7430; }
+.event-registration-consent p { margin: 0; }
+.event-registration-link { color: #ff9b66; text-decoration: underline; text-underline-offset: 3px; }
+.event-registration .public-form input[type="file"] { color: #fff; font-size: 14px; border: 1px solid #777; padding: 12px; }
+.event-registration-remove { background: transparent; color: #ff9b66; border: 1px solid #777; border-radius: 4px; padding: 8px 16px; }
+.event-registration-submit:disabled { opacity: .55; cursor: not-allowed; }
+.event-registration .image-input-container { min-width: 0; }
+.event-registration .image-input-container input { min-width: 0; }
 
-.container-inscripcio {
-  width: 70%;
-  align-items: center;
-}
-
-.logo-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo {
-  width: 500px;
-  height: auto;
-  margin-bottom: 20px;
-}
-
-.social-logos {
-  display: flex;
-  margin-top: 20px;
-}
-
-.social-logo {
-  width: 50px;
-  height: auto;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.form-container {
-  width: 100%;
-  animation: fadeIn 0.5s ease-in-out;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centra verticalmente */
-  align-items: center; /* Centra horizontalmente */
-}
-
-form {
-  width: 100%;
-  max-width: 95%;
-}
-
-label {
-  font-size: 18px;
-  margin-bottom: 16px;
-}
-
-input,
-textarea {
-  padding: 10px;
-  font-size: 12px;
-  border: 1px solid;
-  border-radius: 4px;
-  margin-bottom: 16px;
-  width: 100%;
-}
-
-.button-submit-container {
-  display: flex;
-  justify-content: center;
-}
-
-.formik-field {
-  margin-bottom: 50px;
-}
-
-.subtitle {
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.file-name {
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.subfields-container {
-  margin-top: 10px; /* Espacio entre los subcampos */
-}
-
-.file-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 5px;
-}
-
-.select-field .react-select__control,
-input[type="text"] {
-  height: 50px; /* Ajusta esta altura según tus preferencias */
-}
-
-.cv-input-container input[type="file" i]::-webkit-file-upload-button {
-  color: var(--text-primary);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 768px) {
-  .container-inscripcio {
-    width: 85%;
-    align-items: center;
-  }
-
-  .logo-container {
-    margin-bottom: 20px;
-  }
-
-  .logo {
-    width: 70%;
-  }
-
-  .social-logos {
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  .social-logo {
-    width: 40px;
-  }
-
-  .form-container {
-    flex-direction: row;
-    width: 100%;
-    max-width: 100%;
-    margin-top: 40px;
-  }
-}
-
-.box {
-  width: 80%;
-  margin: 20px;
-}
-
-.pepps {
-  top: 0;
-  left: 0;
-}
-
-.checkbox-label {
-  display: inline-block;
-  margin-right: "10px";
-}
-
-.checkbox-container {
-  display: flex;
-  align-items: center; /* Centra verticalmente los elementos */
-  padding-top: 2em;
-}
-
-.checkbox-container input {
-  margin-right: 10px; /* Ajusta el margen entre el checkbox y el texto */
-  width: 2em;
-  margin-bottom: 1em;
-}
-
-.fa-user:before {
-  content: "\f007";
-  margin: auto;
+.event-registration-layout.shared-form-fields { max-width: 1400px; min-height: 0; margin-inline: auto; padding: clamp(24px, 4vw, 56px) clamp(16px, 4vw, 48px); }
+.event-registration-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: start; }
+.event-registration-section { min-width: 0; display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; border: 0; }
+.event-registration-section legend { float: none; width: 100%; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #626262; font-size: 20px; color: #ff9b66; }
+.event-registration-section legend span { font-size: 14px; color: #ccc; }
+.event-registration-footer { border-top: 1px solid #626262; padding-top: 4px; }
+.event-registration-actions { width: 100%; }
+@media (min-width: 900px) {
+  .event-registration-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; }
+  .event-registration-footer { grid-column: 1 / -1; }
+  .event-registration-actions { grid-column: 1 / -1; max-width: 480px; justify-self: end; }
 }

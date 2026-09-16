@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import isla from "src/assets/img/isla.png";
-import barco from "src/assets/img/barco.png";
-import hackLogo from "src/assets/img/home10/logonaranja.png";
-import nube from "src/assets/img/nuve.png";
-import nubeClouding from "src/assets/img/nuveClouding.png";
+import isla from "src/assets/img/isla.webp";
+import barco from "src/assets/img/barco.webp";
+import hackLogo from "src/assets/img/home10/logonaranja.webp";
+import nube from "src/assets/img/nuve.webp";
+import nubeClouding from "src/assets/img/nuveClouding.webp";
 import "./Waiting.css";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";

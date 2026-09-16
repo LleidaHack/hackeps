@@ -92,3 +92,20 @@
   /* justify-content: center; */
   align-items: center;
 }
+
+.team-empty-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; width: 100%; margin-top: 24px; }
+.team-empty-actions button, .team-dialog button[type="submit"] { min-height: 56px; border-radius: 4px; font-size: 16px; font-weight: 700; }
+.team-create-action { border: 1px solid #ff7430; color: #ff9b66; background: transparent; }
+.team-create-action:hover { background: #44372e; }
+.team-dialog .modal-content { background: #2e2e2e; color: #fff; border: 1px solid #626262; border-radius: 12px; font-family: "Space Mono", monospace; }
+.team-dialog .modal-header { border: 0; padding: 12px 16px 0; justify-content: flex-end; }
+.team-dialog-close { background: transparent; color: #fff; border: 0; width: 44px; height: 44px; font-size: 30px; }
+.team-dialog .modal-body { padding: 0 24px 24px; }
+.team-dialog .team-form-container { align-items: stretch; }
+.team-dialog h2 { font-size: 24px; color: #ff9b66; margin: 0 0 20px; }
+.team-dialog p { line-height: 1.6; }
+.team-dialog .public-form label { color: #fff; }
+.team-dialog .public-form input { background: #fff; color: #2e2e2e; caret-color: #2e2e2e; color-scheme: light; border-radius: 4px; }
+.team-dialog .public-form input:-webkit-autofill { -webkit-text-fill-color: #2e2e2e; }
+.team-dialog button:focus-visible, .team-empty-actions button:focus-visible { outline: 2px solid #ff9b66; outline-offset: 3px; }
+@media (max-width: 600px) { .team-empty-actions { grid-template-columns: minmax(0, 1fr); } }

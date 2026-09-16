@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams, Link, NavLink, useLocation } from "react-router-dom";
+import { useParams, Link, NavLink, Navigate, useLocation } from "react-router-dom";
 import "./Profile.css";
 import Modal from "react-bootstrap/Modal";
 import { loadProfile } from "src/modules/loadProfile";
@@ -127,7 +127,6 @@ const ProfileComponent = () => {
           {isUser ? (
             <div className="profile-workspace">
               <nav className="profile-navigation" aria-label="Àrea personal">
-                <NavLink end to="/perfil">Resum</NavLink>
                 {isHacker && <NavLink to="/perfil/esdeveniments">Esdeveniments</NavLink>}
                 {isHacker && <NavLink to="/perfil/equip">El meu equip</NavLink>}
                 <NavLink to="/perfil/dades">El meu perfil</NavLink>
@@ -161,22 +160,7 @@ const ProfileComponent = () => {
                     )}
                   </>
                 ) : (
-                  <>
-                    <h2>Resum</h2>
-                    <p className="profile-description">El més important per preparar la teva participació.</p>
-                    {isHacker ? <>
-                      <div className="profile-summary-card">
-                        <h3>HackEPS 2026</h3>
-                        <p>{event?.accepted ? (event.confirmed ? "Inscripció acceptada i confirmada." : "Inscripció acceptada. Tens una confirmació pendent.") : event?.registered ? "La teva inscripció està pendent d’acceptació." : "Encara no t’has inscrit a aquesta edició."}</p>
-                        <Link className="profile-primary-link" to="/perfil/esdeveniments">{event?.registered ? "Veure la inscripció" : "Veure l’esdeveniment"}</Link>
-                      </div>
-                      {event?.registered && <div className="profile-summary-card">
-                        <h3>{team?.name || "Encara no tens equip"}</h3>
-                        <p>{team ? "Consulta els membres i gestiona el teu equip." : "Crea el teu equip o uneix-te a un amb un codi."}</p>
-                        <Link className="profile-primary-link" to="/perfil/equip">El meu equip</Link>
-                      </div>}
-                    </> : <div className="profile-summary-card"><p>Gestiona les teves dades des del teu perfil.</p><Link className="profile-primary-link" to="/perfil/dades">El meu perfil</Link></div>}
-                  </>
+                  <Navigate to={isHacker ? "/perfil/esdeveniments" : "/perfil/dades"} replace />
                 )}
               </div>
             </div>

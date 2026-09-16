@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "src/components/hackeps/Sponsors/IfSponsors.css";
-import { getCompanyById } from "src/services/CompanyService";
-import cloudWave from "src/assets/img/home10/cloud-wave.png";
+import { getHackeps, getEventSponsors } from "src/services/EventService";
+import cloudWave from "src/assets/img/home10/cloud-wave.webp";
 
 const InfoSponsors = ({ id }) => {
   const [infoCompany, setInfoCompany] = useState(null);
@@ -11,8 +11,11 @@ const InfoSponsors = ({ id }) => {
     let cancelled = false;
     setInfoCompany(null);
     setFailed(false);
-    getCompanyById(id)
-      .then((data) => {
+    getHackeps().then(async event => {
+      if (!event?.id) return null;
+      const sponsors = await getEventSponsors(event.id);
+      return Array.isArray(sponsors) ? sponsors.find(company => String(company.id) === String(id)) : null;
+    }).then((data) => {
         if (cancelled) return;
         if (!data || data.errCode != null || !data.name) setFailed(true);
         else setInfoCompany(data);

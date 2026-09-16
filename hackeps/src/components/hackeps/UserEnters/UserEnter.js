@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import LoginForm from "src/components/loginForm/LoginForm";
 import { ROUTES } from "src/config/routes";
-import hacker from "src/assets/img/home10/marraco-hacker-raw.png";
-import mentor from "src/assets/img/home10/marraco-mentor-raw.png";
+import hacker from "src/assets/img/home10/marraco-hacker-raw.webp";
+import mentor from "src/assets/img/home10/marraco-mentor-raw.webp";
 import "./UserEnter.css";
 
 const LinkAccounts = () => {

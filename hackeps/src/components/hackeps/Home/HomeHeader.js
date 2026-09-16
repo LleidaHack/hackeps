@@ -5,7 +5,7 @@ import { isToken } from "src/modules/session";
 import { ROUTES } from "src/config/routes";
 import isotip from "src/assets/img/home10/isotip.svg";
 import iconProfile from "src/assets/img/home10/icon-profile.svg";
-import mlhBadge from "src/assets/img/home10/mlh.png";
+import mlhBadge from "src/assets/img/home10/mlh.webp";
 
 const NAV_LINKS = [
   { label: "Home", to: "/" },

@@ -1,6 +1,6 @@
 import React from "react";
 import HSkeleton from "../LoadingSkeleton/HSkeleton";
-import def from "src/assets/img/home10/marraco-mentor-raw.png";
+import def from "src/assets/img/home10/marraco-mentor-raw.webp";
 
 function is_not_empty(icon) {
   return typeof icon === "string" && icon.trim() !== "" && icon !== "string";

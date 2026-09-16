@@ -17,7 +17,17 @@ import {
 import { getHackeps } from "src/services/EventService";
 import ProfilePic from "src/components/hackeps/ProfilePic/ProfilePic";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
-import PopupBody from "src/components/emergentPopup/PopupBody";
+import Modal from "react-bootstrap/Modal";
+import "src/components/hackeps/Forms/PublicFormLayout.css";
+
+const TeamDialog = ({ isOpen, onClose, children, titleId }) => (
+  <Modal show={isOpen} onHide={onClose} centered className="team-dialog" aria-labelledby={titleId}>
+    <Modal.Header>
+      <button type="button" className="team-dialog-close" onClick={onClose} aria-label="Tanca">×</button>
+    </Modal.Header>
+    <Modal.Body>{children}</Modal.Body>
+  </Modal>
+);
 
 const Team = (props) => {
   const [team, setTeam] = useState(props.team);
@@ -87,7 +97,6 @@ const Team = (props) => {
   }
 
   async function joinTeam(val) {
-    console.log("wefwefwefwefw");
     let a = await addHackerToGroupByCode(
       val.teamCode ? val.teamCode.replace(/[# ]/g, "") : "",
       localStorage.getItem("userID"),
@@ -101,12 +110,13 @@ const Team = (props) => {
   }
 
   async function createTeam(val) {
-    console.log("wefwefwefwefw");
+    const edition = await getHackeps();
+    if (!edition?.id) return;
     const team = {
       name: val.teamName,
       description: val.teamDesc,
       leader_id: localStorage.getItem("userID"),
-      event_id: (await getHackeps()).id,
+      event_id: edition.id,
     };
     let a = await addHackerGroup(team);
     if (a.success) {
@@ -117,49 +127,37 @@ const Team = (props) => {
 
   function TeamButtons() {
     const handleSubmitJoinTeam2 = (data) => {
-      console.log("JKOIN team submit");
       joinTeam(data);
     };
 
     const handleSubmitCreateTeam2 = (data) => {
-      console.log("Create team submit");
       createTeam(data);
     };
 
     return (
       <>
         {is_user && (
-          <div className="bg-transparent text-center mt-5 m-0 p-3 contss flex md:flex-row flex-col">
-            <TitleGeneralized marginBot="2" padTop="0" secondary>
-              Inscripcions
-            </TitleGeneralized>
-            <div className="gap-2 flex ">
-              <Button primary onClick={handleShowJoinTeam}>
-                Ja tinc un equip
-              </Button>
-              <Button primary secondary onClick={handleShowCreateTeam}>
-                Crear l'equip
-              </Button>
-            </div>
+          <div className="team-empty-actions">
+            <Button orange onClick={handleShowJoinTeam}>Unir-me a un equip</Button>
+            <Button className="team-create-action" onClick={handleShowCreateTeam}>Crear un equip</Button>
           </div>
         )}
 
-        <PopupBody
+        <TeamDialog
+          titleId="join-team-title"
           isOpen={showJoinTeam}
           onClose={handleCloseJoinTeam}
           children={
             <div className="team-form-container">
-              <TitleGeneralized className="text-black text-2xl">
-                {" "}
-                Unir-se a un equip{" "}
-              </TitleGeneralized>
+              <h2 id="join-team-title">Unir-me a un equip</h2>
+              <p>Introdueix el codi que t’ha compartit el teu equip.</p>
               <form
-                className="flex flex-col gap-3"
+                className="public-form flex flex-col gap-3"
                 onSubmit={handleSubmitJoinTeam((data) =>
                   handleSubmitJoinTeam2(data),
                 )}
               >
-                <label className="text-black">
+                <label className="team-field-label">
                   Codi de l'equip (#XXXXXXXXXX):
                   <input
                     className={`${errorsJoinTeam.teamCode ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
@@ -175,8 +173,8 @@ const Team = (props) => {
                   )}
                 </label>
 
-                <Button primary type="submit">
-                  Unirse a l'equip
+                <Button orange type="submit">
+                  Unir-me a l'equip
                 </Button>
                 <p className="text-red-400">{JoinErrorMessage}</p>
               </form>
@@ -184,22 +182,20 @@ const Team = (props) => {
           }
         />
 
-        <PopupBody
+        <TeamDialog
+          titleId="create-team-title"
           isOpen={showCreateTeam}
           onClose={handleCloseCreateTeam}
           children={
             <div className="team-form-container">
               <form
-                className="flex flex-col gap-3"
+                className="public-form flex flex-col gap-3"
                 onSubmit={handleSubmitCreateTeam((data) =>
                   handleSubmitCreateTeam2(data),
                 )}
               >
-                <TitleGeneralized className="text-black text-2xl">
-                  {" "}
-                  Unir-se a un equip{" "}
-                </TitleGeneralized>
-                <label className="text-black">
+                <h2 id="create-team-title">Crear un equip</h2>
+                <label className="team-field-label">
                   Nom de l'equip:
                   <input
                     className={`${errorsCreateTeam.teamName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
@@ -215,7 +211,7 @@ const Team = (props) => {
                   )}
                 </label>
 
-                <label className="text-black">
+                <label className="team-field-label">
                   Descripció:
                   <input
                     className={`${errorsCreateTeam.teamDesc ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
@@ -231,7 +227,7 @@ const Team = (props) => {
                   )}
                 </label>
 
-                <Button primary type="submit">
+                <Button orange type="submit">
                   Crear equip
                 </Button>
               </form>
@@ -305,6 +301,6 @@ const Team = (props) => {
     );
   }
 
-  return <>{team ? <TeamInfo /> : <TeamButtons />}</>;
+  return <>{team ? <TeamInfo /> : TeamButtons()}</>;
 };
 export default Team;

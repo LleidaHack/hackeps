@@ -1,3 +1,4 @@
+import { useEdition } from "src/hooks/useEdition";
 import cabeza1 from "src/assets/img/home10/cabeza1.svg";
 import cabeza2 from "src/assets/img/home10/cabeza2.svg";
 import cabeza3 from "src/assets/img/home10/cabeza3.svg";
@@ -49,6 +50,8 @@ const SCHEDULE = [
 
 const DatesHorari = () => {
   const { sky, text } = useSiteTheme();
+  const { event } = useEdition();
+  const schedule = event?.schedule?.length ? event.schedule.map((item, index) => ({ ...item, head: SCHEDULE[index % SCHEDULE.length].head })) : SCHEDULE;
   return (
     <section
       id="horari"
@@ -90,7 +93,7 @@ const DatesHorari = () => {
       <div className="relative z-10 mx-auto max-w-[920px]">
         <div className="absolute bottom-6 left-[31px] top-6 w-[3px] bg-[#2c4a7c] md:bottom-8 md:left-[47px] md:top-8" />
         <ol className="relative m-0 list-none p-0">
-          {SCHEDULE.map((item, index) => (
+          {schedule.map((item, index) => (
             <li
               key={`${item.title}-${index}`}
               className="mb-10 flex items-start last:mb-0 md:mb-14"
@@ -110,6 +113,7 @@ const DatesHorari = () => {
                   style={{ color: text }}
                 >
                   {item.title}
+                  {item.starts_at && <time className="block mt-2 text-base" dateTime={item.starts_at}>{new Date(item.starts_at).toLocaleString("ca", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" })}</time>}
                 </h3>
                 <p
                   className="mb-0 mt-2 max-w-[620px] font-space-mono text-[14px] leading-snug md:mt-3 md:text-[18px]"

@@ -1,3 +1,5 @@
+import { HACKEPS_YEAR } from "src/config/edition";
+import { formatEditionDates } from "src/hooks/useEdition";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { registerHackerToEvent } from "src/services/EventService";
@@ -8,17 +10,19 @@ import Button from "src/components/buttons/Button";
 import FileBase from "react-file-base64";
 import { getHackerById } from "src/services/HackerService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
-import { updateHacker } from "src/services/HackerService";
-import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
+import { updateRregisterHackerToEvent } from "src/services/EventService";
+import "../Forms/FormLayout.css";
+import "../Forms/PublicFormLayout.css";
+import "./Inscripcio.css";
 import { ROUTES } from "src/config/routes";
 
 const InscripcioForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
+
     formState: { errors, isValid },
-    trigger,
+
   } = useForm({
     mode: "onChange",
   });
@@ -32,13 +36,15 @@ const InscripcioForm = () => {
   ];
 
   const meetOptions = [
-    { value: "nan", label: "Sense Seleccionar" },
+    { value: "nan", label: "Selecciona una opció" },
     { value: "Xarxes socials", label: "Xarxes socials" },
     { value: "Un amic", label: "Un amic" },
     { value: "Altres edicions", label: "Altres edicions" },
     { value: "Cartells publicitaris", label: "Cartells publicitaris" },
     { value: "Altre mitjà", label: "Altre mitjà" },
   ];
+  const [loadError, setLoadError] = useState(false);
+  const [sending, setSending] = useState(false);
   const [disabledRestrictions, setDisabledRestrictions] = useState(true);
   const [cvFile, setCvFile] = useState("");
   const [hackepsEvent, setHackepsEvent] = useState(null);
@@ -67,11 +73,14 @@ const InscripcioForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       const hackepsEvent = await getHackeps();
+      if (!hackepsEvent?.id) { setLoadError(true); return; }
       const me = await getHackerById(localStorage.getItem("userID"));
+      if (!me?.id) { setLoadError(true); return; }
       setCvFile(me.cv);
       getEventIsHackerRegistered(hackepsEvent.id, me.id).then((response) => {
-        console.log("response", response);
-        if (response) {
+
+        if (typeof response !== "boolean") { setLoadError(true); return; }
+        if (response === true) {
           setRegistered(true);
         } else {
           setRegistered(false);
@@ -82,13 +91,15 @@ const InscripcioForm = () => {
       if (process.env.REACT_APP_DEBUG === "true") console.log(me);
     };
 
-    fetchData();
+    fetchData().catch(() => setLoadError(true));
   }, []);
 
   const submit = async (values) => {
+    if (sending || isCvTooLarge || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)) return;
+    setSending(true);
     const data = {
       shirt_size: values.size === undefined ? "" : values.size,
-      food_restrictions: values.food === undefined ? "" : values.food,
+      food_restrictions: disabledRestrictions ? "" : values.food,
       cv: cvFile,
       description: values.cvinfo_links,
       github: values.github,
@@ -105,7 +116,7 @@ const InscripcioForm = () => {
     let registration;
     if (registered) {
       data.id = parseInt(previousRegistration.id, 10);
-      registration = await updateHacker(data);
+      registration = await updateRregisterHackerToEvent(hackepsEvent.id, previousRegistration.id, data);
     } else {
       registration = await registerHackerToEvent(
         parseInt(hackepsEvent.id, 10),
@@ -113,9 +124,10 @@ const InscripcioForm = () => {
         data,
       );
     }
-    if (registration.errCode) {
+    setSending(false);
+    if (!registration || registration.errCode || registration.success === false) {
       setErrRegister("");
-      if (registration.errCode === 400) {
+      if (registration?.errCode === 400) {
         setErrRegister(
           "Ja estas registrat a aquest esdeveniment. En cas que es tracti d'un error, contacta amb nosatres.",
         );
@@ -153,18 +165,18 @@ const InscripcioForm = () => {
   };
 
   return (
-    <div className="min-h-screen justify-center items-center flex bg-secondaryHackeps">
+    <div className="event-registration text-white">
       {!submittRegister ? (
-        <>
-          <br />
-          <div className="w-2/3 items-center">
-            <TitleGeneralized underline>
-              Inscripció HackEPS 2026
-            </TitleGeneralized>
-            <div className="w-full flex flex-col justify-center items-center animate-[fadeIn_0.5s_ease-in-out]">
-              <form className="flex flex-col gap-3">
+        <section className="event-registration-layout shared-form-fields">
+              <h1 className="shared-form-title">Inscripció HackEPS {HACKEPS_YEAR}</h1>
+              <p className="event-registration-intro">Completa les dades per participar-hi. {formatEditionDates(hackepsEvent)}.</p>
+              {loadError && <p role="alert">No hem pogut carregar aquesta edició. Torna-ho a provar més tard.</p>}
+              {hackepsEvent && !hackepsEvent.is_open && !registered && <p role="status">Les inscripcions d’aquesta edició estan tancades.</p>}
+              <form className="public-form event-registration-grid" onSubmit={handleSubmit(submit)}>
+                <fieldset className="event-registration-section">
+                  <legend>Dades de participació</legend>
                 <label className="mb-3">
-                  Que estudies o has estudiat?
+                  Què estudies o has estudiat?
                   <input
                     className={`${errors.studies ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     placeholder="Estudis"
@@ -187,8 +199,8 @@ const InscripcioForm = () => {
                     })}
                   />
                 </label>
-                {errors.school && (
-                  <span className="text-red-400">{errors.school.message}</span>
+                {errors.center && (
+                  <span className="text-red-400">{errors.center.message}</span>
                 )}
 
                 <label className="mb-3">
@@ -233,9 +245,10 @@ const InscripcioForm = () => {
                     {...register("meets", {
                       required: "Aquest camp és obligatori",
                       validate: (value) =>
-                        value !== "" || "Selecciona una opció vàlida",
+                        value !== "nan" || "Selecciona una opció vàlida",
                     })}
                     onChange={(e) => {
+                      register("meets").onChange(e);
                       const value = e.target.value;
                       const box = document.getElementById("foodTextArea");
                       if (value === "yes") {
@@ -250,8 +263,8 @@ const InscripcioForm = () => {
                       }
                     }}
                   >
-                    <option value="nan">Sense Seleccionar</option>
-                    <option value="yes">Si en tinc</option>
+                    <option value="nan">Selecciona una opció</option>
+                    <option value="yes">Sí, en tinc</option>
                     <option value="no">No en tinc</option>
                   </select>
                 </label>
@@ -300,12 +313,9 @@ const InscripcioForm = () => {
                   <span className="text-red-400">{errors.meet.message}</span>
                 )}
 
-                <hr className="my-4" />
-
-                <div className="flex flex-col w-full">
-                  <p className="text-xl">
-                    Vols que les empreses de Lleida et coneguin? (Opcional)
-                  </p>
+                </fieldset>
+                <fieldset className="event-registration-section">
+                  <legend>Perfil professional <span>(opcional)</span></legend>
                   <label className="mb-3">
                     <p className="text-sm">
                       Tens experiència en altres hackatons? Algun projecte
@@ -348,8 +358,9 @@ const InscripcioForm = () => {
                         onDone={handleFileChange}
                       />
                       <Button
+                        type="button"
                         onClick={clearFile}
-                        className="bg-red-500 hover:bg-red-400  text-white "
+                        className="event-registration-remove"
                       >
                         Esborra
                       </Button>
@@ -361,7 +372,9 @@ const InscripcioForm = () => {
                     )}
                   </label>
 
-                  <label className="flex items-center space-x-2">
+                </fieldset>
+                <div className="event-registration-footer">
+                  <label className="event-registration-consent">
                     <input
                       type="checkbox"
                       className="w-fit mr-5"
@@ -371,36 +384,36 @@ const InscripcioForm = () => {
                     />
                     <p>
                       Accepto els{" "}
-                      <a href={ROUTES.terms} className="text-primaryHackeps">
+                      <a href={ROUTES.terms} className="event-registration-link">
                         termes i condicions
                       </a>
                     </p>
                   </label>
 
-                  <label className="flex items-center space-x-2">
+                  <label className="event-registration-consent">
                     <input
                       type="checkbox"
                       className="w-fit mr-5"
                       {...register("checkboxcredit")}
                     />
                     <p>
-                      Vull 1 crèdit ETCS de matèria transversal (només aplicable
-                      a alumnes de la UDL)
+                      Vull 1 crèdit ECTS de matèria transversal (només aplicable
+                      a alumnes de la UdL)
                     </p>
                   </label>
                 </div>
-                <div className="flex flex-col gap-0 mb-20 ">
+                <div className="event-registration-actions">
                   <Button
-                    onClick={handleSubmit(submit)}
-                    className={`bg-primaryHackeps text-white mb-2  ${!isValid ? "opacity-50" : "opacity-100 hover:bg-blueSea"}`}
+                    type="submit"
+                    orange
+                    disabled={!isValid || sending || isCvTooLarge || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)}
+                    className="event-registration-submit"
                   >
-                    Enviar
+                    {sending ? "Enviant…" : "Enviar"}
                   </Button>
                 </div>
               </form>
-            </div>
-          </div>
-        </>
+        </section>
       ) : (
         <>
           {!stateRegister ? (

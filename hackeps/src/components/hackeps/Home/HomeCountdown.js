@@ -4,10 +4,8 @@ import "./HomeCountdown.css";
 const HomeCountdown = (props) => {
   const [nowDay, setNowDay] = useState(() => Date.now());
   const active = Boolean(props.timerActive);
-  const defaultStartTime = new Date(2026, 10, 28);
-  const defaultEndTime = new Date(2026, 10, 29);
-  const startTime = props.startTime || defaultStartTime;
-  const endTime = props.endTime || defaultEndTime;
+  const startTime = props.startTime;
+  const endTime = props.endTime;
   const start = new Date(startTime).getTime();
   const end = new Date(endTime).getTime();
   const countdown = start >= nowDay ? start : end;
@@ -38,7 +36,7 @@ const HomeCountdown = (props) => {
     return () => clearInterval(intervalId);
   }, []);
 
-  if (!active) {
+  if (!active || !Number.isFinite(start) || !Number.isFinite(end)) {
     return null;
   }
 

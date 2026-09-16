@@ -1,9 +1,25 @@
+import { HACKEPS_YEAR } from "src/config/edition";
 import { fetchPlus } from "src/modules/fetchModule";
 
-export async function getHackeps() {
-  return fetchPlus({
-    Url: "/event/get_hackeps",
-  });
+// Share public edition data across routes; never fall back to another year.
+let editionRequest;
+let editionExpires = 0;
+export function getHackeps() {
+  if (!editionRequest || Date.now() >= editionExpires) {
+    editionExpires = Date.now() + 60000;
+    editionRequest = getHackepsByYear(HACKEPS_YEAR).then(event => {
+      if (!event?.id || !event.start_date || !event.end_date ||
+          Number(event.start_date.slice(0, 4)) !== HACKEPS_YEAR ||
+          !Number.isFinite(Date.parse(event.start_date)) ||
+          !Number.isFinite(Date.parse(event.end_date)) ||
+          Date.parse(event.end_date) < Date.parse(event.start_date)) {
+        editionExpires = 0;
+        return { errCode: event?.errCode || 404, errMssg: "Configured edition unavailable" };
+      }
+      return event;
+    });
+  }
+  return editionRequest;
 }
 
 export async function getHackepsByYear(year) {
@@ -299,4 +315,9 @@ export async function hackers_participants_grouped_list(event_id) {
     Url: `/event/${event_id}/hackers_participants_grouped_list`,
     hasUserauth: true,
   });
+}
+
+export function updateEventSponsor(eventId, companyId, tier, displayOrder = 0) {
+  return fetchPlus({ Url: `/event/${eventId}/sponsors/${companyId}`, Method: "PATCH",
+    hasUserauth: true, Body: { tier, display_order: displayOrder } });
 }

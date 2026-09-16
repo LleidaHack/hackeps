@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import LoginUnverified from "src/components/hackeps/LoginUnverified/LoginUnverified";
 import { hasSessionCredentials } from "src/modules/session";
 import "src/components/hackeps/Forms/PublicFormLayout.css";
 import { login } from "src/services/AuthenticationService";
@@ -16,6 +17,7 @@ const LoginForm = ({ nextScreen }) => {
     mode: "onChange",
   });
   const navigate = useNavigate();
+  const [pendingCredentials, setPendingCredentials] = useState(null);
   const [isSubmitting, setSubmitting] = useState(false);
   const [errorText, setErrorText] = useState("");
   const submit = async (values) => {
@@ -25,8 +27,8 @@ const LoginForm = ({ nextScreen }) => {
     try {
       let a = await login(values);
       if (process.env.REACT_APP_DEBUG === "true") console.log(a);
-      if (a?.errCode === 400) {
-        navigate("/user-verification", { state: { email: values.email } });
+      if (a?.errMssg === "Email verification required") {
+        setPendingCredentials(values);
       } else if (hasSessionCredentials(a)) {
         if (process.env.REACT_APP_DEBUG === "true")
           console.log("Login successful");
@@ -46,6 +48,7 @@ const LoginForm = ({ nextScreen }) => {
       setSubmitting(false);
     }
   };
+  if (pendingCredentials) return <LoginUnverified email={pendingCredentials.email} credentials={pendingCredentials} nextScreen={nextScreen || "/perfil"} />;
   return (
     <div className="w-full min-w-0">
       <form className="public-form" onSubmit={handleSubmit(submit)}>

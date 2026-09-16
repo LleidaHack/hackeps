@@ -1,7 +1,8 @@
+import { useEdition } from "src/hooks/useEdition";
 import Modal from "react-bootstrap/Modal";
 import { useEffect, useState } from "react";
 import Button from "src/components/buttons/Button";
-import hackLogo from "src/assets/img/home10/logo-taronja.png";
+import hackLogo from "src/assets/img/home10/logo-taronja.webp";
 import "./MainTitle.css";
 import { useNavigate } from "react-router-dom";
 import { checkToken } from "src/services/AuthenticationService";
@@ -9,6 +10,7 @@ import { ROUTES } from "src/config/routes";
 
 const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
   const navigate = useNavigate();
+  const { event } = useEdition();
   const [show, setShow] = useState(false);
   const [hackDay, setHackDay] = useState(false);
   const handleClose = () => setShow(false);
@@ -23,7 +25,8 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
       window.location.reload();
       return;
     }
-    if (localStorage.getItem("registeredOnEvent") === "true") {
+    if (!event?.id) return;
+    if (localStorage.getItem("registeredOnEvent") === String(event.id)) {
       navigate(ROUTES.profile);
       return;
     }
@@ -60,31 +63,19 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
   };
 
   useEffect(() => {
-    const today = new Date();
-    const eventDays = [
-      // Aqui es fiquen les dates dels dies de la Hack.
-      new Date("2026-11-28"),
-      new Date("2026-11-29"),
-    ];
-
-    if (
-      eventDays.some(
-        (eventDay) =>
-          today.getFullYear() === eventDay.getFullYear() &&
-          today.getMonth() === eventDay.getMonth() &&
-          today.getDate() === eventDay.getDate(),
-      )
-    ) {
-      setTextButton("Live Page..");
-      setHackDay(true);
-    }
-  }, []);
+    const now = Date.now();
+    const live = Boolean(event && now >= Date.parse(event.start_date) && now <= Date.parse(event.end_date));
+    setHackDay(live);
+    setTextButton(live ? "Web en directe" : event?.is_open ? buttonText : "Inscripcions tancades");
+  }, [event, buttonText]);
 
   return (
     <>
       <div className="z-50 flex w-full flex-col items-center justify-center gap-4 md:gap-7">
         <div className="flex w-full max-w-[577px] justify-center px-2">
           <img
+            fetchPriority="high"
+            decoding="async"
             src={hackLogo}
             alt="HackEPS 10ª Edició"
             className="h-auto w-[70%] max-w-[280px] object-contain sm:w-[75%] sm:max-w-[360px] md:w-full md:max-w-[520px]"
@@ -97,6 +88,7 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
           <button
             id="hero-cta-button"
             onClick={handleShow}
+            disabled={!event || (!event.is_open && !hackDay)}
             className="rounded-[4px] bg-[#ff7430] px-4 py-2 font-space-mono text-[22px] leading-normal tracking-[-0.44px] text-[#2e2e2e] md:text-[32px] md:tracking-[-0.64px]"
           >
             {textButton}

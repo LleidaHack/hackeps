@@ -1,3 +1,4 @@
+import { useEdition } from "src/hooks/useEdition";
 import React from "react";
 import FAQContainer from "src/components/hackeps/FAQ_container/FAQ_container.js";
 import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
@@ -51,9 +52,17 @@ const faqs = [
 ];
 
 const FAQPage = () => {
+  const { event, dates } = useEdition();
+  const editionFaqs = faqs.map(item => {
+    if (item.question === "Quan és la HackEPS?") return { ...item, answer: dates };
+    if (item.question === "On serà la HackEPS?") return { ...item, answer: event?.location || "Ubicació pendent de confirmar." };
+    if (item.question === "Qui es pot presentar?") return { ...item, answer: item.answer.split(" Obrirem")[0] + (event ? ` Hi haurà un màxim de ${event.max_participants} places.` : " Places pendents de confirmar.") };
+    if (item.question === "Com hi puc participar?") return { ...item, answer: event ? `Inscriu-te a la web. Pots participar en solitari o formar un equip de fins a ${event.max_group_size} persones.` : "La informació de les inscripcions estarà disponible aviat." };
+    return item;
+  });
   return (
     <DarkPage>
-      <FAQContainer faqs={faqs} />
+      <FAQContainer faqs={editionFaqs} />
     </DarkPage>
   );
 };
