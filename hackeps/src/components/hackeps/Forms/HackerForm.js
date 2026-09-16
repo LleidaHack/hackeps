@@ -6,6 +6,7 @@ import FailFeedback from "../Feedbacks/FailFeedback";
 import SuccessFeedback from "../Feedbacks/SuccesFeedback";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
 import BirthdatePicker from "./BirthdatePicker";
+import PasswordInput from "./PasswordInput";
 import { Controller, useForm } from "react-hook-form";
 import Button from "src/components/buttons/Button";
 import { ROUTES } from "src/config/routes";
@@ -133,20 +134,6 @@ export const HackerStepperForm = () => {
                 </div>
               </div>
               <div className="hacker-signup-fields">
-                <div className="mb-6" aria-label="Passos del registre">
-                  <div className="flex justify-center items-center space-x-4">
-                    {[1, 2, 3].map((num) => (
-                      <div
-                        key={num}
-                        aria-current={step === num ? "step" : undefined}
-                        className={`w-8 h-8 flex items-center justify-center rounded-full ${step === num ? "bg-[#ff7430] text-[#2e2e2e]" : "bg-gray-300 text-black"}`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
                 <div key={step} className="hacker-signup-step">
                 {step === 1 ? (
                   <>
@@ -191,8 +178,8 @@ export const HackerStepperForm = () => {
 
                       <label>
                         Contrasenya:
-                        <input
-                          type="password"
+                        <PasswordInput
+                          visibilityLabel="la contrasenya"
                           autoComplete="new-password"
                           className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Contrasenya"
@@ -230,8 +217,8 @@ export const HackerStepperForm = () => {
 
                       <label>
                         Confirma la contrasenya:
-                        <input
-                          type="password"
+                        <PasswordInput
+                          visibilityLabel="la confirmació de la contrasenya"
                           autoComplete="new-password"
                           className={`${errors.confirmPassword ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Confirma la contrasenya"

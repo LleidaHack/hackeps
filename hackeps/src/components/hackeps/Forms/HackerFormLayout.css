@@ -13,6 +13,7 @@
   width: 100%;
   min-width: 0;
   max-width: 35rem;
+  min-height: 52rem;
   margin-inline: auto;
 }
 
@@ -107,7 +108,7 @@
   }
 }
 
-/* Animate only the changing fields, keeping the logo and progress stable. */
+/* Animate only the changing fields, keeping the logo stable. */
 #hackerForm .hacker-signup-step {
   animation: signup-step-reveal 240ms ease-out;
 }
@@ -129,4 +130,34 @@
   #hackerForm .hacker-signup-step {
     animation: none;
   }
+}
+
+#hackerForm .password-input {
+  position: relative;
+  display: block;
+}
+
+#hackerForm .password-input input {
+  padding-right: 3.5rem;
+}
+
+#hackerForm .password-visibility-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #2e2e2e;
+}
+
+#hackerForm .password-visibility-toggle:focus-visible {
+  outline: 2px solid #ff7430;
+  outline-offset: -4px;
 }
