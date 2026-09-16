@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import Modal from "react-bootstrap/Modal";
 import "./BirthdatePicker.css";
 
 const MONTHS = [
@@ -31,21 +32,9 @@ export default function BirthdatePicker({
   const [month, setMonth] = useState(() =>
     value ? Number(value.slice(5, 7)) - 1 : 0,
   );
-  const container = useRef(null);
   const trigger = useRef(null);
-  const monthSelect = useRef(null);
   const days = new Date(year, month + 1, 0).getDate();
   const offset = (new Date(year, month, 1).getDay() + 6) % 7;
-
-  useEffect(() => {
-    if (!open) return;
-    monthSelect.current?.focus();
-    const closeOutside = (event) => {
-      if (!container.current?.contains(event.target)) setOpen(false);
-    };
-    document.addEventListener("pointerdown", closeOutside);
-    return () => document.removeEventListener("pointerdown", closeOutside);
-  }, [open]);
 
   const close = () => {
     setOpen(false);
@@ -53,28 +42,15 @@ export default function BirthdatePicker({
   };
 
   return (
-    <div
-      className="birthdate-picker"
-      ref={container}
-      onKeyDown={(event) => {
-        if (event.key === "Escape" && open) {
-          event.preventDefault();
-          close();
-        }
-      }}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) {
-          setOpen(false);
-          onBlur();
-        }
-      }}
-    >
+    <div className="birthdate-picker">
       <button
         ref={trigger}
         id="birthdate"
         type="button"
         className="birthdate-trigger"
         aria-expanded={open}
+        aria-haspopup="dialog"
+        onBlur={onBlur}
         aria-controls="birthdate-calendar"
         aria-invalid={invalid}
         aria-describedby={invalid ? "birthdate-error" : undefined}
@@ -96,16 +72,17 @@ export default function BirthdatePicker({
           <path d="M7 3v4m10-4v4M3 11h18" />
         </svg>
       </button>
-      {open && (
-        <div
-          id="birthdate-calendar"
-          className="birthdate-calendar"
-          role="group"
-          aria-label="Calendari de naixement"
-        >
+      <Modal
+        show={open}
+        onHide={close}
+        centered
+        className="birthdate-modal"
+        aria-label="Calendari de naixement"
+      >
+        <div id="birthdate-calendar" className="birthdate-calendar">
           <div className="birthdate-selects">
             <select
-              ref={monthSelect}
+              autoFocus
               aria-label="Mes de naixement"
               value={month}
               onChange={(e) => setMonth(Number(e.target.value))}
@@ -166,7 +143,7 @@ export default function BirthdatePicker({
             Tanca el calendari
           </button>
         </div>
-      )}
+      </Modal>
     </div>
   );
 }

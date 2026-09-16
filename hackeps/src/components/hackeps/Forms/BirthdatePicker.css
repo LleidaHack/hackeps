@@ -24,7 +24,9 @@
 }
 .birthdate-calendar {
   position: relative;
-  margin-top: 0.75rem;
+  margin: 0;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
   padding: clamp(0.5rem, 3vw, 1rem);
   border: 1px solid #ff7430;
   border-radius: 8px;
@@ -95,7 +97,22 @@
   background: transparent;
   font-size: 0.85rem;
 }
-.birthdate-picker :is(button, select):focus-visible {
+.birthdate-trigger:focus-visible,
+.birthdate-calendar :is(button, select):focus-visible {
   outline: 3px solid #ff9b6b;
   outline-offset: 3px;
+}
+
+.birthdate-modal .modal-dialog {
+  width: calc(100% - 2rem);
+  max-width: 400px;
+  margin-inline: auto;
+}
+.birthdate-modal .modal-content {
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+}
+.birthdate-close {
+  min-height: 44px;
 }
