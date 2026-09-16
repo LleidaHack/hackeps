@@ -3,15 +3,12 @@ import { getCompanyByTier } from "src/services/CompanyService";
 import HomeFooter from "src/components/hackeps/Home/HomeFooter.js";
 import Firework from "src/components/hackeps/Home/Firework.js";
 import sponsorSlot from "src/assets/img/home10/sponsor-slot.svg";
-import firework1 from "src/assets/img/home10/firework-1.png";
-import firework2 from "src/assets/img/home10/firework-2.png";
-import firework3 from "src/assets/img/home10/firework-3.png";
-import seuVellaSolo512 from "src/assets/img/seuvella-solo-512.webp";
-import seuVellaSolo1024 from "src/assets/img/seuvella-solo-1024.webp";
-import olaInterior1280 from "src/assets/img/ola-interior-1280.webp";
-import olaInterior2048 from "src/assets/img/ola-interior-2048.webp";
-import olaExterior1280 from "src/assets/img/ola-exterior-1280.webp";
-import olaExterior2048 from "src/assets/img/ola-exterior-2048.webp";
+import firework1 from "src/assets/img/home10/firework-1.svg";
+import firework2 from "src/assets/img/home10/firework-2.svg";
+import firework3 from "src/assets/img/home10/firework-3.svg";
+import seuVella from "src/assets/img/home10/seu-vella.svg";
+import waveBack from "src/assets/img/home10/wave-back.svg";
+import waveFront from "src/assets/img/home10/wave-front.svg";
 
 function asCompanyList(data) {
   if (Array.isArray(data)) return data;
@@ -197,8 +194,7 @@ export const SeuVellaFooter = () => {
     <div className="relative w-full overflow-hidden bg-[#2e2e2e]">
       <div className="relative h-[320px] w-full overflow-hidden bg-transparent sm:h-[400px] md:h-[520px]">
         <img
-          src={olaInterior1280}
-          srcSet={`${olaInterior1280} 1280w, ${olaInterior2048} 2048w`}
+          src={waveBack}
           sizes="100vw"
           width="2048"
           height="784"
@@ -206,8 +202,7 @@ export const SeuVellaFooter = () => {
           alt=""
         />
         <img
-          src={olaExterior1280}
-          srcSet={`${olaExterior1280} 1280w, ${olaExterior2048} 2048w`}
+          src={waveFront}
           sizes="100vw"
           width="2048"
           height="594"
@@ -215,8 +210,7 @@ export const SeuVellaFooter = () => {
           alt=""
         />
         <img
-          src={seuVellaSolo512}
-          srcSet={`${seuVellaSolo512} 512w, ${seuVellaSolo1024} 1024w`}
+          src={seuVella}
           sizes="(max-width: 768px) 42vw, 25vw"
           width="1024"
           height="1036"

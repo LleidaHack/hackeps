@@ -1,8 +1,8 @@
 import React from "react";
 import Firework from "src/components/hackeps/Home/Firework.js";
-import firework1 from "src/assets/img/home10/firework-1.png";
-import firework3 from "src/assets/img/home10/firework-3.png";
-import cloud2 from "src/assets/img/home10/cloud-2.png";
+import firework1 from "src/assets/img/home10/firework-1.svg";
+import firework3 from "src/assets/img/home10/firework-3.svg";
+import cloud2 from "src/assets/img/home10/cloud-2.svg";
 
 /*
   Afegeix aquí les fotos del carrusel.

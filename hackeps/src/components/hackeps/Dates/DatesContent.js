@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import DatesCalendar from "src/components/hackeps/Dates/DatesCalendar.js";
 import DatesHorari from "src/components/hackeps/Dates/DatesHorari.js";
-import cloud2 from "src/assets/img/home10/cloud-2.png";
-import cloud5 from "src/assets/img/home10/cloud-5.png";
+import cloud2 from "src/assets/img/home10/cloud-2.svg";
+import cloud5 from "src/assets/img/home10/cloud-5.svg";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
 const DatesContent = () => {

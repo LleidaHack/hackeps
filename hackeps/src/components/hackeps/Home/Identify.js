@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import marracoMentor from "src/assets/img/home10/marraco-mentor-raw.png";
 import marracoHacker from "src/assets/img/home10/marraco-hacker-raw.png";
-import mountain from "src/assets/img/home10/mountain.png";
-import cloud4 from "src/assets/img/home10/cloud-4.png";
-import cloud3 from "src/assets/img/home10/cloud-3.png";
+import mountain from "src/assets/img/home10/mountain.svg";
+import cloud4 from "src/assets/img/home10/cloud-4.svg";
+import cloud3 from "src/assets/img/home10/cloud-3.svg";
 import { ROUTES } from "src/config/routes";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 

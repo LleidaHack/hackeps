@@ -1,6 +1,6 @@
 import React from "react";
 import dimoniBig from "src/assets/img/home10/fum-activitats.png";
-import cloud5 from "src/assets/img/home10/cloud-5.png";
+import cloud5 from "src/assets/img/home10/cloud-5.svg";
 
 const ACTIVITIES = [
   { label: "Activitat 1", top: "20.8%", left: "28.8%", rotate: -14.69 },

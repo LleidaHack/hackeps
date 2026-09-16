@@ -1,11 +1,11 @@
-import cabeza1 from "src/assets/img/home10/cabeza1.png";
-import cabeza2 from "src/assets/img/home10/cabeza2.png";
-import cabeza3 from "src/assets/img/home10/cabeza3.png";
-import cabeza4 from "src/assets/img/home10/cabeza4.png";
-import cabeza5 from "src/assets/img/home10/cabeza5.png";
-import cabeza6 from "src/assets/img/home10/cabeza6.png";
-import cloud2 from "src/assets/img/home10/cloud-2.png";
-import cloud5 from "src/assets/img/home10/cloud-5.png";
+import cabeza1 from "src/assets/img/home10/cabeza1.svg";
+import cabeza2 from "src/assets/img/home10/cabeza2.svg";
+import cabeza3 from "src/assets/img/home10/cabeza3.svg";
+import cabeza4 from "src/assets/img/home10/cabeza4.svg";
+import cabeza5 from "src/assets/img/home10/cabeza5.svg";
+import cabeza6 from "src/assets/img/home10/cabeza6.svg";
+import cloud2 from "src/assets/img/home10/cloud-2.svg";
+import cloud5 from "src/assets/img/home10/cloud-5.svg";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
 const SCHEDULE = [

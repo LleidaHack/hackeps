@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import MainTitle from "src/components/hackeps/Home/MainTitle.js";
 import HomeCountdown from "src/components/hackeps/Home/HomeCountdown.js";
-import banderilles from "src/assets/img/home10/banderilles.png";
-import cloud1 from "src/assets/img/home10/cloud-1.png";
-import cloud2 from "src/assets/img/home10/cloud-2.png";
-import cloud3 from "src/assets/img/home10/cloud-3.png";
+import banderilles from "src/assets/img/home10/banderilles.svg";
+import cloud1 from "src/assets/img/home10/cloud-1.svg";
+import cloud2 from "src/assets/img/home10/cloud-2.svg";
+import cloud3 from "src/assets/img/home10/cloud-3.svg";
 import cloudWave from "src/assets/img/home10/cloud-wave.png";
 
 import { useSiteTheme } from "src/hooks/useSiteTheme";

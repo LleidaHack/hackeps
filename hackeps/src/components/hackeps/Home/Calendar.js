@@ -1,5 +1,5 @@
-import cloud1 from "src/assets/img/home10/cloud-5.png";
-import cloud2 from "src/assets/img/home10/cloud-2.png";
+import cloud1 from "src/assets/img/home10/cloud-5.svg";
+import cloud2 from "src/assets/img/home10/cloud-2.svg";
 
 const CalendarDates = () => {
   return (
