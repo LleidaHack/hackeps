@@ -12,16 +12,18 @@ const Records = () => {
       className="relative w-full overflow-hidden bg-transparent pb-16 pt-6 md:pb-[180px] md:pt-6"
     >
       <Firework
+        phase={0}
         src={firework1}
         width={299}
         height={296}
         className="left-[2%] top-[20%] z-0 hidden h-[160px] w-[160px] origin-center rotate-[24.04deg] md:block md:h-[220px] md:w-[220px] lg:h-[296px] lg:w-[299px]"
       />
       <Firework
+        phase={1}
         src={firework3}
         width={194}
         height={178}
-        className="right-[4%] bottom-[10%] z-0 hidden h-[120px] w-[130px] md:block lg:h-[178px] lg:w-[194px]"
+        className="right-[4%] bottom-[10%] z-0 h-[90px] w-[100px] md:h-[120px] md:w-[130px] lg:h-[178px] lg:w-[194px]"
       />
       <img
         src={cloud2}

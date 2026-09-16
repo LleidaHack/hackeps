@@ -146,30 +146,35 @@ const Sponsors = () => {
         </h2>
 
         <Firework
+          phase={0}
           src={firework3}
           width={348}
           height={318}
-          className="right-[8%] top-[8%] z-0 hidden h-[140px] w-[150px] -rotate-[19.78deg] md:block lg:h-[220px] lg:w-[240px]"
+          className="right-[8%] top-[8%] z-0 h-[90px] w-[100px] -rotate-[19.78deg] md:h-[140px] md:w-[150px] lg:h-[220px] lg:w-[240px]"
         />
         <Firework
+          phase={1}
           src={firework1}
           width={190}
           height={188}
           className="left-[2%] top-[22%] z-0 hidden h-[100px] w-[100px] rotate-[19.31deg] md:block"
         />
         <Firework
+          phase={2}
           src={firework3}
           width={262}
           height={239}
           className="left-[4%] top-[48%] z-0 hidden h-[120px] w-[130px] rotate-[12.02deg] lg:block"
         />
         <Firework
+          phase={3}
           src={firework2}
           width={205}
           height={178}
           className="right-[6%] top-[58%] z-0 hidden h-[110px] w-[120px] -rotate-[14.03deg] lg:block"
         />
         <Firework
+          phase={4}
           src={firework3}
           width={158}
           height={145}
