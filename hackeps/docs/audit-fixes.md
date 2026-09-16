@@ -50,9 +50,26 @@ Code, comments and commit messages are English; user-facing feedback is Catalan.
 
 Per the project owner's instruction, no API endpoint is configured for preview
 and no preview/Vercel deployment was inspected or changed in this implementation.
-For a future local integration run, set REACT_APP_DOMAIN to the intended local
-backend URL and restart the frontend. End-to-end behavior against a running
-backend is not yet verified.
+The local frontend now uses `REACT_APP_DOMAIN=http://localhost:8000` in its
+ignored `.env` file. Copy `.env.sample` to `.env` for a new local checkout and
+restart the frontend after changing environment variables. The API origin must
+not include `/docs` or `/v1`.
+
+Browser verification against the running local API:
+- Sponsor tier requests return HTTP 200 without CORS errors.
+- The event endpoint returns HTTP 404 because the local database has no event
+  for the current year or earlier. The page shows its Catalan error message.
+- Login with an intentionally nonexistent test account stays on the login page
+  and displays the Catalan invalid-credentials message after the API rejects it.
+- Authenticated profile, registration and successful password recovery remain
+  unverified against the live API; they need suitable local fixtures. No accounts
+  or events were seeded and no emails were sent.
+
+The development server was started at `http://127.0.0.1:3016` using:
+
+```sh
+BROWSER=none HOST=127.0.0.1 PORT=3016 REACT_APP_LAUNCH_PENDING=0 pnpm start
+```
 
 Pending program content, dates, gallery photos and sponsors were not invented.
 Hosting headers, staging noindex and social metadata require a separate deployment
