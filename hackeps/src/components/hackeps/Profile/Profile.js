@@ -138,7 +138,7 @@ const ProfileComponent = () => {
                   <>
                     <h2>El meu perfil</h2>
                     <p className="profile-description">Actualitza les teves dades, la foto i els enllaços professionals.</p>
-                    <div className="hacker-profile-actions"><EditProfile hackerObj={user} /></div>
+                    <div className="hacker-profile-actions"><EditProfile hackerObj={user} onSaved={setUser} /></div>
                     <div className="hacker-profile-accounts"><LinkAccounts hacker={user} /></div>
                   </>
                 ) : section === "esdeveniments" && isHacker ? (

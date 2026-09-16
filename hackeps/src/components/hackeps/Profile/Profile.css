@@ -319,3 +319,30 @@
 .profile-editor input[type="file"] {
   color: #fff;
 }
+
+.profile-editor { width: 100%; }
+.profile-editor fieldset { min-width: 0; margin: 0 0 1.5rem; padding: 1.25rem; border: 1px solid #606060; border-radius: 8px; }
+.profile-editor legend { float: none; width: auto; padding: 0 0.5rem; font-size: 1.1rem; font-weight: bold; }
+.profile-editor legend small { font-size: 0.75rem; font-weight: normal; color: #ccc; }
+.profile-editor label { display: block; min-width: 0; margin: 0 0 1rem; font-size: 0.9rem; }
+.profile-editor label:last-child { margin-bottom: 0; }
+.profile-editor small { display: block; margin-top: 0.5rem; color: #ccc; font-size: 0.75rem; }
+.profile-editor :is(input, select) { box-sizing: border-box; width: 100%; min-width: 0; min-height: 48px; margin: 0.5rem 0 0; padding: 0.75rem; border: 1px solid #aaa; border-radius: 5px; font-size: 16px; }
+.profile-editor-photo { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.25rem; }
+.profile-editor-photo img { width: 96px; height: 96px; flex-shrink: 0; border: 2px solid #ff7430; border-radius: 50%; object-fit: cover; background: #fff; }
+.profile-editor-photo label { flex: 1; margin: 0; }
+.profile-editor-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.profile-editor input[type="file"] { padding: 0; border: 0; font-size: 0.8rem; }
+.profile-editor input::file-selector-button { min-height: 44px; margin-right: 0.75rem; padding: 0.5rem 0.75rem; border: 1px solid #999; border-radius: 4px; background: #444; color: #fff; cursor: pointer; }
+.hacker-profile-actions .profile-editor-save button { width: 100%; min-height: 56px; border: 0; border-radius: 5px; background: #ff7430; color: #242424; font-size: 1rem; font-weight: bold; }
+.hacker-profile-actions .profile-editor-save button:hover:not(:disabled) { background: #ff9b6b; }
+.profile-editor-save button:disabled { opacity: 0.6; cursor: wait; }
+.profile-editor-error { color: #fca5a5; }
+.profile-editor-success { color: #fff; }
+.profile-editor-file { overflow-wrap: anywhere; font-size: 0.8rem; }
+@media (max-width: 575px) {
+  .profile-editor-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .profile-editor-photo { flex-direction: column; align-items: flex-start; }
+  .profile-editor-photo label { width: 100%; }
+  .profile-editor fieldset { padding: 1rem; }
+}
