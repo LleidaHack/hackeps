@@ -41,7 +41,7 @@ const faqs = [
   {
     question: "Qui es pot presentar?",
     answer:
-      "Qualsevol persona >= 18 anys (o que en tingui 16 o més amb autorització signada per un representant legal) amb ganes de programar, dissenyar, aprendre i, sobretot, passar una bona estona programant! Obrirem inscripcions amb un màxim de 160 places.",
+      "Qualsevol persona >= 18 anys (o que en tingui 16 o més amb autorització signada per un representant legal) amb ganes de programar, dissenyar, aprendre i, sobretot, passar una bona estona programant! Obrirem inscripcions amb un màxim de 250 places.",
   },
   {
     question: "Vols col·laborar amb nosaltres?",
