@@ -7,6 +7,8 @@ import Button from "src/components/buttons/Button";
 
 const ForgetPassword = ({ nextScreen }) => {
   const [status, setStatus] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -14,8 +16,18 @@ const ForgetPassword = ({ nextScreen }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const success = await resetPassword(data.email);
-    setStatus(success);
+    if (isSubmitting) return;
+    setSubmitting(true);
+    setError("");
+    try {
+      const result = await resetPassword(data.email);
+      if (result?.success === true) setStatus(true);
+      else setError("No hem pogut tramitar la sol·licitud. Torna-ho a provar.");
+    } catch {
+      setError("No hem pogut tramitar la sol·licitud. Torna-ho a provar.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -52,16 +64,27 @@ const ForgetPassword = ({ nextScreen }) => {
                   <span className="text-red-400">{errors.email.message}</span>
                 )}
               </label>
-              <Button orange lg type="submit" className="w-full">
-                Enviar enllaç de recuperació
+              {error && (
+                <p role="alert" className="text-red-400">
+                  {error}
+                </p>
+              )}
+              <Button
+                orange
+                lg
+                type="submit"
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Enviant..." : "Enviar enllaç de recuperació"}
               </Button>
             </form>
           </div>
         </div>
       ) : (
         <SuccessFeedback
-          title="Enllaç enviat correctament."
-          text={`En breus rebràs un correu electrònic amb un enllaç per a recuperar el teu compte.`}
+          title="Sol·licitud rebuda"
+          text={`Si el correu correspon a un compte verificat, rebràs un enllaç per recuperar-lo.`}
           italics="Si no ho reps, comproba la bustia de spam."
           hasButton={true}
           buttonLink="/"
