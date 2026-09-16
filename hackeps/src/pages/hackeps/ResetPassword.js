@@ -15,8 +15,9 @@ export default function ResetPassword() {
     // }
   }, [params]);
 
-  const [firstPassword, setFirstPassword] = useState();
-  const [secondPassword, setSecondPassword] = useState();
+  const [firstPassword, setFirstPassword] = useState("");
+  const [secondPassword, setSecondPassword] = useState("");
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const [errorMsg, setErrorMsg] = useState();
   const [errMesage, setFeedErr] = useState();
@@ -25,18 +26,27 @@ export default function ResetPassword() {
   async function handleResetPassword(e) {
     e.preventDefault();
 
+    if (isSubmitting) return;
+    if (!params.get("token")) {
+      setErrorMsg("L’enllaç de recuperació no és vàlid.");
+      return;
+    }
     if (firstPassword !== secondPassword) {
       setErrorMsg("Les contrassenyes no coincideixen");
       return;
     }
 
+    setSubmitting(true);
     const servicePassword = await confirmResetPassword(
       params.get("token"),
       secondPassword,
     );
 
-    if (servicePassword.errCode) {
-      setFeedErr(servicePassword.errMssg);
+    setSubmitting(false);
+    if (servicePassword?.success !== true) {
+      setFeedErr(
+        "No hem pogut restablir la contrasenya. Sol·licita un enllaç nou o torna-ho a provar.",
+      );
       setSended(true);
     } else {
       navigate("/");
@@ -58,9 +68,11 @@ export default function ResetPassword() {
               <p className="mb-1">Nova contrasenya</p>
               <input
                 type="password"
+                required
+                autoComplete="new-password"
                 onChange={(e) => setFirstPassword(e.target.value)}
                 value={firstPassword}
-                className="min-h-10 w-full bg-white px-2 text-sm text-black md:text-base"
+                className="min-h-10 w-full bg-white px-2 text-base text-black"
                 pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$"
               />
             </label>
@@ -68,9 +80,11 @@ export default function ResetPassword() {
               <p className="mb-1">Confirmar contrasenya</p>
               <input
                 type="password"
+                required
+                autoComplete="new-password"
                 onChange={(e) => setSecondPassword(e.target.value)}
                 value={secondPassword}
-                className="min-h-10 w-full bg-white px-2 text-sm text-black md:text-base"
+                className="min-h-10 w-full bg-white px-2 text-base text-black"
                 pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$"
               />
             </label>
@@ -81,7 +95,13 @@ export default function ResetPassword() {
             <small className="mb-3 block text-center text-red-400">
               {errorMsg}
             </small>
-            <Button orange lg type="submit" className="w-full">
+            <Button
+              orange
+              lg
+              type="submit"
+              className="w-full"
+              disabled={isSubmitting}
+            >
               Restablir contrasenya
             </Button>
           </form>
