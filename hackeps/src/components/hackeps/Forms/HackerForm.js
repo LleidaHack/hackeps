@@ -121,22 +121,8 @@ export const HackerStepperForm = () => {
       <div id="hackerForm" className="hacker-signup text-white">
         {!submiting ? (
           <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-6">
-            <div className="stepInfo self-center my-4">
-              <div className="flex justify-center items-center space-x-4">
-                {[1, 2, 3].map((num) => (
-                  <div
-                    key={num}
-                    className={`w-8 h-8 flex items-center justify-center rounded-full ${step === num ? "bg-[#ff7430] text-[#2e2e2e]" : "bg-gray-300 text-black"}`}
-                  >
-                    {num}
-                  </div>
-                ))}
-              </div>
-              <hr className="w-1/2 mt-4 border-t-2 border-gray-300" />
-            </div>
-
             <div className="hacker-signup-layout">
-              <div className="hidden items-center justify-center lg:flex">
+              <div className="hidden items-center justify-center lg:flex lg:self-start lg:pt-20">
                 <div>
                   <img
                     src={logo}
@@ -147,6 +133,21 @@ export const HackerStepperForm = () => {
                 </div>
               </div>
               <div className="hacker-signup-fields">
+                <div className="mb-6" aria-label="Passos del registre">
+                  <div className="flex justify-center items-center space-x-4">
+                    {[1, 2, 3].map((num) => (
+                      <div
+                        key={num}
+                        aria-current={step === num ? "step" : undefined}
+                        className={`w-8 h-8 flex items-center justify-center rounded-full ${step === num ? "bg-[#ff7430] text-[#2e2e2e]" : "bg-gray-300 text-black"}`}
+                      >
+                        {num}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div key={step} className="hacker-signup-step">
                 {step === 1 ? (
                   <>
                     <TitleGeneralized alignText={"left"} primary>
@@ -470,6 +471,7 @@ export const HackerStepperForm = () => {
                     </form>
                   </div>
                 ) : null}
+                </div>
               </div>
             </div>
           </div>
