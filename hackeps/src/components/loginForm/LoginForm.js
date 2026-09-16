@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "src/components/hackeps/Forms/PublicFormLayout.css";
 import { login } from "src/services/AuthenticationService";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -39,13 +40,16 @@ const LoginForm = ({ nextScreen }) => {
     }
   };
   return (
-    <div>
-      <form className="">
+    <div className="w-full min-w-0">
+      <form className="public-form">
         <div className="text-base mt-7 w-full">
           <label className="w-full text-base">
             <p className="text-white mb-1">Correu:</p>
             <input
-              className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-sm md:text-base`}
+              className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base`}
+              type="email"
+              inputMode="email"
+              autoComplete="username"
               placeholder="Correu"
               {...register("email", {
                 required: "E-mail obligatori",
@@ -62,10 +66,11 @@ const LoginForm = ({ nextScreen }) => {
             <p className="text-white mb-1">Contrasenya:</p>
             <input
               type="password"
-              className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-sm md:text-base`}
+              autoComplete="current-password"
+              className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base`}
               placeholder="Contrasenya"
               {...register("password", {
-                required: "Contraseña obligatoria",
+                required: "La contrasenya és obligatòria",
               })}
             />
           </label>

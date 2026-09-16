@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "src/components/hackeps/Contacte/Contacte.css";
+import "src/components/hackeps/Forms/PublicFormLayout.css";
 import logo from "src/assets/img/home10/logonaranja.png";
 import instagramLogo from "src/assets/img/home10/icon-instagram.svg";
 import linkedinLogo from "src/assets/img/home10/icon-linkedin.svg";
@@ -70,8 +71,8 @@ const ContactePage = () => {
   }
 
   return (
-    <div className="px-[72px] pb-8 pt-4 text-white">
-      <h1 className="mb-4 mt-0 text-center font-space-mono text-[40px] font-bold leading-none tracking-[-0.8px]">
+    <div className="mx-auto w-full max-w-[1280px] px-4 pb-8 pt-4 text-white sm:px-6 lg:px-[72px]">
+      <h1 className="mb-4 mt-0 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.8px] md:text-[40px]">
         Contacte
       </h1>
       <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
@@ -79,7 +80,7 @@ const ContactePage = () => {
           <img
             src={logo}
             alt="HackEPS 10a edició"
-            className="h-auto w-[260px] max-w-full object-contain"
+            className="h-auto w-[160px] max-w-full object-contain md:w-[220px] lg:w-[260px]"
           />
           <p className="mt-3 mb-2 text-center font-space-mono text-[16px] leading-normal tracking-[-0.32px]">
             Esdeveniment ofert per LleidaHack
@@ -114,7 +115,7 @@ const ContactePage = () => {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex w-full flex-col gap-2 lg:w-[54%]"
+          className="public-form flex w-full min-w-0 flex-col gap-5 lg:w-[54%]"
         >
           <label className="font-space-mono text-[16px]">
             Nom:
@@ -127,7 +128,9 @@ const ContactePage = () => {
               disabled={isLoading}
             />
             {errors.name && (
-              <span className="text-sm text-red-400">{errors.name.message}</span>
+              <span className="text-sm text-red-400">
+                {errors.name.message}
+              </span>
             )}
           </label>
 
@@ -135,7 +138,10 @@ const ContactePage = () => {
             E-mail:
             <input
               className={inputClass(errors.email)}
-              placeholder="johndoe@example.com"
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              placeholder="nom@exemple.cat"
               {...register("email", {
                 required: "Et falta indicar-nos el teu correu de contacte",
                 pattern: {
@@ -146,7 +152,9 @@ const ContactePage = () => {
               disabled={isLoading}
             />
             {errors.email && (
-              <span className="text-sm text-red-400">{errors.email.message}</span>
+              <span className="text-sm text-red-400">
+                {errors.email.message}
+              </span>
             )}
           </label>
 
@@ -161,7 +169,9 @@ const ContactePage = () => {
               disabled={isLoading}
             />
             {errors.title && (
-              <span className="text-sm text-red-400">{errors.title.message}</span>
+              <span className="text-sm text-red-400">
+                {errors.title.message}
+              </span>
             )}
           </label>
 

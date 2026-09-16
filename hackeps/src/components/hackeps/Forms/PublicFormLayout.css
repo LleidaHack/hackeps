@@ -1,0 +1,40 @@
+/* Override legacy global form sizing only on public contact and login forms. */
+.public-form {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.public-form label {
+  display: block;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.public-form input,
+.public-form select,
+.public-form textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 3rem;
+  margin: 0.5rem 0 0;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+.public-form textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.public-form :is(input, select, textarea):focus-visible {
+  outline: 2px solid #ff7430;
+  outline-offset: 2px;
+}
+
+.public-form button {
+  min-height: 2.75rem;
+}
