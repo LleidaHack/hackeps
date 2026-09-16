@@ -1,3 +1,4 @@
+import hackerIllustration from "src/assets/img/home10/marraco-hacker-raw.png";
 import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import { useState } from "react";
 import { signupHacker } from "src/services/HackerService";
@@ -121,7 +122,7 @@ export const HackerStepperForm = () => {
     <>
       <div id="hackerForm" className="hacker-signup text-white">
         {!submiting ? (
-          <FormLayout visualFooter={<h2 className="mt-3 text-white"></h2>}>
+          <FormLayout image={hackerIllustration} imageAlt="Hacker">
                 <div key={step} className="hacker-signup-step">
                 {step === 1 ? (
                   <>
