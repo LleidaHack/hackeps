@@ -275,3 +275,107 @@
 .hacker-profile-accounts i {
   margin: 0 !important;
 }
+
+.hacker-profile-content { max-width: 1200px; }
+.profile-workspace { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 2rem; }
+.profile-navigation { display: flex; flex-direction: column; gap: 0.5rem; align-self: start; }
+.profile-navigation a { padding: 0.85rem 1rem; border-radius: 6px; color: #ddd; text-decoration: none; font-size: 0.9rem; }
+.profile-navigation a.active { background: #ff7430; color: #242424; font-weight: bold; }
+.profile-navigation a:hover { background: #444; color: #fff; }
+.profile-navigation .profile-signout { margin-top: 2rem; font-size: 0.8rem; }
+.profile-panel { min-width: 0; min-height: 520px; padding: clamp(1rem, 3vw, 2rem); border: 1px solid #555; border-radius: 12px; background: #333; }
+.profile-panel h2 { margin: 0 0 1rem; font-size: 1.6rem; color: #fff; }
+.profile-description { color: #ccc; margin-bottom: 1.75rem; line-height: 1.6; }
+.profile-summary-card { padding: 1.5rem; margin-top: 1rem; border-radius: 8px; background: #444; }
+.profile-summary-card h3 { font-size: 1.2rem; margin: 0 0 1rem; color: #fff; }
+.profile-summary-card p { line-height: 1.6; }
+.profile-primary-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0.6rem 1rem; background: #ff7430; color: #242424; text-decoration: none; border-radius: 4px; }
+.profile-primary-link:hover { background: #ff9b6b; color: #242424; }
+.profile-event-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; align-items: start; }
+.profile-event-grid .hacker-profile-event { width: 100%; margin: 0; }
+.profile-event-grid .hacker-profile-highlights { display: block; width: 100%; }
+.profile-panel .hacker-profile-actions { max-width: none; margin-top: 0; }
+@media (max-width: 767px) {
+  .profile-workspace { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .profile-navigation { flex-direction: row; overflow-x: auto; max-width: 100%; padding-bottom: 0.5rem; }
+  .profile-navigation a { flex-shrink: 0; white-space: nowrap; }
+  .profile-navigation .profile-signout { margin-top: 0; }
+  .profile-event-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Keep editor labels readable without changing the light input text color. */
+.profile-editor,
+.profile-editor label {
+  color: #fff;
+}
+.profile-editor label.text-red-600 {
+  color: #fca5a5;
+}
+.profile-editor select {
+  background: #fff;
+  color: #242424;
+  color-scheme: light;
+}
+.profile-editor input[type="file"] {
+  color: #fff;
+}
+
+.profile-editor { width: 100%; }
+.profile-editor fieldset { min-width: 0; margin: 0 0 1.5rem; padding: 1.25rem; border: 1px solid #606060; border-radius: 8px; }
+.profile-editor legend { float: none; width: auto; padding: 0 0.5rem; font-size: 1.1rem; font-weight: bold; }
+.profile-editor legend small { font-size: 0.75rem; font-weight: normal; color: #ccc; }
+.profile-editor label { display: block; min-width: 0; margin: 0 0 1rem; font-size: 0.9rem; }
+.profile-editor label:last-child { margin-bottom: 0; }
+.profile-editor small { display: block; margin-top: 0.5rem; color: #ccc; font-size: 0.75rem; }
+.profile-editor :is(input, select) { box-sizing: border-box; width: 100%; min-width: 0; min-height: 48px; margin: 0.5rem 0 0; padding: 0.75rem; border: 1px solid #aaa; border-radius: 5px; font-size: 16px; }
+.profile-editor-photo { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.25rem; }
+.profile-editor-photo img { width: 96px; height: 96px; flex-shrink: 0; border: 2px solid #ff7430; border-radius: 50%; object-fit: cover; background: #fff; }
+.profile-editor-photo label { flex: 1; margin: 0; }
+.profile-editor-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.profile-editor input[type="file"] { padding: 0; border: 0; font-size: 0.8rem; }
+.profile-editor input::file-selector-button { min-height: 44px; margin-right: 0.75rem; padding: 0.5rem 0.75rem; border: 1px solid #999; border-radius: 4px; background: #444; color: #fff; cursor: pointer; }
+.hacker-profile-actions .profile-editor-save button { width: 100%; min-height: 56px; border: 0; border-radius: 5px; background: #ff7430; color: #242424; font-size: 1rem; font-weight: bold; }
+.hacker-profile-actions .profile-editor-save button:hover:not(:disabled) { background: #ff9b6b; }
+.profile-editor-save button:disabled { opacity: 0.6; cursor: wait; }
+.profile-editor-error { color: #fca5a5; }
+.profile-editor-success { color: #fff; }
+.profile-editor-file { overflow-wrap: anywhere; font-size: 0.8rem; }
+@media (max-width: 575px) {
+  .profile-editor-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .profile-editor-photo { flex-direction: column; align-items: flex-start; }
+  .profile-editor-photo label { width: 100%; }
+  .profile-editor fieldset { padding: 1rem; }
+}
+
+/* Compact mobile workspace with every section reachable without horizontal scrolling. */
+@media (max-width: 767px) {
+  .hacker-profile { padding: 1.25rem 0.75rem 2rem; }
+  .hacker-profile-header { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; text-align: left; margin-bottom: 1.25rem; }
+  .hacker-profile-avatar { min-width: 0; }
+  .hacker-profile #profile-pic-big { width: 64px; height: 64px; border-width: 3px !important; }
+  .hacker-profile-identity h1 { font-size: 1.35rem; margin-bottom: 0.5rem; }
+  .hacker-profile-identity p { font-size: 0.8rem; margin-bottom: 0.5rem; }
+  .hacker-profile-ticket { grid-column: 1 / -1; width: 100%; max-width: none; min-height: 48px; flex-direction: row; justify-content: center; padding: 0.65rem; border-radius: 6px; }
+  .hacker-profile-ticket img { width: 28px; height: 28px; }
+  .profile-navigation { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; overflow: visible; padding: 0; }
+  .profile-navigation a { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0.65rem 0.5rem; font-size: 0.8rem; white-space: normal; text-align: center; background: #3b3b3b; }
+  .profile-navigation .profile-signout { grid-column: 1 / -1; min-height: 44px; background: transparent; justify-content: flex-end; padding-right: 0; }
+  .profile-panel { padding: 1rem 0.75rem; min-height: 0; }
+  .profile-panel h2 { font-size: 1.35rem; }
+  .profile-description { font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .profile-summary-card { padding: 1rem; }
+  .profile-primary-link { display: flex; justify-content: center; width: 100%; text-align: center; }
+  .profile-editor fieldset { padding: 1rem 0 0; border: 0; border-top: 1px solid #666; border-radius: 0; margin-bottom: 1.5rem; }
+  .profile-editor legend { font-size: 1rem; padding-left: 0; padding-right: 0.75rem; }
+  .profile-editor-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .profile-editor-photo { flex-direction: column; align-items: center; gap: 1rem; }
+  .profile-editor-photo label { width: 100%; }
+  .profile-editor input[type="file"] { max-width: 100%; font-size: 0.8rem; }
+  .profile-editor input::file-selector-button { display: block; width: 100%; margin: 0 0 0.5rem; min-height: 48px; }
+  .profile-editor-save { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .profile-editor-file button { width: 100%; min-height: 44px; border-radius: 4px; }
+  .hacker-profile-accounts { max-width: 100%; }
+  .hacker-profile-accounts .join-container { flex-wrap: wrap; justify-content: center; }
+}
+
+.profile-panel .team-member-name { color: #fff; }

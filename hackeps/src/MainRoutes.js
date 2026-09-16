@@ -32,7 +32,7 @@ export default function MainRoutes() {
   }, []);
 
   return (
-    <div key={pathname} className="route-page">
+    <div key={[ROUTES.profile, `${ROUTES.profile}/esdeveniments`, `${ROUTES.profile}/equip`, `${ROUTES.profile}/dades`].includes(pathname) ? ROUTES.profile : pathname} className="route-page">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path={ROUTES.dates} element={<DatesPage />} />
@@ -47,7 +47,12 @@ export default function MainRoutes() {
               <Profile />
             </RequireAuth>
           }
-        />
+        >
+          <Route index />
+          <Route path="esdeveniments" />
+          <Route path="equip" />
+          <Route path="dades" />
+        </Route>
         <Route
           path={`${ROUTES.profile}/:hacker_id`}
           element={

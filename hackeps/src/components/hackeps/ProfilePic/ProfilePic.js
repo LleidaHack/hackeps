@@ -1,9 +1,9 @@
 import React from "react";
 import HSkeleton from "../LoadingSkeleton/HSkeleton";
-import def from "src/imgs/default.png";
+import def from "src/assets/img/home10/marraco-mentor-raw.png";
 
 function is_not_empty(icon) {
-  return !(icon === "string" || icon === "");
+  return typeof icon === "string" && icon.trim() !== "" && icon !== "string";
 }
 
 const StandardPfp = ({ hacker, bgcolor, extra_id, border, is_profile }) => {

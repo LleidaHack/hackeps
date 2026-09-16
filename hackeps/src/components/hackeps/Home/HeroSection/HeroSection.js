@@ -23,7 +23,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
 
   return (
     <div className="relative w-full overflow-hidden" style={{ backgroundColor: sky }}>
-      <div className="relative w-full pb-14 pt-2 md:pb-12 md:pt-4" style={{ backgroundColor: sky }}>
+      <div className="relative w-full pb-14 pt-0 md:pb-12" style={{ backgroundColor: sky }}>
         <img
           src={banderilles}
           alt=""

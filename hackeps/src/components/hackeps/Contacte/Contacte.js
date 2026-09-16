@@ -2,9 +2,9 @@ import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useEffect, useState } from "react";
 import "src/components/hackeps/Contacte/Contacte.css";
 import "src/components/hackeps/Forms/PublicFormLayout.css";
-import instagramLogo from "src/assets/img/home10/icon-instagram.svg";
-import linkedinLogo from "src/assets/img/home10/icon-linkedin.svg";
-import twitterLogo from "src/assets/img/home10/icon-x.svg";
+import { ReactComponent as InstagramIcon } from "src/assets/img/home10/icon-instagram.svg";
+import { ReactComponent as LinkedInIcon } from "src/assets/img/home10/icon-linkedin.svg";
+import { ReactComponent as XIcon } from "src/assets/img/home10/icon-x.svg";
 import { useForm } from "react-hook-form";
 import { contacte } from "src/services/AuthenticationService";
 import SuccessFeedback from "src/components/hackeps/Feedbacks/SuccesFeedback";
@@ -75,30 +75,33 @@ const ContactePage = () => {
           <p className="mt-3 mb-2 text-center font-space-mono text-[16px] leading-normal tracking-[-0.32px]">
             Esdeveniment ofert per LleidaHack
           </p>
-          <div className="flex flex-row items-center gap-4">
+          <div className="contact-social-links">
             <a
               href="https://www.instagram.com/lleidahack/"
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram"
+              style={{ color: "#ff354b" }}
             >
-              <img src={instagramLogo} alt="" className="h-7 w-7" />
+              <InstagramIcon aria-hidden="true" className="contact-social-icon" />
             </a>
             <a
               href="https://www.linkedin.com/company/lleidahack"
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"
+              style={{ color: "#3478f6" }}
             >
-              <img src={linkedinLogo} alt="" className="h-7 w-7" />
+              <LinkedInIcon aria-hidden="true" className="contact-social-icon" />
             </a>
             <a
               href="https://twitter.com/lleidahack"
               target="_blank"
               rel="noreferrer"
               aria-label="X"
+              style={{ color: "#00c9a7" }}
             >
-              <img src={twitterLogo} alt="" className="h-7 w-7" />
+              <XIcon aria-hidden="true" className="contact-social-icon" />
             </a>
           </div>
     </>}>
