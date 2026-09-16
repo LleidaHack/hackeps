@@ -31,7 +31,7 @@ const Identify = () => {
         REGISTRAT
       </h1>
 
-      <div className="relative z-10 mx-auto mt-4 grid max-w-[1440px] grid-cols-1 gap-10 md:mt-6 md:grid-cols-2 md:gap-8">
+      <div className="relative z-10 mx-auto mt-4 grid max-w-[1200px] grid-cols-1 gap-10 md:mt-6 md:grid-cols-2 md:gap-8">
         <img
           src={cloud3}
           alt=""
@@ -41,14 +41,14 @@ const Identify = () => {
           className="pointer-events-none absolute bottom-[-64px] left-1/2 hidden h-auto w-[36%] max-w-[480px] -translate-x-1/2 object-contain lg:block"
         />
         <div className="flex flex-col items-center">
-          <div className="relative flex w-full max-w-[336px] md:max-w-[560px] items-end justify-center">
+          <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
             <img
               src={mountain}
               alt=""
               aria-hidden="true"
               width={407}
               height={498}
-              className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[440px] -translate-x-1/2 object-contain"
+              className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[376px] -translate-x-1/2 object-contain"
             />
             <Link
               to={ROUTES.contactMentor}
@@ -72,14 +72,14 @@ const Identify = () => {
         </div>
 
         <div className="flex flex-col items-center">
-          <div className="relative flex w-full max-w-[336px] md:max-w-[560px] items-end justify-center">
+          <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
             <img
               src={mountain}
               alt=""
               aria-hidden="true"
               width={407}
               height={498}
-              className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[440px] -translate-x-1/2 object-contain"
+              className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[376px] -translate-x-1/2 object-contain"
             />
             <Link
               to={ROUTES.inscription}
