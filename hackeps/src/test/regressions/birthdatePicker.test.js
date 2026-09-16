@@ -7,7 +7,7 @@ import SuccessFeedback from "src/components/hackeps/Feedbacks/SuccesFeedback";
 test("selects leap day in ISO format and restores trigger focus", async () => {
   const onChange = jest.fn();
   render(<BirthdatePicker onChange={onChange} onBlur={() => {}} />);
-  const trigger = screen.getByRole("button", { name: /Dia/ });
+  const trigger = screen.getByRole("button", { name: "Obre el calendari" });
   fireEvent.click(trigger);
   fireEvent.change(screen.getByLabelText("Any de naixement"), {
     target: { value: "2000" },
@@ -32,7 +32,7 @@ test("does not offer an invalid leap day and Escape cancels without changing the
       onBlur={() => {}}
     />,
   );
-  const trigger = screen.getByRole("button", { name: /20 \/ 02/ });
+  const trigger = screen.getByRole("button", { name: "Obre el calendari" });
   fireEvent.click(trigger);
   expect(
     screen.queryByRole("button", { name: "29 de febrer de 2001" }),
@@ -64,4 +64,20 @@ test("registration confirmation provides one accessible login link", () => {
   );
   expect(screen.queryByRole("button")).not.toBeInTheDocument();
   window.scrollTo.mockRestore();
+});
+
+test("formats compact typed dates and clears stale values for invalid dates", () => {
+  const onChange = jest.fn();
+  render(<BirthdatePicker onChange={onChange} onBlur={() => {}} />);
+  const input = screen.getByRole("textbox");
+  fireEvent.change(input, { target: { value: "15072005" } });
+  expect(input).toHaveValue("15/07/2005");
+  expect(onChange).toHaveBeenLastCalledWith("2005-07-15");
+  fireEvent.change(input, { target: { value: "31022005" } });
+  expect(onChange).toHaveBeenLastCalledWith("");
+  expect(screen.getByRole("alert")).toBeInTheDocument();
+  fireEvent.change(input, { target: { value: "29/02/2000" } });
+  expect(onChange).toHaveBeenLastCalledWith("2000-02-29");
+  fireEvent.change(input, { target: { value: "" } });
+  expect(onChange).toHaveBeenLastCalledWith("");
 });
