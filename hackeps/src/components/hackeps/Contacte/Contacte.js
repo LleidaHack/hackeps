@@ -201,7 +201,7 @@ const ContactePage = () => {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? "Enviant..." : "Següent"}
+            {isLoading ? "Enviant..." : "Enviar"}
           </button>
         </form>
       </div>
