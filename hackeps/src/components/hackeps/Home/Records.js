@@ -1,83 +1,27 @@
-import React from "react";
+import React, { useRef } from "react";
+import { GALLERY_ITEMS } from "./galleryItems";
 import Firework from "src/components/hackeps/Home/Firework.js";
 import firework1 from "src/assets/img/home10/firework-1.svg";
 import firework3 from "src/assets/img/home10/firework-3.svg";
 import cloud2 from "src/assets/img/home10/cloud-2.svg";
 
-/*
-  Afegeix aquí les fotos del carrusel.
-  `image` pot ser un import (p.ex. import hackeps8 from "src/assets/img/gallery/hackeps-8.jpg")
-  o null mentre no tinguis l'arxiu: es veurà el recuadre buit.
-*/
-const GALLERY_ITEMS = [
-  {
-    id: "hackeps-8",
-    title: "HACKEPS 8",
-    color: "#0b3d2e",
-    image: null,
-  },
-  {
-    id: "hackeps-1",
-    title: "HACKEPS 1",
-    color: "#e67e22",
-    image: null,
-  },
-  {
-    id: "hackeps-6",
-    title: "HACKEPS 6",
-    color: "#a92323",
-    image: null,
-  },
-  {
-    id: "hackeps-7",
-    title: "HACKEPS 7",
-    color: "#f39c12",
-    image: null,
-  },
-  {
-    id: "hackeps-5",
-    title: "HACKEPS 5",
-    color: "#1d6aa3",
-    image: null,
-  },
-  {
-    id: "hackeps-4",
-    title: "HACKEPS 4",
-    color: "#78c6bd",
-    image: null,
-  },
-];
-
-const PolaroidCard = ({ title, color, image }) => (
-  <article className="relative w-[220px] shrink-0 pt-4 sm:w-[280px] md:w-[340px]">
-    <span
-      aria-hidden="true"
-      className="absolute left-1/2 top-0 z-20 h-[18px] w-[28px] -translate-x-1/2 -translate-y-1/2 rounded-[3px]"
-      style={{ backgroundColor: color }}
-    />
-    <div className="flex h-[280px] flex-col rounded-[28px] bg-white px-3 pb-5 pt-7 shadow-[0_8px_20px_rgba(46,46,46,0.12)] sm:h-[340px] md:h-[420px]">
-      <div className="relative min-h-0 flex-1 overflow-hidden rounded-[16px] bg-[#d7e9f7]">
-        {image ? (
-          <img
-            src={image}
-            alt={title}
-            className="h-full w-full object-cover"
-          />
-        ) : null}
-      </div>
-      <p
-        className="mb-0 mt-4 text-center font-space-mono text-[16px] font-bold leading-none tracking-[-0.32px] md:text-[22px] md:tracking-[-0.44px]"
-        style={{ color }}
-      >
-        {title}
-      </p>
-    </div>
-  </article>
-);
-
 const Records = () => {
+  const track = useRef(null);
+  const scroll = (direction) => {
+    const element = track.current;
+    if (!element) return;
+    element.scrollBy({
+      left: direction * element.clientWidth * 0.8,
+      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches
+        ? "auto"
+        : "smooth",
+    });
+  };
   return (
-    <section className="relative w-full overflow-hidden bg-transparent pb-16 pt-6 md:pb-[180px] md:pt-6">
+    <section
+      aria-label="Records de la HackEPS"
+      className="relative w-full overflow-hidden bg-transparent pb-16 pt-6 md:pb-[180px] md:pt-6"
+    >
       <Firework
         src={firework1}
         width={299}
@@ -101,7 +45,7 @@ const Records = () => {
 
       <div className="relative z-10">
         <svg
-          className="pointer-events-none absolute left-0 top-[18px] h-[36px] w-full"
+          className="pointer-events-none absolute left-0 top-[44px] md:top-[56px] h-[36px] w-full"
           viewBox="0 0 1728 36"
           preserveAspectRatio="none"
           aria-hidden="true"
@@ -115,16 +59,50 @@ const Records = () => {
           />
         </svg>
 
-        <div className="flex snap-x snap-mandatory gap-8 overflow-x-auto px-4 pb-8 pt-8 sm:gap-12 md:gap-24 md:px-12 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div
+          id="hackeps-gallery"
+          ref={track}
+          tabIndex={0}
+          role="region"
+          aria-label="Fotografies d’edicions anteriors"
+          className="flex snap-x snap-mandatory gap-8 overflow-x-auto px-4 pb-8 pt-8 sm:gap-12 md:gap-24 md:px-12 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        >
           {GALLERY_ITEMS.map((item) => (
-            <div key={item.id} className="snap-start">
-              <PolaroidCard
-                title={item.title}
-                color={item.color}
-                image={item.image}
+            <article
+              key={item.id}
+              className="w-[220px] shrink-0 snap-start sm:w-[280px] md:w-[340px]"
+            >
+              <img
+                src={item.image}
+                alt={item.alt}
+                width={item.width}
+                height={item.height}
+                loading="lazy"
+                decoding="async"
+                className="block h-auto w-full"
               />
-            </div>
+            </article>
           ))}
+        </div>
+        <div className="flex justify-center gap-4 px-4">
+          <button
+            type="button"
+            aria-label="Fotografies anteriors"
+            aria-controls="hackeps-gallery"
+            onClick={() => scroll(-1)}
+            className="min-h-[44px] min-w-[44px] rounded bg-[#ff7430] px-4 py-2 text-[#242424] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            aria-label="Fotografies següents"
+            aria-controls="hackeps-gallery"
+            onClick={() => scroll(1)}
+            className="min-h-[44px] min-w-[44px] rounded bg-[#ff7430] px-4 py-2 text-[#242424] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+          >
+            →
+          </button>
         </div>
       </div>
     </section>
