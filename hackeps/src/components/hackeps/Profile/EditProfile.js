@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { updateHacker } from "src/services/HackerService";
 import FileBase from "react-file-base64";
-import userIcon from "src/icons/user2.png";
+import userIcon from "src/assets/img/home10/marraco-mentor-raw.png";
 import Button from "src/components/buttons/Button";
 import { useForm } from "react-hook-form";
 
@@ -26,7 +26,7 @@ const EditProfile = ({ hackerObj }) => {
   const [cvFileChanged, setcvFileChanged] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [hacker, setHacker] = useState({});
-  const [pfpImage, setImage] = useState(hacker.image || userIcon);
+  const [pfpImage, setImage] = useState(hacker.image || "");
   const [hackerLinkedin, setHackerLinkedin] = useState(hacker.linkedin || "");
   const [hackerGithub, setHackerGithub] = useState(hacker.github || "");
   const sizeOptions = [
@@ -41,7 +41,7 @@ const EditProfile = ({ hackerObj }) => {
   useEffect(() => {
     const hacker_id = localStorage.getItem("userID");
     setHacker({ ...hackerObj, id: hacker_id });
-    setImage(hackerObj.image || userIcon);
+    setImage(hackerObj.image || "");
     setHackerLinkedin(hackerObj.linkedin || "");
     setHackerGithub(hackerObj.github || "");
   }, [hackerObj]);
