@@ -72,17 +72,19 @@ const HomeHeader = () => {
         <div className="flex shrink-0 items-center gap-3">
           <button
             type="button"
-            className="border-0 bg-transparent p-1 text-[28px] leading-none text-[#2e2e2e] lg:hidden"
+            className="flex h-11 w-11 items-center justify-center border-0 bg-transparent p-0 leading-none text-[#2e2e2e] lg:hidden"
             aria-label={open ? "Tancar menú" : "Obrir menú"}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
           >
-            {open ? "×" : "☰"}
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              {open ? <path d="m6 6 12 12M6 18 18 6" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
+            </svg>
           </button>
           <Link
             to={hasSession ? ROUTES.profile : ROUTES.login}
             state={hasSession ? undefined : { nextScreen: ROUTES.profile }}
-            className="block p-1"
+            className="flex h-11 w-11 items-center justify-center p-0"
             aria-label="Perfil"
           >
             <img
