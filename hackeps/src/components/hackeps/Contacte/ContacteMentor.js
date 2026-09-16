@@ -46,7 +46,7 @@ const ContacteMentorPage = () => {
       };
 
       const success = await contacte(formattedData);
-      setMailStatus(success);
+      setMailStatus(success?.success === true);
       setMailSended(true);
     } catch (error) {
       setMailStatus(false);
