@@ -434,7 +434,7 @@ export const HackerStepperForm = () => {
                           disabled={
                             !isValid || !watch("termsConditions") || hideSubmit
                           }
-                          className={`min-h-10 ${!isValid || !watch("termsConditions") || hideSubmit ? "opacity-50" : ""}`}
+                          className={`form-submit-action ${!isValid || !watch("termsConditions") || hideSubmit ? "opacity-50" : ""}`}
                           onClick={handleSubmit(onSubmit)}
                         >
                           Enviar
