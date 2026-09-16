@@ -1,11 +1,11 @@
-import cabeza1 from "src/assets/img/home10/cabeza1.png";
-import cabeza2 from "src/assets/img/home10/cabeza2.png";
-import cabeza3 from "src/assets/img/home10/cabeza3.png";
-import cabeza4 from "src/assets/img/home10/cabeza4.png";
-import cabeza5 from "src/assets/img/home10/cabeza5.png";
-import cabeza6 from "src/assets/img/home10/cabeza6.png";
-import cloud2 from "src/assets/img/home10/cloud-2.png";
-import cloud5 from "src/assets/img/home10/cloud-5.png";
+import cabeza1 from "src/assets/img/home10/cabeza1.svg";
+import cabeza2 from "src/assets/img/home10/cabeza2.svg";
+import cabeza3 from "src/assets/img/home10/cabeza3.svg";
+import cabeza4 from "src/assets/img/home10/cabeza4.svg";
+import cabeza5 from "src/assets/img/home10/cabeza5.svg";
+import cabeza6 from "src/assets/img/home10/cabeza6.svg";
+import cloud2 from "src/assets/img/home10/cloud-2.svg";
+import cloud5 from "src/assets/img/home10/cloud-5.svg";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
 const SCHEDULE = [
@@ -61,7 +61,7 @@ const DatesHorari = () => {
         aria-hidden="true"
         width={360}
         height={160}
-        className="pointer-events-none absolute right-[-16%] top-[24px] hidden h-auto w-[36%] max-w-[260px] object-contain sm:block md:right-[-40px] md:top-[40px] md:w-[360px] md:max-w-none lg:h-[160px]"
+        className="ambient-cloud ambient-cloud--2 ambient-cloud--left pointer-events-none absolute right-[-16%] top-[24px] hidden h-auto w-[36%] max-w-[260px] object-contain sm:block md:right-[-40px] md:top-[40px] md:w-[360px] md:max-w-none lg:h-[160px]"
       />
       <img
         src={cloud2}
@@ -69,7 +69,7 @@ const DatesHorari = () => {
         aria-hidden="true"
         width={380}
         height={190}
-        className="pointer-events-none absolute left-[-18%] top-[46%] hidden h-auto w-[40%] max-w-[280px] object-contain md:block md:left-[-60px] md:w-[380px] md:max-w-none lg:h-[190px]"
+        className="ambient-cloud ambient-cloud--2 ambient-cloud--right pointer-events-none absolute left-[-18%] top-[46%] hidden h-auto w-[40%] max-w-[280px] object-contain md:block md:left-[-60px] md:w-[380px] md:max-w-none lg:h-[190px]"
       />
       <img
         src={cloud5}
@@ -77,7 +77,7 @@ const DatesHorari = () => {
         aria-hidden="true"
         width={340}
         height={150}
-        className="pointer-events-none absolute bottom-[40px] right-[-12%] hidden h-auto w-[34%] max-w-[240px] object-contain md:block md:bottom-[80px] md:right-[-20px] md:w-[340px] md:max-w-none lg:h-[150px]"
+        className="ambient-cloud ambient-cloud--2 ambient-cloud--left pointer-events-none absolute bottom-[40px] right-[-12%] hidden h-auto w-[34%] max-w-[240px] object-contain md:block md:bottom-[80px] md:right-[-20px] md:w-[340px] md:max-w-none lg:h-[150px]"
       />
 
       <h2

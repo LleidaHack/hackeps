@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import marracoMentor from "src/assets/img/home10/marraco-mentor-raw.png";
 import marracoHacker from "src/assets/img/home10/marraco-hacker-raw.png";
-import mountain from "src/assets/img/home10/mountain.png";
-import cloud4 from "src/assets/img/home10/cloud-4.png";
-import cloud3 from "src/assets/img/home10/cloud-3.png";
+import mountain from "src/assets/img/home10/mountain.svg";
+import cloud4 from "src/assets/img/home10/cloud-4.svg";
+import cloud3 from "src/assets/img/home10/cloud-3.svg";
 import { ROUTES } from "src/config/routes";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
@@ -21,34 +21,34 @@ const Identify = () => {
         aria-hidden="true"
         width={457}
         height={209}
-        className="pointer-events-none absolute right-[-10%] top-[8%] hidden h-auto w-[30%] max-w-[360px] object-contain lg:block"
-      />
-      <img
-        src={cloud3}
-        alt=""
-        aria-hidden="true"
-        width={596}
-        height={265}
-        className="pointer-events-none absolute bottom-[4%] left-1/2 hidden h-auto w-[36%] max-w-[480px] -translate-x-1/2 object-contain lg:block"
+        className="ambient-cloud ambient-cloud--1 ambient-cloud--left pointer-events-none absolute right-[-10%] top-[8%] h-auto w-[30%] max-w-[360px] object-contain"
       />
 
       <h1
         className="relative z-20 m-0 mb-14 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] md:mb-20 md:text-[48px] lg:mb-24 lg:text-[64px] lg:tracking-[-1.28px]"
         style={{ color: text }}
       >
-        IDENTIFICAT
+        REGISTRAT
       </h1>
 
       <div className="relative z-10 mx-auto mt-4 grid max-w-[1200px] grid-cols-1 gap-10 md:mt-6 md:grid-cols-2 md:gap-8">
+        <img
+          src={cloud3}
+          alt=""
+          aria-hidden="true"
+          width={596}
+          height={265}
+          className="ambient-cloud ambient-cloud--0 ambient-cloud--right pointer-events-none absolute bottom-[-64px] left-1/2 h-auto w-[36%] max-w-[480px] -translate-x-1/2 object-contain"
+        />
         <div className="flex flex-col items-center">
-          <div className="relative flex w-full max-w-[336px] items-end justify-center">
+          <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
             <img
               src={mountain}
               alt=""
               aria-hidden="true"
               width={407}
               height={498}
-              className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[320px] -translate-x-1/2 object-contain"
+              className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[376px] -translate-x-1/2 object-contain"
             />
             <Link
               to={ROUTES.contactMentor}
@@ -72,17 +72,17 @@ const Identify = () => {
         </div>
 
         <div className="flex flex-col items-center">
-          <div className="relative flex w-full max-w-[336px] items-end justify-center">
+          <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
             <img
               src={mountain}
               alt=""
               aria-hidden="true"
               width={407}
               height={498}
-              className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[320px] -translate-x-1/2 object-contain"
+              className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[376px] -translate-x-1/2 object-contain"
             />
             <Link
-              to={ROUTES.inscription}
+              to={ROUTES.hackerForm}
               className="relative z-10 block w-full no-underline"
             >
               <img
@@ -101,6 +101,29 @@ const Identify = () => {
             HACKER
           </p>
         </div>
+      </div>
+      <div
+        className="relative z-10 mx-auto mt-16 max-w-[900px] text-center font-space-mono text-base leading-relaxed md:mt-28 md:text-lg"
+        style={{ color: text }}
+      >
+        <p>
+          LleidaHack et dona la benvinguda a la HackEPS 2026, la primera hackató
+          de les terres de Lleida!
+        </p>
+        <p>
+          La desena edició de la HackEPS tindrà lloc a l’edifici de l’
+          <strong>
+            Escola Politècnica Superior de la Universitat de Lleida
+          </strong>{" "}
+          els dies <strong>28 i 29 de novembre de 2026</strong>. Aquest és un
+          esdeveniment que no voldràs perdre’t!
+        </p>
+        <p className="mb-0">
+          Així que, si ets un apassionat de la tecnologia, amant dels reptes i
+          defensor del treball en equip, la HackEPS 2026 és el teu lloc.
+          Uneix-te a nosaltres per a una experiència inoblidable per a
+          desenvolupar-te com a futur programador!
+        </p>
       </div>
     </section>
   );

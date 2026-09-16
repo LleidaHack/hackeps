@@ -1,12 +1,14 @@
+import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { contacte } from "src/services/AuthenticationService";
 import SuccessFeedback from "src/components/hackeps/Feedbacks/SuccesFeedback";
 import FailFeedback from "src/components/hackeps/Feedbacks/FailFeedback";
+import "src/components/hackeps/Forms/PublicFormLayout.css";
 import marracoMentor from "src/assets/img/home10/marraco-mentor-raw.png";
 
 const fieldClass = (hasError) =>
-  `mt-1 block min-h-[38px] w-full border-0 bg-white px-3 font-space-mono text-[15px] text-[#2e2e2e] outline-none ${
+  `mt-1 block min-h-[38px] w-full border-0 bg-white px-3 font-space-mono text-[16px] text-[#2e2e2e] outline-none ${
     hasError ? "bg-pink-100" : ""
   }`;
 
@@ -45,7 +47,7 @@ const ContacteMentorPage = () => {
       };
 
       const success = await contacte(formattedData);
-      setMailStatus(success);
+      setMailStatus(success?.success === true);
       setMailSended(true);
     } catch (error) {
       setMailStatus(false);
@@ -79,25 +81,10 @@ const ContacteMentorPage = () => {
   }
 
   return (
-    <div className="px-4 pb-8 pt-4 text-white md:px-10 lg:px-[72px]">
-      <h1 className="mb-6 mt-0 text-center font-space-mono text-[32px] font-bold leading-none tracking-[-0.64px] md:mb-8 md:text-[40px] md:tracking-[-0.8px]">
-        Aplicar com a Mentor
-      </h1>
-
-      <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-stretch lg:justify-between lg:gap-10">
-        <div className="flex w-full items-center justify-center lg:w-[32%]">
-          <img
-            src={marracoMentor}
-            alt="MENTOR"
-            width={526}
-            height={523}
-            className="h-auto w-[220px] max-w-full object-contain md:w-[280px] lg:w-[70%]"
-          />
-        </div>
-
+    <FormLayout title="Aplicar com a Mentor" image={marracoMentor} imageAlt="Mentor">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid w-full grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-2 lg:w-[64%]"
+          className="public-form grid w-full min-w-0 grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2"
         >
           <label className="font-space-mono text-[15px]">
             Nom complet
@@ -110,7 +97,9 @@ const ContacteMentorPage = () => {
               disabled={isLoading}
             />
             {errors.name && (
-              <span className="text-sm text-red-400">{errors.name.message}</span>
+              <span className="text-sm text-red-400">
+                {errors.name.message}
+              </span>
             )}
           </label>
 
@@ -118,6 +107,9 @@ const ContacteMentorPage = () => {
             Correu electrònic
             <input
               className={fieldClass(errors.email)}
+              type="email"
+              inputMode="email"
+              autoComplete="email"
               placeholder="el_teu_correu@exemple.com"
               {...register("email", {
                 required: "Et falta indicar-nos el teu correu de contacte",
@@ -129,7 +121,9 @@ const ContacteMentorPage = () => {
               disabled={isLoading}
             />
             {errors.email && (
-              <span className="text-sm text-red-400">{errors.email.message}</span>
+              <span className="text-sm text-red-400">
+                {errors.email.message}
+              </span>
             )}
           </label>
 
@@ -138,7 +132,8 @@ const ContacteMentorPage = () => {
             <select
               className={`${fieldClass(errors.specialization)} appearance-none`}
               {...register("specialization", {
-                required: "Si us plau, selecciona la teva àrea d'especialització",
+                required:
+                  "Si us plau, selecciona la teva àrea d'especialització",
               })}
               disabled={isLoading}
             >
@@ -195,13 +190,14 @@ const ContacteMentorPage = () => {
             />
           </label>
 
-          <label className="font-space-mono text-[15px]">
-            Experiència prèvia com a mentor
+          <label className="mentor-textarea-field font-space-mono text-[15px]">
+            <span className="mentor-textarea-label">Experiència prèvia com a mentor</span>
             <textarea
               className={`${fieldClass(errors.mentorExperience)} min-h-[64px] py-2`}
               placeholder="Has fet de mentor abans? En quin context?"
               {...register("mentorExperience", {
-                required: "Si us plau, explica'ns la teva experiència com a mentor",
+                required:
+                  "Si us plau, explica'ns la teva experiència com a mentor",
               })}
               disabled={isLoading}
             />
@@ -212,8 +208,8 @@ const ContacteMentorPage = () => {
             )}
           </label>
 
-          <label className="font-space-mono text-[15px]">
-            Motivació
+          <label className="mentor-textarea-field font-space-mono text-[15px]">
+            <span className="mentor-textarea-label">Motivació</span>
             <textarea
               className={`${fieldClass(errors.motivation)} min-h-[64px] py-2`}
               placeholder="Què et motiva a ser mentor a HackEPS?"
@@ -258,8 +254,7 @@ const ContacteMentorPage = () => {
             {isLoading ? "Enviant candidatura..." : "Enviar candidatura"}
           </button>
         </form>
-      </div>
-    </div>
+    </FormLayout>
   );
 };
 

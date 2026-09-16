@@ -1,31 +1,32 @@
+import hackerIllustration from "src/assets/img/home10/marraco-hacker-raw.png";
+import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import { useState } from "react";
 import { signupHacker } from "src/services/HackerService";
-import FileBase from "react-file-base64";
-import userIcon from "src/icons/user2.png";
 import FailFeedback from "../Feedbacks/FailFeedback";
 import SuccessFeedback from "../Feedbacks/SuccesFeedback";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
-import { useForm } from "react-hook-form";
+import BirthdatePicker from "./BirthdatePicker";
+import PasswordInput from "./PasswordInput";
+import { Controller, useForm } from "react-hook-form";
 import Button from "src/components/buttons/Button";
 import { ROUTES } from "src/config/routes";
-import logo from "src/assets/img/home10/logonaranja.png";
+import "./HackerFormLayout.css";
 
-const minAge = "14";
-const date = new Date();
-date.setFullYear(date.getFullYear() - minAge);
+import { isAtLeastAge } from "src/modules/ageValidation";
+
+const MINIMUM_ACCOUNT_AGE = 14;
 
 export const HackerStepperForm = () => {
   const {
     register,
+    control,
     handleSubmit,
+    trigger,
     watch,
     formState: { errors, isValid },
-    trigger,
   } = useForm({
     mode: "onChange",
   });
-  const [pfpImage, setImage] = useState("");
-  const [isPfpTooLarge, setPfpTooLarge] = useState(false);
   // Error message for last page of the form
   const [errorMsg, setErrorMsg] = useState("");
   //Feedback component
@@ -36,6 +37,8 @@ export const HackerStepperForm = () => {
   const [hideSubmit, setHideSubmit] = useState(false);
 
   const onSubmit = async (values) => {
+    if (hideSubmit) return;
+    setErrorMsg("");
     setHideSubmit(true);
     const hacker = {
       name: [values.firstName, values.lastName].join(" "),
@@ -52,13 +55,13 @@ export const HackerStepperForm = () => {
       },
       telephone: values.phone.replace(/\s+/g, ""),
       address: "",
-      image: pfpImage,
+      image: "",
       github: "",
       linkedin: "",
     };
     if (values.termsConditions) {
       const res = await signupHacker(hacker);
-      if (res.errCode) {
+      if (res?.errCode) {
         setStatusSubmit(false);
         let causeError = "";
         if (res.errMssg === "Email already exists") {
@@ -68,38 +71,29 @@ export const HackerStepperForm = () => {
         } else if (res.errMssg === "Telephone already exists") {
           causeError = "El telefon que has introduit es troba registrat.";
         } else {
-          causeError = isPfpTooLarge
-            ? "La foto de perfil introduida és massa gran"
-            : "Imatge no vàlida";
+          causeError = "No hem pogut crear el compte. Torna-ho a provar.";
         }
         setCauseError(causeError);
         setErrorMsg(causeError);
         setHideSubmit(false);
         return;
-      } else if (res.detail) {
+      } else if (res?.detail) {
         setStatusSubmit(false);
         setCauseError(res.detail[0].msg);
         setErrorMsg(res.detail[0].msg);
         setHideSubmit(false);
-      } else if (res.success) {
+      } else if (res?.success === true) {
         setStatusSubmit(true);
         setSubmiting(true);
         setHideSubmit(false);
+      } else {
+        setErrorMsg("No hem pogut crear el compte. Torna-ho a provar.");
+        setHideSubmit(false);
       }
     } else {
+      setHideSubmit(false);
       setErrorMsg("Has d'acceptar els termes i condicions");
     }
-  };
-
-  const handleImageChange = (event) => {
-    setErrorMsg("");
-    setPfpTooLarge(parseFloat(event.size) > 1024);
-    setImage(event.base64);
-  };
-  const handleImageUrlChange = (event) => {
-    setErrorMsg("");
-    setImage(event.target.value.trim());
-    setPfpTooLarge(false);
   };
 
   const handleButtonClick = () => {
@@ -110,57 +104,33 @@ export const HackerStepperForm = () => {
 
   return (
     <>
-      <div
-        id="hackerForm"
-        className="flex justify-center px-8 pb-8 pt-4 align-top text-white sm:px-56"
-      >
+      <div id="hackerForm" className="hacker-signup text-white">
         {!submiting ? (
-          <div className="flex flex-col gap-3 w-full">
-            <div className="stepInfo self-center my-4">
-              <div className="flex justify-center items-center space-x-4">
-                {[1, 2, 3].map((num) => (
-                  <div
-                    key={num}
-                    className={`w-8 h-8 flex items-center justify-center rounded-full ${step === num ? "bg-[#ff7430] text-[#2e2e2e]" : "bg-gray-300 text-black"}`}
-                  >
-                    {num}
-                  </div>
-                ))}
-              </div>
-              <hr className="w-1/2 mt-4 border-t-2 border-gray-300" />
-            </div>
-
-            <div className="flex flex-row w-full h-full justify-center content-center">
-              <div className="basis-1/2 justify-items-center content-center hidden md:block">
-                <div>
-                  <img
-                    src={logo}
-                    alt="HackEPS"
-                    className="w-[420px] max-w-full"
-                  />
-                  <h2 className="text-center mt-3 text-white">Hacker</h2>
-                </div>
-              </div>
-              <div className="basis-1/2 ">
+          <FormLayout image={hackerIllustration} imageAlt="Hacker">
+                <div key={step} className="hacker-signup-step">
                 {step === 1 ? (
                   <>
                     <TitleGeneralized alignText={"left"} primary>
                       {" "}
                       Informació Personal
                     </TitleGeneralized>
-                    <form className="flex flex-col gap-3">
+                    <form className="flex flex-col gap-3" onSubmit={async (event) => {
+                      event.preventDefault();
+                      if (await trigger(["firstName", "lastName", "password", "confirmPassword", "birthdate"])) setStep(2);
+                    }}>
                       <label>
                         Nom:
                         <input
-                          className={`${errors.name ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
+                          className={`${errors.firstName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
+                          autoComplete="given-name"
                           placeholder="Nom"
                           {...register("firstName", {
                             required: "El nom no pot estar buit",
                           })}
                         />
-                        {errors.name && (
+                        {errors.firstName && (
                           <span className="text-red-400">
-                            {errors.name.message}
+                            {errors.firstName.message}
                           </span>
                         )}
                       </label>
@@ -168,23 +138,25 @@ export const HackerStepperForm = () => {
                       <label>
                         Cognoms:
                         <input
-                          className={`${errors.name ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
+                          className={`${errors.lastName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
+                          autoComplete="family-name"
                           placeholder="Cognoms"
                           {...register("lastName", {
                             required: "Els cognoms no pot estar buit",
                           })}
                         />
-                        {errors.name && (
+                        {errors.lastName && (
                           <span className="text-red-400">
-                            {errors.name.message}
+                            {errors.lastName.message}
                           </span>
                         )}
                       </label>
 
                       <label>
                         Contrasenya:
-                        <input
-                          type="password"
+                        <PasswordInput
+                          visibilityLabel="la contrasenya"
+                          autoComplete="new-password"
                           className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Contrasenya"
                           {...register("password", {
@@ -221,8 +193,9 @@ export const HackerStepperForm = () => {
 
                       <label>
                         Confirma la contrasenya:
-                        <input
-                          type="password"
+                        <PasswordInput
+                          visibilityLabel="la confirmació de la contrasenya"
+                          autoComplete="new-password"
                           className={`${errors.confirmPassword ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Confirma la contrasenya"
                           {...register("confirmPassword", {
@@ -239,43 +212,41 @@ export const HackerStepperForm = () => {
                         )}
                       </label>
 
-                      <label>
-                        Data de naixement:
-                        <input
-                          type="date"
-                          className={`${errors.birthdate ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          {...register("birthdate", {
+                      <div>
+                        <label htmlFor="birthdate">Data de naixement:</label>
+                        <Controller
+                          name="birthdate"
+                          control={control}
+                          defaultValue=""
+                          rules={{
                             required: "La data de naixement és obligatòria",
-                            validate: {
-                              isOldEnough: (value) => {
-                                const birthDate = new Date(value);
-                                const today = new Date();
-                                const age =
-                                  today.getFullYear() - birthDate.getFullYear();
-
-                                // Si no ha llegado su cumpleaños este año, restamos 1 año a la edad
-                                return (
-                                  age > 14 ||
-                                  (age === 14 &&
-                                    today.getMonth() >= birthDate.getMonth()) ||
-                                  "Has de ser major de 14 anys"
-                                );
-                              },
-                            },
-                          })}
+                            validate: (value) =>
+                              isAtLeastAge(value, MINIMUM_ACCOUNT_AGE) ||
+                              "Has de tenir almenys 14 anys",
+                          }}
+                          render={({ field }) => (
+                            <BirthdatePicker
+                              value={field.value}
+                              onChange={field.onChange}
+                              onBlur={field.onBlur}
+                              invalid={Boolean(errors.birthdate)}
+                            />
+                          )}
                         />
                         {errors.birthdate && (
-                          <span className="text-red-400">
+                          <span
+                            id="birthdate-error"
+                            className="mt-2 block text-red-400"
+                          >
                             {errors.birthdate.message}
                           </span>
                         )}
-                      </label>
+                      </div>
 
                       <Button
                         orange
-                        disabled={!isValid}
-                        className={`min-h-10 ${!isValid ? "opacity-50" : ""}`}
-                        onClick={() => setStep(2)}
+                        type="submit"
+                        className="min-h-10"
                       >
                         Següent
                       </Button>
@@ -287,11 +258,29 @@ export const HackerStepperForm = () => {
                     <TitleGeneralized alignText={"left"} primary>
                       Contacte{" "}
                     </TitleGeneralized>
-                    <form className="flex flex-col gap-3">
+                    <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+                      <label>
+                        Àlies:
+                        <input
+                          className={`${errors.nickname ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
+                          placeholder="Àlies"
+                          {...register("nickname", {
+                            required: "El nickname és obligatori",
+                          })}
+                        />
+                        {errors.nickname && (
+                          <span className="text-red-400">
+                            {errors.nickname.message}
+                          </span>
+                        )}
+                      </label>
+
+
                       <label>
                         Telèfon:
                         <input
                           type="tel"
+                          autoComplete="tel"
                           className={`${errors.phone ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Telèfon"
                           {...register("phone", {
@@ -313,6 +302,7 @@ export const HackerStepperForm = () => {
                         Correu electrònic:
                         <input
                           type="email"
+                          autoComplete="email"
                           className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Correu electrònic"
                           {...register("email", {
@@ -331,118 +321,39 @@ export const HackerStepperForm = () => {
                         )}
                       </label>
 
-                      <label className="flex items-center space-x-2">
+                      <label className="hacker-signup-consent">
                         <input
                           type="checkbox"
-                          className="w-fit mr-5"
+                          className="shrink-0"
                           {...register("notifications")}
                         />
                         Accepto rebre notificacions electròniques de caràcter
                         informatiu, comercial i promocional.
                       </label>
 
-                      <div className="buttonsBox flex flex-row justify-between gap-2 md:gap-0">
-                        <Button
-                          orange
-                          className="min-h-10"
-                          onClick={() => setStep(1)}
-                        >
-                          Anterior
-                        </Button>
-                        <Button
-                          orange
-                          disabled={!isValid}
-                          className={`min-h-10 ${!isValid ? "opacity-50" : ""}`}
-                          onClick={() => setStep(3)}
-                        >
-                          Següent
-                        </Button>
-                      </div>
-                    </form>
-                  </>
-                ) : null}
-                {step === 3 ? (
-                  <div className="flex flex-col items-center">
-                    <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
-                      <img
-                        src={pfpImage || userIcon}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <TitleGeneralized alignText={"left"} primary>
-                      Avatar
-                    </TitleGeneralized>
-                    <form className="flex flex-col gap-3">
-                      <label>
-                        Nickname:
-                        <input
-                          className={`${errors.nickname ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="Nickname"
-                          {...register("nickname", {
-                            required: "El nickname és obligatori",
-                          })}
-                        />
-                        {errors.nickname && (
-                          <span className="text-red-400">
-                            {errors.nickname.message}
-                          </span>
-                        )}
-                      </label>
-
-                      <label>
-                        Image URL:
-                        <input
-                          className={`${errors.imageUrl ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="Image URL"
-                          {...register("imageUrl")}
-                          onChange={handleImageUrlChange}
-                        />
-                        {errors.imageUrl && (
-                          <span className="text-red-400">
-                            {errors.imageUrl.message}
-                          </span>
-                        )}
-                      </label>
-                      <div className="image-input-container">
-                        <FileBase
-                          id="avatarInput"
-                          type="file"
-                          multiple={false}
-                          onDone={handleImageChange}
-                        />
-                      </div>
-                      {isPfpTooLarge && (
-                        <span className="text-red-400">
-                          La foto de perfil introduida és massa gran
-                        </span>
-                      )}
-
-                      <label className="flex items-center space-x-2">
+                      <label className="hacker-signup-consent">
                         <input
                           type="checkbox"
-                          className="w-fit mr-5"
+                          className="shrink-0"
                           {...register("termsConditions", {
                             required: "Has d'acceptar els termes i condicions",
                           })}
                         />
                         <p>
                           Acceptes els nostres{" "}
-                          <a
-                            href={ROUTES.terms}
-                            className="text-[#ff7430]"
-                          >
+                          <a href={ROUTES.terms} className="text-[#ff7430]">
                             termes i condicions
                           </a>
                           .
                         </p>
                       </label>
 
-                      <div className="buttonsBox flex flex-row justify-between gap-2 md:gap-0">
+                      <div className="buttonsBox flex flex-wrap gap-3">
                         <Button
                           orange
                           className="min-h-10"
-                          onClick={() => setStep(2)}
+                          type="button"
+                          onClick={() => setStep(1)}
                         >
                           Anterior
                         </Button>
@@ -451,8 +362,8 @@ export const HackerStepperForm = () => {
                           disabled={
                             !isValid || !watch("termsConditions") || hideSubmit
                           }
-                          className={`min-h-10 ${!isValid || !watch("termsConditions" || hideSubmit) ? "opacity-50" : ""}`}
-                          onClick={handleSubmit(onSubmit)}
+                          className={`form-submit-action ${!isValid || !watch("termsConditions") || hideSubmit ? "opacity-50" : ""}`}
+                          type="submit"
                         >
                           Enviar
                         </Button>
@@ -461,11 +372,10 @@ export const HackerStepperForm = () => {
                         <span className="text-red-400">{errorMsg}</span>
                       )}
                     </form>
-                  </div>
+                  </>
                 ) : null}
-              </div>
-            </div>
-          </div>
+                </div>
+          </FormLayout>
         ) : (
           <>
             {!statusSubmit ? (

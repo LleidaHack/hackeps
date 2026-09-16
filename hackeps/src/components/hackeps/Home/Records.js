@@ -1,94 +1,29 @@
 import React from "react";
+import { GALLERY_ITEMS } from "./galleryItems";
 import Firework from "src/components/hackeps/Home/Firework.js";
-import firework1 from "src/assets/img/home10/firework-1.png";
-import firework3 from "src/assets/img/home10/firework-3.png";
-import cloud2 from "src/assets/img/home10/cloud-2.png";
-
-/*
-  Afegeix aquí les fotos del carrusel.
-  `image` pot ser un import (p.ex. import hackeps8 from "src/assets/img/gallery/hackeps-8.jpg")
-  o null mentre no tinguis l'arxiu: es veurà el recuadre buit.
-*/
-const GALLERY_ITEMS = [
-  {
-    id: "hackeps-8",
-    title: "HACKEPS 8",
-    color: "#0b3d2e",
-    image: null,
-  },
-  {
-    id: "hackeps-1",
-    title: "HACKEPS 1",
-    color: "#e67e22",
-    image: null,
-  },
-  {
-    id: "hackeps-6",
-    title: "HACKEPS 6",
-    color: "#a92323",
-    image: null,
-  },
-  {
-    id: "hackeps-7",
-    title: "HACKEPS 7",
-    color: "#f39c12",
-    image: null,
-  },
-  {
-    id: "hackeps-5",
-    title: "HACKEPS 5",
-    color: "#1d6aa3",
-    image: null,
-  },
-  {
-    id: "hackeps-4",
-    title: "HACKEPS 4",
-    color: "#78c6bd",
-    image: null,
-  },
-];
-
-const PolaroidCard = ({ title, color, image }) => (
-  <article className="relative w-[220px] shrink-0 pt-4 sm:w-[280px] md:w-[340px]">
-    <span
-      aria-hidden="true"
-      className="absolute left-1/2 top-0 z-20 h-[18px] w-[28px] -translate-x-1/2 -translate-y-1/2 rounded-[3px]"
-      style={{ backgroundColor: color }}
-    />
-    <div className="flex h-[280px] flex-col rounded-[28px] bg-white px-3 pb-5 pt-7 shadow-[0_8px_20px_rgba(46,46,46,0.12)] sm:h-[340px] md:h-[420px]">
-      <div className="relative min-h-0 flex-1 overflow-hidden rounded-[16px] bg-[#d7e9f7]">
-        {image ? (
-          <img
-            src={image}
-            alt={title}
-            className="h-full w-full object-cover"
-          />
-        ) : null}
-      </div>
-      <p
-        className="mb-0 mt-4 text-center font-space-mono text-[16px] font-bold leading-none tracking-[-0.32px] md:text-[22px] md:tracking-[-0.44px]"
-        style={{ color }}
-      >
-        {title}
-      </p>
-    </div>
-  </article>
-);
+import firework1 from "src/assets/img/home10/firework-1.svg";
+import firework3 from "src/assets/img/home10/firework-3.svg";
+import cloud2 from "src/assets/img/home10/cloud-2.svg";
 
 const Records = () => {
   return (
-    <section className="relative w-full overflow-hidden bg-transparent pb-16 pt-6 md:pb-[180px] md:pt-6">
+    <section
+      aria-label="Records de la HackEPS"
+      className="relative w-full overflow-hidden bg-transparent pb-16 pt-6 md:pb-[180px] md:pt-6"
+    >
       <Firework
+        phase={0}
         src={firework1}
         width={299}
         height={296}
         className="left-[2%] top-[20%] z-0 hidden h-[160px] w-[160px] origin-center rotate-[24.04deg] md:block md:h-[220px] md:w-[220px] lg:h-[296px] lg:w-[299px]"
       />
       <Firework
+        phase={1}
         src={firework3}
         width={194}
         height={178}
-        className="right-[4%] bottom-[10%] z-0 hidden h-[120px] w-[130px] md:block lg:h-[178px] lg:w-[194px]"
+        className="right-[4%] bottom-[10%] z-0 h-[90px] w-[100px] md:h-[120px] md:w-[130px] lg:h-[178px] lg:w-[194px]"
       />
       <img
         src={cloud2}
@@ -96,12 +31,12 @@ const Records = () => {
         aria-hidden="true"
         width={435}
         height={219}
-        className="pointer-events-none absolute right-[-8%] bottom-[8%] z-0 hidden h-auto w-[28%] max-w-[320px] object-contain opacity-80 lg:block"
+        className="ambient-cloud ambient-cloud--2 ambient-cloud--left pointer-events-none absolute right-[-8%] bottom-[8%] z-0 h-auto w-[28%] max-w-[320px] object-contain opacity-80"
       />
 
       <div className="relative z-10">
         <svg
-          className="pointer-events-none absolute left-0 top-[18px] h-[36px] w-full"
+          className="pointer-events-none absolute left-0 top-[44px] md:top-[56px] h-[36px] w-full"
           viewBox="0 0 1728 36"
           preserveAspectRatio="none"
           aria-hidden="true"
@@ -115,15 +50,28 @@ const Records = () => {
           />
         </svg>
 
-        <div className="flex snap-x snap-mandatory gap-8 overflow-x-auto px-4 pb-8 pt-8 sm:gap-12 md:gap-24 md:px-12 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div
+          id="hackeps-gallery"
+          tabIndex={0}
+          role="region"
+          aria-label="Fotografies d’edicions anteriors"
+          className="flex snap-x snap-mandatory gap-8 overflow-x-auto px-4 pb-8 pt-8 sm:gap-12 md:gap-24 md:px-12 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        >
           {GALLERY_ITEMS.map((item) => (
-            <div key={item.id} className="snap-start">
-              <PolaroidCard
-                title={item.title}
-                color={item.color}
-                image={item.image}
+            <article
+              key={item.id}
+              className="w-[220px] shrink-0 snap-start sm:w-[280px] md:w-[340px]"
+            >
+              <img
+                src={item.image}
+                alt={item.alt}
+                width={item.width}
+                height={item.height}
+                loading="lazy"
+                decoding="async"
+                className="block h-auto w-full"
               />
-            </div>
+            </article>
           ))}
         </div>
       </div>

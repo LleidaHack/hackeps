@@ -1,33 +1,37 @@
 import Firework from "src/components/hackeps/Home/Firework.js";
-import firework1 from "src/assets/img/home10/firework-1.png";
-import firework2 from "src/assets/img/home10/firework-2.png";
-import firework3 from "src/assets/img/home10/firework-3.png";
+import firework1 from "src/assets/img/home10/firework-1.svg";
+import firework2 from "src/assets/img/home10/firework-2.svg";
+import firework3 from "src/assets/img/home10/firework-3.svg";
 
 const DarkFireworks = () => (
   <>
     <Firework
+      phase={0}
       src={firework3}
       width={220}
       height={200}
-      className="left-[2%] top-[10%] z-0 hidden h-[90px] w-[100px] -rotate-[12deg] sm:block sm:h-[140px] sm:w-[160px] lg:h-[180px] lg:w-[200px]"
+      className="left-[2%] top-16 z-0 hidden h-[90px] w-[100px] -rotate-[12deg] sm:block sm:h-[140px] sm:w-[160px] lg:h-[180px] lg:w-[200px]"
     />
     <Firework
+      phase={1}
       src={firework1}
       width={180}
       height={170}
-      className="bottom-[14%] left-[3%] z-0 h-[70px] w-[80px] rotate-[18deg] sm:h-[120px] sm:w-[130px] lg:h-[160px] lg:w-[170px]"
+      className="top-[380px] sm:top-[420px] left-[3%] z-0 h-[70px] w-[80px] rotate-[18deg] sm:h-[120px] sm:w-[130px] lg:h-[160px] lg:w-[170px]"
     />
     <Firework
+      phase={2}
       src={firework2}
       width={200}
       height={170}
-      className="right-[3%] top-[8%] z-0 h-[70px] w-[85px] -rotate-[8deg] sm:h-[120px] sm:w-[140px] lg:h-[160px] lg:w-[190px]"
+      className="right-[3%] top-12 z-0 h-[70px] w-[85px] -rotate-[8deg] sm:h-[120px] sm:w-[140px] lg:h-[160px] lg:w-[190px]"
     />
     <Firework
+      phase={3}
       src={firework3}
       width={170}
       height={150}
-      className="bottom-[12%] right-[4%] z-0 hidden h-[70px] w-[80px] rotate-[14deg] sm:block sm:h-[110px] sm:w-[130px] lg:h-[140px] lg:w-[160px]"
+      className="top-[400px] sm:top-[440px] right-[4%] z-0 hidden h-[70px] w-[80px] rotate-[14deg] sm:block sm:h-[110px] sm:w-[130px] lg:h-[140px] lg:w-[160px]"
     />
   </>
 );

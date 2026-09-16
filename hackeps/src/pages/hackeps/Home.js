@@ -19,6 +19,7 @@ const Home = () => {
   const { sky, gradient } = useSiteTheme();
   const [startDate, setStartDate] = useState(undefined);
   const [endDate, setEndDate] = useState(undefined);
+  const [eventUnavailable, setEventUnavailable] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const Home = () => {
       try {
         const response = await getHackeps();
         if (!response || !response.start_date || !response.end_date) {
+          setEventUnavailable(true);
           return;
         }
         const start = new Date(response.start_date);
@@ -55,7 +57,7 @@ const Home = () => {
             response.id,
             localStorage.getItem("userID"),
           );
-          if (isRegistered) {
+          if (isRegistered === true) {
             localStorage.setItem("registeredOnEvent", "true");
           }
         }
@@ -72,7 +74,10 @@ const Home = () => {
 
   if (!showAnimation) {
     return (
-      <div className="w-full overflow-x-hidden" style={{ backgroundColor: sky }}>
+      <div
+        className="w-full overflow-x-hidden"
+        style={{ backgroundColor: sky }}
+      >
         <HomeHeader />
         <HomeFrame fluid>
           <HeroSection
@@ -80,8 +85,14 @@ const Home = () => {
             finalDate={endDate}
             activeTimer={timerActive}
           />
+          {eventUnavailable && (
+            <p role="status" className="m-0 p-4 text-center text-[#2e2e2e]">
+              No hem pogut carregar la informació actualitzada de
+              l’esdeveniment. Torna-ho a provar més tard.
+            </p>
+          )}
           <Identify />
-          <Newsletter />
+          {/* <Newsletter /> */}
           <div className="w-full" style={{ background: gradient }}>
             <Activities />
             <Records />

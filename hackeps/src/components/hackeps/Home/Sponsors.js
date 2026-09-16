@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import { getCompanyByTier } from "src/services/CompanyService";
 import HomeFooter from "src/components/hackeps/Home/HomeFooter.js";
 import Firework from "src/components/hackeps/Home/Firework.js";
+import lleidaHackLogo from "src/assets/img/home10/isotip.svg";
 import sponsorSlot from "src/assets/img/home10/sponsor-slot.svg";
-import firework1 from "src/assets/img/home10/firework-1.png";
-import firework2 from "src/assets/img/home10/firework-2.png";
-import firework3 from "src/assets/img/home10/firework-3.png";
-import seuVellaSolo512 from "src/assets/img/seuvella-solo-512.webp";
-import seuVellaSolo1024 from "src/assets/img/seuvella-solo-1024.webp";
-import olaInterior1280 from "src/assets/img/ola-interior-1280.webp";
-import olaInterior2048 from "src/assets/img/ola-interior-2048.webp";
-import olaExterior1280 from "src/assets/img/ola-exterior-1280.webp";
-import olaExterior2048 from "src/assets/img/ola-exterior-2048.webp";
+import firework1 from "src/assets/img/home10/firework-1.svg";
+import firework2 from "src/assets/img/home10/firework-2.svg";
+import firework3 from "src/assets/img/home10/firework-3.svg";
+import seuVella from "src/assets/img/home10/seu-vella.svg";
+import waveBack from "src/assets/img/home10/wave-back.svg";
+import waveFront from "src/assets/img/home10/wave-front.svg";
 
 function asCompanyList(data) {
   if (Array.isArray(data)) return data;
@@ -30,40 +28,77 @@ function redirectToURL(url) {
     return;
   }
   const path = "/" + url.replace(/^\/+/, "");
-  window.open(`${window.location.origin}${path}`, "_blank", "noopener,noreferrer");
+  window.open(
+    `${window.location.origin}${path}`,
+    "_blank",
+    "noopener,noreferrer",
+  );
 }
 
-const Slot = ({ company }) => (
-  <button
-    type="button"
-    className="relative aspect-[358/198] w-[min(100%,320px)] border-0 bg-transparent p-0 md:w-[358px]"
-    onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
-  >
-    <img
-      src={sponsorSlot}
-      alt=""
-      width={358}
-      height={198}
-      className="absolute inset-0 h-full w-full"
-    />
-    {company?.image ? (
+const Slot = ({ company }) =>
+  !company ? (
+    <div
+      aria-hidden="true"
+      className="relative aspect-[358/198] w-[min(100%,320px)] md:w-[358px]"
+    >
       <img
-        src={company.image}
-        alt={company.name}
+        src={sponsorSlot}
+        alt=""
         width={358}
         height={198}
-        className="absolute inset-0 h-full w-full object-contain p-4 md:p-6"
+        className="h-full w-full"
       />
-    ) : null}
-  </button>
-);
+      <img
+        src={lleidaHackLogo}
+        alt=""
+        width={75}
+        height={48}
+        className="absolute inset-0 m-auto h-auto w-[45%]"
+      />
+    </div>
+  ) : (
+    <button
+      aria-label={company?.name || "Veure patrocinador"}
+      type="button"
+      className="relative aspect-[358/198] w-[min(100%,320px)] border-0 bg-transparent p-0 md:w-[358px]"
+      onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
+    >
+      <img
+        src={sponsorSlot}
+        alt=""
+        width={358}
+        height={198}
+        className="absolute inset-0 h-full w-full"
+      />
+      {company?.image ? (
+        <img
+          src={company.image}
+          alt={company.name}
+          width={358}
+          height={198}
+          className="absolute inset-0 h-full w-full object-contain p-4 md:p-6"
+        />
+      ) : (
+        <img
+          src={lleidaHackLogo}
+          alt=""
+          width={75}
+          height={48}
+          className="absolute inset-0 m-auto h-auto w-[45%]"
+        />
+      )}
+    </button>
+  );
 
 const SlotRow = ({ companies }) => {
   const cells = [0, 1, 2].map((i) => companies[i] || null);
   return (
     <div className="flex flex-wrap justify-center gap-4 md:gap-7">
       {cells.map((company, i) => (
-        <Slot key={company?.id || i} company={company} />
+        <Slot
+          key={company ? `company-${company.id}` : `placeholder-${i}`}
+          company={company}
+        />
       ))}
     </div>
   );
@@ -75,8 +110,7 @@ const Sponsors = () => {
   const [bronze, setBronze] = useState([]);
 
   useEffect(() => {
-    const event = localStorage.getItem("event");
-    if (!event) return;
+    let cancelled = false;
     async function fetchData() {
       try {
         const [tier2, tier1, tier3] = await Promise.all([
@@ -84,6 +118,7 @@ const Sponsors = () => {
           getCompanyByTier(1),
           getCompanyByTier(3),
         ]);
+        if (cancelled) return;
         setGold(asCompanyList(tier2));
         setSilver(asCompanyList(tier1));
         setBronze(asCompanyList(tier3));
@@ -92,6 +127,9 @@ const Sponsors = () => {
       }
     }
     fetchData();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const silverRows = [silver.slice(0, 3), silver.slice(3, 6)];
@@ -108,30 +146,35 @@ const Sponsors = () => {
         </h2>
 
         <Firework
+          phase={0}
           src={firework3}
           width={348}
           height={318}
-          className="right-[8%] top-[8%] z-0 hidden h-[140px] w-[150px] -rotate-[19.78deg] md:block lg:h-[220px] lg:w-[240px]"
+          className="right-[8%] top-[8%] z-0 h-[90px] w-[100px] -rotate-[19.78deg] md:h-[140px] md:w-[150px] lg:h-[220px] lg:w-[240px]"
         />
         <Firework
+          phase={1}
           src={firework1}
           width={190}
           height={188}
           className="left-[2%] top-[22%] z-0 hidden h-[100px] w-[100px] rotate-[19.31deg] md:block"
         />
         <Firework
+          phase={2}
           src={firework3}
           width={262}
           height={239}
           className="left-[4%] top-[48%] z-0 hidden h-[120px] w-[130px] rotate-[12.02deg] lg:block"
         />
         <Firework
+          phase={3}
           src={firework2}
           width={205}
           height={178}
           className="right-[6%] top-[58%] z-0 hidden h-[110px] w-[120px] -rotate-[14.03deg] lg:block"
         />
         <Firework
+          phase={4}
           src={firework3}
           width={158}
           height={145}
@@ -172,8 +215,7 @@ export const SeuVellaFooter = () => {
     <div className="relative w-full overflow-hidden bg-[#2e2e2e]">
       <div className="relative h-[320px] w-full overflow-hidden bg-transparent sm:h-[400px] md:h-[520px]">
         <img
-          src={olaInterior1280}
-          srcSet={`${olaInterior1280} 1280w, ${olaInterior2048} 2048w`}
+          src={waveBack}
           sizes="100vw"
           width="2048"
           height="784"
@@ -181,8 +223,7 @@ export const SeuVellaFooter = () => {
           alt=""
         />
         <img
-          src={olaExterior1280}
-          srcSet={`${olaExterior1280} 1280w, ${olaExterior2048} 2048w`}
+          src={waveFront}
           sizes="100vw"
           width="2048"
           height="594"
@@ -190,8 +231,7 @@ export const SeuVellaFooter = () => {
           alt=""
         />
         <img
-          src={seuVellaSolo512}
-          srcSet={`${seuVellaSolo512} 512w, ${seuVellaSolo1024} 1024w`}
+          src={seuVella}
           sizes="(max-width: 768px) 42vw, 25vw"
           width="1024"
           height="1036"

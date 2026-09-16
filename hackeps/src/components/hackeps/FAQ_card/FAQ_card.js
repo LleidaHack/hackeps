@@ -9,14 +9,14 @@ const FAQCard = ({ question, answer }) => {
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className={`flex w-full items-center justify-between border-0 bg-[#ff7430] px-6 py-4 text-left font-space-mono text-[22px] font-bold leading-snug tracking-[-0.44px] text-[#2e2e2e] ${
+        className={`flex w-full items-center justify-between border-0 bg-[#ff7430] px-6 py-4 text-left font-space-mono text-[16px] md:text-[22px] font-bold leading-snug tracking-[-0.44px] text-[#2e2e2e] ${
           open ? "rounded-t-[12px]" : "rounded-[12px]"
         }`}
       >
         <span>{question}</span>
         <span
           aria-hidden="true"
-          className={`ml-4 inline-block shrink-0 text-[20px] leading-none transition-transform duration-300 ease-in-out ${
+          className={`ml-4 inline-block shrink-0 text-[14px] md:text-[20px] leading-none transition-transform duration-300 ease-in-out ${
             open ? "rotate-180" : "rotate-0"
           }`}
         >
@@ -29,7 +29,7 @@ const FAQCard = ({ question, answer }) => {
         }`}
       >
         <div className="overflow-hidden">
-          <div className="rounded-b-[12px] bg-white px-6 py-5 font-space-mono text-[16px] leading-relaxed tracking-[-0.32px] text-[#2e2e2e]">
+          <div className="rounded-b-[12px] bg-white px-6 py-5 font-space-mono text-[14px] md:text-[16px] leading-relaxed tracking-[-0.32px] text-[#2e2e2e]">
             {answer}
           </div>
         </div>

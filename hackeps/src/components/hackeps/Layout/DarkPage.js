@@ -1,17 +1,16 @@
 import HomeHeader from "src/components/hackeps/Home/HomeHeader.js";
 import HomeFooter from "src/components/hackeps/Home/HomeFooter.js";
-import HomeFrame from "src/components/hackeps/Home/HomeFrame.js";
 import DarkFireworks from "src/components/hackeps/Layout/DarkFireworks.js";
 
 export const DARK_BG = "#2e2e2e";
 
 const DarkPage = ({ children, minHeight }) => {
   return (
-    <div className="w-full overflow-x-hidden" style={{ backgroundColor: DARK_BG }}>
-      <HomeHeader showMlh={false} />
-      <HomeFrame canvasBg={DARK_BG} fluid>
+    <div className="flex min-h-screen w-full flex-col overflow-x-hidden" style={{ backgroundColor: DARK_BG }}>
+      <HomeHeader />
+      <div className="flex w-full flex-1 flex-col font-space-mono">
         <div
-          className="relative overflow-hidden"
+          className="relative flex-1 overflow-hidden"
           style={{
             backgroundColor: DARK_BG,
             ...(minHeight ? { minHeight } : {}),
@@ -21,7 +20,7 @@ const DarkPage = ({ children, minHeight }) => {
           <div className="relative z-10">{children}</div>
         </div>
         <HomeFooter compact />
-      </HomeFrame>
+      </div>
     </div>
   );
 };

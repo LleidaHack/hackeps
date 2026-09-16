@@ -1,12 +1,14 @@
+import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import logo from "src/assets/img/home10/logonaranja.png";
 import { resetPassword } from "src/services/AuthenticationService";
 import SuccessFeedback from "../Feedbacks/SuccesFeedback";
 import Button from "src/components/buttons/Button";
 
 const ForgetPassword = ({ nextScreen }) => {
   const [status, setStatus] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -14,26 +16,27 @@ const ForgetPassword = ({ nextScreen }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const success = await resetPassword(data.email);
-    setStatus(success);
+    if (isSubmitting) return;
+    setSubmitting(true);
+    setError("");
+    try {
+      const result = await resetPassword(data.email);
+      if (result?.success === true) setStatus(true);
+      else setError("No hem pogut tramitar la sol·licitud. Torna-ho a provar.");
+    } catch {
+      setError("No hem pogut tramitar la sol·licitud. Torna-ho a provar.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <>
       {!status ? (
-        <div className="flex w-full items-center justify-center px-8 py-10">
-          <div className="flex w-full max-w-[520px] flex-col items-center">
-            <img
-              src={logo}
-              alt="logo"
-              className="mb-3 block h-auto w-40 md:w-56"
-            />
-            <p className="mb-4 text-center font-space-mono text-3xl text-white md:text-4xl">
-              Necesites ajuda per a iniciar sessió?
-            </p>
+        <FormLayout title="Necessites ajuda per iniciar sessió?">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="flex w-full flex-col gap-3"
+              className="public-form flex w-full flex-col gap-3"
             >
               <label className="text-white">
                 Introdueix el teu correu electrònic
@@ -52,16 +55,26 @@ const ForgetPassword = ({ nextScreen }) => {
                   <span className="text-red-400">{errors.email.message}</span>
                 )}
               </label>
-              <Button orange lg type="submit" className="w-full">
-                Enviar enllaç de recuperació
+              {error && (
+                <p role="alert" className="text-red-400">
+                  {error}
+                </p>
+              )}
+              <Button
+                orange
+                lg
+                type="submit"
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Enviant..." : "Enviar enllaç de recuperació"}
               </Button>
             </form>
-          </div>
-        </div>
+        </FormLayout>
       ) : (
         <SuccessFeedback
-          title="Enllaç enviat correctament."
-          text={`En breus rebràs un correu electrònic amb un enllaç per a recuperar el teu compte.`}
+          title="Sol·licitud rebuda"
+          text={`Si el correu correspon a un compte verificat, rebràs un enllaç per recuperar-lo.`}
           italics="Si no ho reps, comproba la bustia de spam."
           hasButton={true}
           buttonLink="/"

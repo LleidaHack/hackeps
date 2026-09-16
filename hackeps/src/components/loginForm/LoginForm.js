@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { hasSessionCredentials } from "src/modules/session";
+import "src/components/hackeps/Forms/PublicFormLayout.css";
 import { login } from "src/services/AuthenticationService";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -17,35 +19,44 @@ const LoginForm = ({ nextScreen }) => {
   const [isSubmitting, setSubmitting] = useState(false);
   const [errorText, setErrorText] = useState("");
   const submit = async (values) => {
+    if (isSubmitting) return;
+    setErrorText("");
     setSubmitting(true);
     try {
       let a = await login(values);
       if (process.env.REACT_APP_DEBUG === "true") console.log(a);
-      if (a.errCode === 400) {
+      if (a?.errCode === 400) {
         navigate("/user-verification", { state: { email: values.email } });
-      } else if (localStorage.getItem("userToken") !== "undefined") {
+      } else if (hasSessionCredentials(a)) {
         if (process.env.REACT_APP_DEBUG === "true")
           console.log("Login successful");
         if (nextScreen) {
           navigate(nextScreen);
         } else navigate("/home");
-      } else if (a.errCode === 401 || a.errCode === 404) {
-        setErrorText("Contrasenya o correu incorrectes");
+      } else {
+        setErrorText(
+          [401, 404].includes(a?.errCode)
+            ? "Contrasenya o correu incorrectes"
+            : "No hem pogut iniciar la sessió. Torna-ho a provar.",
+        );
       }
     } catch (error) {
-      console.error("Login error:", error);
+      setErrorText("No hem pogut iniciar la sessió. Torna-ho a provar.");
     } finally {
       setSubmitting(false);
     }
   };
   return (
-    <div>
-      <form className="">
+    <div className="w-full min-w-0">
+      <form className="public-form" onSubmit={handleSubmit(submit)}>
         <div className="text-base mt-7 w-full">
           <label className="w-full text-base">
             <p className="text-white mb-1">Correu:</p>
             <input
-              className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-sm md:text-base`}
+              className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base`}
+              type="email"
+              inputMode="email"
+              autoComplete="username"
               placeholder="Correu"
               {...register("email", {
                 required: "E-mail obligatori",
@@ -62,10 +73,11 @@ const LoginForm = ({ nextScreen }) => {
             <p className="text-white mb-1">Contrasenya:</p>
             <input
               type="password"
-              className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-sm md:text-base`}
+              autoComplete="current-password"
+              className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base`}
               placeholder="Contrasenya"
               {...register("password", {
-                required: "Contraseña obligatoria",
+                required: "La contrasenya és obligatòria",
               })}
             />
           </label>
@@ -80,24 +92,20 @@ const LoginForm = ({ nextScreen }) => {
               Has oblidat les teves credencials?
             </Link>
           </p>
-          <p className="mb-0">
-            <Link to="/hacker-form" className="text-[#ff7430]">
-              Encara no tens compte?
-            </Link>
-          </p>
         </div>
         <div className="flex flex-col justify-center mt-3">
           <Button
             type="submit"
             orange
             lg
-            onClick={handleSubmit(submit)}
             className={!isValid ? "opacity-50" : ""}
-            disabled={!isValid}
+            disabled={!isValid || isSubmitting}
           >
             {isSubmitting ? "Iniciant sessió..." : "Inicia sessió"}
           </Button>
-          <p className="text-red-400 mt-2">{errorText}</p>
+          <p role="alert" className="text-red-400 mt-2">
+            {errorText}
+          </p>
         </div>
       </form>
     </div>

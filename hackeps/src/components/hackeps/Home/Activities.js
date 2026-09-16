@@ -1,6 +1,7 @@
 import React from "react";
+import correfocs from "src/assets/correfocs.gif";
 import dimoniBig from "src/assets/img/home10/fum-activitats.png";
-import cloud5 from "src/assets/img/home10/cloud-5.png";
+import cloud5 from "src/assets/img/home10/cloud-5.svg";
 
 const ACTIVITIES = [
   { label: "Activitat 1", top: "20.8%", left: "28.8%", rotate: -14.69 },
@@ -13,11 +14,11 @@ const ACTIVITIES = [
 
 const Activities = () => {
   return (
-    <section className="relative w-full overflow-hidden bg-transparent px-4 pb-12 pt-10 md:px-8 md:pb-20 md:pt-16">
-      <h2 className="relative z-20 m-0 mb-4 text-center font-space-mono text-[26px] font-bold leading-tight tracking-[-0.52px] text-[#2e2e2e] md:mb-6 md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]">
+    <section className="relative w-full overflow-hidden bg-transparent px-0 pb-12 pt-10 md:px-8 md:pb-20 md:pt-16">
+      <h2 className="relative z-20 m-0 mb-4 px-4 text-center md:px-0 font-space-mono text-[26px] font-bold leading-tight tracking-[-0.52px] text-[#2e2e2e] md:mb-6 md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]">
         QUÈ PODRAS FER A LA HACKEPS?
       </h2>
-      <p className="relative z-20 mx-auto mb-8 max-w-[900px] text-center font-space-mono text-[16px] leading-relaxed tracking-[-0.32px] text-[#2e2e2e] md:mb-10 md:text-[22px]">
+      <p className="relative z-20 mx-auto mb-8 max-w-[900px] px-4 text-center md:px-0 font-space-mono text-[16px] leading-relaxed tracking-[-0.32px] text-[#2e2e2e] md:mb-10 md:text-[22px]">
         A part de programar durant la HackEPS es fan varies activitats a les
         quals podeu participar per guanyar premis
       </p>
@@ -27,16 +28,22 @@ const Activities = () => {
         aria-hidden="true"
         width={433}
         height={193}
-        className="pointer-events-none absolute right-[-8%] top-[18%] hidden h-auto w-[28%] max-w-[320px] object-contain lg:block"
+        className="ambient-cloud ambient-cloud--2 ambient-cloud--right pointer-events-none absolute right-[-8%] top-[18%] h-auto w-[28%] max-w-[320px] object-contain"
       />
-      <div className="relative z-10 -ml-4 w-[calc(100%+1rem)] max-w-none md:-ml-8 md:w-[85%] lg:w-[78%]">
-        <img
-          src={dimoniBig}
-          alt=""
-          width={1331}
-          height={1052}
-          className="h-auto w-full max-w-none object-contain object-left"
-        />
+      <div className="relative z-10 ml-0 w-full max-w-none md:-ml-8 md:w-[85%] lg:w-[78%]">
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcSet={dimoniBig} />
+          <img
+            src={correfocs}
+            alt=""
+            aria-hidden="true"
+            width={1347}
+            height={1230}
+            loading="lazy"
+            decoding="async"
+            className="h-auto w-full max-w-none object-contain object-left"
+          />
+        </picture>
         {ACTIVITIES.map((activity, index) => (
           <div
             key={`${activity.label}-${index}`}

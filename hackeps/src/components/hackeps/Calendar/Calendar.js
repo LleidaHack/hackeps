@@ -2,10 +2,10 @@ import React from "react";
 
 const Calendar = () => {
   const daysOfWeek = ["Dl", "Dt", "Dc", "Dj", "Dv", "Ds", "Dg"];
-  const year = 2025;
+  const year = 2026;
   const month = 10;
   const daysInMonth = 30;
-  const highlightedDays = [22, 23];
+  const highlightedDays = [28, 29];
 
   const rawFirstDay = new Date(year, month, 1).getDay();
   const firstDay = (rawFirstDay + 6) % 7;

@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-import seuVellaSolo512 from "src/assets/img/seuvella-solo-512.webp";
-import seuVellaSolo1024 from "src/assets/img/seuvella-solo-1024.webp";
-import olaInterior1280 from "src/assets/img/ola-interior-1280.webp";
-import olaInterior2048 from "src/assets/img/ola-interior-2048.webp";
-import olaExterior1280 from "src/assets/img/ola-exterior-1280.webp";
-import olaExterior2048 from "src/assets/img/ola-exterior-2048.webp";
+import seuVella from "src/assets/img/home10/seu-vella.svg";
+import waveBack from "src/assets/img/home10/wave-back.svg";
+import waveFront from "src/assets/img/home10/wave-front.svg";
 import mlhLogo from "src/assets/img/majorleaguelogo.svg";
 
 const Waiting = () => {
-  const targetDate = new Date(new Date().getFullYear(), 10, 28); // November 28th
+  const targetDate = new Date(2026, 10, 28); // November 28th
 
   const calculateTimeLeft = () => {
     const difference = targetDate - new Date();
@@ -62,8 +59,7 @@ const Waiting = () => {
 
         {/* Ola Interior (background wave) */}
         <img
-          src={olaInterior1280}
-          srcSet={`${olaInterior1280} 1280w, ${olaInterior2048} 2048w`}
+          src={waveBack}
           sizes="100vw"
           width="2048"
           height="784"
@@ -75,8 +71,7 @@ const Waiting = () => {
 
         {/* Seu Vella Castle (middle) */}
         <img
-          src={seuVellaSolo512}
-          srcSet={`${seuVellaSolo512} 512w, ${seuVellaSolo1024} 1024w`}
+          src={seuVella}
           sizes="(min-width: 1024px) 25vw, (min-width: 768px) 35vw, 55vw"
           width="1024"
           height="1036"
@@ -89,8 +84,7 @@ const Waiting = () => {
 
         {/* Ola Exterior (foreground wave) */}
         <img
-          src={olaExterior1280}
-          srcSet={`${olaExterior1280} 1280w, ${olaExterior2048} 2048w`}
+          src={waveFront}
           sizes="100vw"
           width="2048"
           height="594"

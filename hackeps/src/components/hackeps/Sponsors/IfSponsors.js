@@ -1,44 +1,45 @@
 import React, { useEffect, useState } from "react";
 import "src/components/hackeps/Sponsors/IfSponsors.css";
-import { getCompanyById, getCompanyEvents } from "src/services/CompanyService";
+import { getCompanyById } from "src/services/CompanyService";
 import cloudWave from "src/assets/img/home10/cloud-wave.png";
-
-let images = [];
 
 const InfoSponsors = ({ id }) => {
   const [infoCompany, setInfoCompany] = useState(null);
-  const [, setInfoCompany2] = useState(null);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const companyData = await getCompanyById(id);
-        setInfoCompany(companyData);
-        console.log("La información obtenida es:", companyData);
-        try {
-          const companyEvents = await getCompanyEvents(id);
-          setInfoCompany2(companyEvents);
-          companyEvents.map((item, index) => (images[index] = item.image));
-        } catch (errors) {
-          console.log("El error obtenido es:", errors);
-        }
-      } catch (error) {
-        console.log("El error obtenido es:", error);
-      }
+    let cancelled = false;
+    setInfoCompany(null);
+    setFailed(false);
+    getCompanyById(id)
+      .then((data) => {
+        if (cancelled) return;
+        if (!data || data.errCode != null || !data.name) setFailed(true);
+        else setInfoCompany(data);
+      })
+      .catch(() => {
+        if (!cancelled) setFailed(true);
+      });
+    return () => {
+      cancelled = true;
     };
-
-    fetchData();
   }, [id]);
+
+  if (failed)
+    return (
+      <p role="alert" className="p-6 text-center text-white">
+        No hem pogut carregar el patrocinador.
+      </p>
+    );
 
   if (!infoCompany) {
     return (
       <div className="flex min-h-[600px] items-center justify-center font-space-mono text-[24px] text-white">
-        Cargando...
+        Carregant...
       </div>
     );
   }
 
-  console.log("la longitud de la tabla es:", infoCompany.name);
   if (Object.keys(infoCompany) && Object.keys(infoCompany).length > 0) {
     const SpnName = infoCompany.name;
     const linkedintag = infoCompany.linkdin;
@@ -117,14 +118,17 @@ const InfoSponsors = ({ id }) => {
     "https://media.tenor.com/nKPZSs1a6WMAAAAC/back-pocket-skadi.gif",
     "https://media.tenor.com/ENxVWo1KcnsAAAAC/error.gif",
   ];
-  let errorImage =
-    errorImages[Math.floor(Math.random() * errorImages.length)];
+  let errorImage = errorImages[Math.floor(Math.random() * errorImages.length)];
 
   return (
     <div className="flex min-h-[700px] flex-col items-center px-8 py-16 text-center text-white">
-      <h1 className="font-space-mono text-[40px]">Oh No, Something happened..</h1>
+      <h1 className="font-space-mono text-[40px]">
+        Oh No, Alguna cosa ha fallat.
+      </h1>
       <img className="mt-8 max-h-[280px]" src={errorImage} alt="Gif" />
-      <h1 className="mt-8 font-space-mono text-[32px]">ERROR! Sponsore Not Found</h1>
+      <h1 className="mt-8 font-space-mono text-[32px]">
+        No s’ha trobat el patrocinador
+      </h1>
     </div>
   );
 };

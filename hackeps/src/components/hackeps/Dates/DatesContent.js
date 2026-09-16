@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import DatesCalendar from "src/components/hackeps/Dates/DatesCalendar.js";
 import DatesHorari from "src/components/hackeps/Dates/DatesHorari.js";
-import cloud2 from "src/assets/img/home10/cloud-2.png";
-import cloud5 from "src/assets/img/home10/cloud-5.png";
+import cloud2 from "src/assets/img/home10/cloud-2.svg";
+import cloud5 from "src/assets/img/home10/cloud-5.svg";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
 const DatesContent = () => {
@@ -24,7 +24,7 @@ const DatesContent = () => {
           aria-hidden="true"
           width={380}
           height={170}
-          className="pointer-events-none absolute right-[-12%] top-[24px] h-auto w-[42%] max-w-[280px] object-contain md:right-[-30px] md:top-[40px] md:w-[380px] md:max-w-none lg:h-[170px]"
+          className="ambient-cloud ambient-cloud--2 ambient-cloud--left pointer-events-none absolute right-[-12%] top-[24px] h-auto w-[42%] max-w-[280px] object-contain md:right-[-30px] md:top-[40px] md:w-[380px] md:max-w-none lg:h-[170px]"
         />
         <img
           src={cloud2}
@@ -32,7 +32,7 @@ const DatesContent = () => {
           aria-hidden="true"
           width={420}
           height={210}
-          className="pointer-events-none absolute bottom-[-12px] left-[-14%] h-auto w-[48%] max-w-[300px] object-contain md:bottom-[-20px] md:left-[-40px] md:w-[420px] md:max-w-none lg:h-[210px]"
+          className="ambient-cloud ambient-cloud--2 ambient-cloud--right pointer-events-none absolute bottom-[-12px] left-[-14%] h-auto w-[48%] max-w-[300px] object-contain md:bottom-[-20px] md:left-[-40px] md:w-[420px] md:max-w-none lg:h-[210px]"
         />
 
         <h1
@@ -41,7 +41,7 @@ const DatesContent = () => {
         >
           DATES
         </h1>
-        <div className="relative z-10 mt-28 md:mt-36 lg:mt-44">
+        <div className="relative z-10 mt-6 md:mt-8 lg:mt-10">
           <DatesCalendar />
         </div>
         <div
@@ -49,23 +49,23 @@ const DatesContent = () => {
           style={{ color: text }}
         >
           <p className="m-0 mb-4 md:mb-0">
-            Lleidahack et dona la benvinguda a la HackEPS 2025, la primera
+            Lleidahack et dona la benvinguda a la HackEPS 2026, la primera
             hackató de les terres de Lleida!
           </p>
           <p className="m-0 mb-4 md:mb-0">
-            La novena edició de la HackEPS tindrà lloc a l&apos;edifici de
+            La desena edició de la HackEPS tindrà lloc a l&apos;edifici de
             l&apos;
             <span className="font-bold">Escola Politècnica</span>{" "}
             <span className="font-bold">
               Superior de la Universitat de Lleida
             </span>{" "}
             els dies
-            <span className="font-bold"> 22 i 23 de novembre de 2025</span>.
+            <span className="font-bold"> 28 i 29 de novembre de 2026</span>.
             Aquest és un esdeveniment que no voldràs perdre&apos;t!
           </p>
           <p className="m-0">
             Així que, si ets un apassionat de la tecnologia, amant dels reptes i
-            defensor del treball en equip, la HackEPS 2025 és el teu lloc.
+            defensor del treball en equip, la HackEPS 2026 és el teu lloc.
             Uneix-te a nosaltres per a una experiència inoblidable per a
             desenvolupar-te com a futur programador!
           </p>

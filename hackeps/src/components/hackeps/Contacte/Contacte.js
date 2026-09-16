@@ -1,6 +1,7 @@
+import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useEffect, useState } from "react";
 import "src/components/hackeps/Contacte/Contacte.css";
-import logo from "src/assets/img/home10/logonaranja.png";
+import "src/components/hackeps/Forms/PublicFormLayout.css";
 import instagramLogo from "src/assets/img/home10/icon-instagram.svg";
 import linkedinLogo from "src/assets/img/home10/icon-linkedin.svg";
 import twitterLogo from "src/assets/img/home10/icon-x.svg";
@@ -35,7 +36,7 @@ const ContactePage = () => {
     setIsLoading(true);
     try {
       const success = await contacte(data);
-      setMailStatus(success);
+      setMailStatus(success?.success === true);
       setMailSended(true);
     } catch (error) {
       setMailStatus(false);
@@ -70,17 +71,7 @@ const ContactePage = () => {
   }
 
   return (
-    <div className="px-[72px] pb-8 pt-4 text-white">
-      <h1 className="mb-4 mt-0 text-center font-space-mono text-[40px] font-bold leading-none tracking-[-0.8px]">
-        Contacte
-      </h1>
-      <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-        <div className="flex w-full flex-col items-center lg:w-[38%]">
-          <img
-            src={logo}
-            alt="HackEPS 10a edició"
-            className="h-auto w-[260px] max-w-full object-contain"
-          />
+    <FormLayout title="Contacte" visualFooter={<>
           <p className="mt-3 mb-2 text-center font-space-mono text-[16px] leading-normal tracking-[-0.32px]">
             Esdeveniment ofert per LleidaHack
           </p>
@@ -110,11 +101,10 @@ const ContactePage = () => {
               <img src={twitterLogo} alt="" className="h-7 w-7" />
             </a>
           </div>
-        </div>
-
+    </>}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex w-full flex-col gap-2 lg:w-[54%]"
+          className="public-form flex w-full min-w-0 flex-col gap-5"
         >
           <label className="font-space-mono text-[16px]">
             Nom:
@@ -127,7 +117,9 @@ const ContactePage = () => {
               disabled={isLoading}
             />
             {errors.name && (
-              <span className="text-sm text-red-400">{errors.name.message}</span>
+              <span className="text-sm text-red-400">
+                {errors.name.message}
+              </span>
             )}
           </label>
 
@@ -135,7 +127,10 @@ const ContactePage = () => {
             E-mail:
             <input
               className={inputClass(errors.email)}
-              placeholder="johndoe@example.com"
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              placeholder="nom@exemple.cat"
               {...register("email", {
                 required: "Et falta indicar-nos el teu correu de contacte",
                 pattern: {
@@ -146,7 +141,9 @@ const ContactePage = () => {
               disabled={isLoading}
             />
             {errors.email && (
-              <span className="text-sm text-red-400">{errors.email.message}</span>
+              <span className="text-sm text-red-400">
+                {errors.email.message}
+              </span>
             )}
           </label>
 
@@ -161,7 +158,9 @@ const ContactePage = () => {
               disabled={isLoading}
             />
             {errors.title && (
-              <span className="text-sm text-red-400">{errors.title.message}</span>
+              <span className="text-sm text-red-400">
+                {errors.title.message}
+              </span>
             )}
           </label>
 
@@ -191,11 +190,10 @@ const ContactePage = () => {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? "Enviant..." : "Següent"}
+            {isLoading ? "Enviant..." : "Enviar"}
           </button>
         </form>
-      </div>
-    </div>
+    </FormLayout>
   );
 };
 

@@ -57,3 +57,221 @@
     width: 100%;
   }
 }
+
+.hacker-profile {
+  min-height: 75vh;
+  padding: clamp(2rem, 5vw, 4rem) 1rem;
+  background: #2e2e2e;
+  color: #fff;
+  font-family: "Space Mono", monospace;
+}
+.hacker-profile-content {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.hacker-profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+.hacker-profile-avatar {
+  flex: 0 0 128px;
+}
+.hacker-profile #profile-pic-big {
+  width: 128px;
+  height: 128px;
+  border: 5px solid #ff7430 !important;
+}
+.hacker-profile-identity {
+  min-width: 0;
+}
+.hacker-profile-identity p {
+  margin: 0 0 0.75rem;
+}
+.hacker-profile-identity h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  font-weight: bold;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  color: #fff;
+}
+.hacker-profile-membership {
+  color: #ddd;
+  font-size: 0.85rem;
+}
+.hacker-profile-ticket {
+  flex: 0 0 104px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 0.75rem;
+  background: #ff7430;
+  color: #242424;
+  border: 0;
+  font-size: 0.85rem;
+}
+.hacker-profile-ticket img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+.hacker-profile-accounts {
+  max-width: 340px;
+  margin: auto;
+}
+.hacker-profile-accounts .join-container {
+  width: 100% !important;
+  margin-top: 0 !important;
+  background: #444;
+  color: #fff;
+}
+.hacker-profile-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem auto 1.75rem;
+  max-width: 560px;
+}
+.hacker-profile-actions > div {
+  width: 100%;
+}
+.hacker-profile-actions button {
+  min-height: 44px;
+  border-color: #ff7430;
+  color: #fff;
+  background: #444;
+}
+.hacker-profile-actions input:not([type="file"]) {
+  max-width: 100%;
+  background: #fff;
+  color: #242424;
+  font-size: 16px;
+}
+.hacker-profile-logout {
+  color: #eee;
+  font-size: 0.8rem;
+  text-underline-offset: 4px;
+}
+.hacker-profile-logout:hover {
+  color: #ff9b6b;
+}
+.hacker-profile-event {
+  max-width: 340px;
+  margin: 0 auto 1.75rem;
+}
+.hacker-profile-event > div {
+  width: 100%;
+}
+.hacker-profile-event .bg-blueSea {
+  background: #444;
+}
+.hacker-profile-event .bg-primaryHackeps {
+  background: #ff7430;
+  color: #242424;
+}
+.hacker-profile-event img {
+  max-width: 200px;
+}
+.hacker-profile-team {
+  margin-bottom: 1.75rem;
+}
+.hacker-profile-highlights {
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  gap: 1.25rem;
+  max-width: 600px;
+  margin: auto;
+}
+.hacker-profile-highlights section {
+  min-width: 0;
+  padding: 1.25rem;
+  background: #ff7430;
+  color: #242424;
+  text-align: center;
+}
+.hacker-profile-highlights h2 {
+  margin: 0 0 1rem;
+  font-size: 1.35rem;
+  text-transform: capitalize;
+}
+.hacker-profile-highlights h2 small {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+}
+.hacker-profile-highlights p {
+  margin: 1rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.hacker-profile-medals svg {
+  display: block;
+  margin: 1rem auto;
+}
+.profile-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+.profile-calendar-grid > span {
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  min-height: 28px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+}
+.profile-calendar-day {
+  background: #ffad83;
+}
+.profile-calendar-event-day {
+  background: #fff;
+  font-weight: bold;
+}
+.hacker-profile :is(a, button, input):focus-visible {
+  outline: 3px solid #ffb18b;
+  outline-offset: 4px;
+}
+@media (max-width: 575px) {
+  .hacker-profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .hacker-profile-ticket {
+    flex-basis: auto;
+    flex-direction: row;
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
+  .hacker-profile-highlights {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 340px;
+  }
+}
+.hacker-profile-accounts .join-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.75rem;
+}
+.hacker-profile-accounts .join-container > div:first-child {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.8rem;
+}
+.hacker-profile-accounts .join-container > div:last-child {
+  display: flex;
+  width: auto;
+  flex-shrink: 0;
+  gap: 0.75rem;
+}
+.hacker-profile-accounts i {
+  margin: 0 !important;
+}
