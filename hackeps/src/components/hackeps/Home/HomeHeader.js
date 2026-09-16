@@ -23,7 +23,7 @@ const HomeHeader = ({ showMlh = true }) => {
     >
       <nav
         id="main-nav"
-        className="relative flex h-16 w-full items-center justify-between gap-2 bg-[#ff7430] px-3 md:h-20 md:px-5 lg:px-8"
+        className="relative flex h-14 w-full items-center justify-between gap-2 bg-[#ff7430] px-3 md:h-16 md:px-5 lg:px-8"
       >
         <div className="relative flex h-full shrink-0 items-center self-stretch">
           <Link to="/" className="flex items-center" aria-label="Home">
@@ -32,7 +32,7 @@ const HomeHeader = ({ showMlh = true }) => {
               alt="HackEPS"
               width={75}
               height={48}
-              className="h-9 w-auto md:h-12"
+              className="h-8 w-auto md:h-10"
             />
           </Link>
           {showMlh && (
