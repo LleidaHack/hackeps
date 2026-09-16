@@ -1,4 +1,4 @@
-import logo from "src/assets/img/home10/logonaranja.png";
+import logo from "src/assets/img/home10/logonaranja.webp";
 import "./FormLayout.css";
 import "./PublicFormLayout.css";
 

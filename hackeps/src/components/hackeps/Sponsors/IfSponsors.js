@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "src/components/hackeps/Sponsors/IfSponsors.css";
 import { getCompanyById } from "src/services/CompanyService";
-import cloudWave from "src/assets/img/home10/cloud-wave.png";
+import cloudWave from "src/assets/img/home10/cloud-wave.webp";
 
 const InfoSponsors = ({ id }) => {
   const [infoCompany, setInfoCompany] = useState(null);

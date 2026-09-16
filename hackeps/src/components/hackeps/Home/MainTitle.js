@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import { useEffect, useState } from "react";
 import Button from "src/components/buttons/Button";
-import hackLogo from "src/assets/img/home10/logo-taronja.png";
+import hackLogo from "src/assets/img/home10/logo-taronja.webp";
 import "./MainTitle.css";
 import { useNavigate } from "react-router-dom";
 import { checkToken } from "src/services/AuthenticationService";
@@ -85,6 +85,8 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
       <div className="z-50 flex w-full flex-col items-center justify-center gap-4 md:gap-7">
         <div className="flex w-full max-w-[577px] justify-center px-2">
           <img
+            fetchPriority="high"
+            decoding="async"
             src={hackLogo}
             alt="HackEPS 10ª Edició"
             className="h-auto w-[70%] max-w-[280px] object-contain sm:w-[75%] sm:max-w-[360px] md:w-full md:max-w-[520px]"

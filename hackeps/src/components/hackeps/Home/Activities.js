@@ -1,6 +1,6 @@
 import React from "react";
-import correfocs from "src/assets/correfocs.gif";
-import dimoniBig from "src/assets/img/home10/fum-activitats.png";
+import correfocs from "src/assets/correfocs.webp";
+import dimoniBig from "src/assets/img/home10/fum-activitats.webp";
 import cloud5 from "src/assets/img/home10/cloud-5.svg";
 
 const ACTIVITIES = [

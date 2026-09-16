@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import marracoMentor from "src/assets/img/home10/marraco-mentor-raw.png";
-import marracoHacker from "src/assets/img/home10/marraco-hacker-raw.png";
+import marracoMentor from "src/assets/img/home10/marraco-mentor-raw.webp";
+import marracoHacker from "src/assets/img/home10/marraco-hacker-raw.webp";
 import mountain from "src/assets/img/home10/mountain.svg";
 import cloud4 from "src/assets/img/home10/cloud-4.svg";
 import cloud3 from "src/assets/img/home10/cloud-3.svg";
@@ -16,6 +16,8 @@ const Identify = () => {
       style={{ backgroundColor: sky }}
     >
       <img
+        loading="lazy"
+        decoding="async"
         src={cloud4}
         alt=""
         aria-hidden="true"
@@ -33,6 +35,8 @@ const Identify = () => {
 
       <div className="relative z-10 mx-auto mt-4 grid max-w-[1200px] grid-cols-1 gap-10 md:mt-6 md:grid-cols-2 md:gap-8">
         <img
+        loading="lazy"
+        decoding="async"
           src={cloud3}
           alt=""
           aria-hidden="true"
@@ -43,6 +47,8 @@ const Identify = () => {
         <div className="flex flex-col items-center">
           <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
             <img
+        loading="lazy"
+        decoding="async"
               src={mountain}
               alt=""
               aria-hidden="true"
@@ -55,6 +61,8 @@ const Identify = () => {
               className="relative z-10 block w-full no-underline"
             >
               <img
+        loading="lazy"
+        decoding="async"
                 src={marracoMentor}
                 alt="MENTOR"
                 width={526}
@@ -74,6 +82,8 @@ const Identify = () => {
         <div className="flex flex-col items-center">
           <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
             <img
+        loading="lazy"
+        decoding="async"
               src={mountain}
               alt=""
               aria-hidden="true"
@@ -86,6 +96,8 @@ const Identify = () => {
               className="relative z-10 block w-full no-underline"
             >
               <img
+        loading="lazy"
+        decoding="async"
                 src={marracoHacker}
                 alt="HACKER"
                 width={541}

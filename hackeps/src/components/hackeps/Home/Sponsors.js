@@ -42,6 +42,8 @@ const Slot = ({ company }) =>
       className="relative aspect-[358/198] w-[min(100%,320px)] md:w-[358px]"
     >
       <img
+        loading="lazy"
+        decoding="async"
         src={sponsorSlot}
         alt=""
         width={358}
@@ -49,6 +51,8 @@ const Slot = ({ company }) =>
         className="h-full w-full"
       />
       <img
+        loading="lazy"
+        decoding="async"
         src={lleidaHackLogo}
         alt=""
         width={75}
@@ -64,6 +68,8 @@ const Slot = ({ company }) =>
       onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
     >
       <img
+        loading="lazy"
+        decoding="async"
         src={sponsorSlot}
         alt=""
         width={358}
@@ -72,6 +78,8 @@ const Slot = ({ company }) =>
       />
       {company?.image ? (
         <img
+        loading="lazy"
+        decoding="async"
           src={company.image}
           alt={company.name}
           width={358}
@@ -80,6 +88,8 @@ const Slot = ({ company }) =>
         />
       ) : (
         <img
+        loading="lazy"
+        decoding="async"
           src={lleidaHackLogo}
           alt=""
           width={75}
@@ -215,6 +225,8 @@ export const SeuVellaFooter = () => {
     <div className="relative w-full overflow-hidden bg-[#2e2e2e]">
       <div className="relative h-[320px] w-full overflow-hidden bg-transparent sm:h-[400px] md:h-[520px]">
         <img
+        loading="lazy"
+        decoding="async"
           src={waveBack}
           sizes="100vw"
           width="2048"
@@ -223,6 +235,8 @@ export const SeuVellaFooter = () => {
           alt=""
         />
         <img
+        loading="lazy"
+        decoding="async"
           src={waveFront}
           sizes="100vw"
           width="2048"
@@ -231,6 +245,8 @@ export const SeuVellaFooter = () => {
           alt=""
         />
         <img
+        loading="lazy"
+        decoding="async"
           src={seuVella}
           sizes="(max-width: 768px) 42vw, 25vw"
           width="1024"

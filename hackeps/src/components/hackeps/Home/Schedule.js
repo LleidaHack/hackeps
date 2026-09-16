@@ -1,7 +1,7 @@
 import timonImg from "../../../assets/TIMON.png";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
-import SandPointed from "src/assets/img/SandPointed.png";
-import Stars from "src/assets/img/Stars.png";
+import SandPointed from "src/assets/img/SandPointed.webp";
+import Stars from "src/assets/img/Stars.webp";
 import "./Olas.css";
 
 // Componente para la imagen del timón

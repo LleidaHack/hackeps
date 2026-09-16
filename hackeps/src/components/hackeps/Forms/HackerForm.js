@@ -1,4 +1,4 @@
-import hackerIllustration from "src/assets/img/home10/marraco-hacker-raw.png";
+import hackerIllustration from "src/assets/img/home10/marraco-hacker-raw.webp";
 import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import { useState } from "react";
 import { signupHacker } from "src/services/HackerService";

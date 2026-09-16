@@ -5,7 +5,7 @@ import banderilles from "src/assets/img/home10/banderilles.svg";
 import cloud1 from "src/assets/img/home10/cloud-1.svg";
 import cloud2 from "src/assets/img/home10/cloud-2.svg";
 import cloud3 from "src/assets/img/home10/cloud-3.svg";
-import cloudWave from "src/assets/img/home10/cloud-wave.png";
+import cloudWave from "src/assets/img/home10/cloud-wave.webp";
 
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 

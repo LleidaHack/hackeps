@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import MentorImage from "src/assets/Mentor.png";
-import TimonImage from "src/assets/TIMON.png";
+import MentorImage from "src/assets/Mentor.webp";
+import TimonImage from "src/assets/TIMON.webp";
 import Button from "src/components/buttons/Button";
 import TitleGeneralized from "src/components/hackeps/TitleGeneralized/TitleGeneralized";
 

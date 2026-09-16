@@ -5,7 +5,7 @@ import { contacte } from "src/services/AuthenticationService";
 import SuccessFeedback from "src/components/hackeps/Feedbacks/SuccesFeedback";
 import FailFeedback from "src/components/hackeps/Feedbacks/FailFeedback";
 import "src/components/hackeps/Forms/PublicFormLayout.css";
-import marracoMentor from "src/assets/img/home10/marraco-mentor-raw.png";
+import marracoMentor from "src/assets/img/home10/marraco-mentor-raw.webp";
 
 const fieldClass = (hasError) =>
   `mt-1 block min-h-[38px] w-full border-0 bg-white px-3 font-space-mono text-[16px] text-[#2e2e2e] outline-none ${
