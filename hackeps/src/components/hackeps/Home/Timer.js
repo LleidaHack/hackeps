@@ -7,8 +7,8 @@ const CountdownTimer = (props) => {
   const eventendDay = props.endTime;
   const [nowDay, setNowDay] = useState(() => Date.now());
   const active = Boolean(props.timerActive);
-  const defaultStartTime = new Date(new Date().getFullYear(), 10, 22); // 22nd November of the current year
-  const defaultEndTime = new Date(new Date().getFullYear(), 10, 23); // 23rd November of the current year
+  const defaultStartTime = new Date(2026, 10, 28); // November 28, 2026
+  const defaultEndTime = new Date(2026, 10, 29); // November 29, 2026
 
   const startTime = props.startTime || defaultStartTime;
   const endTime = props.endTime || defaultEndTime;

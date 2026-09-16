@@ -1,10 +1,10 @@
 export const mockEventService = {
   getHackeps: jest.fn().mockResolvedValue({
     id: 1,
-    name: "HackEPS 2025",
-    description: "Hackeps 2025",
-    start_date: "2025-11-22T13:00:26.478000",
-    end_date: "2025-11-23T19:12:26.478000",
+    name: "HackEPS 2026",
+    description: "Hackeps 2026",
+    start_date: "2026-11-28T13:00:26.478000",
+    end_date: "2026-11-29T19:12:26.478000",
     location: "EPS",
     archived: false,
     is_open: true,

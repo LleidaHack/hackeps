@@ -4,8 +4,8 @@ import "./HomeCountdown.css";
 const HomeCountdown = (props) => {
   const [nowDay, setNowDay] = useState(() => Date.now());
   const active = Boolean(props.timerActive);
-  const defaultStartTime = new Date(new Date().getFullYear(), 10, 22);
-  const defaultEndTime = new Date(new Date().getFullYear(), 10, 23);
+  const defaultStartTime = new Date(2026, 10, 28);
+  const defaultEndTime = new Date(2026, 10, 29);
   const startTime = props.startTime || defaultStartTime;
   const endTime = props.endTime || defaultEndTime;
   const start = new Date(startTime).getTime();

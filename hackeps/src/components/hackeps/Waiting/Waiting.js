@@ -5,7 +5,7 @@ import waveFront from "src/assets/img/home10/wave-front.svg";
 import mlhLogo from "src/assets/img/majorleaguelogo.svg";
 
 const Waiting = () => {
-  const targetDate = new Date(new Date().getFullYear(), 10, 28); // November 28th
+  const targetDate = new Date(2026, 10, 28); // November 28th
 
   const calculateTimeLeft = () => {
     const difference = targetDate - new Date();
