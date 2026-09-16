@@ -377,3 +377,5 @@
   .hacker-profile-accounts { max-width: 100%; }
   .hacker-profile-accounts .join-container { flex-wrap: wrap; justify-content: center; }
 }
+
+.profile-panel .team-member-name { color: #fff; }

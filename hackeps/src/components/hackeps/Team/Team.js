@@ -130,7 +130,7 @@ const Team = (props) => {
     return (
       <>
         {is_user && (
-          <div className="p-bg-grey text-center mt-5 m-0 p-3 contss flex md:flex-row flex-col">
+          <div className="bg-transparent text-center mt-5 m-0 p-3 contss flex md:flex-row flex-col">
             <TitleGeneralized marginBot="2" padTop="0" secondary>
               Inscripcions
             </TitleGeneralized>
@@ -246,7 +246,7 @@ const Team = (props) => {
   function TeamInfo() {
     return (
       <div className="Alineador">
-        <div className="bg-grayStrongHackeps text-center mt-5 m-0 p-3 containerinf">
+        <div className="bg-transparent text-center mt-5 m-0 p-3 containerinf">
           <TitleGeneralized padTop="0" primary>
             {team.name} {team.code && `Codi: #${team.code}`}
           </TitleGeneralized>
@@ -254,7 +254,7 @@ const Team = (props) => {
             <Row className="justify-content-center">
               {team.members.map((member, index) => (
                 <Col className="col-xxl-3 cards" key={index}>
-                  <div className="p-3 text-center bg-white smallCard">
+                  <div className="p-3 text-center bg-transparent smallCard">
                     <ProfilePic hacker={member} size="big" bgcolor="black" />
                     <p className="team-member-name">{member.name}</p>
                     {isCurrentUser(member.id) ? (
