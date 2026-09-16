@@ -1,4 +1,5 @@
 import React from "react";
+import correfocs from "src/assets/correfocs.gif";
 import dimoniBig from "src/assets/img/home10/fum-activitats.png";
 import cloud5 from "src/assets/img/home10/cloud-5.svg";
 
@@ -30,13 +31,19 @@ const Activities = () => {
         className="ambient-cloud ambient-cloud--2 pointer-events-none absolute right-[-8%] top-[18%] hidden h-auto w-[28%] max-w-[320px] object-contain lg:block"
       />
       <div className="relative z-10 -ml-4 w-[calc(100%+1rem)] max-w-none md:-ml-8 md:w-[85%] lg:w-[78%]">
-        <img
-          src={dimoniBig}
-          alt=""
-          width={1331}
-          height={1052}
-          className="h-auto w-full max-w-none object-contain object-left"
-        />
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcSet={dimoniBig} />
+          <img
+            src={correfocs}
+            alt=""
+            aria-hidden="true"
+            width={1347}
+            height={1230}
+            loading="lazy"
+            decoding="async"
+            className="h-auto w-full max-w-none object-contain object-left"
+          />
+        </picture>
         {ACTIVITIES.map((activity, index) => (
           <div
             key={`${activity.label}-${index}`}
