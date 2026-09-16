@@ -56,6 +56,8 @@ export async function loadProfile(userId) {
     isHacker: true,
     qrCode: user.code,
     event: {
+      start_date: currentEvent.start_date,
+      end_date: currentEvent.end_date,
       is_open: currentEvent.is_open,
       event_id: currentEvent.id,
       registered,
