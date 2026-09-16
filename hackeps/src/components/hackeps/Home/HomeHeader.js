@@ -48,7 +48,9 @@ const HomeHeader = ({ showMlh = true }) => {
                 alt="MLH"
                 width={150}
                 height={285}
-                className="h-auto w-full max-w-none object-contain object-top"
+                className="relative top-0 block h-auto w-full max-w-none object-contain object-top"
+                // Compensate for the asset's 46 transparent top pixels (712 px tall).
+                style={{ transform: "translateY(-6.460674%)" }}
               />
             </a>
           )}
