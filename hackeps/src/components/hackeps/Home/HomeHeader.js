@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./HomeHeader.css";
 import { HashLink as Link } from "react-router-hash-link";
 import { isToken } from "src/modules/session";
 import { ROUTES } from "src/config/routes";
@@ -75,6 +76,7 @@ const HomeHeader = () => {
             className="flex h-11 w-11 items-center justify-center border-0 bg-transparent p-0 leading-none text-[#2e2e2e] lg:hidden"
             aria-label={open ? "Tancar menú" : "Obrir menú"}
             aria-expanded={open}
+            aria-controls="mobile-navigation"
             onClick={() => setOpen((value) => !value)}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -98,13 +100,19 @@ const HomeHeader = () => {
         </div>
       </nav>
 
-      {open && (
-        <ul className="m-0 list-none bg-[#ff7430] px-4 py-2 lg:hidden">
+      <div
+        id="mobile-navigation"
+        className={`mobile-navigation lg:hidden ${open ? "mobile-navigation--open" : ""}`}
+        aria-hidden={!open}
+      >
+        <div className="min-h-0 overflow-hidden">
+        <ul className="m-0 list-none bg-[#ff7430] px-4 py-2">
           {NAV_LINKS.map((link) => (
             <li key={link.label} className="border-t border-black/10 py-3">
               <Link
                 to={link.to}
                 className="block font-space-mono text-[18px] text-[#2e2e2e] no-underline"
+                tabIndex={open ? undefined : -1}
                 onClick={() => setOpen(false)}
               >
                 {link.label}
@@ -112,7 +120,8 @@ const HomeHeader = () => {
             </li>
           ))}
         </ul>
-      )}
+        </div>
+      </div>
     </div>
   );
 };
