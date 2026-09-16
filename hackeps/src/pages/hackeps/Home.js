@@ -92,7 +92,7 @@ const Home = () => {
             </p>
           )}
           <Identify />
-          <Newsletter />
+          {/* <Newsletter /> */}
           <div className="w-full" style={{ background: gradient }}>
             <Activities />
             <Records />
