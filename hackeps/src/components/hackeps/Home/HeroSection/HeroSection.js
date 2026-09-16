@@ -39,7 +39,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           aria-hidden="true"
           width={425}
           height={214}
-          className="pointer-events-none absolute right-[-8%] top-[18%] z-[5] hidden h-auto w-[28%] max-w-[320px] object-contain md:block"
+          className="pointer-events-none absolute right-[4%] top-[22%] z-[5] hidden h-auto w-[28%] max-w-[320px] object-contain md:block"
         />
         <img
           src={cloud2}
@@ -47,7 +47,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           aria-hidden="true"
           width={435}
           height={219}
-          className="pointer-events-none absolute bottom-[8%] left-[-6%] z-[5] hidden h-auto w-[30%] max-w-[340px] object-contain lg:block"
+          className="pointer-events-none absolute bottom-[14%] left-[6%] z-[5] hidden h-auto w-[30%] max-w-[340px] object-contain lg:block"
         />
         <img
           src={cloud3}
