@@ -12,7 +12,7 @@
 }
 
 .shared-form-visual {
-  display: flex;
+  display: none;
   min-width: 0;
   flex-direction: column;
   align-items: center;
@@ -31,7 +31,7 @@
 .shared-form-fields {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   min-width: 0;
   min-height: 52rem;
@@ -57,6 +57,12 @@
   .shared-form-layout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 3rem;
+  }
+  .shared-form-fields {
+    justify-content: center;
+  }
+  .shared-form-visual {
+    display: flex;
   }
   .shared-form-image {
     width: 400px;
