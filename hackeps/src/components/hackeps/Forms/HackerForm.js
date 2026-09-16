@@ -121,7 +121,7 @@ export const HackerStepperForm = () => {
     <>
       <div id="hackerForm" className="hacker-signup text-white">
         {!submiting ? (
-          <FormLayout visualFooter={<h2 className="mt-3 text-white">Hacker</h2>}>
+          <FormLayout visualFooter={<h2 className="mt-3 text-white"></h2>}>
                 <div key={step} className="hacker-signup-step">
                 {step === 1 ? (
                   <>
