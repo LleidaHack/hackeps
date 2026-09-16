@@ -1,3 +1,4 @@
+import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
@@ -56,14 +57,12 @@ export default function ResetPassword() {
   return (
     <DarkPage>
       {!sended ? (
-        <div className="flex w-full items-center justify-center px-8 py-10">
+        <FormLayout title="Restablir contrasenya">
           <form
             onSubmit={(e) => handleResetPassword(e)}
-            className="flex w-full max-w-[520px] flex-col"
+            className="public-form flex w-full flex-col"
           >
-            <h2 className="mb-6 text-center font-space-mono text-3xl text-white md:text-5xl">
-              Restablir contrasenya
-            </h2>
+
             <label className="mb-3 w-full text-base text-white">
               <p className="mb-1">Nova contrasenya</p>
               <input
@@ -105,7 +104,7 @@ export default function ResetPassword() {
               Restablir contrasenya
             </Button>
           </form>
-        </div>
+        </FormLayout>
       ) : (
         <FailFeedback
           title={`Error restablint la contrasenya`}

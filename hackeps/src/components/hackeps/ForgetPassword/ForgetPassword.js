@@ -1,6 +1,6 @@
+import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import logo from "src/assets/img/home10/logonaranja.png";
 import { resetPassword } from "src/services/AuthenticationService";
 import SuccessFeedback from "../Feedbacks/SuccesFeedback";
 import Button from "src/components/buttons/Button";
@@ -33,19 +33,10 @@ const ForgetPassword = ({ nextScreen }) => {
   return (
     <>
       {!status ? (
-        <div className="flex w-full items-center justify-center px-8 py-10">
-          <div className="flex w-full max-w-[520px] flex-col items-center">
-            <img
-              src={logo}
-              alt="logo"
-              className="mb-3 block h-auto w-40 md:w-56"
-            />
-            <p className="mb-4 text-center font-space-mono text-3xl text-white md:text-4xl">
-              Necesites ajuda per a iniciar sessió?
-            </p>
+        <FormLayout title="Necessites ajuda per iniciar sessió?">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="flex w-full flex-col gap-3"
+              className="public-form flex w-full flex-col gap-3"
             >
               <label className="text-white">
                 Introdueix el teu correu electrònic
@@ -79,8 +70,7 @@ const ForgetPassword = ({ nextScreen }) => {
                 {isSubmitting ? "Enviant..." : "Enviar enllaç de recuperació"}
               </Button>
             </form>
-          </div>
-        </div>
+        </FormLayout>
       ) : (
         <SuccessFeedback
           title="Sol·licitud rebuda"

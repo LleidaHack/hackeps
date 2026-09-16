@@ -1,20 +1,6 @@
 /* Keep signup sizing independent of legacy global form styles. */
 #hackerForm {
-  padding: 1rem 1rem 2rem;
-}
-
-#hackerForm .hacker-signup-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2rem;
-}
-
-#hackerForm .hacker-signup-fields {
-  width: 100%;
-  min-width: 0;
-  max-width: 35rem;
-  min-height: 52rem;
-  margin-inline: auto;
+  padding: 0;
 }
 
 #hackerForm h1 {
@@ -93,19 +79,6 @@
 
 #hackerForm .buttonsBox > button {
   flex: 1 1 7rem;
-}
-
-@media (min-width: 640px) {
-  #hackerForm {
-    padding-inline: 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  #hackerForm .hacker-signup-layout {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 3rem;
-  }
 }
 
 /* Animate only the changing fields, keeping the logo stable. */

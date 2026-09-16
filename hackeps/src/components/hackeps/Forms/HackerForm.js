@@ -1,3 +1,4 @@
+import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import { useState } from "react";
 import { signupHacker } from "src/services/HackerService";
 import FileBase from "react-file-base64";
@@ -10,7 +11,6 @@ import PasswordInput from "./PasswordInput";
 import { Controller, useForm } from "react-hook-form";
 import Button from "src/components/buttons/Button";
 import { ROUTES } from "src/config/routes";
-import logo from "src/assets/img/home10/logonaranja.png";
 import "./HackerFormLayout.css";
 
 import { isAtLeastAge } from "src/modules/ageValidation";
@@ -121,19 +121,7 @@ export const HackerStepperForm = () => {
     <>
       <div id="hackerForm" className="hacker-signup text-white">
         {!submiting ? (
-          <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-6">
-            <div className="hacker-signup-layout">
-              <div className="hidden items-center justify-center lg:flex">
-                <div>
-                  <img
-                    src={logo}
-                    alt="HackEPS"
-                    className="mx-auto h-auto w-full max-w-[400px]"
-                  />
-                  <h2 className="text-center mt-3 text-white">Hacker</h2>
-                </div>
-              </div>
-              <div className="hacker-signup-fields">
+          <FormLayout visualFooter={<h2 className="mt-3 text-white">Hacker</h2>}>
                 <div key={step} className="hacker-signup-step">
                 {step === 1 ? (
                   <>
@@ -459,9 +447,7 @@ export const HackerStepperForm = () => {
                   </div>
                 ) : null}
                 </div>
-              </div>
-            </div>
-          </div>
+          </FormLayout>
         ) : (
           <>
             {!statusSubmit ? (

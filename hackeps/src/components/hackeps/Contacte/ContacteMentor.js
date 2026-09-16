@@ -1,3 +1,4 @@
+import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { contacte } from "src/services/AuthenticationService";
@@ -80,25 +81,10 @@ const ContacteMentorPage = () => {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[1280px] px-4 pb-8 pt-4 text-white sm:px-6 md:px-10 lg:px-[72px]">
-      <h1 className="mb-6 mt-0 text-center font-space-mono text-[32px] font-bold leading-none tracking-[-0.64px] md:mb-8 md:text-[40px] md:tracking-[-0.8px]">
-        Aplicar com a Mentor
-      </h1>
-
-      <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-stretch lg:justify-between lg:gap-10">
-        <div className="flex w-full items-center justify-center lg:w-[32%]">
-          <img
-            src={marracoMentor}
-            alt="MENTOR"
-            width={526}
-            height={523}
-            className="h-auto w-[144px] max-w-full object-contain md:w-[200px] lg:w-full"
-          />
-        </div>
-
+    <FormLayout title="Aplicar com a Mentor" image={marracoMentor} imageAlt="Mentor">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="public-form grid w-full min-w-0 grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:w-[64%]"
+          className="public-form grid w-full min-w-0 grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2"
         >
           <label className="font-space-mono text-[15px]">
             Nom complet
@@ -268,8 +254,7 @@ const ContacteMentorPage = () => {
             {isLoading ? "Enviant candidatura..." : "Enviar candidatura"}
           </button>
         </form>
-      </div>
-    </div>
+    </FormLayout>
   );
 };
 
