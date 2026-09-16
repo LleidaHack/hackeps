@@ -31,3 +31,20 @@ body,
     animation: none;
   }
 }
+
+/* Reserve the scrollbar space before a dialog opens so the page width stays stable. */
+@supports (scrollbar-gutter: stable) {
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  /* Bootstrap's inline padding would compensate for the same space twice. */
+  body.modal-open {
+    padding-right: 0 !important;
+  }
+
+  .modal {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
