@@ -18,7 +18,6 @@ import { getHackeps } from "src/services/EventService";
 import ProfilePic from "src/components/hackeps/ProfilePic/ProfilePic";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
 import PopupBody from "src/components/emergentPopup/PopupBody";
-import { ROUTES } from "src/config/routes";
 
 const Team = (props) => {
   const [team, setTeam] = useState(props.team);
@@ -261,14 +260,7 @@ const Team = (props) => {
                       ""
                     ) : (
                       <>
-                        <Button
-                          className="my-2 min-w-full"
-                          primary
-                          sm
-                          href={`${ROUTES.profile}/${member.id}`}
-                        >
-                          Veure perfil
-                        </Button>
+
 
                         {canManageMember(member) ? (
                           <>
