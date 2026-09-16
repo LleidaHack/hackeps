@@ -14,27 +14,6 @@ export default function ProfileHighlights({ event }) {
   return (
     <div className="hacker-profile-highlights">
       <section
-        className="hacker-profile-medals"
-        aria-labelledby="profile-medals-title"
-      >
-        <h2 id="profile-medals-title">Medalles</h2>
-        <svg
-          viewBox="0 0 80 100"
-          width="80"
-          height="100"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          aria-hidden="true"
-        >
-          <path d="M20 53v39l20-13 20 13V53" />
-          <circle cx="40" cy="34" r="28" />
-          <circle cx="40" cy="34" r="18" />
-          <path d="m40 22 4 8 9 1-6 7 1 9-8-4-8 4 1-9-6-7 9-1Z" />
-        </svg>
-        <p>Les medalles encara no estan disponibles.</p>
-      </section>
-      <section
         className="hacker-profile-calendar"
         aria-labelledby="profile-calendar-title"
       >

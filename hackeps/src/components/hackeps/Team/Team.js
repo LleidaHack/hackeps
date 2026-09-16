@@ -22,6 +22,10 @@ import { ROUTES } from "src/config/routes";
 
 const Team = (props) => {
   const [team, setTeam] = useState(props.team);
+  const updateTeam = (nextTeam) => {
+    setTeam(nextTeam);
+    props.onTeamChange?.(nextTeam);
+  };
   let is_user = props.is_user;
 
   useEffect(() => {
@@ -55,12 +59,12 @@ const Team = (props) => {
   const [JoinErrorMessage, setJoinErrorMessage] = useState("");
   async function handleKick(member) {
     await removeHackerFromGroup(member.id, team.id);
-    setTeam(await getHackerGroupById(team.id));
+    updateTeam(await getHackerGroupById(team.id));
   }
 
   async function handleMakeLeader(member) {
     await setHackerGroupLeader(team.id, member.id);
-    setTeam(await getHackerGroupById(team.id));
+    updateTeam(await getHackerGroupById(team.id));
   }
 
   async function handleLeave() {
@@ -71,7 +75,7 @@ const Team = (props) => {
     if (a.errCode) {
       setErr(a.errMssg);
     } else {
-      setTeam(null);
+      updateTeam(null);
     }
   }
 
@@ -82,7 +86,7 @@ const Team = (props) => {
       localStorage.getItem("userID"),
     );
     if (a.success) {
-      setTeam(await getHackerGroupById(a.added_group_id));
+      updateTeam(await getHackerGroupById(a.added_group_id));
       setShowJoinTeam(false);
     } else {
       setJoinErrorMessage(a.errMssg);
@@ -99,7 +103,7 @@ const Team = (props) => {
     };
     let a = await addHackerGroup(team);
     if (a.success) {
-      setTeam(await getHackerGroupById(a.group_id));
+      updateTeam(await getHackerGroupById(a.group_id));
       setShowCreateTeam(false);
     }
   }

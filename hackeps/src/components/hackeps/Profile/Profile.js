@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, NavLink, useLocation } from "react-router-dom";
 import "./Profile.css";
 import Modal from "react-bootstrap/Modal";
 import { loadProfile } from "src/modules/loadProfile";
@@ -19,6 +19,8 @@ import ProfileHighlights from "./ProfileHighlights";
 
 const ProfileComponent = () => {
   const { hacker_id } = useParams();
+  const { pathname } = useLocation();
+  const section = pathname.split("/")[2] || "";
   const userId = hacker_id || localStorage.getItem("userID");
   const isUser = String(userId) === localStorage.getItem("userID");
   const [loadError, setLoadError] = useState(false);
@@ -122,30 +124,68 @@ const ProfileComponent = () => {
             )}
           </header>
 
-          {user && (
-            <div className="hacker-profile-accounts">
-              <LinkAccounts hacker={user} />
+          {isUser ? (
+            <div className="profile-workspace">
+              <nav className="profile-navigation" aria-label="Àrea personal">
+                <NavLink end to="/perfil">Resum</NavLink>
+                {isHacker && <NavLink to="/perfil/esdeveniments">Esdeveniments</NavLink>}
+                {isHacker && <NavLink to="/perfil/equip">El meu equip</NavLink>}
+                <NavLink to="/perfil/dades">El meu perfil</NavLink>
+                <Link to="/" className="profile-signout" onClick={logOut}>Tancar sessió</Link>
+              </nav>
+              <div className="profile-panel" key={section}>
+                {!user ? <p role="status">Carregant el perfil…</p> : section === "dades" ? (
+                  <>
+                    <h2>El meu perfil</h2>
+                    <p className="profile-description">Actualitza les teves dades, la foto i els enllaços professionals.</p>
+                    <div className="hacker-profile-actions"><EditProfile hackerObj={user} /></div>
+                    <div className="hacker-profile-accounts"><LinkAccounts hacker={user} /></div>
+                  </>
+                ) : section === "esdeveniments" && isHacker ? (
+                  <>
+                    <h2>Esdeveniments</h2>
+                    <p className="profile-description">Consulta la teva inscripció i les dates de la HackEPS.</p>
+                    <div className="profile-event-grid">
+                      <div className="hacker-profile-event"><Join event={event} /></div>
+                      <ProfileHighlights event={event} />
+                    </div>
+                  </>
+                ) : section === "equip" && isHacker ? (
+                  <>
+                    <h2>El meu equip</h2>
+                    {event?.registered ? <Team team={team} is_user={true} onTeamChange={setTeam} /> : (
+                      <div className="profile-summary-card">
+                        <p>Inscriu-te a la HackEPS per crear un equip o unir-te a un.</p>
+                        <Link className="profile-primary-link" to="/perfil/esdeveniments">Veure l’esdeveniment</Link>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <h2>Resum</h2>
+                    <p className="profile-description">El més important per preparar la teva participació.</p>
+                    {isHacker ? <>
+                      <div className="profile-summary-card">
+                        <h3>HackEPS 2026</h3>
+                        <p>{event?.accepted ? (event.confirmed ? "Inscripció acceptada i confirmada." : "Inscripció acceptada. Tens una confirmació pendent.") : event?.registered ? "La teva inscripció està pendent d’acceptació." : "Encara no t’has inscrit a aquesta edició."}</p>
+                        <Link className="profile-primary-link" to="/perfil/esdeveniments">{event?.registered ? "Veure la inscripció" : "Veure l’esdeveniment"}</Link>
+                      </div>
+                      {event?.registered && <div className="profile-summary-card">
+                        <h3>{team?.name || "Encara no tens equip"}</h3>
+                        <p>{team ? "Consulta els membres i gestiona el teu equip." : "Crea el teu equip o uneix-te a un amb un codi."}</p>
+                        <Link className="profile-primary-link" to="/perfil/equip">El meu equip</Link>
+                      </div>}
+                    </> : <div className="profile-summary-card"><p>Gestiona les teves dades des del teu perfil.</p><Link className="profile-primary-link" to="/perfil/dades">El meu perfil</Link></div>}
+                  </>
+                )}
+              </div>
             </div>
+          ) : user && (
+            <>
+              <div className="hacker-profile-accounts"><LinkAccounts hacker={user} /></div>
+              {event?.registered && isHacker && <section className="hacker-profile-team" aria-label="Equip"><Team team={team} is_user={false} /></section>}
+            </>
           )}
-          {isUser && (
-            <div className="hacker-profile-actions">
-              {user && <EditProfile hackerObj={user} />}
-              <Link to="/" className="hacker-profile-logout" onClick={logOut}>
-                Tancar sessió
-              </Link>
-            </div>
-          )}
-          {isHacker && (
-            <div className="hacker-profile-event">
-              <Join event={event} />
-            </div>
-          )}
-          {event?.registered && isHacker && (
-            <section className="hacker-profile-team" aria-label="El teu equip">
-              <Team team={team} is_user={isUser} />
-            </section>
-          )}
-          {isHacker && <ProfileHighlights event={event} />}
         </div>
       </main>
 

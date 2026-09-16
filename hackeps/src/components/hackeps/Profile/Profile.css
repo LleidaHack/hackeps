@@ -275,3 +275,30 @@
 .hacker-profile-accounts i {
   margin: 0 !important;
 }
+
+.hacker-profile-content { max-width: 1200px; }
+.profile-workspace { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 2rem; }
+.profile-navigation { display: flex; flex-direction: column; gap: 0.5rem; align-self: start; }
+.profile-navigation a { padding: 0.85rem 1rem; border-radius: 6px; color: #ddd; text-decoration: none; font-size: 0.9rem; }
+.profile-navigation a.active { background: #ff7430; color: #242424; font-weight: bold; }
+.profile-navigation a:hover { background: #444; color: #fff; }
+.profile-navigation .profile-signout { margin-top: 2rem; font-size: 0.8rem; }
+.profile-panel { min-width: 0; min-height: 520px; padding: clamp(1rem, 3vw, 2rem); border: 1px solid #555; border-radius: 12px; background: #333; }
+.profile-panel h2 { margin: 0 0 1rem; font-size: 1.6rem; color: #fff; }
+.profile-description { color: #ccc; margin-bottom: 1.75rem; line-height: 1.6; }
+.profile-summary-card { padding: 1.5rem; margin-top: 1rem; border-radius: 8px; background: #444; }
+.profile-summary-card h3 { font-size: 1.2rem; margin: 0 0 1rem; color: #fff; }
+.profile-summary-card p { line-height: 1.6; }
+.profile-primary-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0.6rem 1rem; background: #ff7430; color: #242424; text-decoration: none; border-radius: 4px; }
+.profile-primary-link:hover { background: #ff9b6b; color: #242424; }
+.profile-event-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; align-items: start; }
+.profile-event-grid .hacker-profile-event { width: 100%; margin: 0; }
+.profile-event-grid .hacker-profile-highlights { display: block; width: 100%; }
+.profile-panel .hacker-profile-actions { max-width: none; margin-top: 0; }
+@media (max-width: 767px) {
+  .profile-workspace { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .profile-navigation { flex-direction: row; overflow-x: auto; max-width: 100%; padding-bottom: 0.5rem; }
+  .profile-navigation a { flex-shrink: 0; white-space: nowrap; }
+  .profile-navigation .profile-signout { margin-top: 0; }
+  .profile-event-grid { grid-template-columns: minmax(0, 1fr); }
+}

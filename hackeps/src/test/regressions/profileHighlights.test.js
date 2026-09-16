@@ -15,8 +15,8 @@ test("highlights only the event dates including leap day", () => {
   expect(screen.getByLabelText("29, HackEPS")).toBeInTheDocument();
   expect(screen.queryByLabelText("27, HackEPS")).not.toBeInTheDocument();
   expect(
-    screen.getByText("Les medalles encara no estan disponibles."),
-  ).toBeInTheDocument();
+    screen.queryByText("Les medalles encara no estan disponibles."),
+  ).not.toBeInTheDocument();
 });
 
 test("does not invent event dates when none are available", () => {
