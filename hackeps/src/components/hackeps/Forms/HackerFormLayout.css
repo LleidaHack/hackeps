@@ -1,0 +1,96 @@
+/* Keep signup sizing independent of legacy global form styles. */
+#hackerForm {
+  padding: 1rem 1rem 2rem;
+}
+
+#hackerForm .hacker-signup-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+}
+
+#hackerForm .hacker-signup-fields {
+  width: 100%;
+  min-width: 0;
+  max-width: 35rem;
+  margin-inline: auto;
+}
+
+#hackerForm h1 {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+#hackerForm form {
+  width: 100%;
+  max-width: 100%;
+  gap: 1.25rem;
+}
+
+#hackerForm label {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  font-size: 1rem;
+}
+
+#hackerForm input:not([type="checkbox"]) {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 3rem;
+  margin: 0.5rem 0 0;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+#hackerForm label > span {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+#hackerForm label > br {
+  display: none;
+}
+
+#hackerForm .hacker-signup-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+#hackerForm input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0.25rem 0 0;
+}
+
+#hackerForm .hacker-signup-consent p {
+  min-width: 0;
+  margin: 0;
+}
+
+#hackerForm button {
+  min-height: 2.75rem;
+}
+
+#hackerForm .buttonsBox > button {
+  flex: 1 1 7rem;
+}
+
+@media (min-width: 640px) {
+  #hackerForm {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  #hackerForm .hacker-signup-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3rem;
+  }
+}

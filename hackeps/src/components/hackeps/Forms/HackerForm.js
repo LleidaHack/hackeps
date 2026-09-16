@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import Button from "src/components/buttons/Button";
 import { ROUTES } from "src/config/routes";
 import logo from "src/assets/img/home10/logonaranja.png";
+import "./HackerFormLayout.css";
 
 const minAge = "14";
 const date = new Date();
@@ -110,12 +111,9 @@ export const HackerStepperForm = () => {
 
   return (
     <>
-      <div
-        id="hackerForm"
-        className="flex justify-center px-8 pb-8 pt-4 align-top text-white sm:px-56"
-      >
+      <div id="hackerForm" className="hacker-signup text-white">
         {!submiting ? (
-          <div className="flex flex-col gap-3 w-full">
+          <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-6">
             <div className="stepInfo self-center my-4">
               <div className="flex justify-center items-center space-x-4">
                 {[1, 2, 3].map((num) => (
@@ -130,18 +128,18 @@ export const HackerStepperForm = () => {
               <hr className="w-1/2 mt-4 border-t-2 border-gray-300" />
             </div>
 
-            <div className="flex flex-row w-full h-full justify-center content-center">
-              <div className="basis-1/2 justify-items-center content-center hidden md:block">
+            <div className="hacker-signup-layout">
+              <div className="hidden items-center justify-center lg:flex">
                 <div>
                   <img
                     src={logo}
                     alt="HackEPS"
-                    className="w-[420px] max-w-full"
+                    className="mx-auto h-auto w-full max-w-[360px]"
                   />
                   <h2 className="text-center mt-3 text-white">Hacker</h2>
                 </div>
               </div>
-              <div className="basis-1/2 ">
+              <div className="hacker-signup-fields">
                 {step === 1 ? (
                   <>
                     <TitleGeneralized alignText={"left"} primary>
@@ -153,6 +151,7 @@ export const HackerStepperForm = () => {
                         Nom:
                         <input
                           className={`${errors.name ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
+                          autoComplete="given-name"
                           placeholder="Nom"
                           {...register("firstName", {
                             required: "El nom no pot estar buit",
@@ -169,6 +168,7 @@ export const HackerStepperForm = () => {
                         Cognoms:
                         <input
                           className={`${errors.name ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
+                          autoComplete="family-name"
                           placeholder="Cognoms"
                           {...register("lastName", {
                             required: "Els cognoms no pot estar buit",
@@ -185,6 +185,7 @@ export const HackerStepperForm = () => {
                         Contrasenya:
                         <input
                           type="password"
+                          autoComplete="new-password"
                           className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Contrasenya"
                           {...register("password", {
@@ -223,6 +224,7 @@ export const HackerStepperForm = () => {
                         Confirma la contrasenya:
                         <input
                           type="password"
+                          autoComplete="new-password"
                           className={`${errors.confirmPassword ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Confirma la contrasenya"
                           {...register("confirmPassword", {
@@ -292,6 +294,7 @@ export const HackerStepperForm = () => {
                         Telèfon:
                         <input
                           type="tel"
+                          autoComplete="tel"
                           className={`${errors.phone ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Telèfon"
                           {...register("phone", {
@@ -313,6 +316,7 @@ export const HackerStepperForm = () => {
                         Correu electrònic:
                         <input
                           type="email"
+                          autoComplete="email"
                           className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Correu electrònic"
                           {...register("email", {
@@ -331,17 +335,17 @@ export const HackerStepperForm = () => {
                         )}
                       </label>
 
-                      <label className="flex items-center space-x-2">
+                      <label className="hacker-signup-consent">
                         <input
                           type="checkbox"
-                          className="w-fit mr-5"
+                          className="shrink-0"
                           {...register("notifications")}
                         />
                         Accepto rebre notificacions electròniques de caràcter
                         informatiu, comercial i promocional.
                       </label>
 
-                      <div className="buttonsBox flex flex-row justify-between gap-2 md:gap-0">
+                      <div className="buttonsBox flex flex-wrap gap-3">
                         <Button
                           orange
                           className="min-h-10"
@@ -366,7 +370,7 @@ export const HackerStepperForm = () => {
                     <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
                       <img
                         src={pfpImage || userIcon}
-                        alt="Profile"
+                        alt="Foto de perfil"
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -375,10 +379,10 @@ export const HackerStepperForm = () => {
                     </TitleGeneralized>
                     <form className="flex flex-col gap-3">
                       <label>
-                        Nickname:
+                        Àlies:
                         <input
                           className={`${errors.nickname ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="Nickname"
+                          placeholder="Àlies"
                           {...register("nickname", {
                             required: "El nickname és obligatori",
                           })}
@@ -391,10 +395,10 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <label>
-                        Image URL:
+                        URL de la imatge:
                         <input
                           className={`${errors.imageUrl ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="Image URL"
+                          placeholder="URL de la imatge"
                           {...register("imageUrl")}
                           onChange={handleImageUrlChange}
                         />
@@ -418,27 +422,24 @@ export const HackerStepperForm = () => {
                         </span>
                       )}
 
-                      <label className="flex items-center space-x-2">
+                      <label className="hacker-signup-consent">
                         <input
                           type="checkbox"
-                          className="w-fit mr-5"
+                          className="shrink-0"
                           {...register("termsConditions", {
                             required: "Has d'acceptar els termes i condicions",
                           })}
                         />
                         <p>
                           Acceptes els nostres{" "}
-                          <a
-                            href={ROUTES.terms}
-                            className="text-[#ff7430]"
-                          >
+                          <a href={ROUTES.terms} className="text-[#ff7430]">
                             termes i condicions
                           </a>
                           .
                         </p>
                       </label>
 
-                      <div className="buttonsBox flex flex-row justify-between gap-2 md:gap-0">
+                      <div className="buttonsBox flex flex-wrap gap-3">
                         <Button
                           orange
                           className="min-h-10"
