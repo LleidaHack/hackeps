@@ -123,12 +123,12 @@ export const HackerStepperForm = () => {
         {!submiting ? (
           <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-6">
             <div className="hacker-signup-layout">
-              <div className="hidden items-center justify-center lg:flex lg:self-start lg:pt-20">
+              <div className="hidden items-center justify-center lg:flex">
                 <div>
                   <img
                     src={logo}
                     alt="HackEPS"
-                    className="mx-auto h-auto w-full max-w-[360px]"
+                    className="mx-auto h-auto w-full max-w-[400px]"
                   />
                   <h2 className="text-center mt-3 text-white">Hacker</h2>
                 </div>
