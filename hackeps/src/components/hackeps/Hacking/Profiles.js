@@ -94,7 +94,7 @@ const profiles = {
               <p>
                 Si no trobes el devPost de la HackEps, pots accedir amb el
                 nostre acces directe des de:{" "}
-                <a href="lleidahack.dev/devpostHackeps">
+                <a href="https://lleidahack.dev/devpostHackeps">
                   lleidahack.dev/devpostHackeps
                 </a>
               </p>
