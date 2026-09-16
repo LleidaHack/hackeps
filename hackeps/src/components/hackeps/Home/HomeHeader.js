@@ -69,7 +69,7 @@ const HomeHeader = () => {
           ))}
         </ul>
 
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="flex shrink-0 items-center gap-0">
           <button
             type="button"
             className="flex h-11 w-11 items-center justify-center border-0 bg-transparent p-0 leading-none text-[#2e2e2e] lg:hidden"
