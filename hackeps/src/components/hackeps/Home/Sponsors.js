@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getCompanyByTier } from "src/services/CompanyService";
 import HomeFooter from "src/components/hackeps/Home/HomeFooter.js";
 import Firework from "src/components/hackeps/Home/Firework.js";
+import lleidaHackLogo from "src/assets/img/home10/isotip.svg";
 import sponsorSlot from "src/assets/img/home10/sponsor-slot.svg";
 import firework1 from "src/assets/img/home10/firework-1.svg";
 import firework2 from "src/assets/img/home10/firework-2.svg";
@@ -47,6 +48,13 @@ const Slot = ({ company }) =>
         height={198}
         className="h-full w-full"
       />
+      <img
+        src={lleidaHackLogo}
+        alt=""
+        width={75}
+        height={48}
+        className="absolute inset-0 m-auto h-auto w-[45%]"
+      />
     </div>
   ) : (
     <button
@@ -70,7 +78,15 @@ const Slot = ({ company }) =>
           height={198}
           className="absolute inset-0 h-full w-full object-contain p-4 md:p-6"
         />
-      ) : null}
+      ) : (
+        <img
+          src={lleidaHackLogo}
+          alt=""
+          width={75}
+          height={48}
+          className="absolute inset-0 m-auto h-auto w-[45%]"
+        />
+      )}
     </button>
   );
 
