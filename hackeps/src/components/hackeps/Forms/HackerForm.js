@@ -5,7 +5,8 @@ import userIcon from "src/icons/user2.png";
 import FailFeedback from "../Feedbacks/FailFeedback";
 import SuccessFeedback from "../Feedbacks/SuccesFeedback";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
-import { useForm } from "react-hook-form";
+import BirthdatePicker from "./BirthdatePicker";
+import { Controller, useForm } from "react-hook-form";
 import Button from "src/components/buttons/Button";
 import { ROUTES } from "src/config/routes";
 import logo from "src/assets/img/home10/logonaranja.png";
@@ -18,6 +19,7 @@ const MINIMUM_ACCOUNT_AGE = 14;
 export const HackerStepperForm = () => {
   const {
     register,
+    control,
     handleSubmit,
     watch,
     formState: { errors, isValid },
@@ -246,26 +248,36 @@ export const HackerStepperForm = () => {
                         )}
                       </label>
 
-                      <label>
-                        Data de naixement:
-                        <input
-                          type="date"
-                          className={`${errors.birthdate ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          {...register("birthdate", {
+                      <div>
+                        <label htmlFor="birthdate">Data de naixement:</label>
+                        <Controller
+                          name="birthdate"
+                          control={control}
+                          defaultValue=""
+                          rules={{
                             required: "La data de naixement és obligatòria",
-                            validate: {
-                              isOldEnough: (value) =>
-                                isAtLeastAge(value, MINIMUM_ACCOUNT_AGE) ||
-                                "Has de tenir almenys 14 anys",
-                            },
-                          })}
+                            validate: (value) =>
+                              isAtLeastAge(value, MINIMUM_ACCOUNT_AGE) ||
+                              "Has de tenir almenys 14 anys",
+                          }}
+                          render={({ field }) => (
+                            <BirthdatePicker
+                              value={field.value}
+                              onChange={field.onChange}
+                              onBlur={field.onBlur}
+                              invalid={Boolean(errors.birthdate)}
+                            />
+                          )}
                         />
                         {errors.birthdate && (
-                          <span className="text-red-400">
+                          <span
+                            id="birthdate-error"
+                            className="mt-2 block text-red-400"
+                          >
                             {errors.birthdate.message}
                           </span>
                         )}
-                      </label>
+                      </div>
 
                       <Button
                         orange
