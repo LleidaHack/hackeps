@@ -139,3 +139,28 @@ textarea {
   margin-bottom: 3rem;
   text-align: center;
 }
+
+.contact-social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+.contact-social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+.contact-social-icon {
+  width: 32px;
+  height: 32px;
+}
+.contact-social-icon path { fill: currentColor; }
+.contact-social-links a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
