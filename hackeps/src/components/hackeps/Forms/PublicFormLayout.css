@@ -38,3 +38,24 @@
 .public-form button {
   min-height: 2.75rem;
 }
+
+/* Light fields must not inherit white text from the dark page, including on mobile. */
+.shared-form-fields input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.shared-form-fields select,
+.shared-form-fields textarea {
+  color: #2e2e2e;
+  caret-color: #2e2e2e;
+  color-scheme: light;
+}
+
+.shared-form-fields input::placeholder,
+.shared-form-fields textarea::placeholder {
+  color: #626262;
+  opacity: 1;
+}
+
+.shared-form-fields input:-webkit-autofill,
+.shared-form-fields textarea:-webkit-autofill {
+  -webkit-text-fill-color: #2e2e2e;
+  caret-color: #2e2e2e;
+}
