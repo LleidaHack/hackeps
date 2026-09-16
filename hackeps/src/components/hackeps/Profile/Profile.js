@@ -4,14 +4,8 @@ import { useParams, Link } from "react-router-dom";
 import "./Profile.css";
 import Modal from "react-bootstrap/Modal";
 import HSkeleton from "src/components/hackeps/LoadingSkeleton/HSkeleton";
-import { getHackerById, getHackerGroups } from "src/services/HackerService";
-import {
-  getHackeps,
-  getEventIsHackerRegistered,
-  getEventIsHackerAccepted,
-  getEventHasHackerConfirmed,
-} from "src/services/EventService";
-import { getUserById } from "src/services/UserService";
+import { loadProfile } from "src/modules/loadProfile";
+import { clearSession } from "src/modules/session";
 import EditProfile from "./EditProfile";
 import qrIcon from "src/icons/qr.png";
 
@@ -21,17 +15,15 @@ import Team from "src/components/hackeps/Team/Team";
 import LinkAccounts from "src/components/hackeps/LinkAccounts/LinkAccounts";
 import Join from "src/components/hackeps/Join/Join";
 import QrCode from "src/components/hackeps/QrCode/QrCode.js";
-import { getHackerGroupById } from "src/services/HackerGroupService";
-import UserNotFound from "./UserNotFound";
 import ProfilePic from "../ProfilePic/ProfilePic";
 import Button from "src/components/buttons/Button";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
 
 const ProfileComponent = () => {
-  let { hacker_id } = useParams();
-  const [isUser, setIsUser] = useState(
-    hacker_id === localStorage.getItem("userID"),
-  );
+  const { hacker_id } = useParams();
+  const userId = hacker_id || localStorage.getItem("userID");
+  const isUser = String(userId) === localStorage.getItem("userID");
+  const [loadError, setLoadError] = useState(false);
   const [isHacker, setIsHacker] = useState(false);
 
   const [showQR, setShowQR] = useState(false);
@@ -47,88 +39,33 @@ const ProfileComponent = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const checkIsHacker = (userCheck) => {
-    return userCheck?.type === "hacker";
-  };
-
   useEffect(() => {
-    let event_id;
-    getHackeps().then((response) => {
-      event_id = response.id;
-      let is_open = response.is_open;
-      getEventIsHackerAccepted(event_id, hacker_id).then((response) => {
-        if (response) {
-          getEventHasHackerConfirmed(event_id, hacker_id).then((response) => {
-            if (response) {
-              setEvent({
-                is_open: is_open,
-                event_id: event_id,
-                accepted: true,
-                registered: true,
-                confirmed: true,
-              });
-            } else {
-              setEvent({
-                is_open: is_open,
-                event_id: event_id,
-                accepted: true,
-                registered: true,
-                confirmed: false,
-              });
-            }
-          });
-        } else {
-          getEventIsHackerRegistered(event_id, hacker_id).then((response) => {
-            if (response) {
-              setEvent({
-                is_open: is_open,
-                event_id: event_id,
-                accepted: false,
-                registered: true,
-                confirmed: false,
-              });
-            } else {
-              setEvent({
-                is_open: is_open,
-                event_id: event_id,
-                accepted: false,
-                registered: false,
-                confirmed: false,
-              });
-            }
-          });
-        }
+    let cancelled = false;
+    setUser(null);
+    setTeam(null);
+    setEvent(null);
+    setQrCode(null);
+    setIsHacker(false);
+    setLoadError(false);
+    loadProfile(userId)
+      .then((data) => {
+        if (cancelled) return;
+        setUser(data.user);
+        setTeam(data.team);
+        setEvent(data.event);
+        setQrCode(data.qrCode);
+        setIsHacker(data.isHacker);
+      })
+      .catch(() => {
+        if (!cancelled) setLoadError(true);
       });
-    });
-    if (process.env.REACT_APP_DEBUG === "true")
-      console.log("hacker id:" + hacker_id);
-    if (!hacker_id) {
-      setIsUser(true);
-      hacker_id = localStorage.getItem("userID");
-    }
-    getUserById(hacker_id).then(async (response) => {
-      setUser(await response);
-      setIsHacker(checkIsHacker(response));
-    });
-    if (isHacker) {
-      getHackerById(hacker_id).then(async (response) => {
-        setUser(await response);
-        setQrCode(await response.code);
-        const response_1 = await getHackerGroups(hacker_id);
-        if (response_1 && !response_1.message) {
-          for (let i = 0; i < response_1.length; i++) {
-            if (response_1[i].event_id === event_id) {
-              setTeam(await getHackerGroupById(response_1[i].id));
-              break;
-            }
-          }
-        }
-      });
-    }
-  }, [useParams(), isHacker]);
+    return () => {
+      cancelled = true;
+    };
+  }, [userId]);
 
   function logOut() {
-    localStorage.clear();
+    clearSession();
   }
 
   function generateMemberTime(creationDate) {
@@ -144,7 +81,12 @@ const ProfileComponent = () => {
 
     return `${~~days} dies`;
   }
-  if (user) if (user.errCode === 404) return <UserNotFound />;
+  if (loadError)
+    return (
+      <p role="alert" className="p-6 text-center text-white">
+        No hem pogut carregar el perfil. Torna-ho a provar més tard.
+      </p>
+    );
 
   return (
     <>
