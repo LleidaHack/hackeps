@@ -23,14 +23,6 @@ const Identify = () => {
         height={209}
         className="pointer-events-none absolute right-[-10%] top-[8%] hidden h-auto w-[30%] max-w-[360px] object-contain lg:block"
       />
-      <img
-        src={cloud3}
-        alt=""
-        aria-hidden="true"
-        width={596}
-        height={265}
-        className="pointer-events-none absolute bottom-[4%] left-1/2 hidden h-auto w-[36%] max-w-[480px] -translate-x-1/2 object-contain lg:block"
-      />
 
       <h1
         className="relative z-20 m-0 mb-14 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] md:mb-20 md:text-[48px] lg:mb-24 lg:text-[64px] lg:tracking-[-1.28px]"
@@ -40,6 +32,14 @@ const Identify = () => {
       </h1>
 
       <div className="relative z-10 mx-auto mt-4 grid max-w-[1440px] grid-cols-1 gap-10 md:mt-6 md:grid-cols-2 md:gap-8">
+        <img
+          src={cloud3}
+          alt=""
+          aria-hidden="true"
+          width={596}
+          height={265}
+          className="pointer-events-none absolute bottom-[-64px] left-1/2 hidden h-auto w-[36%] max-w-[480px] -translate-x-1/2 object-contain lg:block"
+        />
         <div className="flex flex-col items-center">
           <div className="relative flex w-full max-w-[336px] md:max-w-[560px] items-end justify-center">
             <img
@@ -101,6 +101,29 @@ const Identify = () => {
             HACKER
           </p>
         </div>
+      </div>
+      <div
+        className="relative z-10 mx-auto mt-16 max-w-[900px] text-center font-space-mono text-base leading-relaxed md:mt-28 md:text-lg"
+        style={{ color: text }}
+      >
+        <p>
+          LleidaHack et dona la benvinguda a la HackEPS 2025, la primera hackató
+          de les terres de Lleida!
+        </p>
+        <p>
+          La novena edició de la HackEPS tindrà lloc a l’edifici de l’
+          <strong>
+            Escola Politècnica Superior de la Universitat de Lleida
+          </strong>{" "}
+          els dies <strong>22 i 23 de novembre de 2025</strong>. Aquest és un
+          esdeveniment que no voldràs perdre’t!
+        </p>
+        <p className="mb-0">
+          Així que, si ets un apassionat de la tecnologia, amant dels reptes i
+          defensor del treball en equip, la HackEPS 2025 és el teu lloc.
+          Uneix-te a nosaltres per a una experiència inoblidable per a
+          desenvolupar-te com a futur programador!
+        </p>
       </div>
     </section>
   );
