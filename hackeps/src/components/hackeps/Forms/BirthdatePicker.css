@@ -122,7 +122,7 @@
   align-items: stretch;
   gap: 0.25rem;
 }
-#hackerForm .birthdate-field input {
+#hackerForm .birthdate-field input[type="text"] {
   flex: 1;
   width: 0;
   min-width: 0;
@@ -138,4 +138,13 @@
 .birthdate-field input:focus-visible {
   outline: 3px solid #ff9b6b;
   outline-offset: 3px;
+}
+
+/* Match both controls regardless of the shared input/button styles. */
+#hackerForm .birthdate-field input[type="text"],
+#hackerForm .birthdate-field .birthdate-trigger {
+  box-sizing: border-box;
+  height: 3rem;
+  min-height: 3rem;
+  margin-block: 0;
 }
