@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCompanyByTier } from "src/services/CompanyService";
+import { getHackeps, getEventSponsors } from "src/services/EventService";
 import HomeFooter from "src/components/hackeps/Home/HomeFooter.js";
 import Firework from "src/components/hackeps/Home/Firework.js";
 import lleidaHackLogo from "src/assets/img/home10/isotip.svg";
@@ -101,7 +101,7 @@ const Slot = ({ company }) =>
   );
 
 const SlotRow = ({ companies }) => {
-  const cells = [0, 1, 2].map((i) => companies[i] || null);
+  const cells = Array.from({ length: Math.max(3, companies.length) }, (_, i) => companies[i] || null);
   return (
     <div className="flex flex-wrap justify-center gap-4 md:gap-7">
       {cells.map((company, i) => (
@@ -115,6 +115,7 @@ const SlotRow = ({ companies }) => {
 };
 
 const Sponsors = () => {
+  const [partners, setPartners] = useState([]);
   const [gold, setGold] = useState([]);
   const [silver, setSilver] = useState([]);
   const [bronze, setBronze] = useState([]);
@@ -123,15 +124,14 @@ const Sponsors = () => {
     let cancelled = false;
     async function fetchData() {
       try {
-        const [tier2, tier1, tier3] = await Promise.all([
-          getCompanyByTier(2),
-          getCompanyByTier(1),
-          getCompanyByTier(3),
-        ]);
+        const event = await getHackeps();
+        if (!event?.id) return;
+        const companies = asCompanyList(await getEventSponsors(event.id));
         if (cancelled) return;
-        setGold(asCompanyList(tier2));
-        setSilver(asCompanyList(tier1));
-        setBronze(asCompanyList(tier3));
+        setPartners(companies.filter(company => company.tier === 0));
+        setGold(companies.filter(company => company.tier === 2));
+        setSilver(companies.filter(company => company.tier === 1));
+        setBronze(companies.filter(company => company.tier === 3));
       } catch (error) {
         console.error("Error fetching sponsors data:", error);
       }
@@ -142,8 +142,8 @@ const Sponsors = () => {
     };
   }, []);
 
-  const silverRows = [silver.slice(0, 3), silver.slice(3, 6)];
-  const bronzeRows = [bronze.slice(0, 3), bronze.slice(3, 6)];
+  const silverRows = [silver.slice(0, 3), silver.slice(3)];
+  const bronzeRows = [bronze.slice(0, 3), bronze.slice(3)];
 
   return (
     <div
@@ -215,6 +215,10 @@ const Sponsors = () => {
             <SlotRow key={`b-${i}`} companies={row} />
           ))}
         </div>
+        {partners.length > 0 && <div className="relative z-10 pb-12">
+          <h3 className="text-center text-white font-space-mono mb-6">Col·laboradors</h3>
+          <SlotRow companies={partners} />
+        </div>}
       </div>
     </div>
   );

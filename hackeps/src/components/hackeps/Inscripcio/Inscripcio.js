@@ -1,3 +1,5 @@
+import { HACKEPS_YEAR } from "src/config/edition";
+import { formatEditionDates } from "src/hooks/useEdition";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { registerHackerToEvent } from "src/services/EventService";
@@ -8,7 +10,7 @@ import Button from "src/components/buttons/Button";
 import FileBase from "react-file-base64";
 import { getHackerById } from "src/services/HackerService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
-import { updateHacker } from "src/services/HackerService";
+import { updateRregisterHackerToEvent } from "src/services/EventService";
 import "../Forms/FormLayout.css";
 import "../Forms/PublicFormLayout.css";
 import "./Inscripcio.css";
@@ -41,6 +43,7 @@ const InscripcioForm = () => {
     { value: "Cartells publicitaris", label: "Cartells publicitaris" },
     { value: "Altre mitjà", label: "Altre mitjà" },
   ];
+  const [loadError, setLoadError] = useState(false);
   const [sending, setSending] = useState(false);
   const [disabledRestrictions, setDisabledRestrictions] = useState(true);
   const [cvFile, setCvFile] = useState("");
@@ -70,10 +73,13 @@ const InscripcioForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       const hackepsEvent = await getHackeps();
+      if (!hackepsEvent?.id) { setLoadError(true); return; }
       const me = await getHackerById(localStorage.getItem("userID"));
+      if (!me?.id) { setLoadError(true); return; }
       setCvFile(me.cv);
       getEventIsHackerRegistered(hackepsEvent.id, me.id).then((response) => {
 
+        if (typeof response !== "boolean") { setLoadError(true); return; }
         if (response === true) {
           setRegistered(true);
         } else {
@@ -85,11 +91,11 @@ const InscripcioForm = () => {
       if (process.env.REACT_APP_DEBUG === "true") console.log(me);
     };
 
-    fetchData();
+    fetchData().catch(() => setLoadError(true));
   }, []);
 
   const submit = async (values) => {
-    if (sending || isCvTooLarge || !hackepsEvent?.id) return;
+    if (sending || isCvTooLarge || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)) return;
     setSending(true);
     const data = {
       shirt_size: values.size === undefined ? "" : values.size,
@@ -110,7 +116,7 @@ const InscripcioForm = () => {
     let registration;
     if (registered) {
       data.id = parseInt(previousRegistration.id, 10);
-      registration = await updateHacker(data);
+      registration = await updateRregisterHackerToEvent(hackepsEvent.id, previousRegistration.id, data);
     } else {
       registration = await registerHackerToEvent(
         parseInt(hackepsEvent.id, 10),
@@ -162,8 +168,10 @@ const InscripcioForm = () => {
     <div className="event-registration text-white">
       {!submittRegister ? (
         <section className="event-registration-layout shared-form-fields">
-              <h1 className="shared-form-title">Inscripció HackEPS 2026</h1>
-              <p className="event-registration-intro">Completa les dades per participar-hi el 28 i 29 de novembre.</p>
+              <h1 className="shared-form-title">Inscripció HackEPS {HACKEPS_YEAR}</h1>
+              <p className="event-registration-intro">Completa les dades per participar-hi. {formatEditionDates(hackepsEvent)}.</p>
+              {loadError && <p role="alert">No hem pogut carregar aquesta edició. Torna-ho a provar més tard.</p>}
+              {hackepsEvent && !hackepsEvent.is_open && !registered && <p role="status">Les inscripcions d’aquesta edició estan tancades.</p>}
               <form className="public-form event-registration-grid" onSubmit={handleSubmit(submit)}>
                 <fieldset className="event-registration-section">
                   <legend>Dades de participació</legend>
@@ -398,7 +406,7 @@ const InscripcioForm = () => {
                   <Button
                     type="submit"
                     orange
-                    disabled={!isValid || sending || isCvTooLarge || !hackepsEvent?.id}
+                    disabled={!isValid || sending || isCvTooLarge || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)}
                     className="event-registration-submit"
                   >
                     {sending ? "Enviant…" : "Enviar"}

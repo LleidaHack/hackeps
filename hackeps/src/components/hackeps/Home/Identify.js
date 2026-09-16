@@ -1,3 +1,4 @@
+import { useEdition } from "src/hooks/useEdition";
 import React from "react";
 import { Link } from "react-router-dom";
 import marracoMentor from "src/assets/img/home10/marraco-mentor-raw.webp";
@@ -9,6 +10,7 @@ import { ROUTES } from "src/config/routes";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
 const Identify = () => {
+  const { year, dates, event } = useEdition();
   const { sky, text } = useSiteTheme();
   return (
     <section
@@ -119,20 +121,17 @@ const Identify = () => {
         style={{ color: text }}
       >
         <p>
-          LleidaHack et dona la benvinguda a la HackEPS 2026, la primera hackató
+          LleidaHack et dona la benvinguda a la HackEPS {year}, la primera hackató
           de les terres de Lleida!
         </p>
         <p>
-          La desena edició de la HackEPS tindrà lloc a l’edifici de l’
-          <strong>
-            Escola Politècnica Superior de la Universitat de Lleida
-          </strong>{" "}
-          els dies <strong>28 i 29 de novembre de 2026</strong>. Aquest és un
+          Aquesta edició tindrà lloc a <strong>{event?.location || "una ubicació pendent de confirmar"}</strong>{" "}
+          els dies <strong>{dates}</strong>. Aquest és un
           esdeveniment que no voldràs perdre’t!
         </p>
         <p className="mb-0">
           Així que, si ets un apassionat de la tecnologia, amant dels reptes i
-          defensor del treball en equip, la HackEPS 2026 és el teu lloc.
+          defensor del treball en equip, la HackEPS {year} és el teu lloc.
           Uneix-te a nosaltres per a una experiència inoblidable per a
           desenvolupar-te com a futur programador!
         </p>

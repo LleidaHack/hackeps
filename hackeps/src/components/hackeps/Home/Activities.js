@@ -1,3 +1,4 @@
+import { useEdition } from "src/hooks/useEdition";
 import React from "react";
 import correfocs from "src/assets/correfocs.webp";
 import dimoniBig from "src/assets/img/home10/fum-activitats.webp";
@@ -13,6 +14,8 @@ const ACTIVITIES = [
 ];
 
 const Activities = () => {
+  const { event } = useEdition();
+  const activities = event?.activities?.length ? event.activities.slice(0, 6).map((label, index) => ({ ...ACTIVITIES[index], label })) : ACTIVITIES;
   return (
     <section className="relative w-full overflow-hidden bg-transparent px-0 pb-12 pt-10 md:px-8 md:pb-20 md:pt-16">
       <h2 className="relative z-20 m-0 mb-4 px-4 text-center md:px-0 font-space-mono text-[26px] font-bold leading-tight tracking-[-0.52px] text-[#2e2e2e] md:mb-6 md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]">
@@ -44,7 +47,7 @@ const Activities = () => {
             className="h-auto w-full max-w-none object-contain object-left"
           />
         </picture>
-        {ACTIVITIES.map((activity, index) => (
+        {activities.map((activity, index) => (
           <div
             key={`${activity.label}-${index}`}
             className="absolute z-20 flex items-center justify-center rounded-[8px] bg-white/90 px-2 py-1 font-space-mono text-[11px] font-bold leading-none tracking-[-0.2px] text-[#2e2e2e] shadow-sm sm:px-3 sm:py-1.5 sm:text-[16px] md:text-[20px]"
@@ -58,6 +61,7 @@ const Activities = () => {
           </div>
         ))}
       </div>
+      {event?.activities?.length > 6 && <ul className="relative z-20 mx-auto max-w-3xl px-8 text-[#2e2e2e]">{event.activities.slice(6).map((label, index) => <li key={index}>{label}</li>)}</ul>}
     </section>
   );
 };

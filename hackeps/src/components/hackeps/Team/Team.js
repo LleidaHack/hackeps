@@ -110,11 +110,13 @@ const Team = (props) => {
   }
 
   async function createTeam(val) {
+    const edition = await getHackeps();
+    if (!edition?.id) return;
     const team = {
       name: val.teamName,
       description: val.teamDesc,
       leader_id: localStorage.getItem("userID"),
-      event_id: (await getHackeps()).id,
+      event_id: edition.id,
     };
     let a = await addHackerGroup(team);
     if (a.success) {
