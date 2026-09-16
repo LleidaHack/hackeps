@@ -72,7 +72,8 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           height={321}
           className="relative z-10 block h-auto w-full max-w-none"
         />
-        <div className="absolute inset-0 z-20 flex items-center justify-center px-3">
+        {/* Match the white artwork bounds, excluding the transparent PNG margins. */}
+        <div className="absolute inset-x-0 top-[5.92%] bottom-[10.75%] z-20 flex items-center justify-center px-3">
           <HomeCountdown
             startTime={startDate}
             endTime={endDate}
