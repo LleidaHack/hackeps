@@ -3,7 +3,7 @@ import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import { useState } from "react";
 import { signupHacker } from "src/services/HackerService";
 import FailFeedback from "../Feedbacks/FailFeedback";
-import SuccessFeedback from "../Feedbacks/SuccesFeedback";
+import LoginUnverified from "../LoginUnverified/LoginUnverified";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
 import BirthdatePicker from "./BirthdatePicker";
 import PasswordInput from "./PasswordInput";
@@ -392,13 +392,7 @@ export const HackerStepperForm = () => {
               </>
             ) : (
               <>
-                <SuccessFeedback
-                  title="T'has registrat correctament"
-                  text={`El teu registre s'ha realitzat correctament. \n T'hem enviat un correu electrònic per a que confirmis el registre.`}
-                  hasButton={true}
-                  buttonLink="/login"
-                  buttonText="Inicia sessió"
-                />
+                <LoginUnverified email={watch("email")} credentials={{ email: watch("email"), password: watch("password") }} />
               </>
             )}
           </>
