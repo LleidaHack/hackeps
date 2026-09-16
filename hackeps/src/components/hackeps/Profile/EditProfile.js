@@ -125,7 +125,7 @@ const EditProfile = ({ hackerObj }) => {
               <Button secondary outline onClick={onEditButtonClick}>
                 <i className="fas fa-sign-out"></i> Tancar
               </Button>
-              <div className="text-black mt-4">
+              <div className="profile-editor mt-4">
                 <form className="flex flex-col gap-3">
                   <label>
                     Talla de samarreta:
@@ -201,7 +201,7 @@ const EditProfile = ({ hackerObj }) => {
                       />
                     </div>
                     <label className="w-full mb-4">
-                      Image URL:
+                      URL de la imatge:
                       <input
                         type="text"
                         id="imageUrl"

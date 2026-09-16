@@ -302,3 +302,20 @@
   .profile-navigation .profile-signout { margin-top: 0; }
   .profile-event-grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Keep editor labels readable without changing the light input text color. */
+.profile-editor,
+.profile-editor label {
+  color: #fff;
+}
+.profile-editor label.text-red-600 {
+  color: #fca5a5;
+}
+.profile-editor select {
+  background: #fff;
+  color: #242424;
+  color-scheme: light;
+}
+.profile-editor input[type="file"] {
+  color: #fff;
+}
