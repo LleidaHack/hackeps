@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "src/components/hackeps/Feedbacks/FeedbackStyle.css";
-import Button from "src/components/buttons/Button";
 
 const SuccessFeedback = ({
   title,
@@ -25,9 +24,29 @@ const SuccessFeedback = ({
   }, []);
 
   return (
-    <div className="valerr bg-secondaryHackeps text-textSecondaryHackeps">
+    <div className="valerr feedback-success">
       <div className="iconBox">
-        <i className="mt-1 mb-6 fa-regular fa-circle-check text-8xl"></i>
+        <svg
+          className="feedback-success-icon"
+          viewBox="0 0 64 64"
+          fill="none"
+          aria-hidden="true"
+        >
+          <circle
+            cx="32"
+            cy="32"
+            r="28"
+            stroke="currentColor"
+            strokeWidth="3"
+          />
+          <path
+            d="m19 32 9 9 18-19"
+            stroke="currentColor"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
         <h2>{title}</h2>
         <p>{formattedText}</p>
         <p>
@@ -35,11 +54,13 @@ const SuccessFeedback = ({
         </p>
       </div>
       {hasButton ? (
-        <div className="text-center mb-14">
-          <Link to={buttonLink}>
-            <Button onClick={onButtonClick} primary>
-              {buttonText}
-            </Button>
+        <div className="text-center">
+          <Link
+            className="feedback-success-action"
+            to={buttonLink}
+            onClick={onButtonClick}
+          >
+            {buttonText}
           </Link>
         </div>
       ) : (
