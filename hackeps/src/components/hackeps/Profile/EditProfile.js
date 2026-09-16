@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 const EditProfile = ({ hackerObj }) => {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [cvFile, setCvFile] = useState("");
+  const [cvFileName, setCvFileName] = useState("");
   const {
     register,
     handleSubmit,
@@ -39,8 +40,7 @@ const EditProfile = ({ hackerObj }) => {
 
   useEffect(() => {
     const hacker_id = localStorage.getItem("userID");
-    hackerObj.id = hacker_id;
-    setHacker(hackerObj);
+    setHacker({ ...hackerObj, id: hacker_id });
     setImage(hackerObj.image || userIcon);
     setHackerLinkedin(hackerObj.linkedin || "");
     setHackerGithub(hackerObj.github || "");
@@ -48,6 +48,7 @@ const EditProfile = ({ hackerObj }) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    if (!file) return;
     if (file.type !== "application/pdf") {
       setSubmitError("Només es permeten fitxers PDF.");
       return;
@@ -56,6 +57,7 @@ const EditProfile = ({ hackerObj }) => {
     reader.onloadend = () => {
       setCvTooLarge(file.size > 1024 * 1024);
       setCvFile(reader.result);
+      setCvFileName(file.name);
       setcvFileChanged(true);
     };
     reader.readAsDataURL(file);
@@ -63,6 +65,7 @@ const EditProfile = ({ hackerObj }) => {
 
   const clearFile = () => {
     setCvFile("");
+    setCvFileName("");
     setCvTooLarge(false);
     setcvFileChanged(true);
     // Clear the input field to allow selecting the same file again
@@ -88,7 +91,6 @@ const EditProfile = ({ hackerObj }) => {
   };
 
   const onSubmit = async (formData) => {
-    console.log(hacker);
     const data = {
       id: hacker.id,
       shirt_size: formData.size || hacker.shirt_size,
@@ -121,7 +123,7 @@ const EditProfile = ({ hackerObj }) => {
           {showEditProfile ? (
             <div>
               <Button secondary outline onClick={onEditButtonClick}>
-                <i className="fas fa-sign-out"></i> Close
+                <i className="fas fa-sign-out"></i> Tancar
               </Button>
               <div className="text-black mt-4">
                 <form className="flex flex-col gap-3">
@@ -177,7 +179,7 @@ const EditProfile = ({ hackerObj }) => {
                     />
                     {cvFile && (
                       <div className="">
-                        <span className="file-name">{cvFile.name}</span>
+                        <span className="file-name">{cvFileName}</span>
                         <Button primary onClick={clearFile}>
                           &#10005;
                         </Button>
