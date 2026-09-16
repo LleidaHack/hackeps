@@ -26,7 +26,13 @@ const Team = (props) => {
     setTeam(nextTeam);
     props.onTeamChange?.(nextTeam);
   };
-  let is_user = props.is_user;
+  const is_user = props.is_user;
+  const currentUserId = localStorage.getItem("userID");
+  const isCurrentUser = (id) => id != null && currentUserId != null && String(id) === String(currentUserId);
+  const canManageMember = (member) => Boolean(
+    is_user && team && member?.id != null && isCurrentUser(team.leader_id) &&
+    !isCurrentUser(member.id) && String(member.id) !== String(team.leader_id)
+  );
 
   useEffect(() => {
     setTeam(props.team);
@@ -58,11 +64,13 @@ const Team = (props) => {
   const [err, setErr] = useState("");
   const [JoinErrorMessage, setJoinErrorMessage] = useState("");
   async function handleKick(member) {
+    if (!canManageMember(member)) return;
     await removeHackerFromGroup(member.id, team.id);
     updateTeam(await getHackerGroupById(team.id));
   }
 
   async function handleMakeLeader(member) {
+    if (!canManageMember(member)) return;
     await setHackerGroupLeader(team.id, member.id);
     updateTeam(await getHackerGroupById(team.id));
   }
@@ -249,7 +257,7 @@ const Team = (props) => {
                   <div className="p-3 text-center bg-white smallCard">
                     <ProfilePic hacker={member} size="big" bgcolor="black" />
                     <p className="team-member-name">{member.name}</p>
-                    {String(member.id) === localStorage.getItem("userID") ? (
+                    {isCurrentUser(member.id) ? (
                       ""
                     ) : (
                       <>
@@ -262,12 +270,7 @@ const Team = (props) => {
                           Veure perfil
                         </Button>
 
-                        {(
-                          team
-                            ? String(team.leader_id) ===
-                              localStorage.getItem("userID")
-                            : false
-                        ) ? (
+                        {canManageMember(member) ? (
                           <>
                             <Button
                               primary
