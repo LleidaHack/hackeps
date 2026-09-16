@@ -18,8 +18,9 @@ test("separates personal sections without reloading shared profile data", async 
   render(<MemoryRouter initialEntries={["/perfil"]}><Profile /></MemoryRouter>);
   await screen.findByText("Test Hacker");
   expect(screen.queryByText("Profile editor")).not.toBeInTheDocument();
-  fireEvent.click(screen.getByRole("link", {name: "Esdeveniments"}));
-  expect(screen.getByText("Event registration")).toBeInTheDocument();
+  expect(await screen.findByText("Event registration")).toBeInTheDocument();
+  expect(screen.queryByRole("link", {name: "Resum"})).not.toBeInTheDocument();
+  expect(screen.getByRole("link", {name: "Esdeveniments"})).toHaveAttribute("aria-current", "page");
   expect(screen.queryByText("Team management")).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("link", {name: "El meu equip"}));
   expect(screen.getByText("Team management")).toBeInTheDocument();
