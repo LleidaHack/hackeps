@@ -82,7 +82,7 @@ const Identify = () => {
               className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[376px] -translate-x-1/2 object-contain"
             />
             <Link
-              to={ROUTES.inscription}
+              to={ROUTES.hackerForm}
               className="relative z-10 block w-full no-underline"
             >
               <img
