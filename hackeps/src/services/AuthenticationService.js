@@ -1,4 +1,5 @@
 import { fetchPlus } from "src/modules/fetchModule";
+import { isToken } from "src/modules/session";
 
 export async function login(user) {
   return fetchPlus({
@@ -20,20 +21,28 @@ export async function confirmResetPassword(Token, Password) {
   return fetchPlus({
     Url: "/auth/confirm-reset-password",
     Method: "POST",
-    Query: {
+    Body: {
       token: Token,
       password: Password,
     },
   });
 }
 
-export async function refreshToken() {
-  return fetchPlus({
+let refreshRequest;
+
+export function refreshToken() {
+  if (!isToken(localStorage.getItem("refreshToken")))
+    return Promise.resolve(null);
+  if (refreshRequest) return refreshRequest;
+  refreshRequest = fetchPlus({
     Url: "/auth/refresh-token",
     Method: "POST",
     saveLoginInfo: true,
     refresh_token: true,
+  }).finally(() => {
+    refreshRequest = undefined;
   });
+  return refreshRequest;
 }
 
 export async function me() {
