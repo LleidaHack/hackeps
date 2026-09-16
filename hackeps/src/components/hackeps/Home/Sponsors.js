@@ -30,40 +30,62 @@ function redirectToURL(url) {
     return;
   }
   const path = "/" + url.replace(/^\/+/, "");
-  window.open(`${window.location.origin}${path}`, "_blank", "noopener,noreferrer");
+  window.open(
+    `${window.location.origin}${path}`,
+    "_blank",
+    "noopener,noreferrer",
+  );
 }
 
-const Slot = ({ company }) => (
-  <button
-    type="button"
-    className="relative aspect-[358/198] w-[min(100%,320px)] border-0 bg-transparent p-0 md:w-[358px]"
-    onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
-  >
-    <img
-      src={sponsorSlot}
-      alt=""
-      width={358}
-      height={198}
-      className="absolute inset-0 h-full w-full"
-    />
-    {company?.image ? (
+const Slot = ({ company }) =>
+  !company ? (
+    <div
+      aria-hidden="true"
+      className="relative aspect-[358/198] w-[min(100%,320px)] md:w-[358px]"
+    >
       <img
-        src={company.image}
-        alt={company.name}
+        src={sponsorSlot}
+        alt=""
         width={358}
         height={198}
-        className="absolute inset-0 h-full w-full object-contain p-4 md:p-6"
+        className="h-full w-full"
       />
-    ) : null}
-  </button>
-);
+    </div>
+  ) : (
+    <button
+      aria-label={company?.name || "Veure patrocinador"}
+      type="button"
+      className="relative aspect-[358/198] w-[min(100%,320px)] border-0 bg-transparent p-0 md:w-[358px]"
+      onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
+    >
+      <img
+        src={sponsorSlot}
+        alt=""
+        width={358}
+        height={198}
+        className="absolute inset-0 h-full w-full"
+      />
+      {company?.image ? (
+        <img
+          src={company.image}
+          alt={company.name}
+          width={358}
+          height={198}
+          className="absolute inset-0 h-full w-full object-contain p-4 md:p-6"
+        />
+      ) : null}
+    </button>
+  );
 
 const SlotRow = ({ companies }) => {
   const cells = [0, 1, 2].map((i) => companies[i] || null);
   return (
     <div className="flex flex-wrap justify-center gap-4 md:gap-7">
       {cells.map((company, i) => (
-        <Slot key={company?.id || i} company={company} />
+        <Slot
+          key={company ? `company-${company.id}` : `placeholder-${i}`}
+          company={company}
+        />
       ))}
     </div>
   );
@@ -75,8 +97,7 @@ const Sponsors = () => {
   const [bronze, setBronze] = useState([]);
 
   useEffect(() => {
-    const event = localStorage.getItem("event");
-    if (!event) return;
+    let cancelled = false;
     async function fetchData() {
       try {
         const [tier2, tier1, tier3] = await Promise.all([
@@ -84,6 +105,7 @@ const Sponsors = () => {
           getCompanyByTier(1),
           getCompanyByTier(3),
         ]);
+        if (cancelled) return;
         setGold(asCompanyList(tier2));
         setSilver(asCompanyList(tier1));
         setBronze(asCompanyList(tier3));
@@ -92,6 +114,9 @@ const Sponsors = () => {
       }
     }
     fetchData();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const silverRows = [silver.slice(0, 3), silver.slice(3, 6)];
