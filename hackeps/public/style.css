@@ -76,10 +76,12 @@ body {
   color: var(--text-primary);
 }
 
-input[type="file"]::-webkit-file-upload-button {
-  color: black;
-  background-color: var(--primary);
+input[type="file"]::-webkit-file-upload-button,
+input[type="file"]::file-selector-button {
+  color: #2e2e2e;
+  background-color: #ff7430;
   border: none;
   padding: 0.5em;
   border-radius: 0.2em;
+  cursor: pointer;
 }
