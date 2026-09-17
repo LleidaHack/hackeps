@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login, resendVerification } from "src/services/AuthenticationService";
+import { login, me, resendVerification } from "src/services/AuthenticationService";
 import { hasSessionCredentials } from "src/modules/session";
 import "./Verification.css";
 
@@ -26,6 +26,14 @@ export default function LoginUnverified({ email, credentials, nextScreen = "/per
       pending = true;
       lastCheck = Date.now();
       try {
+        // Reuse the session created by the verification tab instead of rotating it.
+        if (localStorage.getItem("userToken")) {
+          const account = await me();
+          if (account?.email?.toLowerCase() === email?.toLowerCase()) {
+            if (!disposed) navigate(nextScreen, { replace: true });
+            return;
+          }
+        }
         const result = await login(credentialsRef.current);
         if (!disposed && hasSessionCredentials(result)) {
           navigate(nextScreen, { replace: true });
@@ -44,7 +52,7 @@ export default function LoginUnverified({ email, credentials, nextScreen = "/per
       window.removeEventListener("storage", onVerification);
       window.removeEventListener("focus", check);
     };
-  }, [navigate, nextScreen]);
+  }, [navigate, nextScreen, email]);
 
   async function resend() {
     if (sending || cooldown || !email) return;
@@ -61,7 +69,7 @@ export default function LoginUnverified({ email, credentials, nextScreen = "/per
     <span className="verification-icon" aria-hidden="true">✉</span>
     <h1>Revisa el teu correu</h1>
     <p>El teu compte està creat. Obre l'enllaç de verificació que t'hem enviat{email ? <> a <strong>{email}</strong></> : " al correu"}.</p>
-    {credentials ? <p className="verification-status" role="status">Esperant la verificació…<br />Mantén aquesta pestanya oberta: iniciarem la sessió automàticament.</p> : <p>Un cop verificat el correu, ja podràs iniciar sessió.</p>}
+    {credentials ? <p className="verification-status" role="status">Esperant la verificació…<br />En verificar el correu, entraràs automàticament al teu perfil.</p> : <p>Un cop verificat el correu, ja podràs iniciar sessió.</p>}
     <p className="verification-hint">No el trobes? Revisa la carpeta de correu brossa.</p>
     {email && <button className="verification-button" onClick={resend} disabled={sending || cooldown > 0}>{sending ? "Enviant…" : cooldown ? `Reenvia el correu (${cooldown} s)` : "Reenvia el correu"}</button>}
     <p role="status">{message}</p>

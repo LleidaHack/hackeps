@@ -54,7 +54,7 @@ test("login navigates only on validated credentials", async () => {
   change(/Correu:/, "audit@example.test");
   change(/Contrasenya:/, "ExamplePassword42");
   fireEvent.submit(container.querySelector("form"));
-  await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/home"));
+  await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/perfil"));
 });
 test.each([
   { errCode: 500 },

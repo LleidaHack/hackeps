@@ -3,7 +3,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import LoginUnverified from "src/components/hackeps/LoginUnverified/LoginUnverified";
 import Verify from "src/pages/hackeps/Verify";
-import { login, resendVerification, verify } from "src/services/AuthenticationService";
+import { login, me, resendVerification, verify } from "src/services/AuthenticationService";
 
 const mockNavigate = jest.fn();
 jest.mock("src/services/AuthenticationService");
@@ -50,8 +50,24 @@ test("invalid verification links show a recoverable error", async () => {
 });
 
 test("successful verification notifies the waiting tab", async () => {
-  verify.mockResolvedValue({ success: true });
+  verify.mockResolvedValue({ success: true, access_token: "verified-access", refresh_token: "verified-refresh", user_id: 42 });
   await act(async () => { render(<MemoryRouter initialEntries={["/validate-email?token=valid-test"]}><Verify /></MemoryRouter>); });
-  expect(screen.getByText("Correu verificat!")).toBeInTheDocument();
+  expect(mockNavigate).toHaveBeenCalledWith("/perfil", { replace: true });
   expect(localStorage.getItem("hackeps-email-verified")).not.toBeNull();
+});
+
+test("waiting tab reuses the verified session without rotating its tokens", async () => {
+  localStorage.setItem("userToken", "verified-session");
+  me.mockResolvedValue({ email: credentials.email });
+  mount();
+  await act(async () => { window.dispatchEvent(new StorageEvent("storage", { key: "hackeps-email-verified" })); });
+  expect(login).not.toHaveBeenCalled();
+  expect(mockNavigate).toHaveBeenCalledWith("/perfil", { replace: true });
+});
+
+test("verification without session credentials offers manual sign-in", async () => {
+  verify.mockResolvedValue({ success: true });
+  await act(async () => { render(<MemoryRouter initialEntries={["/validate-email?token=no-session-test"]}><Verify /></MemoryRouter>); });
+  expect(mockNavigate).not.toHaveBeenCalled();
+  expect(screen.getByRole("link", { name: "Inicia sessió" })).toBeInTheDocument();
 });
