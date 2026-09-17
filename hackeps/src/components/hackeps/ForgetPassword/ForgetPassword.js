@@ -41,7 +41,7 @@ const ForgetPassword = ({ nextScreen }) => {
               <label className="text-white">
                 Introdueix el teu correu electrònic
                 <input
-                  className={`${errors.email ? "bg-pink-100" : "bg-white"} mt-3 min-h-10 w-full px-2 text-base text-black`}
+                  className={`${errors.email ? "bg-pink-100" : "bg-white"} mt-2 min-h-10 w-full px-2 text-base text-black`}
                   placeholder="Correu electrònic"
                   {...register("email", {
                     required: "Et falta indicar-nos el teu correu de contacte",

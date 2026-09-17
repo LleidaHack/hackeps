@@ -54,7 +54,7 @@ const LoginForm = ({ nextScreen }) => {
       <form className="public-form" onSubmit={handleSubmit(submit)}>
         <div className="text-base mt-7 w-full">
           <label className="w-full text-base">
-            <p className="text-white mb-1">Correu:</p>
+            <p className="text-white mb-2">Correu:</p>
             <input
               className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base`}
               type="email"
@@ -73,7 +73,7 @@ const LoginForm = ({ nextScreen }) => {
 
         <div className="text-base mt-3">
           <label className="w-full text-base">
-            <p className="text-white mb-1">Contrasenya:</p>
+            <p className="text-white mb-2">Contrasenya:</p>
             <input
               type="password"
               autoComplete="current-password"
