@@ -48,7 +48,7 @@
 body {
   margin: 0;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* variables.css */
@@ -69,7 +69,7 @@ body {
   --secondary: #f7f7f2;
   --text-primary: #f5f5f5;
   --text-secondary: #000000;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .image-input-container input[type="file" i]::-webkit-file-upload-button {

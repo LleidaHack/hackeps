@@ -42,7 +42,7 @@ const HomeHeader = () => {
             href="https://mlh.io/"
             target="_blank"
             rel="noopener noreferrer"
-            className="z-[60] ml-2 hidden w-[48px] self-start md:block lg:ml-3 lg:w-[72px] xl:w-[110px]"
+            className="z-[60] ml-2 block w-[40px] self-start md:w-[48px] lg:ml-3 lg:w-[72px] xl:w-[110px]"
             aria-label="Major League Hacking"
           >
             <img

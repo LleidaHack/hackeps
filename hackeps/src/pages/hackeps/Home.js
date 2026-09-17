@@ -73,7 +73,7 @@ const Home = () => {
   if (!showAnimation) {
     return (
       <div
-        className="w-full overflow-x-hidden"
+        className="w-full overflow-x-clip"
         style={{ backgroundColor: sky }}
       >
         <HomeHeader />

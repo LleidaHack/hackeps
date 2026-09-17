@@ -8,7 +8,7 @@ import { useSiteTheme } from "src/hooks/useSiteTheme";
 const DatesPage = () => {
   const { sky } = useSiteTheme();
   return (
-    <div className="w-full overflow-x-hidden" style={{ backgroundColor: sky }}>
+    <div className="w-full overflow-x-clip" style={{ backgroundColor: sky }}>
       <HomeHeader />
       <HomeFrame fluid>
         <DatesContent />
