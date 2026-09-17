@@ -26,7 +26,23 @@ test("empty artwork does not introduce unnamed controls", async () => {
   render(<Sponsors />);
   await waitFor(() => expect(getEventSponsors).toHaveBeenCalledWith(26));
   expect(screen.queryAllByRole("button")).toHaveLength(0);
-  expect(screen.getByText("Patrocinadors or")).toBeInTheDocument();
+  // The section title always renders; empty tiers are not rendered at all.
+  expect(screen.getByText("SPONSORS")).toBeInTheDocument();
+  expect(screen.queryByText("Supreme")).not.toBeInTheDocument();
+});
+
+test("sponsors are grouped under their tier heading", async () => {
+  getEventSponsors.mockResolvedValue([
+    { id: 1, name: "Top Sponsor", image: "a.webp", tier: 0 },
+    { id: 2, name: "Small Sponsor", image: "b.webp", tier: 4 },
+  ]);
+  render(<Sponsors />);
+  expect(
+    await screen.findByRole("button", { name: "Top Sponsor" }),
+  ).toBeInTheDocument();
+  expect(screen.getByText("Supreme")).toBeInTheDocument();
+  expect(screen.getByText("Col·laboradors")).toBeInTheDocument();
+  expect(screen.queryByText("Challenger")).not.toBeInTheDocument();
 });
 test("API error objects do not become sponsor cards", async () => {
   getEventSponsors.mockResolvedValue({ errCode: 500 });

@@ -114,11 +114,23 @@ const SlotRow = ({ companies }) => {
   );
 };
 
+// Sponsor tiers agreed with the admin panel and the backend: 0 = highest.
+const TIER_SECTIONS = [
+  { tier: 0, title: "Supreme" },
+  { tier: 1, title: "Challenger" },
+  { tier: 2, title: "Premium" },
+  { tier: 3, title: "Supporter" },
+  { tier: 4, title: "Col·laboradors" },
+];
+
+function chunk(list, size) {
+  const rows = [];
+  for (let i = 0; i < list.length; i += size) rows.push(list.slice(i, i + size));
+  return rows;
+}
+
 const Sponsors = () => {
-  const [partners, setPartners] = useState([]);
-  const [gold, setGold] = useState([]);
-  const [silver, setSilver] = useState([]);
-  const [bronze, setBronze] = useState([]);
+  const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -126,12 +138,9 @@ const Sponsors = () => {
       try {
         const event = await getHackeps();
         if (!event?.id) return;
-        const companies = asCompanyList(await getEventSponsors(event.id));
+        const list = asCompanyList(await getEventSponsors(event.id));
         if (cancelled) return;
-        setPartners(companies.filter(company => company.tier === 0));
-        setGold(companies.filter(company => company.tier === 2));
-        setSilver(companies.filter(company => company.tier === 1));
-        setBronze(companies.filter(company => company.tier === 3));
+        setCompanies(list);
       } catch (error) {
         console.error("Error fetching sponsors data:", error);
       }
@@ -142,8 +151,15 @@ const Sponsors = () => {
     };
   }, []);
 
-  const silverRows = [silver.slice(0, 3), silver.slice(3)];
-  const bronzeRows = [bronze.slice(0, 3), bronze.slice(3)];
+  // The backend returns sponsors already ordered by display_order; filtering
+  // per tier keeps that order. Empty tiers are not rendered.
+  const sections = TIER_SECTIONS.map((section) => ({
+    ...section,
+    rows: chunk(
+      companies.filter((company) => Number(company.tier) === section.tier),
+      3,
+    ),
+  })).filter((section) => section.rows.length > 0);
 
   return (
     <div
@@ -191,34 +207,28 @@ const Sponsors = () => {
           className="right-[12%] bottom-[8%] z-0 hidden h-[90px] w-[100px] rotate-[17.19deg] md:block"
         />
 
-        <h3 className="relative z-10 mb-5 mt-20 text-center font-space-mono text-[24px] font-bold leading-none tracking-[-0.48px] text-white md:mb-6 md:mt-28 md:text-[40px] lg:text-[51px]">
-          Patrocinadors or
-        </h3>
-        <div className="relative z-10 mb-10 md:mb-20">
-          <SlotRow companies={gold} />
-        </div>
-
-        <h3 className="relative z-10 mb-5 text-center font-space-mono text-[24px] font-bold leading-none tracking-[-0.48px] text-white md:mb-6 md:text-[40px] lg:text-[51px]">
-          Patrocinadors plata
-        </h3>
-        <div className="relative z-10 mb-8 flex flex-col gap-6 md:mb-12 md:gap-12">
-          {silverRows.map((row, i) => (
-            <SlotRow key={`s-${i}`} companies={row} />
-          ))}
-        </div>
-
-        <h3 className="relative z-10 mb-5 mt-8 text-center font-space-mono text-[24px] font-bold leading-none tracking-[-0.48px] text-white md:mb-6 md:mt-12 md:text-[40px] lg:text-[51px]">
-          Patrocinadors bronze
-        </h3>
-        <div className="relative z-10 flex flex-col gap-6 pb-12 md:gap-12 md:pb-20">
-          {bronzeRows.map((row, i) => (
-            <SlotRow key={`b-${i}`} companies={row} />
-          ))}
-        </div>
-        {partners.length > 0 && <div className="relative z-10 pb-12">
-          <h3 className="text-center text-white font-space-mono mb-6">Col·laboradors</h3>
-          <SlotRow companies={partners} />
-        </div>}
+        {sections.map((section, index) => (
+          <div key={section.tier} className="relative z-10">
+            <h3
+              className={`relative z-10 mb-5 text-center font-space-mono text-[24px] font-bold leading-none tracking-[-0.48px] text-white md:mb-6 md:text-[40px] lg:text-[51px] ${
+                index === 0 ? "mt-20 md:mt-28" : "mt-8 md:mt-12"
+              }`}
+            >
+              {section.title}
+            </h3>
+            <div
+              className={`relative z-10 flex flex-col gap-6 md:gap-12 ${
+                index === sections.length - 1
+                  ? "pb-12 md:pb-20"
+                  : "mb-8 md:mb-12"
+              }`}
+            >
+              {section.rows.map((row, i) => (
+                <SlotRow key={`${section.tier}-${i}`} companies={row} />
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
