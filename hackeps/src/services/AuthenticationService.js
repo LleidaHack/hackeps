@@ -1,5 +1,5 @@
 import { fetchPlus } from "src/modules/fetchModule";
-import { isToken } from "src/modules/session";
+import { hasSessionCredentials, isToken } from "src/modules/session";
 
 export async function login(user) {
   return fetchPlus({
@@ -53,11 +53,15 @@ export async function me() {
 }
 
 export async function verify(Token) {
-  return fetchPlus({
-    Url: "/auth/verify",
-    Method: "POST",
-    Query: { token: Token },
+  const result = await fetchPlus({
+    Url: "/auth/verify", Method: "POST", Query: { token: Token },
   });
+  if (result?.success === true && hasSessionCredentials(result)) {
+    localStorage.setItem("userToken", result.access_token);
+    localStorage.setItem("refreshToken", result.refresh_token);
+    localStorage.setItem("userID", String(result.user_id));
+  }
+  return result;
 }
 
 export async function resendVerification(e_mail) {
