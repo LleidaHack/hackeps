@@ -12,7 +12,7 @@ const LoadSection = () => {
             cy="50"
             r="20"
             fill="none"
-            stroke="var(--primary)"
+            stroke="#ff7430"
             strokeWidth="2"
           />
         </svg>
