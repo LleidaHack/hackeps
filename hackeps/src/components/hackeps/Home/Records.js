@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { GALLERY_ITEMS } from "./galleryItems";
 import Firework from "src/components/hackeps/Home/Firework.js";
 import firework1 from "src/assets/img/home10/firework-1.svg";
@@ -6,6 +6,29 @@ import firework3 from "src/assets/img/home10/firework-3.svg";
 import cloud2 from "src/assets/img/home10/cloud-2.svg";
 
 const Records = () => {
+  // Drag-to-scroll with the mouse. Touch and wheel keep working natively.
+  const scrollerRef = useRef(null);
+  const drag = useRef({ active: false, startX: 0, scrollLeft: 0 });
+  const [dragging, setDragging] = useState(false);
+
+  const startDrag = (e) => {
+    const el = scrollerRef.current;
+    if (!el || e.button !== 0) return;
+    drag.current = { active: true, startX: e.pageX, scrollLeft: el.scrollLeft };
+    setDragging(true);
+  };
+  const moveDrag = (e) => {
+    const el = scrollerRef.current;
+    if (!el || !drag.current.active) return;
+    e.preventDefault();
+    el.scrollLeft = drag.current.scrollLeft - (e.pageX - drag.current.startX);
+  };
+  const endDrag = () => {
+    if (!drag.current.active) return;
+    drag.current.active = false;
+    setDragging(false);
+  };
+
   return (
     <section
       aria-label="Records de la HackEPS"
@@ -52,10 +75,19 @@ const Records = () => {
 
         <div
           id="hackeps-gallery"
+          ref={scrollerRef}
           tabIndex={0}
           role="region"
           aria-label="Fotografies d’edicions anteriors"
-          className="flex snap-x snap-mandatory gap-8 overflow-x-auto px-4 pb-8 pt-8 sm:gap-12 md:gap-24 md:px-12 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          onMouseDown={startDrag}
+          onMouseMove={moveDrag}
+          onMouseUp={endDrag}
+          onMouseLeave={endDrag}
+          className={`flex gap-8 overflow-x-auto px-4 pb-8 pt-8 sm:gap-12 md:gap-24 md:px-12 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${
+            dragging
+              ? "cursor-grabbing select-none"
+              : "snap-x snap-mandatory cursor-grab"
+          }`}
         >
           {GALLERY_ITEMS.map((item) => (
             <article
@@ -69,6 +101,7 @@ const Records = () => {
                 height={item.height}
                 loading="lazy"
                 decoding="async"
+                draggable={false}
                 className="block h-auto w-full"
               />
             </article>
