@@ -34,7 +34,7 @@ const LoginForm = ({ nextScreen }) => {
           console.log("Login successful");
         if (nextScreen) {
           navigate(nextScreen);
-        } else navigate("/home");
+        } else navigate("/perfil");
       } else {
         setErrorText(
           [401, 404].includes(a?.errCode)
