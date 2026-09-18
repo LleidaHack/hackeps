@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { Suspense, lazy, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import WaitingPage from "src/pages/hackeps/WaitingPage";
 import "src/styles/styles.css";
 import "src/styles/ambient-clouds.css";
@@ -74,6 +75,7 @@ export default function App() {
           </Suspense>
         )}
       </Router>
+      <Analytics />
     </div>
   );
 }
