@@ -18,7 +18,7 @@ const ConfirmAssistance = ({ confirm, token }) => {
     fetchData();
   }, []);
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#2e2e2e] text-white">
       {confirm == "false" ? (
         <div className="mt-60">
           <TitleGeneralized>

@@ -37,7 +37,7 @@ const HomeFrame = ({ children, canvasBg, fluid = false }) => {
 
   if (fluid) {
     return (
-      <div className="w-full overflow-x-hidden font-space-mono" style={{ backgroundColor }}>
+      <div className="w-full overflow-x-clip font-space-mono" style={{ backgroundColor }}>
         {children}
       </div>
     );

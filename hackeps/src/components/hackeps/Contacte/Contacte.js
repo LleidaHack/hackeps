@@ -185,7 +185,7 @@ const ContactePage = () => {
           </label>
 
           <button
-            className={`mt-1 min-h-[42px] w-full border-0 font-space-mono text-[18px] font-bold text-[#2e2e2e] ${
+            className={`mt-2 min-h-[42px] w-full border-0 font-space-mono text-[18px] font-bold text-[#2e2e2e] ${
               isLoading
                 ? "cursor-not-allowed bg-gray-400"
                 : "cursor-pointer bg-[#ff7430] hover:bg-[#ff8a52]"

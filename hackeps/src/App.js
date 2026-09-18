@@ -22,7 +22,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="App overflow-x-hidden">
+    <div className="App overflow-x-clip">
       <Router future={{ v7_startTransition: true }}>
         {LAUNCH_PENDING ? (
           <Routes>

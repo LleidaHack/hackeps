@@ -6,7 +6,7 @@ export const DARK_BG = "#2e2e2e";
 
 const DarkPage = ({ children, minHeight }) => {
   return (
-    <div className="flex min-h-screen w-full flex-col overflow-x-hidden" style={{ backgroundColor: DARK_BG }}>
+    <div className="flex min-h-screen w-full flex-col overflow-x-clip" style={{ backgroundColor: DARK_BG }}>
       <HomeHeader />
       <div className="flex w-full flex-1 flex-col font-space-mono">
         <div

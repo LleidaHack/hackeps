@@ -64,7 +64,7 @@ export default function ResetPassword() {
           >
 
             <label className="mb-3 w-full text-base text-white">
-              <p className="mb-1">Nova contrasenya</p>
+              <p className="mb-2">Nova contrasenya</p>
               <input
                 type="password"
                 required
@@ -76,7 +76,7 @@ export default function ResetPassword() {
               />
             </label>
             <label className="mb-3 w-full text-base text-white">
-              <p className="mb-1">Confirmar contrasenya</p>
+              <p className="mb-2">Confirmar contrasenya</p>
               <input
                 type="password"
                 required
