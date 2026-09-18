@@ -89,6 +89,13 @@ export async function getEventHasHackerConfirmed(event_id, hacker_id) {
   });
 }
 
+export async function getEventTicket(event_id, hacker_id) {
+  return fetchPlus({
+    Url: `/event/${event_id}/ticket/${hacker_id}`,
+    hasUserauth: true,
+  });
+}
+
 export async function getHackerIsParticipant(event_id, hacker_id) {
   return fetchPlus({
     Url: `/event/${event_id}/is_participant/${hacker_id}`,

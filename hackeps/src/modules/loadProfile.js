@@ -5,6 +5,7 @@ import {
   getEventIsHackerRegistered,
   getEventIsHackerAccepted,
   getEventHasHackerConfirmed,
+  getEventTicket,
 } from "src/services/EventService";
 import { getHackerGroupById } from "src/services/HackerGroupService";
 
@@ -24,6 +25,7 @@ export async function loadProfile(userId) {
       event: null,
       team: null,
       qrCode: null,
+      ticket: null,
     };
   const [user, currentEvent, groups] = await Promise.all([
     getHackerById(userId),
@@ -44,6 +46,19 @@ export async function loadProfile(userId) {
     : false;
   if (typeof confirmed !== "boolean")
     throw new Error("Invalid confirmation status");
+  // the ticket exists once the hacker is accepted and confirmed; an older
+  // backend without the endpoint just leaves the check-in state unknown
+  const ticket =
+    accepted && confirmed ? await getEventTicket(currentEvent.id, userId) : null;
+  const ticketState =
+    ticket && ticket.errCode == null && ticket.has_ticket
+      ? {
+          code: ticket.code,
+          eventName: ticket.event_name,
+          checkedIn: Boolean(ticket.checked_in),
+          voucherCode: ticket.voucher_code || null,
+        }
+      : null;
   const membership = groups.find(
     (group) => String(group.event_id) === String(currentEvent.id),
   );
@@ -54,7 +69,8 @@ export async function loadProfile(userId) {
     user,
     team,
     isHacker: true,
-    qrCode: user.code,
+    qrCode: ticketState?.code || user.code,
+    ticket: ticketState,
     event: {
       start_date: currentEvent.start_date,
       end_date: currentEvent.end_date,

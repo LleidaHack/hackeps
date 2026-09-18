@@ -67,3 +67,19 @@ button {
     font-size: 1rem;
   }
 }
+.qrcode__event {
+  margin: 0 0 0.5rem;
+  font-weight: bold;
+}
+.qrcode__code {
+  margin: 0;
+  font-family: "Courier New", monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  word-break: break-all;
+}
+.qrcode__voucher {
+  margin: 0.5rem 0 0;
+  font-weight: bold;
+  color: #ff7430;
+}

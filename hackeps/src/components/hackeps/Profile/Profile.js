@@ -34,6 +34,7 @@ const ProfileComponent = () => {
   const [team, setTeam] = useState(null);
   const [event, setEvent] = useState(null);
   const [qrCode, setQrCode] = useState(null);
+  const [ticket, setTicket] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -45,6 +46,7 @@ const ProfileComponent = () => {
     setTeam(null);
     setEvent(null);
     setQrCode(null);
+    setTicket(null);
     setIsHacker(false);
     setLoadError(false);
     loadProfile(userId)
@@ -54,6 +56,7 @@ const ProfileComponent = () => {
         setTeam(data.team);
         setEvent(data.event);
         setQrCode(data.qrCode);
+        setTicket(data.ticket);
         setIsHacker(data.isHacker);
       })
       .catch(() => {
@@ -112,13 +115,13 @@ const ProfileComponent = () => {
                 </p>
               )}
             </div>
-            {isUser && event?.accepted && user && (
+            {isUser && event?.accepted && event?.confirmed && user && (
               <button
                 type="button"
                 className="hacker-profile-ticket"
                 onClick={handleShowQR}
               >
-                <span>Mostra el teu tiquet</span>
+                <span>{ticket?.checkedIn ? "Check-in fet" : "Mostra el teu tiquet"}</span>
                 <img src={qrIcon} alt="" width="48" height="48" />
               </button>
             )}
@@ -174,7 +177,7 @@ const ProfileComponent = () => {
       </main>
 
       <Modal show={showQR} onHide={handleCloseQR} centered>
-        <QrCode url={qrCode} />
+        <QrCode url={qrCode} ticket={ticket} />
       </Modal>
     </>
   );

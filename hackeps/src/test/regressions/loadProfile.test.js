@@ -7,6 +7,7 @@ import {
   getEventIsHackerRegistered,
   getEventIsHackerAccepted,
   getEventHasHackerConfirmed,
+  getEventTicket,
 } from "src/services/EventService";
 import { getHackerGroupById } from "src/services/HackerGroupService";
 jest.mock("src/services/UserService");
@@ -44,6 +45,39 @@ test("waits for a slow event before selecting the matching team", async () => {
   });
   expect(getEventIsHackerRegistered).toHaveBeenCalledWith(10, "42");
   expect(getEventHasHackerConfirmed).not.toHaveBeenCalled();
+  expect(getEventTicket).not.toHaveBeenCalled();
+  expect(result.ticket).toBeNull();
+  expect(result.qrCode).toBe("ticket");
+});
+test("loads the check-in ticket once accepted and confirmed", async () => {
+  getHackeps.mockResolvedValue({ id: 10 });
+  getEventIsHackerAccepted.mockResolvedValue(true);
+  getEventHasHackerConfirmed.mockResolvedValue(true);
+  getEventTicket.mockResolvedValue({
+    has_ticket: true,
+    code: "ticket",
+    event_name: "HackEPS 2026",
+    checked_in: true,
+    voucher_code: "VABCDEFGH",
+  });
+  const result = await loadProfile("42");
+  expect(getEventTicket).toHaveBeenCalledWith(10, "42");
+  expect(result.ticket).toEqual({
+    code: "ticket",
+    eventName: "HackEPS 2026",
+    checkedIn: true,
+    voucherCode: "VABCDEFGH",
+  });
+});
+test("keeps the profile usable when the ticket endpoint is missing", async () => {
+  getHackeps.mockResolvedValue({ id: 10 });
+  getEventIsHackerAccepted.mockResolvedValue(true);
+  getEventHasHackerConfirmed.mockResolvedValue(true);
+  getEventTicket.mockResolvedValue({ errCode: 404 });
+  const result = await loadProfile("42");
+  expect(result.ticket).toBeNull();
+  expect(result.event.confirmed).toBe(true);
+  expect(result.qrCode).toBe("ticket");
 });
 test("does not turn an API error into accepted status", async () => {
   getHackeps.mockResolvedValue({ id: 10 });
