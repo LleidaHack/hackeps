@@ -35,21 +35,33 @@ function redirectToURL(url) {
   );
 }
 
-const Slot = ({ company }) =>
-  !company ? (
-    <div
-      aria-hidden="true"
-      className="relative aspect-[358/198] w-[min(100%,320px)] md:w-[358px]"
-    >
+const Slot = ({ company }) => (
+  <button
+    aria-label={company?.name || "Veure patrocinador"}
+    type="button"
+    className="relative aspect-[358/198] w-[min(100%,320px)] border-0 bg-transparent p-0 md:w-[358px]"
+    onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
+  >
+    <img
+      loading="lazy"
+      decoding="async"
+      src={sponsorSlot}
+      alt=""
+      width={358}
+      height={198}
+      className="absolute inset-0 h-full w-full"
+    />
+    {company?.image ? (
       <img
         loading="lazy"
         decoding="async"
-        src={sponsorSlot}
-        alt=""
+        src={company.image}
+        alt={company.name}
         width={358}
         height={198}
-        className="h-full w-full"
+        className="absolute inset-0 h-full w-full object-contain p-4 md:p-6"
       />
+    ) : (
       <img
         loading="lazy"
         decoding="async"
@@ -59,60 +71,19 @@ const Slot = ({ company }) =>
         height={48}
         className="absolute inset-0 m-auto h-auto w-[45%]"
       />
-    </div>
-  ) : (
-    <button
-      aria-label={company?.name || "Veure patrocinador"}
-      type="button"
-      className="relative aspect-[358/198] w-[min(100%,320px)] border-0 bg-transparent p-0 md:w-[358px]"
-      onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
-    >
-      <img
-        loading="lazy"
-        decoding="async"
-        src={sponsorSlot}
-        alt=""
-        width={358}
-        height={198}
-        className="absolute inset-0 h-full w-full"
-      />
-      {company?.image ? (
-        <img
-        loading="lazy"
-        decoding="async"
-          src={company.image}
-          alt={company.name}
-          width={358}
-          height={198}
-          className="absolute inset-0 h-full w-full object-contain p-4 md:p-6"
-        />
-      ) : (
-        <img
-        loading="lazy"
-        decoding="async"
-          src={lleidaHackLogo}
-          alt=""
-          width={75}
-          height={48}
-          className="absolute inset-0 m-auto h-auto w-[45%]"
-        />
-      )}
-    </button>
-  );
+    )}
+  </button>
+);
 
-const SlotRow = ({ companies }) => {
-  const cells = Array.from({ length: Math.max(3, companies.length) }, (_, i) => companies[i] || null);
-  return (
-    <div className="flex flex-wrap justify-center gap-4 md:gap-7">
-      {cells.map((company, i) => (
-        <Slot
-          key={company ? `company-${company.id}` : `placeholder-${i}`}
-          company={company}
-        />
-      ))}
-    </div>
-  );
-};
+// Render only the real sponsors of the row; a tier that does not fill three
+// slots (e.g. a single Supreme) shows just its sponsors, no empty placeholders.
+const SlotRow = ({ companies }) => (
+  <div className="flex flex-wrap justify-center gap-4 md:gap-7">
+    {companies.map((company) => (
+      <Slot key={`company-${company.id}`} company={company} />
+    ))}
+  </div>
+);
 
 // Sponsor tiers agreed with the admin panel and the backend: 0 = highest.
 const TIER_SECTIONS = [
