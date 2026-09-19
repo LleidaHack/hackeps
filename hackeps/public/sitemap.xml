@@ -1,42 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Only the routes the current build serves. The app is deployed at the domain
+  root (there is no /hackeps prefix); while REACT_APP_LAUNCH_PENDING=1 every
+  other path redirects to /. When the full site launches, add its public routes
+  from src/config/routes.js here (/dates, /faq, /contacte, /sponsors, ...).
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/contacte</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/login</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/faq</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/home</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/perfil</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/terms</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/privacy</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/contacte</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/sponsors</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/inscripcio</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/hacker-form</loc>
-    </url>
-    <url>
-        <loc>https://www.lleidahack.dev/hackeps/dashboard</loc>
-    </url>
+  <url>
+    <loc>https://www.lleidahack.dev/</loc>
+  </url>
+  <url>
+    <loc>https://www.lleidahack.dev/terms</loc>
+  </url>
+  <url>
+    <loc>https://www.lleidahack.dev/privacy</loc>
+  </url>
 </urlset>

@@ -3,40 +3,22 @@ import seuVella from "src/assets/img/home10/seu-vella.svg";
 import waveBack from "src/assets/img/home10/wave-back.svg";
 import waveFront from "src/assets/img/home10/wave-front.svg";
 import mlhLogo from "src/assets/img/majorleaguelogo.svg";
+import { HACKEPS_START, HACKEPS_END } from "src/config/edition";
+import { timeUntil } from "src/modules/countdown";
+
+const plural = (n, one, many) => (n === 1 ? one : many);
 
 const Waiting = () => {
-  const targetDate = new Date(2026, 10, 28); // November 28th
+  const [now, setNow] = useState(() => Date.now());
 
-  const calculateTimeLeft = () => {
-    const difference = targetDate - new Date();
-    let timeLeft = {
-      mesos: 0,
-      dies: 0,
-      hores: 0,
-    };
-
-    if (difference > 0) {
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-
-      timeLeft = {
-        mesos: Math.floor(days / 30),
-        dies: days % 30,
-        hores: hours,
-      };
-    }
-
-    return timeLeft;
-  };
-
-  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft());
-
+  // The smallest unit on screen is the hour, so once a minute is plenty.
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
+    const timer = setInterval(() => setNow(Date.now()), 60_000);
     return () => clearInterval(timer);
   }, []);
+
+  const timeLeft = timeUntil(HACKEPS_START, now);
+  const finished = now > HACKEPS_END.getTime();
 
   return (
     <div className="min-h-screen flex flex-col font-space-mono bg-[#78C6BD] overflow-hidden">
@@ -75,7 +57,7 @@ const Waiting = () => {
           sizes="(min-width: 1024px) 25vw, (min-width: 768px) 35vw, 55vw"
           width="1024"
           height="1036"
-          className="absolute bottom-[10%] md:bottom-[30%] lg:bottom-[5%] right-[5%] md:right-[10%] w-[55%] md:w-[35%] lg:w-[25%] h-auto z-20"
+          className="absolute bottom-[10%] md:bottom-[30%] lg:bottom-[16%] right-[5%] md:right-[10%] w-[55%] md:w-[35%] lg:w-[25%] h-auto z-20"
           alt="La Seu Vella de Lleida"
           fetchpriority="high"
           loading="eager"
@@ -98,20 +80,36 @@ const Waiting = () => {
       {/* Bottom Section: Turquoise text area */}
       <div className="bg-[#78C6BD] w-full flex flex-col items-center justify-center relative z-40 px-4 pt-4 md:pt-6 pb-6 md:pb-10 flex-shrink-0 md:mt-[-10vh]">
 
-        <p className="text-lg md:text-2xl lg:text-3xl text-gray-800 mb-2 md:mb-4 text-center whitespace-pre-wrap">
-          Preparant la celebració...
+        <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-1 md:mb-2 text-center">
+          HackEPS 2026
+        </h1>
+        <p className="text-sm md:text-lg lg:text-xl text-gray-800 mb-3 md:mb-5 text-center">
+          28 i 29 de novembre de 2026 · Lleida
         </p>
 
-        <div className="text-3xl md:text-5xl lg:text-6xl text-gray-800 flex flex-wrap justify-center items-baseline gap-x-2 gap-y-2 mb-4 md:mb-6">
-          <span className="font-bold">{timeLeft.mesos}</span>
-          <span className="text-lg md:text-2xl lg:text-3xl mr-2 md:mr-6">mesos</span>
+        {timeLeft ? (
+          <>
+            <p className="text-lg md:text-2xl lg:text-3xl text-gray-800 mb-2 md:mb-4 text-center">
+              Preparant la celebració...
+            </p>
+            <p className="text-3xl md:text-5xl lg:text-6xl text-gray-800 flex flex-wrap justify-center items-baseline gap-x-2 gap-y-2 mb-4 md:mb-6 m-0">
+              <span className="font-bold">{timeLeft.months}</span>
+              <span className="text-lg md:text-2xl lg:text-3xl mr-2 md:mr-6">{plural(timeLeft.months, "mes", "mesos")}</span>
 
-          <span className="font-bold">{timeLeft.dies}</span>
-          <span className="text-lg md:text-2xl lg:text-3xl mr-2 md:mr-6">dies</span>
+              <span className="font-bold">{timeLeft.days}</span>
+              <span className="text-lg md:text-2xl lg:text-3xl mr-2 md:mr-6">{plural(timeLeft.days, "dia", "dies")}</span>
 
-          <span className="font-bold">{timeLeft.hores}</span>
-          <span className="text-lg md:text-2xl lg:text-3xl">hores</span>
-        </div>
+              <span className="font-bold">{timeLeft.hours}</span>
+              <span className="text-lg md:text-2xl lg:text-3xl">{plural(timeLeft.hours, "hora", "hores")}</span>
+            </p>
+          </>
+        ) : (
+          <p className="text-xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 md:mb-6 text-center">
+            {finished
+              ? "La HackEPS 2026 ja s'ha celebrat. Fins a la propera edició!"
+              : "La HackEPS 2026 està en marxa!"}
+          </p>
+        )}
 
         <div className="flex gap-6 mb-4 md:mb-6 mt-12">
           {/* Inline SVGs instead of the bootstrap-icons font: no extra CSS + webfont request */}
@@ -125,23 +123,23 @@ const Waiting = () => {
               <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z" />
             </svg>
           </a>
-          <a href="https://x.com/lleidahack?lang=ca" target="_blank" rel="noreferrer" className="text-gray-800 hover:text-black transition-colors">
+          <a href="https://x.com/lleidahack?lang=ca" target="_blank" rel="noreferrer" aria-label="X (Twitter)" className="text-gray-800 hover:text-black transition-colors">
             {/* Custom X logo since bi-twitter-x might not be in v1.10.5 */}
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-twitter-x w-7 h-7 md:w-9 md:h-9" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="w-7 h-7 md:w-9 md:h-9" viewBox="0 0 16 16" aria-hidden="true">
               <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.873 11.633Z" />
             </svg>
           </a>
         </div>
 
         <div className="flex flex-col md:flex-col items-center gap-2 md:gap-4 text-[10px] md:text-xs font-bold text-gray-800 underline decoration-1 underline-offset-4 mb-4 text-center">
-          <a href="/terms" className="text-black" target="_blank">Termes i Condicions</a>
-          <a href="/privacy" className="text-black" target="_blank">Politica de Privadesa de LleidaHack</a>
-          <a href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md" className="text-black hover:font-bold" target="_blank">Codi de conducta de MLH</a>
+          <a href="/terms" className="text-black" target="_blank" rel="noreferrer">Termes i Condicions</a>
+          <a href="/privacy" className="text-black" target="_blank" rel="noreferrer">Política de Privadesa de LleidaHack</a>
+          <a href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md" className="text-black hover:font-bold" target="_blank" rel="noreferrer">Codi de conducta de MLH</a>
         </div>
 
         <div className="text-[10px] md:text-xs text-gray-800 font-bold flex flex-col md:flex-row items-center gap-1 md:gap-4">
           <p>
-            Made with <span className="text-black">❤</span> by <a href="https://www.lleidahack.dev/" target="_blank" rel="noreferrer" className="underline underline-offset-2text-black text-black">LleidaHack</a>
+            Made with <span className="text-black">❤</span> by <a href="https://www.lleidahack.dev/" target="_blank" rel="noreferrer" className="underline underline-offset-2 text-black">LleidaHack</a>
           </p>
           <p>
             Powered By <a href="https://clouding.io/" target="_blank" rel="noreferrer" className="underline underline-offset-2 text-black">Clouding.io</a>

@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import React, { Suspense, lazy, useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import WaitingPage from "src/pages/hackeps/WaitingPage";
@@ -60,6 +65,9 @@ export default function App() {
                 </Suspense>
               }
             />
+            {/* Any other path (old /hackeps/... links, typos) goes home instead
+                of rendering an empty page. */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         ) : (
           <Suspense

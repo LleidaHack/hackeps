@@ -9,21 +9,30 @@
          first paint needs removes the CSS→font request chain. -->
   <link rel="preload" href="/fonts/space-mono-latin-400.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/space-mono-latin-700.woff2" as="font" type="font/woff2" crossorigin />
-  <!-- Font Awesome is only used by the full site, never by the waiting page:
-         load it without blocking the first render. -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'" />
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#304B91" />
   <link href="/style.css" rel="stylesheet" />
   <meta name="description"
     content="Lleidahack et dóna la benvinguda a la HackEPS 2026, la primera hackató de les terres de Lleida!" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logoHackeps2026.png" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <!-- Social previews need absolute URLs: %PUBLIC_URL% is empty on a root deploy,
+       and Open Graph ignores relative paths. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LleidaHack" />
+  <meta property="og:locale" content="ca_ES" />
   <meta property="og:title" content="HackEPS 2026" />
-  <meta property="og:image" content="%PUBLIC_URL%/logoHackeps2026.png" />
   <meta property="og:description"
     content="Lleidahack et dóna la benvinguda a la HackEPS 2026, la primera hackató de les terres de Lleida!" />
-  <meta property="og:url" content="%PUBLIC_URL%" />
+  <meta property="og:url" content="https://www.lleidahack.dev/" />
+  <meta property="og:image" content="https://www.lleidahack.dev/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Logotip de la HackEPS 2026, 10a edició" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@lleidahack" />
+  <meta name="twitter:title" content="HackEPS 2026" />
+  <meta name="twitter:description"
+    content="Lleidahack et dóna la benvinguda a la HackEPS 2026, la primera hackató de les terres de Lleida!" />
+  <meta name="twitter:image" content="https://www.lleidahack.dev/og-image.png" />
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -42,7 +51,7 @@
 </head>
 
 <body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <noscript>Cal activar JavaScript per veure aquesta pàgina.</noscript>
   <div id="root"></div>
   <!--
       This HTML file is a template.
