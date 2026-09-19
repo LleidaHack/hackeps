@@ -28,7 +28,9 @@ const Button = (props) => {
   });
   return (
     <button
-      type={props.type}
+      // Browsers default a typeless <button> to "submit"; inside a form that
+      // reloads the page with every field in the URL. Submit buttons say so.
+      type={props.type || "button"}
       onClick={props.onClick}
       className={classes}
       disabled={props.disabled}
