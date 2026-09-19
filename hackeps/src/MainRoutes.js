@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import React, { lazy, useEffect } from "react";
 import Home from "src/pages/hackeps/Home";
 import RequireAuth from "src/modules/RequireAuth";
@@ -25,6 +25,14 @@ const ConfirmAssistancePage = lazy(() => import("src/pages/hackeps/Confirm"));
 const Hacking = lazy(() => import("src/pages/hackeps/Hacking"));
 const ContacteMentor = lazy(() => import("src/pages/hackeps/ContacteMentor"));
 
+// The site used to live under /hackeps; links shared back then still point
+// there. Strip the prefix so they land on the equivalent route instead of 404.
+function LegacyPrefixRedirect() {
+  const { pathname, search, hash } = useLocation();
+  const target = pathname.replace(/^\/hackeps(?=\/|$)/, "") || "/";
+  return <Navigate to={target + search + hash} replace />;
+}
+
 export default function MainRoutes() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -33,7 +41,19 @@ export default function MainRoutes() {
   }, []);
 
   return (
-    <div key={[ROUTES.profile, `${ROUTES.profile}/esdeveniments`, `${ROUTES.profile}/equip`, `${ROUTES.profile}/dades`].includes(pathname) ? ROUTES.profile : pathname} className="route-page">
+    <div
+      key={
+        [
+          ROUTES.profile,
+          `${ROUTES.profile}/esdeveniments`,
+          `${ROUTES.profile}/equip`,
+          `${ROUTES.profile}/dades`,
+        ].includes(pathname)
+          ? ROUTES.profile
+          : pathname
+      }
+      className="route-page"
+    >
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path={ROUTES.dates} element={<DatesPage />} />
@@ -83,6 +103,7 @@ export default function MainRoutes() {
         <Route path={ROUTES.userVerification} element={<LoginVerify />} />
         <Route path={ROUTES.assistance} element={<ConfirmAssistancePage />} />
         <Route path={ROUTES.hacking} element={<Hacking />} />
+        <Route path="/hackeps/*" element={<LegacyPrefixRedirect />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </div>
