@@ -41,16 +41,10 @@ const Header = () => {
           try {
             if (!localStorage.getItem("imageProfile")) {
               const info = await me();
-              if (info.nickname) {
-                if (
-                  info.image !== null ||
-                  info.image !== undefined ||
-                  info.image !== "" ||
-                  info.image !== "string"
-                ) {
-                  setUserIcon(info.image);
-                  localStorage.setItem("imageProfile", info.image);
-                }
+              // The API returns the literal "string" when no image was set.
+              if (info.nickname && info.image && info.image !== "string") {
+                setUserIcon(info.image);
+                localStorage.setItem("imageProfile", info.image);
               }
             } else {
               setUserIcon(localStorage.getItem("imageProfile"));
