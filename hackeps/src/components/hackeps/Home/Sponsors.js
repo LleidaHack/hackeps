@@ -7,9 +7,8 @@ import sponsorSlot from "src/assets/img/home10/sponsor-slot.svg";
 import firework1 from "src/assets/img/home10/firework-1.svg";
 import firework2 from "src/assets/img/home10/firework-2.svg";
 import firework3 from "src/assets/img/home10/firework-3.svg";
-import seuVella from "src/assets/img/home10/seu-vella.svg";
-import waveBack from "src/assets/img/home10/wave-back.svg";
-import waveFront from "src/assets/img/home10/wave-front.svg";
+
+import SeuVellaScene from "./SeuVellaScene";
 
 function asCompanyList(data) {
   if (Array.isArray(data)) return data;
@@ -35,11 +34,12 @@ function redirectToURL(url) {
   );
 }
 
-const Slot = ({ company }) => (
+const Slot = ({ company, tier }) => (
   <button
     aria-label={company?.name || "Veure patrocinador"}
     type="button"
-    className="relative aspect-[358/198] w-[min(100%,320px)] border-0 bg-transparent p-0 md:w-[358px]"
+    className="relative aspect-[358/198] max-w-full border-0 bg-transparent p-0"
+    style={{ width: `${[86, 70, 56, 44, 44][tier]}vw`, maxWidth: [440, 350, 270, 200, 200][tier] }}
     onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
   >
     <img
@@ -77,10 +77,10 @@ const Slot = ({ company }) => (
 
 // Render only the real sponsors of the row; a tier that does not fill three
 // slots (e.g. a single Supreme) shows just its sponsors, no empty placeholders.
-const SlotRow = ({ companies }) => (
+const SlotRow = ({ companies, tier }) => (
   <div className="flex flex-wrap justify-center gap-4 md:gap-7">
     {companies.map((company) => (
-      <Slot key={`company-${company.id}`} company={company} />
+      <Slot key={`company-${company.id}`} company={company} tier={tier} />
     ))}
   </div>
 );
@@ -179,14 +179,8 @@ const Sponsors = () => {
         />
 
         {sections.map((section, index) => (
-          <div key={section.tier} className="relative z-10">
-            <h3
-              className={`relative z-10 mb-5 text-center font-space-mono text-[24px] font-bold leading-none tracking-[-0.48px] text-white md:mb-6 md:text-[40px] lg:text-[51px] ${
-                index === 0 ? "mt-20 md:mt-28" : "mt-8 md:mt-12"
-              }`}
-            >
-              {section.title}
-            </h3>
+          <div key={section.tier} className="relative z-10 mt-10 md:mt-14">
+            {section.tier === 4 && <h3 className="mb-6 mt-12 text-center font-space-mono text-2xl font-bold text-white md:text-4xl">Col·laboradors</h3>}
             <div
               className={`relative z-10 flex flex-col gap-6 md:gap-12 ${
                 index === sections.length - 1
@@ -195,7 +189,7 @@ const Sponsors = () => {
               }`}
             >
               {section.rows.map((row, i) => (
-                <SlotRow key={`${section.tier}-${i}`} companies={row} />
+                <SlotRow key={`${section.tier}-${i}`} companies={row} tier={section.tier} />
               ))}
             </div>
           </div>
@@ -205,46 +199,11 @@ const Sponsors = () => {
   );
 };
 
-export const SeuVellaFooter = () => {
-  return (
-    <div className="relative w-full overflow-hidden bg-[#2e2e2e]">
-      <div className="relative h-[320px] w-full overflow-hidden bg-transparent sm:h-[400px] md:h-[520px]">
-        <img
-        loading="lazy"
-        decoding="async"
-          src={waveBack}
-          sizes="100vw"
-          width="2048"
-          height="784"
-          className="absolute left-0 top-[42%] z-10 h-auto w-full sm:top-[48%] md:top-[50%]"
-          alt=""
-        />
-        <img
-        loading="lazy"
-        decoding="async"
-          src={waveFront}
-          sizes="100vw"
-          width="2048"
-          height="594"
-          className="absolute left-0 top-[68%] z-20 h-auto w-full sm:top-[72%] md:top-[75%]"
-          alt=""
-        />
-        <img
-        loading="lazy"
-        decoding="async"
-          src={seuVella}
-          sizes="(max-width: 768px) 42vw, 25vw"
-          width="1024"
-          height="1036"
-          className="absolute bottom-[18%] right-[6%] z-30 h-auto w-[42%] max-w-[180px] sm:bottom-[14%] sm:w-[32%] sm:max-w-[240px] md:bottom-[8%] md:right-[10%] md:w-[25%] md:max-w-none"
-          alt="La Seu Vella de Lleida"
-        />
-      </div>
-      <div className="relative z-40 -mt-[56px] sm:-mt-[64px] md:-mt-[80px]">
-        <HomeFooter tone="green" />
-      </div>
-    </div>
-  );
-};
+export const SeuVellaFooter = () => (
+  <div className="w-full overflow-hidden bg-[#2e2e2e]">
+    <SeuVellaScene />
+    <HomeFooter tone="green" />
+  </div>
+);
 
 export default Sponsors;

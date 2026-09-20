@@ -31,7 +31,7 @@ test("empty artwork does not introduce unnamed controls", async () => {
   expect(screen.queryByText("Supreme")).not.toBeInTheDocument();
 });
 
-test("sponsors are grouped under their tier heading", async () => {
+test("only collaborators have a tier heading; sponsors differ by size", async () => {
   getEventSponsors.mockResolvedValue([
     { id: 1, name: "Top Sponsor", image: "a.webp", tier: 0 },
     { id: 2, name: "Small Sponsor", image: "b.webp", tier: 4 },
@@ -40,7 +40,8 @@ test("sponsors are grouped under their tier heading", async () => {
   expect(
     await screen.findByRole("button", { name: "Top Sponsor" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("Supreme")).toBeInTheDocument();
+  expect(screen.queryByText("Supreme")).not.toBeInTheDocument();
+  expect(screen.getByRole("button", {name: "Top Sponsor"}).getAttribute("style")).not.toEqual(screen.getByRole("button", {name: "Small Sponsor"}).getAttribute("style"));
   expect(screen.getByText("Col·laboradors")).toBeInTheDocument();
   expect(screen.queryByText("Challenger")).not.toBeInTheDocument();
 });

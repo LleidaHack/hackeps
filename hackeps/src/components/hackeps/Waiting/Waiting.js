@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import seuVella from "src/assets/img/home10/seu-vella.svg";
-import waveBack from "src/assets/img/home10/wave-back.svg";
-import waveFront from "src/assets/img/home10/wave-front.svg";
+import SeuVellaScene from "src/components/hackeps/Home/SeuVellaScene";
 import mlhLogo from "src/assets/img/majorleaguelogo.svg";
 import { HACKEPS_START, HACKEPS_END } from "src/config/edition";
 import { timeUntil } from "src/modules/countdown";
@@ -23,62 +21,13 @@ const Waiting = () => {
   return (
     <div className="min-h-screen flex flex-col font-space-mono bg-[#78C6BD] overflow-hidden">
 
-      {/* Top Section: Blue sky */}
-      <div className="bg-[#304B91] w-full h-[60vh] md:h-[66vh] relative flex-shrink-0">
-
-        {/* MLH Logo */}
-        <div className="absolute top-0 left-0 p-0 mx-10 z-50">
-          <img
-            src={mlhLogo}
-            className="w-20 md:w-28"
-            alt="MLH Official Season"
-            width="215"
-            height="356"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
-
-        {/* Ola Interior (background wave) */}
-        <img
-          src={waveBack}
-          sizes="100vw"
-          width="2048"
-          height="784"
-          className="absolute top-[65%] md:top-[55%] lg:top-[50%] left-0 w-full h-auto z-10"
-          alt=""
-          loading="eager"
-          decoding="async"
-        />
-
-        {/* Seu Vella Castle (middle) */}
-        <img
-          src={seuVella}
-          sizes="(min-width: 1024px) 25vw, (min-width: 768px) 35vw, 55vw"
-          width="1024"
-          height="1036"
-          className="absolute bottom-[10%] md:bottom-[30%] lg:bottom-[16%] right-[5%] md:right-[10%] w-[55%] md:w-[35%] lg:w-[25%] h-auto z-20"
-          alt="La Seu Vella de Lleida"
-          fetchpriority="high"
-          loading="eager"
-          decoding="async"
-        />
-
-        {/* Ola Exterior (foreground wave) */}
-        <img
-          src={waveFront}
-          sizes="100vw"
-          width="2048"
-          height="594"
-          className="absolute top-[85%] md:top-[65%] lg:top-[75%] left-0 w-full h-auto z-30"
-          alt=""
-          loading="eager"
-          decoding="async"
-        />
+      <div className="relative w-full bg-[#304B91] pt-28 md:pt-12">
+        <img src={mlhLogo} className="absolute left-6 top-0 z-10 w-16 md:left-10 md:w-24" alt="MLH Official Season" width="215" height="356" />
+        <SeuVellaScene />
       </div>
 
       {/* Bottom Section: Turquoise text area */}
-      <div className="bg-[#78C6BD] w-full flex flex-col items-center justify-center relative z-40 px-4 pt-4 md:pt-6 pb-6 md:pb-10 flex-shrink-0 md:mt-[-10vh]">
+      <div className="bg-[#78C6BD] w-full flex flex-col items-center justify-center relative z-40 px-4 pt-4 md:pt-6 pb-6 md:pb-10 flex-shrink-0">
 
         <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-1 md:mb-2 text-center">
           HackEPS 2026

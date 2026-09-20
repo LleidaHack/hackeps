@@ -9,49 +9,22 @@ import cloud2 from "src/assets/img/home10/cloud-2.svg";
 import cloud5 from "src/assets/img/home10/cloud-5.svg";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
-const SCHEDULE = [
-  {
-    head: cabeza1,
-    title: "Exemple",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do",
-  },
-  {
-    head: cabeza2,
-    title: "Exemple",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do",
-  },
-  {
-    head: cabeza3,
-    title: "Exemple",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do",
-  },
-  {
-    head: cabeza4,
-    title: "Exemple",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do",
-  },
-  {
-    head: cabeza5,
-    title: "Exemple",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do",
-  },
-  {
-    head: cabeza6,
-    title: "Exemple",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do",
-  },
+const HEADS = [cabeza1, cabeza2, cabeza3, cabeza4, cabeza5, cabeza6];
+export const SCHEDULE_2026 = [
+  { starts_at: "2026-11-28T08:30:00+01:00", title: "Inici del check-in", description: "Arribada i registre dels participants" },
+  { starts_at: "2026-11-28T10:00:00+01:00", title: "Cerimònia d'obertura", description: "Benvinguda i presentació de l'esdeveniment" },
+  { starts_at: "2026-11-28T11:00:00+01:00", title: "Comença el temps de hacking", description: "Inici oficial del hackathon" },
+  { starts_at: "2026-11-28T15:00:00+01:00", title: "Finalitza el check-in", description: "Tancament del registre per als participants" },
+  { starts_at: "2026-11-29T11:00:00+01:00", title: "Finalitza el temps de hacking", description: "Tancament del període de desenvolupament dels projectes" },
+  { starts_at: "2026-11-29T11:30:00+01:00", title: "Presentacions dels projectes", description: "Presentació dels projectes desenvolupats durant el hackathon" },
+  { starts_at: "2026-11-29T14:00:00+01:00", title: "Cerimònia de cloenda i entrega de premis", description: "Cloenda del hackathon i entrega de premis als guanyadors" },
 ];
 
 const DatesHorari = () => {
   const { sky, text } = useSiteTheme();
-  const { event } = useEdition();
-  const schedule = event?.schedule?.length ? event.schedule.map((item, index) => ({ ...item, head: SCHEDULE[index % SCHEDULE.length].head })) : SCHEDULE;
+  const { event, year } = useEdition();
+  const configured = event?.schedule?.filter(item => item.title && !/^(exemple|activitat\s*\d+)$/i.test(item.title.trim()));
+  const schedule = (configured?.length ? configured : year === 2026 ? SCHEDULE_2026 : []).map((item, index) => ({ ...item, head: HEADS[index % HEADS.length] }));
   return (
     <section
       id="horari"
