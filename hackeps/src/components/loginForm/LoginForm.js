@@ -1,3 +1,4 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import React, { useState } from "react";
 import LoginUnverified from "src/components/hackeps/LoginUnverified/LoginUnverified";
 import { hasSessionCredentials } from "src/modules/session";
@@ -54,8 +55,8 @@ const LoginForm = ({ nextScreen }) => {
       <form className="public-form" onSubmit={handleSubmit(submit)}>
         <div className="text-base mt-7 w-full">
           <label className="w-full text-base">
-            <p className="text-white mb-2">Correu:</p>
-            <input
+             <RequiredMark /><p className="text-white mb-2">Correu:</p>
+            <input aria-required="true"
               className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base`}
               type="email"
               inputMode="email"
@@ -73,8 +74,8 @@ const LoginForm = ({ nextScreen }) => {
 
         <div className="text-base mt-3">
           <label className="w-full text-base">
-            <p className="text-white mb-2">Contrasenya:</p>
-            <input
+             <RequiredMark /><p className="text-white mb-2">Contrasenya:</p>
+            <input aria-required="true"
               type="password"
               autoComplete="current-password"
               className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base`}

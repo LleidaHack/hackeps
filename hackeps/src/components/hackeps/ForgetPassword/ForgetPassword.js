@@ -1,3 +1,4 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,8 +40,8 @@ const ForgetPassword = ({ nextScreen }) => {
               className="public-form flex w-full flex-col gap-3"
             >
               <label className="text-white">
-                Introdueix el teu correu electrònic
-                <input
+                Introdueix el teu correu electrònic <RequiredMark />
+                <input aria-required="true"
                   className={`${errors.email ? "bg-pink-100" : "bg-white"} mt-2 min-h-10 w-full px-2 text-base text-black`}
                   placeholder="Correu electrònic"
                   {...register("email", {

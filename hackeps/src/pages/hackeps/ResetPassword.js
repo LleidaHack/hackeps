@@ -1,3 +1,4 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -64,8 +65,8 @@ export default function ResetPassword() {
           >
 
             <label className="mb-3 w-full text-base text-white">
-              <p className="mb-2">Nova contrasenya</p>
-              <input
+               <RequiredMark /><p className="mb-2">Nova contrasenya</p>
+              <input aria-required="true"
                 type="password"
                 required
                 autoComplete="new-password"
@@ -76,8 +77,8 @@ export default function ResetPassword() {
               />
             </label>
             <label className="mb-3 w-full text-base text-white">
-              <p className="mb-2">Confirmar contrasenya</p>
-              <input
+               <RequiredMark /><p className="mb-2">Confirmar contrasenya</p>
+              <input aria-required="true"
                 type="password"
                 required
                 autoComplete="new-password"

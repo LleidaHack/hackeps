@@ -83,6 +83,7 @@ test("mentor does not report a rejected application as sent", async () => {
   change(/Experiència prèvia/, "Experience");
   change(/Motivació/, "Motivation");
   change(/Disponibilitat/, "Available");
+  fireEvent.click(screen.getByRole("checkbox", { name: /Accepto els/ }));
   fireEvent.submit(container.querySelector("form"));
   await screen.findByText("Error enviant el teu missatge.");
 });

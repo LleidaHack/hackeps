@@ -1,3 +1,5 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
+import { ROUTES } from "src/config/routes";
 import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -87,8 +89,8 @@ const ContacteMentorPage = () => {
           className="public-form grid w-full min-w-0 grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2"
         >
           <label className="font-space-mono text-[15px]">
-            Nom complet
-            <input
+            Nom complet <RequiredMark />
+            <input aria-required="true"
               className={fieldClass(errors.name)}
               placeholder="El teu nom complet"
               {...register("name", {
@@ -104,8 +106,8 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="font-space-mono text-[15px]">
-            Correu electrònic
-            <input
+            Correu electrònic <RequiredMark />
+            <input aria-required="true"
               className={fieldClass(errors.email)}
               type="email"
               inputMode="email"
@@ -128,8 +130,8 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="font-space-mono text-[15px]">
-            Àrea d'especialització
-            <select
+            Àrea d'especialització <RequiredMark />
+            <select aria-required="true"
               className={`${fieldClass(errors.specialization)} appearance-none`}
               {...register("specialization", {
                 required:
@@ -158,8 +160,8 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="font-space-mono text-[15px]">
-            Anys d'experiència
-            <select
+            Anys d'experiència <RequiredMark />
+            <select aria-required="true"
               className={`${fieldClass(errors.experience)} appearance-none`}
               {...register("experience", {
                 required: "Si us plau, indica els teus anys d'experiència",
@@ -191,8 +193,8 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="mentor-textarea-field font-space-mono text-[15px]">
-            <span className="mentor-textarea-label">Experiència prèvia com a mentor</span>
-            <textarea
+            <span className="mentor-textarea-label">Experiència prèvia com a mentor <RequiredMark /></span>
+            <textarea aria-required="true"
               className={`${fieldClass(errors.mentorExperience)} min-h-[64px] py-2`}
               placeholder="Has fet de mentor abans? En quin context?"
               {...register("mentorExperience", {
@@ -209,8 +211,8 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="mentor-textarea-field font-space-mono text-[15px]">
-            <span className="mentor-textarea-label">Motivació</span>
-            <textarea
+            <span className="mentor-textarea-label">Motivació <RequiredMark /></span>
+            <textarea aria-required="true"
               className={`${fieldClass(errors.motivation)} min-h-[64px] py-2`}
               placeholder="Què et motiva a ser mentor a HackEPS?"
               {...register("motivation", {
@@ -226,8 +228,8 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="font-space-mono text-[15px] md:col-span-2">
-            Disponibilitat
-            <textarea
+            Disponibilitat <RequiredMark />
+            <textarea aria-required="true"
               className={`${fieldClass(errors.availability)} min-h-[56px] py-2`}
               placeholder="Horaris, dies i modalitat (presencial / online)"
               {...register("availability", {
@@ -241,6 +243,23 @@ const ContacteMentorPage = () => {
               </span>
             )}
           </label>
+
+          <div className="md:col-span-2">
+            <label className="mentor-consent font-space-mono text-[15px]">
+              <input aria-required="true"
+                type="checkbox"
+                className="mt-1 shrink-0 accent-[#ff7430]"
+                disabled={isLoading}
+                aria-invalid={Boolean(errors.termsConditions)}
+                aria-describedby={errors.termsConditions ? "mentor-terms-error" : undefined}
+                {...register("termsConditions", {
+                  required: "Has d'acceptar els termes i condicions",
+                })}
+              />
+              <span>Accepto els <a href={ROUTES.terms} target="_blank" rel="noreferrer" className="text-[#ff7430] underline">termes i condicions</a> <RequiredMark />.</span>
+            </label>
+            {errors.termsConditions && <p id="mentor-terms-error" role="alert" className="mt-2 text-sm text-red-400">{errors.termsConditions.message}</p>}
+          </div>
 
           <button
             className={`mt-2 min-h-[42px] w-full border-0 font-space-mono text-[18px] font-bold text-[#2e2e2e] md:col-span-2 ${
