@@ -53,24 +53,24 @@ const InfoSponsors = ({ id }) => {
 
     return (
       <div className="relative pb-24 pt-12 text-white">
-        <h1 className="m-0 mb-10 text-center font-space-mono text-[64px] font-bold leading-normal tracking-[-1.28px]">
+        <h1 className="m-0 mb-10 px-6 text-center font-space-mono text-[clamp(32px,8vw,64px)] font-bold leading-tight tracking-[-1.28px] [overflow-wrap:anywhere]">
           -{SpnName}-
         </h1>
 
-        <div className="relative mx-auto w-full max-w-[1728px]">
+        <div className="sponsor-logo-stage relative mx-auto h-[280px] w-full max-w-[1728px] sm:h-[321px]">
           <img
             src={cloudWave}
             alt=""
             aria-hidden="true"
             width={1728}
             height={321}
-            className="relative z-10 block h-[321px] w-full object-contain object-center"
+            className="absolute inset-0 z-10 block h-full w-full object-cover object-center"
           />
           <div className="absolute inset-0 z-20 flex items-center justify-center px-8">
             <img
               src={imgLogo}
               alt={`Logo de ${SpnName}`}
-              className="max-h-[180px] w-auto max-w-[55%] object-contain"
+              className="max-h-[180px] w-auto max-w-full object-contain sm:max-w-[55%]"
             />
           </div>
         </div>

@@ -44,7 +44,7 @@ test("registration fills the existing account fields, but never accepts terms fo
       "https://github.com/test",
     ),
   );
-  expect(screen.getByLabelText("Talla de samarreta:")).toHaveValue("XL");
+  expect(screen.getByRole("combobox", { name: "Talla de samarreta:" })).toHaveValue("XL");
   expect(screen.getByPlaceholderText("Estudis")).toHaveValue("Informàtica");
   expect(screen.getByPlaceholderText("Lactosa, gluten, etc.")).toHaveValue(
     "Gluten",
@@ -117,6 +117,6 @@ test("editing a registration preserves event-specific experience instead of rese
   getEventRegistration.mockResolvedValue({ event_id: 26, user_id: 1, shirt_size: "XL", github: "event-github", description: "Projecte de robòtica", food_restrictions: "" });
   render(<Inscripcio />);
   await waitFor(() => expect(screen.getByLabelText("Github:")).toHaveValue("event-github"));
-  expect(screen.getByLabelText("Talla de samarreta:")).toHaveValue("XL");
+  expect(screen.getByRole("combobox", { name: "Talla de samarreta:" })).toHaveValue("XL");
   expect(screen.getByPlaceholderText(/Explica'ns/)).toHaveValue("Projecte de robòtica");
 });

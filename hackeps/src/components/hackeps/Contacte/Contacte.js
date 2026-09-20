@@ -1,3 +1,4 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useEffect, useState } from "react";
 import "src/components/hackeps/Contacte/Contacte.css";
@@ -110,8 +111,8 @@ const ContactePage = () => {
           className="public-form flex w-full min-w-0 flex-col gap-5"
         >
           <label className="font-space-mono text-[16px]">
-            Nom:
-            <input
+            Nom: <RequiredMark />
+            <input aria-required="true"
               className={inputClass(errors.name)}
               placeholder="Nom i cognoms"
               {...register("name", {
@@ -127,8 +128,8 @@ const ContactePage = () => {
           </label>
 
           <label className="font-space-mono text-[16px]">
-            E-mail:
-            <input
+            E-mail: <RequiredMark />
+            <input aria-required="true"
               className={inputClass(errors.email)}
               type="email"
               inputMode="email"
@@ -151,8 +152,8 @@ const ContactePage = () => {
           </label>
 
           <label className="font-space-mono text-[16px]">
-            Títol:
-            <input
+            Títol: <RequiredMark />
+            <input aria-required="true"
               className={inputClass(errors.title)}
               placeholder="Títol de l'anunci"
               {...register("title", {
@@ -168,8 +169,8 @@ const ContactePage = () => {
           </label>
 
           <label className="font-space-mono text-[16px]">
-            Missatge:
-            <textarea
+            Missatge: <RequiredMark />
+            <textarea aria-required="true"
               className={`${inputClass(errors.message)} min-h-[72px] py-2`}
               placeholder="Explica'ns de què ens vols parlar."
               {...register("message", {
