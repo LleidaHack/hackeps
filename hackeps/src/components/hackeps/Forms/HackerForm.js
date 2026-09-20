@@ -1,3 +1,4 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import hackerIllustration from "src/assets/img/home10/marraco-hacker-raw.webp";
 import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import { useState } from "react";
@@ -119,8 +120,8 @@ export const HackerStepperForm = () => {
                       if (await trigger(["firstName", "lastName", "password", "confirmPassword", "birthdate"])) setStep(2);
                     }}>
                       <label>
-                        Nom:
-                        <input
+                        Nom: <RequiredMark />
+                        <input aria-required="true"
                           className={`${errors.firstName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
                           autoComplete="given-name"
                           placeholder="Nom"
@@ -136,8 +137,8 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <label>
-                        Cognoms:
-                        <input
+                        Cognoms: <RequiredMark />
+                        <input aria-required="true"
                           className={`${errors.lastName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
                           autoComplete="family-name"
                           placeholder="Cognoms"
@@ -153,8 +154,8 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <label>
-                        Contrasenya:
-                        <PasswordInput
+                        Contrasenya: <RequiredMark />
+                        <PasswordInput aria-required="true"
                           visibilityLabel="la contrasenya"
                           autoComplete="new-password"
                           className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
@@ -192,8 +193,8 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <label>
-                        Confirma la contrasenya:
-                        <PasswordInput
+                        Confirma la contrasenya: <RequiredMark />
+                        <PasswordInput aria-required="true"
                           visibilityLabel="la confirmació de la contrasenya"
                           autoComplete="new-password"
                           className={`${errors.confirmPassword ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
@@ -213,7 +214,7 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <div>
-                        <label htmlFor="birthdate">Data de naixement:</label>
+                        <label htmlFor="birthdate">Data de naixement: <RequiredMark /></label>
                         <Controller
                           name="birthdate"
                           control={control}
@@ -260,8 +261,8 @@ export const HackerStepperForm = () => {
                     </TitleGeneralized>
                     <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
                       <label>
-                        Àlies:
-                        <input
+                        Àlies: <RequiredMark />
+                        <input aria-required="true"
                           className={`${errors.nickname ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Àlies"
                           {...register("nickname", {
@@ -277,8 +278,8 @@ export const HackerStepperForm = () => {
 
 
                       <label>
-                        Telèfon:
-                        <input
+                        Telèfon: <RequiredMark />
+                        <input aria-required="true"
                           type="tel"
                           autoComplete="tel"
                           className={`${errors.phone ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
@@ -299,8 +300,8 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <label>
-                        Correu electrònic:
-                        <input
+                        Correu electrònic: <RequiredMark />
+                        <input aria-required="true"
                           type="email"
                           autoComplete="email"
                           className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
@@ -332,7 +333,7 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <label className="hacker-signup-consent">
-                        <input
+                        <input aria-required="true"
                           type="checkbox"
                           className="shrink-0"
                           {...register("termsConditions", {
@@ -343,7 +344,7 @@ export const HackerStepperForm = () => {
                           Acceptes els nostres{" "}
                           <a href={ROUTES.terms} className="text-[#ff7430]">
                             termes i condicions
-                          </a>
+                          </a> <RequiredMark />
                           .
                         </p>
                       </label>

@@ -59,41 +59,6 @@ const Identify = () => {
               className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[376px] -translate-x-1/2 object-contain"
             />
             <Link
-              to={ROUTES.contactMentor}
-              className="relative z-10 block w-full no-underline"
-            >
-              <img
-        loading="lazy"
-        decoding="async"
-                src={marracoMentor}
-                alt="MENTOR"
-                width={526}
-                height={523}
-                className="h-auto w-full origin-center object-contain transition-transform duration-300 ease-out hover:rotate-[6deg] hover:scale-105"
-              />
-            </Link>
-          </div>
-          <p
-            className="mt-2 mb-0 text-center font-space-mono text-[28px] font-bold leading-none tracking-[-0.56px] md:text-[40px] lg:text-[48px]"
-            style={{ color: text }}
-          >
-            MENTOR
-          </p>
-        </div>
-
-        <div className="flex flex-col items-center">
-          <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
-            <img
-        loading="lazy"
-        decoding="async"
-              src={mountain}
-              alt=""
-              aria-hidden="true"
-              width={407}
-              height={498}
-              className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[376px] -translate-x-1/2 object-contain"
-            />
-            <Link
               to={ROUTES.hackerForm}
               className="relative z-10 block w-full no-underline"
             >
@@ -113,6 +78,41 @@ const Identify = () => {
             style={{ color: text }}
           >
             HACKER
+          </p>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
+            <img
+        loading="lazy"
+        decoding="async"
+              src={mountain}
+              alt=""
+              aria-hidden="true"
+              width={407}
+              height={498}
+              className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[376px] -translate-x-1/2 object-contain"
+            />
+            <Link
+              to={ROUTES.contactMentor}
+              className="relative z-10 block w-full no-underline"
+            >
+              <img
+        loading="lazy"
+        decoding="async"
+                src={marracoMentor}
+                alt="MENTOR"
+                width={526}
+                height={523}
+                className="h-auto w-full origin-center object-contain transition-transform duration-300 ease-out hover:rotate-[6deg] hover:scale-105"
+              />
+            </Link>
+          </div>
+          <p
+            className="mt-2 mb-0 text-center font-space-mono text-[28px] font-bold leading-none tracking-[-0.56px] md:text-[40px] lg:text-[48px]"
+            style={{ color: text }}
+          >
+            MENTOR
           </p>
         </div>
       </div>

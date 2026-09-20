@@ -1,3 +1,4 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import React, { useEffect } from "react";
 import "src/components/hackeps/Team/Team.css";
 import Container from "react-bootstrap/Container";
@@ -158,8 +159,8 @@ const Team = (props) => {
                 )}
               >
                 <label className="team-field-label">
-                  Codi de l'equip (#XXXXXXXXXX):
-                  <input
+                  Codi de l'equip (#XXXXXXXXXX): <RequiredMark />
+                  <input aria-required="true"
                     className={`${errorsJoinTeam.teamCode ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder="#1234567890"
                     {...registerJoinTeam("teamCode", {
@@ -196,8 +197,8 @@ const Team = (props) => {
               >
                 <h2 id="create-team-title">Crear un equip</h2>
                 <label className="team-field-label">
-                  Nom de l'equip:
-                  <input
+                  Nom de l'equip: <RequiredMark />
+                  <input aria-required="true"
                     className={`${errorsCreateTeam.teamName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder=""
                     {...registerCreateTeam("teamName", {
@@ -212,8 +213,8 @@ const Team = (props) => {
                 </label>
 
                 <label className="team-field-label">
-                  Descripció:
-                  <input
+                  Descripció: <RequiredMark />
+                  <input aria-required="true"
                     className={`${errorsCreateTeam.teamDesc ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder=""
                     {...registerCreateTeam("teamDesc", {
