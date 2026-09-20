@@ -41,7 +41,7 @@ const Records = () => {
         left: end ? 0 : el.scrollLeft + step,
         behavior: end ? "auto" : "smooth",
       });
-    }, 4500);
+    }, 2500);
     return () => clearInterval(timer);
   }, [interacting, reducedMotion, dragging]);
 
