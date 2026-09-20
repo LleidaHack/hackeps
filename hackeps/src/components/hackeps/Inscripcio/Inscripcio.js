@@ -187,7 +187,7 @@ const InscripcioForm = () => {
                 <fieldset className="event-registration-section" disabled={!hackepsEvent || sending}>
                   <legend>Dades de participació</legend>
                 <label className="mb-3">
-                  Què estudies o has estudiat? <RequiredMark />
+                  <RequiredMark /> Què estudies o has estudiat?
                   <input aria-required="true"
                     className={`${errors.studies ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     placeholder="Estudis"
@@ -201,7 +201,7 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  Centre d'estudis: <RequiredMark />
+                  <RequiredMark /> Centre d'estudis:
                   <input aria-required="true"
                     className={`${errors.center ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     placeholder="UdL"
@@ -215,7 +215,7 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  D'on vens? <RequiredMark />
+                  <RequiredMark /> D'on vens?
                   <input aria-required="true"
                     className={`${errors.location ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     placeholder="Lleida, Barcelona, etc."
@@ -231,7 +231,7 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  Talla de samarreta: <RequiredMark />
+                  <RequiredMark /> Talla de samarreta:
                   <select aria-required="true"
                     className={`${errors.size ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     {...register("size", {
@@ -250,7 +250,7 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  Tens alguna restricció alimentària o alèrgia? <RequiredMark />
+                  <RequiredMark /> Tens alguna restricció alimentària o alèrgia?
                   <select aria-required="true"
                     className={`${errors.meets ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base ml-2`}
                     {...register("meets", {
@@ -281,7 +281,7 @@ const InscripcioForm = () => {
                 <label>
                   {!disabledRestrictions && (
                     <div id="foodTextArea">
-                      Quines restriccions o alèrgies tens? <RequiredMark />
+                      <RequiredMark /> Quines restriccions o alèrgies tens?
                       <input aria-required="true"
                         className={`${errors.food && !disabledRestrictions ? "bg-pink-100" : "bg-white"} ${``} py-2 min-h-10 px-2 text-base mt-2`}
                         placeholder="Lactosa, gluten, etc."
@@ -301,7 +301,7 @@ const InscripcioForm = () => {
                 </label>
 
                 <label className="mb-3">
-                  Com ens has conegut? <RequiredMark />
+                  <RequiredMark /> Com ens has conegut?
                   <select aria-required="true"
                     className={`${errors.meet ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base ml-2`}
                     {...register("meet", {
@@ -377,10 +377,10 @@ const InscripcioForm = () => {
                       })}
                     />
                     <p>
-                      Accepto els{" "}
+                      <RequiredMark /> Accepto els{" "}
                       <a href={ROUTES.terms} className="event-registration-link">
                         termes i condicions
-                      </a> <RequiredMark />
+                      </a>
                     </p>
                   </label>
 

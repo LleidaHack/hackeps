@@ -159,7 +159,7 @@ const Team = (props) => {
                 )}
               >
                 <label className="team-field-label">
-                  Codi de l'equip (#XXXXXXXXXX): <RequiredMark />
+                  <RequiredMark /> Codi de l'equip (#XXXXXXXXXX):
                   <input aria-required="true"
                     className={`${errorsJoinTeam.teamCode ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder="#1234567890"
@@ -197,7 +197,7 @@ const Team = (props) => {
               >
                 <h2 id="create-team-title">Crear un equip</h2>
                 <label className="team-field-label">
-                  Nom de l'equip: <RequiredMark />
+                  <RequiredMark /> Nom de l'equip:
                   <input aria-required="true"
                     className={`${errorsCreateTeam.teamName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder=""
@@ -213,7 +213,7 @@ const Team = (props) => {
                 </label>
 
                 <label className="team-field-label">
-                  Descripció: <RequiredMark />
+                  <RequiredMark /> Descripció:
                   <input aria-required="true"
                     className={`${errorsCreateTeam.teamDesc ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder=""

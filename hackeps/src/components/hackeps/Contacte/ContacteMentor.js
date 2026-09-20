@@ -89,7 +89,7 @@ const ContacteMentorPage = () => {
           className="public-form grid w-full min-w-0 grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2"
         >
           <label className="font-space-mono text-[15px]">
-            Nom complet <RequiredMark />
+            <RequiredMark /> Nom complet
             <input aria-required="true"
               className={fieldClass(errors.name)}
               placeholder="El teu nom complet"
@@ -106,7 +106,7 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="font-space-mono text-[15px]">
-            Correu electrònic <RequiredMark />
+            <RequiredMark /> Correu electrònic
             <input aria-required="true"
               className={fieldClass(errors.email)}
               type="email"
@@ -130,7 +130,7 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="font-space-mono text-[15px]">
-            Àrea d'especialització <RequiredMark />
+            <RequiredMark /> Àrea d'especialització
             <select aria-required="true"
               className={`${fieldClass(errors.specialization)} appearance-none`}
               {...register("specialization", {
@@ -160,7 +160,7 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="font-space-mono text-[15px]">
-            Anys d'experiència <RequiredMark />
+            <RequiredMark /> Anys d'experiència
             <select aria-required="true"
               className={`${fieldClass(errors.experience)} appearance-none`}
               {...register("experience", {
@@ -193,7 +193,7 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="mentor-textarea-field font-space-mono text-[15px]">
-            <span className="mentor-textarea-label">Experiència prèvia com a mentor <RequiredMark /></span>
+            <span className="mentor-textarea-label"><RequiredMark /> Experiència prèvia com a mentor</span>
             <textarea aria-required="true"
               className={`${fieldClass(errors.mentorExperience)} min-h-[64px] py-2`}
               placeholder="Has fet de mentor abans? En quin context?"
@@ -211,7 +211,7 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="mentor-textarea-field font-space-mono text-[15px]">
-            <span className="mentor-textarea-label">Motivació <RequiredMark /></span>
+            <span className="mentor-textarea-label"><RequiredMark /> Motivació</span>
             <textarea aria-required="true"
               className={`${fieldClass(errors.motivation)} min-h-[64px] py-2`}
               placeholder="Què et motiva a ser mentor a HackEPS?"
@@ -228,7 +228,7 @@ const ContacteMentorPage = () => {
           </label>
 
           <label className="font-space-mono text-[15px] md:col-span-2">
-            Disponibilitat <RequiredMark />
+            <RequiredMark /> Disponibilitat
             <textarea aria-required="true"
               className={`${fieldClass(errors.availability)} min-h-[56px] py-2`}
               placeholder="Horaris, dies i modalitat (presencial / online)"
@@ -256,7 +256,7 @@ const ContacteMentorPage = () => {
                   required: "Has d'acceptar els termes i condicions",
                 })}
               />
-              <span>Accepto els <a href={ROUTES.terms} target="_blank" rel="noreferrer" className="text-[#ff7430] underline">termes i condicions</a> <RequiredMark />.</span>
+              <span><RequiredMark /> Accepto els <a href={ROUTES.terms} target="_blank" rel="noreferrer" className="text-[#ff7430] underline">termes i condicions</a>.</span>
             </label>
             {errors.termsConditions && <p id="mentor-terms-error" role="alert" className="mt-2 text-sm text-red-400">{errors.termsConditions.message}</p>}
           </div>

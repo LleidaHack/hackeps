@@ -40,7 +40,7 @@ const ForgetPassword = ({ nextScreen }) => {
               className="public-form flex w-full flex-col gap-3"
             >
               <label className="text-white">
-                Introdueix el teu correu electrònic <RequiredMark />
+                <RequiredMark /> Introdueix el teu correu electrònic
                 <input aria-required="true"
                   className={`${errors.email ? "bg-pink-100" : "bg-white"} mt-2 min-h-10 w-full px-2 text-base text-black`}
                   placeholder="Correu electrònic"
