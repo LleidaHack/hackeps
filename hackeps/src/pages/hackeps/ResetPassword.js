@@ -65,7 +65,7 @@ export default function ResetPassword() {
           >
 
             <label className="mb-3 w-full text-base text-white">
-               <RequiredMark /><p className="mb-2">Nova contrasenya</p>
+             <p className="mb-2"><RequiredMark /> Nova contrasenya</p>
               <input aria-required="true"
                 type="password"
                 required
@@ -77,7 +77,7 @@ export default function ResetPassword() {
               />
             </label>
             <label className="mb-3 w-full text-base text-white">
-               <RequiredMark /><p className="mb-2">Confirmar contrasenya</p>
+             <p className="mb-2"><RequiredMark /> Confirmar contrasenya</p>
               <input aria-required="true"
                 type="password"
                 required

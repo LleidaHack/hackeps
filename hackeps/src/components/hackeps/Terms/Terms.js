@@ -46,15 +46,17 @@ const TermsComponent = () => {
 
         <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Requisits per a participar</h2>
         <p className="text-justify leading-relaxed text-white/90">
-          És apta per a participar qualsevol persona major d'edat amb DNI/NIF o
-          passaport en vigor que, conforme la legislació espanyola, acrediti la
-          identitat i edat del participant. Així mateix, és apta per a
-          participar qualsevol persona d'entre 16 i 18 anys que presenti aquesta
-          documentació juntament amb un aval signat pel seu/s tutor/és
-          lleial/és.
+          Per participar, cal ser estudiant o haver finalitzat els estudis
+          durant els dos anys anteriors a l'inici de l'esdeveniment.
           <br />
-          L'ORGANITZACIÓ exclourà a qualsevol participant no s'ajustin a la seva
-          identitat real o que incompleixin qualsevol altra condició exigida.
+          Poden participar les persones majors d'edat amb DNI/NIF o passaport
+          en vigor que acrediti la seva identitat i edat conforme a la
+          legislació espanyola. També poden participar les persones de 16 i
+          17 anys que presentin aquesta documentació juntament amb una
+          autorització signada pels seus tutors legals.
+          <br />
+          L'ORGANITZACIÓ exclourà qualsevol participant que no acrediti la seva
+          identitat real o que incompleixi qualsevol altra condició exigida.
         </p>
 
         <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Admissió dels participants</h2>
@@ -63,9 +65,9 @@ const TermsComponent = () => {
           termes i condicions, i es farà des de la WEB DE L'ESDEVENIMENT
           anteriorment esmentada.
           <br />
-          El període d'inscripció es tancarà el 17 de novembre, podent aquesta
-          data ser avançada en cas que s'hagi cobert el contingent de
-          participants abans del dia 17 de novembre.
+          El període d'inscripció es tancarà, com a molt tard, el 23 de
+          novembre. Si abans d'aquesta data s'han cobert totes les places
+          disponibles, les inscripcions es tancaran anticipadament.
           <br />
           No existeix cap cost associat a la participació en la HACKATÓ, sent
           totalment gratuïta la inscripció, encara que sí obligatòria. A més,

@@ -53,7 +53,7 @@ const Slot = ({ company, tier }) => (
     />
     {company?.image ? (
       <img
-        loading="lazy"
+        loading="eager"
         decoding="async"
         src={company.image}
         alt={company.name}
