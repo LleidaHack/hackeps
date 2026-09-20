@@ -78,3 +78,56 @@ require backend work; the existing backend has no logout route. This change only
 clears this app's local session and prevents a pending refresh from restoring it.
 Public source maps alone were not treated as a critical vulnerability. The claimed
 orange-on-white contrast issue does not apply to the dark signup page.
+
+## Second pass (19 September 2026)
+
+Closes the remaining items from `docs/AUDITORIA.md` (the September audit against
+production), leaving only the ones that need backend or hosting decisions.
+
+- Launch-pending routing: unknown paths redirect to `/` instead of rendering an
+  empty page (`src/App.js`). On the full site, legacy `/hackeps/...` links are
+  redirected to the same route without the prefix (`src/MainRoutes.js`).
+  `public/sitemap.xml` lists only the routes that exist today.
+- Hosting headers: `vercel.json` adds a Content-Security-Policy, `X-Frame-Options`,
+  `X-Content-Type-Options`, `Referrer-Policy` and `Permissions-Policy`;
+  `nginx.conf` mirrors them for the Docker image. Font Awesome is now appended
+  from `src/index.js` (full site only), which removes the inline `onload`
+  handler the CSP would otherwise have to allow.
+- Social metadata: absolute `og:url`/`og:image` (`public/og-image.png`,
+  1200×630), `og:type`, `og:locale`, Twitter card; `manifest.json` and the PWA
+  icons now describe HackEPS instead of the Create React App template.
+- Waiting page: `<h1>HackEPS 2026</h1>` with the dates, calendar-accurate
+  countdown (`src/modules/countdown.js`) against fixed edition dates in
+  `src/config/edition.js`, a terminal message during and after the event
+  instead of `0 mesos 0 dies 0 hores`, one tick per minute, singular labels,
+  accessible name on the X link, `rel="noreferrer"` on every `target="_blank"`,
+  and the castle no longer clipped by the text panel on large screens.
+- `Button` defaults to `type="button"`, so a button inside a form only submits
+  when it says `type="submit"`.
+- Header image check no longer uses an always-true condition; Hero2 uses the
+  2026 logo; decorative images carry `alt=""`; stray `console.log` removed.
+- Dead code: 31 never-imported modules, 9 stylesheets and 4 images they alone
+  referenced were deleted (all recoverable from git history).
+- `.env.sample` matches the code (`REACT_APP_DEBUG` is compared to `"true"`,
+  `REACT_APP_LAUNCH_PENDING` documented, unused `REACT_APP_API_KEY` removed).
+- CI: `.github/workflows/ci.yml` at the repository root (GitHub ignores
+  workflows under `hackeps/.github`) runs tests and both builds on pull
+  requests; the three unreachable workflows were removed. `Dockerfile` builds
+  the checked-out sources with pnpm and promotes every `REACT_APP_*` build
+  argument to the environment.
+
+Verified locally: 34 suites / 93 tests pass; both builds compile; the
+waiting-page build redirects `/hackeps`, `/hackeps/faq` and `/login` to `/`
+and renders the heading and countdown; the full-site build redirects
+`/hackeps/faq` to `/faq` and loads Font Awesome with its integrity hash.
+
+### Still open
+
+- `resetPassword`, `resendVerification` and `verify` send the e-mail address or
+  token as query parameters. Moving them to the JSON body needs the matching
+  backend change first (`confirmResetPassword` already made that move).
+- Server-side session revocation on logout needs a backend logout route.
+- The Chrome "preloaded but not used" warning for the Space Mono files is
+  cosmetic: each file is requested once and reports `status: loaded`.
+- Cookie-based (`HttpOnly`) session storage is a backend/frontend contract
+  change and is out of scope here.

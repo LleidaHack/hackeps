@@ -317,7 +317,7 @@ const WaitingComponent = () => {
 
         <div className="absolute bottom-0 w-screen h-36 z-20 overflow-hidden w-screen ">
           <div className="flex flex-row w-full  h-full w-screen ">
-            <img src={camaleon} className="animated-cham h-full" />
+            <img src={camaleon} alt="" className="animated-cham h-full" />
           </div>
         </div>
       </div>

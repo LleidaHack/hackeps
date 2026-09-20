@@ -1,10 +1,16 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import React, { Suspense, lazy, useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import WaitingPage from "src/pages/hackeps/WaitingPage";
 import "src/styles/styles.css";
 import "src/styles/ambient-clouds.css";
 import "src/styles/page-transitions.css";
+import SeoMetadata from "src/components/SeoMetadata";
 import { ROUTES } from "src/config/routes";
 
 // Evaluated at build time (webpack inlines process.env), so the branch that is
@@ -25,6 +31,7 @@ export default function App() {
   return (
     <div className="App overflow-x-clip">
       <Router future={{ v7_startTransition: true }}>
+        <SeoMetadata />
         {LAUNCH_PENDING ? (
           <Routes>
             <Route path="/" element={<WaitingPage />} />
@@ -60,6 +67,9 @@ export default function App() {
                 </Suspense>
               }
             />
+            {/* Any other path (old /hackeps/... links, typos) goes home instead
+                of rendering an empty page. */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         ) : (
           <Suspense

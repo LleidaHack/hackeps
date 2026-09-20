@@ -328,3 +328,7 @@ export function updateEventSponsor(eventId, companyId, tier, displayOrder = 0) {
   return fetchPlus({ Url: `/event/${eventId}/sponsors/${companyId}`, Method: "PATCH",
     hasUserauth: true, Body: { tier, display_order: displayOrder } });
 }
+
+export async function getEventRegistration(eventId, hackerId) {
+  return fetchPlus({ Url: `/event/${eventId}/registration/${hackerId}`, hasUserauth: true });
+}

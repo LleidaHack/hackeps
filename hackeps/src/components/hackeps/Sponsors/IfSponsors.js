@@ -111,7 +111,6 @@ const InfoSponsors = ({ id }) => {
     );
   }
 
-  console.log("El nombre del sponsor es: ", infoCompany.name);
 
   let errorImages = [
     "https://media.tenor.com/Wv6zVQPZFtcAAAAC/error.gif",
