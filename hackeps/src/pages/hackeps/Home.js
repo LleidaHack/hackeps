@@ -9,7 +9,7 @@ import Identify from "src/components/hackeps/Home/Identify.js";
 import Newsletter from "src/components/hackeps/Home/Newsletter.js";
 import Activities from "src/components/hackeps/Home/Activities.js";
 import Records from "src/components/hackeps/Home/Records.js";
-import { getHackeps } from "src/services/EventService";
+import { getHackeps, getEventSponsors } from "src/services/EventService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
@@ -45,6 +45,8 @@ const Home = () => {
           setEventUnavailable(true);
           return;
         }
+        // Start loading logos even while the optional intro animation is shown.
+        if (response.id) void getEventSponsors(response.id).catch(() => {});
         const start = new Date(response.start_date);
         const end = new Date(response.end_date);
         setStartDate(start);

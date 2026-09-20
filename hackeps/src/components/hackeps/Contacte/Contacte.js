@@ -111,7 +111,7 @@ const ContactePage = () => {
           className="public-form flex w-full min-w-0 flex-col gap-5"
         >
           <label className="font-space-mono text-[16px]">
-            Nom: <RequiredMark />
+            <RequiredMark /> Nom:
             <input aria-required="true"
               className={inputClass(errors.name)}
               placeholder="Nom i cognoms"
@@ -128,7 +128,7 @@ const ContactePage = () => {
           </label>
 
           <label className="font-space-mono text-[16px]">
-            E-mail: <RequiredMark />
+            <RequiredMark /> E-mail:
             <input aria-required="true"
               className={inputClass(errors.email)}
               type="email"
@@ -152,7 +152,7 @@ const ContactePage = () => {
           </label>
 
           <label className="font-space-mono text-[16px]">
-            Títol: <RequiredMark />
+            <RequiredMark /> Títol:
             <input aria-required="true"
               className={inputClass(errors.title)}
               placeholder="Títol de l'anunci"
@@ -169,7 +169,7 @@ const ContactePage = () => {
           </label>
 
           <label className="font-space-mono text-[16px]">
-            Missatge: <RequiredMark />
+            <RequiredMark /> Missatge:
             <textarea aria-required="true"
               className={`${inputClass(errors.message)} min-h-[72px] py-2`}
               placeholder="Explica'ns de què ens vols parlar."

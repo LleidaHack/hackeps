@@ -55,7 +55,7 @@ const LoginForm = ({ nextScreen }) => {
       <form className="public-form" onSubmit={handleSubmit(submit)}>
         <div className="text-base mt-7 w-full">
           <label className="w-full text-base">
-             <RequiredMark /><p className="text-white mb-2">Correu:</p>
+           <p className="text-white mb-2"><RequiredMark /> Correu:</p>
             <input aria-required="true"
               className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base`}
               type="email"
@@ -74,7 +74,7 @@ const LoginForm = ({ nextScreen }) => {
 
         <div className="text-base mt-3">
           <label className="w-full text-base">
-             <RequiredMark /><p className="text-white mb-2">Contrasenya:</p>
+           <p className="text-white mb-2"><RequiredMark /> Contrasenya:</p>
             <input aria-required="true"
               type="password"
               autoComplete="current-password"

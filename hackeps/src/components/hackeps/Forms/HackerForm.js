@@ -120,7 +120,7 @@ export const HackerStepperForm = () => {
                       if (await trigger(["firstName", "lastName", "password", "confirmPassword", "birthdate"])) setStep(2);
                     }}>
                       <label>
-                        Nom: <RequiredMark />
+                        <RequiredMark /> Nom:
                         <input aria-required="true"
                           className={`${errors.firstName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
                           autoComplete="given-name"
@@ -137,7 +137,7 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <label>
-                        Cognoms: <RequiredMark />
+                        <RequiredMark /> Cognoms:
                         <input aria-required="true"
                           className={`${errors.lastName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
                           autoComplete="family-name"
@@ -154,7 +154,7 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <label>
-                        Contrasenya: <RequiredMark />
+                        <RequiredMark /> Contrasenya:
                         <PasswordInput aria-required="true"
                           visibilityLabel="la contrasenya"
                           autoComplete="new-password"
@@ -193,7 +193,7 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <label>
-                        Confirma la contrasenya: <RequiredMark />
+                        <RequiredMark /> Confirma la contrasenya:
                         <PasswordInput aria-required="true"
                           visibilityLabel="la confirmació de la contrasenya"
                           autoComplete="new-password"
@@ -214,7 +214,7 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <div>
-                        <label htmlFor="birthdate">Data de naixement: <RequiredMark /></label>
+                        <label htmlFor="birthdate"><RequiredMark /> Data de naixement:</label>
                         <Controller
                           name="birthdate"
                           control={control}
@@ -261,7 +261,7 @@ export const HackerStepperForm = () => {
                     </TitleGeneralized>
                     <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
                       <label>
-                        Àlies: <RequiredMark />
+                        <RequiredMark /> Àlies:
                         <input aria-required="true"
                           className={`${errors.nickname ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                           placeholder="Àlies"
@@ -278,7 +278,7 @@ export const HackerStepperForm = () => {
 
 
                       <label>
-                        Telèfon: <RequiredMark />
+                        <RequiredMark /> Telèfon:
                         <input aria-required="true"
                           type="tel"
                           autoComplete="tel"
@@ -300,7 +300,7 @@ export const HackerStepperForm = () => {
                       </label>
 
                       <label>
-                        Correu electrònic: <RequiredMark />
+                        <RequiredMark /> Correu electrònic:
                         <input aria-required="true"
                           type="email"
                           autoComplete="email"
@@ -341,10 +341,10 @@ export const HackerStepperForm = () => {
                           })}
                         />
                         <p>
-                          Acceptes els nostres{" "}
+                          <RequiredMark /> Acceptes els nostres{" "}
                           <a href={ROUTES.terms} className="text-[#ff7430]">
                             termes i condicions
-                          </a> <RequiredMark />
+                          </a>
                           .
                         </p>
                       </label>
