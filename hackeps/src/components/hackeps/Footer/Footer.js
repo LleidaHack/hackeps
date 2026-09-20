@@ -59,7 +59,7 @@ const Footer = () => {
         Made with ❤️ by{" "}
         <a
           className="no-underline hover:font-bold text-textPrimaryHackeps"
-          href="https://lleidahack.dev/"
+          href="https://hackeps.dev/"
           target="_blank"
           rel="noopener noreferrer"
         >

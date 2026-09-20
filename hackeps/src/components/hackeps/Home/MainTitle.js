@@ -17,7 +17,7 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
 
   async function handleShow() {
     if (hackDay) {
-      window.location.href = "https://live.lleidahack.dev";
+      window.location.href = "https://live.hackeps.dev";
       return;
     }
 

@@ -41,7 +41,7 @@ const TermsComponent = () => {
           <br />
           La informació actualitzada sobre l'agenda i els patrocinadors de
           l'esdeveniment és farà pública al seu degut temps en la WEB DE
-          L'ESDEVENIMENT: https://lleidahack.dev/hackeps/
+          L'ESDEVENIMENT: https://hackeps.dev/
         </p>
 
         <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Requisits per a participar</h2>

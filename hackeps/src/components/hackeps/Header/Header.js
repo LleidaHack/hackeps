@@ -167,9 +167,9 @@ const Header = () => {
             Aquesta pàgina és de proves. La pàgina de la HackEPS 2026 és{" "}
             <a
               className="primaryHackeps"
-              href="https://www.lleidahack.dev/hackeps"
+              href="https://hackeps.dev"
             >
-              https://www.lleidahack.dev/hackeps
+              https://hackeps.dev
             </a>
           </div>
         </nav>

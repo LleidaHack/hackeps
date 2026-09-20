@@ -139,7 +139,7 @@ const Waiting = () => {
 
         <div className="text-[10px] md:text-xs text-gray-800 font-bold flex flex-col md:flex-row items-center gap-1 md:gap-4">
           <p>
-            Made with <span className="text-black">❤</span> by <a href="https://www.lleidahack.dev/" target="_blank" rel="noreferrer" className="underline underline-offset-2 text-black">LleidaHack</a>
+            Made with <span className="text-black">❤</span> by <a href="https://hackeps.dev/" target="_blank" rel="noreferrer" className="underline underline-offset-2 text-black">LleidaHack</a>
           </p>
           <p>
             Powered By <a href="https://clouding.io/" target="_blank" rel="noreferrer" className="underline underline-offset-2 text-black">Clouding.io</a>
