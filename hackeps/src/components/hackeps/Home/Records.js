@@ -20,7 +20,6 @@ const Records = () => {
   const drag = useRef({ active: false, startX: 0, scrollLeft: 0 });
   const [dragging, setDragging] = useState(false);
   const [items] = useState(() => shufflePhotos(GALLERY_ITEMS));
-  const [paused, setPaused] = useState(false);
   const [interacting, setInteracting] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   useEffect(() => {
@@ -31,7 +30,7 @@ const Records = () => {
     return () => media?.removeEventListener?.("change", update);
   }, []);
   useEffect(() => {
-    if (paused || interacting || reducedMotion || dragging) return;
+    if (interacting || reducedMotion || dragging) return;
     const timer = setInterval(() => {
       const el = scrollerRef.current;
       if (!el || document.hidden) return;
@@ -44,7 +43,7 @@ const Records = () => {
       });
     }, 4500);
     return () => clearInterval(timer);
-  }, [paused, interacting, reducedMotion, dragging]);
+  }, [interacting, reducedMotion, dragging]);
 
   const startDrag = (e) => {
     const el = scrollerRef.current;
@@ -107,19 +106,6 @@ const Records = () => {
         onTouchStart={() => setInteracting(true)}
         onTouchEnd={() => setInteracting(false)}
       >
-        <button
-          type="button"
-          onClick={() => setPaused((value) => !value)}
-          aria-pressed={paused}
-          disabled={reducedMotion}
-          className="relative z-20 mx-4 mb-2 rounded border border-white bg-transparent px-4 py-2 text-sm text-white min-h-[44px]"
-        >
-          {reducedMotion
-            ? "Moviment automàtic desactivat"
-            : paused
-              ? "Reprèn les fotografies"
-              : "Pausa les fotografies"}
-        </button>
         <svg
           className="pointer-events-none absolute left-0 top-[96px] md:top-[108px] h-[36px] w-full"
           viewBox="0 0 1728 36"
