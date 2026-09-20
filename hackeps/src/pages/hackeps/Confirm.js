@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import Header from "src/components/hackeps/Header/Header.js";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 import ConfirmAssistance from "src/components/hackeps/ConfirmAssistance/ConfirmAssistance";
-import Footer from "src/components/hackeps/Footer/Footer.js";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ConfirmAssistancePage = (props) => {
@@ -17,18 +16,14 @@ const ConfirmAssistancePage = (props) => {
     }
   }, [confirm, token, navigate]);
 
+  if (!confirm || !token) {
+    return null;
+  }
+
   return (
-    <div>
-      {confirm && token ? (
-        <>
-          <Header />
-          <ConfirmAssistance confirm={confirm} token={token} />
-          <Footer />
-        </>
-      ) : (
-        <></>
-      )}
-    </div>
+    <DarkPage>
+      <ConfirmAssistance confirm={confirm} token={token} />
+    </DarkPage>
   );
 };
 

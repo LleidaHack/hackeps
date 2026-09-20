@@ -1,9 +1,9 @@
 import React from "react";
 import HSkeleton from "../LoadingSkeleton/HSkeleton";
-import def from "src/imgs/default.png";
+import def from "src/assets/img/home10/marraco-mentor-raw.webp";
 
 function is_not_empty(icon) {
-  return !(icon === "string" || icon === "");
+  return typeof icon === "string" && icon.trim() !== "" && icon !== "string";
 }
 
 const StandardPfp = ({ hacker, bgcolor, extra_id, border, is_profile }) => {
@@ -77,7 +77,7 @@ const ProfilePic = ({
           <></>
         )
       ) : (
-        <HSkeleton height={"150px"} width={"150px"} circle={true} />
+        <span className={is_profile ? "profile-avatar-skeleton" : "inline-block"} style={is_profile ? undefined : { width: 150, height: 150 }} aria-label="Carregant la foto de perfil"><HSkeleton height="100%" width="100%" circle={true} /></span>
       )}
     </>
   );

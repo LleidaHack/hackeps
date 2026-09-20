@@ -1,15 +1,12 @@
 import React from "react";
-import Header from "src/components/hackeps/Header/Header";
-import Footer from "src/components/hackeps/Footer/Footer";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 import Error404Container from "src/components/hackeps/Error404/Error404Container";
 
 const Error404 = () => {
   return (
-    <div>
-      <Header />
+    <DarkPage minHeight={780}>
       <Error404Container />
-      <Footer />
-    </div>
+    </DarkPage>
   );
 };
 

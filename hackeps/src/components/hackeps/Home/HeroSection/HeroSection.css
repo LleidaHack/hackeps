@@ -1,0 +1,435 @@
+/* ============================================
+   HeroSection — HackEPS 10ª Edició
+   Sky + Bunting + Banner + Clouds + Sea Waves
+   ============================================ */
+
+/* ---------- Sky background (Figma day: #94cbf5) ---------- */
+.hero-sky {
+  background: #94cbf5;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  padding-bottom: 6rem;
+}
+
+.hero-bunting {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 20;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.hero-clouds {
+  pointer-events: none;
+}
+
+.hero-cloud {
+  position: absolute;
+  height: auto;
+  z-index: 5;
+  object-fit: contain;
+}
+
+.hero-cloud-1 {
+  width: min(425px, 38vw);
+  top: 18%;
+  right: 2%;
+}
+
+.hero-cloud-2 {
+  width: min(435px, 42vw);
+  bottom: 22%;
+  left: 2%;
+}
+
+.hero-cloud-3 {
+  width: min(368px, 34vw);
+  bottom: 8%;
+  right: 6%;
+}
+
+@media (max-width: 768px) {
+  .hero-cloud-1 { width: 42vw; top: 14%; }
+  .hero-cloud-2 { width: 46vw; bottom: 28%; }
+  .hero-cloud-3 { display: none; }
+}
+
+/* ---------- Bunting / Banderines ---------- */
+.bunting-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.bunting-rope {
+  position: absolute;
+  top: 28px;
+  left: -2%;
+  width: 104%;
+  height: 2px;
+  background: #888;
+  z-index: 1;
+  transform: rotate(1.5deg);
+}
+
+.bunting-flags {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 2%;
+  position: relative;
+  z-index: 2;
+}
+
+.bunting-flag {
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 32px solid currentColor;
+  transform-origin: top center;
+  animation: bunting-sway 3s ease-in-out infinite;
+  margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+  .bunting-flag {
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 42px solid currentColor;
+  }
+}
+
+.bunting-flag:nth-child(odd) {
+  animation-delay: -1.5s;
+}
+
+.bunting-flag:nth-child(3n) {
+  animation-delay: -0.75s;
+}
+
+@keyframes bunting-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+/* ---------- Orange Banner Ribbon ---------- */
+.banner-ribbon {
+  position: relative;
+  display: inline-block;
+  background: #F28C28;
+  color: white;
+  padding: 12px 60px;
+  font-size: 1.4rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-align: center;
+  z-index: 15;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: 'Oswald', 'Arial Black', sans-serif;
+}
+
+.banner-ribbon::before,
+.banner-ribbon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 30px;
+  height: 100%;
+}
+
+.banner-ribbon::before {
+  left: -28px;
+  background: #F28C28;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+.banner-ribbon::after {
+  right: -28px;
+  background: #F28C28;
+  clip-path: polygon(0 0, 0 100%, 100% 50%);
+}
+
+@media (max-width: 768px) {
+  .banner-ribbon {
+    font-size: 0.95rem;
+    padding: 10px 36px;
+    letter-spacing: 2px;
+  }
+  .banner-ribbon::before,
+  .banner-ribbon::after {
+    width: 20px;
+  }
+  .banner-ribbon::before {
+    left: -18px;
+  }
+  .banner-ribbon::after {
+    right: -18px;
+  }
+}
+
+/* ---------- Clouds ---------- */
+.cloud {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  filter: blur(1px);
+  opacity: 0.95;
+}
+
+.cloud::before,
+.cloud::after {
+  content: '';
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+}
+
+.cloud-1 {
+  width: 120px;
+  height: 45px;
+  top: 20%;
+  right: 8%;
+  animation: cloud-drift-1 45s linear infinite;
+}
+
+.cloud-1::before {
+  width: 55px;
+  height: 55px;
+  top: -28px;
+  left: 18px;
+}
+
+.cloud-1::after {
+  width: 40px;
+  height: 40px;
+  top: -18px;
+  left: 58px;
+}
+
+.cloud-2 {
+  width: 160px;
+  height: 55px;
+  top: 15%;
+  right: 18%;
+  animation: cloud-drift-2 65s linear infinite;
+  animation-delay: -20s;
+}
+
+.cloud-2::before {
+  width: 70px;
+  height: 70px;
+  top: -35px;
+  left: 25px;
+}
+
+.cloud-2::after {
+  width: 50px;
+  height: 50px;
+  top: -22px;
+  left: 75px;
+}
+
+.cloud-3 {
+  width: 100px;
+  height: 35px;
+  top: 25%;
+  left: 5%;
+  animation: cloud-drift-3 55s linear infinite;
+  animation-delay: -10s;
+}
+
+.cloud-3::before {
+  width: 45px;
+  height: 45px;
+  top: -22px;
+  left: 15px;
+}
+
+.cloud-3::after {
+  width: 35px;
+  height: 35px;
+  top: -15px;
+  left: 48px;
+}
+
+.cloud-4 {
+  width: 140px;
+  height: 48px;
+  top: 12%;
+  left: 60%;
+  animation: cloud-drift-4 70s linear infinite;
+  animation-delay: -30s;
+}
+
+.cloud-4::before {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: 20px;
+}
+
+.cloud-4::after {
+  width: 45px;
+  height: 45px;
+  top: -20px;
+  left: 68px;
+}
+
+@keyframes cloud-drift-1 {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(40px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes cloud-drift-2 {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-60px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes cloud-drift-3 {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(50px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes cloud-drift-4 {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-40px); }
+  100% { transform: translateX(0); }
+}
+
+/* Mobile cloud adjustments */
+@media (max-width: 768px) {
+  .cloud-1 { width: 80px; height: 30px; top: 18%; right: 5%; }
+  .cloud-1::before { width: 35px; height: 35px; top: -18px; left: 12px; }
+  .cloud-1::after { width: 28px; height: 28px; top: -12px; left: 40px; }
+
+  .cloud-2 { width: 100px; height: 36px; top: 12%; right: 20%; }
+  .cloud-2::before { width: 45px; height: 45px; top: -22px; left: 18px; }
+  .cloud-2::after { width: 32px; height: 32px; top: -14px; left: 50px; }
+
+  .cloud-3 { width: 70px; height: 24px; top: 22%; left: 3%; }
+  .cloud-3::before { width: 30px; height: 30px; top: -15px; left: 10px; }
+  .cloud-3::after { width: 22px; height: 22px; top: -10px; left: 35px; }
+
+  .cloud-4 { display: none; }
+}
+
+/* ---------- Logo container ---------- */
+.hero-logo-container {
+  position: relative;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-logo-img {
+  max-width: 320px;
+  width: 70%;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+  animation: float-logo 5s ease-in-out infinite;
+}
+
+@keyframes float-logo {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@media (min-width: 768px) {
+  .hero-logo-img {
+    max-width: 460px;
+    width: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-logo-img {
+    max-width: 520px;
+  }
+}
+
+/* ---------- CTA Button ---------- */
+.hero-cta-btn {
+  position: relative;
+  z-index: 20;
+  display: inline-block;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background: #ff7430;
+  color: #2e2e2e;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  font-family: 'Space Mono', monospace;
+}
+
+.hero-cta-btn:hover {
+  background: #e86828;
+  color: #2e2e2e;
+  transform: translateY(-2px);
+}
+
+/* ---------- Sea / Waves ---------- */
+.hero-sea {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.wave-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Countdown section ---------- */
+.hero-countdown {
+  background: white;
+  padding: 2rem 0;
+  position: relative;
+  z-index: 12;
+}
+
+.hero-countdown .countdown-timer {
+  color: #1a1a1a;
+  font-family: "Space Mono", monospace;
+}
+
+/* ---------- MLH Badge ---------- */
+.mlh-badge {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  z-index: 30;
+  width: 80px;
+}
+
+.mlh-badge img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .mlh-badge {
+    width: 100px;
+    left: 30px;
+  }
+}

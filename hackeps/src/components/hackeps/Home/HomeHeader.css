@@ -1,0 +1,22 @@
+.mobile-navigation {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition: grid-template-rows 240ms ease, opacity 180ms ease, visibility 0s 240ms;
+}
+
+.mobile-navigation--open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition: grid-template-rows 240ms ease, opacity 180ms ease, visibility 0s;
+}
+
+@media (min-width: 1024px) {
+  .mobile-navigation { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-navigation { transition: none; }
+}

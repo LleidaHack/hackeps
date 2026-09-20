@@ -10,14 +10,15 @@ const CarruselLogos = () => {
   useEffect(() => {
     async function fetchCompanies() {
       const companies = await getAllCompanies();
-      const images = companies
+      const images = (Array.isArray(companies) ? companies : [])
         .filter(
           (company) =>
-            company.image !== "string" && company.image.trim() !== "",
+            typeof company.image === "string" &&
+            company.image !== "string" &&
+            company.image.trim() !== "",
         )
         .map((company) => company.image);
       setLogos(images);
-      console.log(images);
     }
     fetchCompanies();
   }, []);

@@ -1,9 +1,25 @@
+import { HACKEPS_YEAR } from "src/config/edition";
 import { fetchPlus } from "src/modules/fetchModule";
 
-export async function getHackeps() {
-  return fetchPlus({
-    Url: "/event/get_hackeps",
-  });
+// Share public edition data across routes; never fall back to another year.
+let editionRequest;
+let editionExpires = 0;
+export function getHackeps() {
+  if (!editionRequest || Date.now() >= editionExpires) {
+    editionExpires = Date.now() + 60000;
+    editionRequest = getHackepsByYear(HACKEPS_YEAR).then(event => {
+      if (!event?.id || !event.start_date || !event.end_date ||
+          Number(event.start_date.slice(0, 4)) !== HACKEPS_YEAR ||
+          !Number.isFinite(Date.parse(event.start_date)) ||
+          !Number.isFinite(Date.parse(event.end_date)) ||
+          Date.parse(event.end_date) < Date.parse(event.start_date)) {
+        editionExpires = 0;
+        return { errCode: event?.errCode || 404, errMssg: "Configured edition unavailable" };
+      }
+      return event;
+    });
+  }
+  return editionRequest;
 }
 
 export async function getHackepsByYear(year) {
@@ -73,6 +89,13 @@ export async function getEventHasHackerConfirmed(event_id, hacker_id) {
   });
 }
 
+export async function getEventTicket(event_id, hacker_id) {
+  return fetchPlus({
+    Url: `/event/${event_id}/ticket/${hacker_id}`,
+    hasUserauth: true,
+  });
+}
+
 export async function getHackerIsParticipant(event_id, hacker_id) {
   return fetchPlus({
     Url: `/event/${event_id}/is_participant/${hacker_id}`,
@@ -94,10 +117,32 @@ export async function getEventParticipants(event_id) {
   });
 }
 
-export async function getEventSponsors(event_id) {
-  return fetchPlus({
-    Url: `/event/${event_id}/sponsors`,
-  });
+// Public logos arrive inline in this response. Reuse it across the landing and
+// company pages, and share concurrent requests without caching failures.
+const sponsorRequests = new Map();
+export function getEventSponsors(event_id) {
+  const key = String(event_id);
+  const cached = sponsorRequests.get(key);
+  if (cached && (cached.pending || Date.now() < cached.expires)) {
+    return cached.request;
+  }
+  for (const [id, entry] of sponsorRequests) {
+    if (!entry.pending && Date.now() >= entry.expires) sponsorRequests.delete(id);
+  }
+  const entry = { pending: true, expires: 0 };
+  entry.request = fetchPlus({ Url: `/event/${event_id}/sponsors` })
+    .then(data => {
+      entry.pending = false;
+      if (Array.isArray(data)) entry.expires = Date.now() + 60000;
+      else if (sponsorRequests.get(key) === entry) sponsorRequests.delete(key);
+      return data;
+    })
+    .catch(error => {
+      if (sponsorRequests.get(key) === entry) sponsorRequests.delete(key);
+      throw error;
+    });
+  sponsorRequests.set(key, entry);
+  return entry.request;
 }
 
 export async function getEventGroups(event_id) {
@@ -146,7 +191,7 @@ export async function addEventSponsor(event_id, company_id) {
     Url: `/event/${event_id}/sponsors/${company_id}`,
     Method: "PUT",
     hasUserauth: true,
-  });
+  }).finally(() => sponsorRequests.delete(String(event_id)));
 }
 
 export async function removeEventSponsor(event_id, company_id) {
@@ -154,7 +199,7 @@ export async function removeEventSponsor(event_id, company_id) {
     Url: `/event/${event_id}/sponsors/${company_id}`,
     Method: "DELETE",
     hasUserauth: true,
-  });
+  }).finally(() => sponsorRequests.delete(String(event_id)));
 }
 
 export async function getAcceptedHackers(event_id) {
@@ -299,4 +344,14 @@ export async function hackers_participants_grouped_list(event_id) {
     Url: `/event/${event_id}/hackers_participants_grouped_list`,
     hasUserauth: true,
   });
+}
+
+export function updateEventSponsor(eventId, companyId, tier, displayOrder = 0) {
+  return fetchPlus({ Url: `/event/${eventId}/sponsors/${companyId}`, Method: "PATCH",
+    hasUserauth: true, Body: { tier, display_order: displayOrder } })
+    .finally(() => sponsorRequests.delete(String(eventId)));
+}
+
+export async function getEventRegistration(eventId, hackerId) {
+  return fetchPlus({ Url: `/event/${eventId}/registration/${hackerId}`, hasUserauth: true });
 }

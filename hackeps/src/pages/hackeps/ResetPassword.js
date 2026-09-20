@@ -1,26 +1,25 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
+import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Header from "../../components/hackeps/Header/Header";
-import Footer from "../../components/hackeps/Footer/Footer";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 import { confirmResetPassword } from "src/services/AuthenticationService";
 import FailFeedback from "src/components/hackeps/Feedbacks/FailFeedback";
-import SuccessFeedback from "src/components/hackeps/Feedbacks/SuccesFeedback";
-
 import Button from "src/components/buttons/Button";
 
 export default function ResetPassword() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
-  //si no hi ha querry (token) envia fora
   useEffect(() => {
     // if (params.get("token") == null) {
     //   navigate("/");
     // }
   }, [params]);
 
-  const [firstPassword, setFirstPassword] = useState();
-  const [secondPassword, setSecondPassword] = useState();
+  const [firstPassword, setFirstPassword] = useState("");
+  const [secondPassword, setSecondPassword] = useState("");
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const [errorMsg, setErrorMsg] = useState();
   const [errMesage, setFeedErr] = useState();
@@ -29,18 +28,27 @@ export default function ResetPassword() {
   async function handleResetPassword(e) {
     e.preventDefault();
 
+    if (isSubmitting) return;
+    if (!params.get("token")) {
+      setErrorMsg("L’enllaç de recuperació no és vàlid.");
+      return;
+    }
     if (firstPassword !== secondPassword) {
       setErrorMsg("Les contrassenyes no coincideixen");
       return;
     }
 
+    setSubmitting(true);
     const servicePassword = await confirmResetPassword(
       params.get("token"),
       secondPassword,
     );
 
-    if (servicePassword.errCode) {
-      setFeedErr(servicePassword.errMssg);
+    setSubmitting(false);
+    if (servicePassword?.success !== true) {
+      setFeedErr(
+        "No hem pogut restablir la contrasenya. Sol·licita un enllaç nou o torna-ho a provar.",
+      );
       setSended(true);
     } else {
       navigate("/");
@@ -48,71 +56,64 @@ export default function ResetPassword() {
   }
 
   return (
-    <>
-      <Header />
+    <DarkPage>
       {!sended ? (
-        <>
-          <div
-            className="containter-fluid bg-secondaryHackeps d-flex"
-            style={{ height: "90vh" }}
+        <FormLayout title="Restablir contrasenya">
+          <form
+            onSubmit={(e) => handleResetPassword(e)}
+            className="public-form flex w-full flex-col"
           >
-            <form
-              onSubmit={(e) => handleResetPassword(e)}
-              className="bg-secondaryHackeps p-3 mx-auto my-auto col-12 col-xxl-4 "
+
+            <label className="mb-3 w-full text-base text-white">
+             <p className="mb-2"><RequiredMark /> Nova contrasenya</p>
+              <input aria-required="true"
+                type="password"
+                required
+                autoComplete="new-password"
+                onChange={(e) => setFirstPassword(e.target.value)}
+                value={firstPassword}
+                className="min-h-10 w-full bg-white px-2 text-base text-black"
+                pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$"
+              />
+            </label>
+            <label className="mb-3 w-full text-base text-white">
+             <p className="mb-2"><RequiredMark /> Confirmar contrasenya</p>
+              <input aria-required="true"
+                type="password"
+                required
+                autoComplete="new-password"
+                onChange={(e) => setSecondPassword(e.target.value)}
+                value={secondPassword}
+                className="min-h-10 w-full bg-white px-2 text-base text-black"
+                pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$"
+              />
+            </label>
+            <ul className="mb-3 text-white">
+              <li>Majúscules, Minúscules, Números</li>
+              <li>8 caràcters mínim</li>
+            </ul>
+            <small className="mb-3 block text-center text-red-400">
+              {errorMsg}
+            </small>
+            <Button
+              orange
+              lg
+              type="submit"
+              className="w-full"
+              disabled={isSubmitting}
             >
-              <h2 className="text-textSecondaryHackeps mb-3 w-75 mx-auto">
-                Restablir contrasenya
-              </h2>
-              <div className="w-75 mx-auto">
-                <div className="font-bold text-base p-2">
-                  <label className=" text-textSecondaryHackeps form-label">
-                    Nova contrasenya
-                  </label>
-                  <input
-                    type="password"
-                    onChange={(e) => setFirstPassword(e.target.value)}
-                    value={firstPassword}
-                    className="form-control"
-                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$"
-                  />
-                </div>
-                <div className="font-bold text-base p-2">
-                  <label className="text-textSecondaryHackeps form-label">
-                    Confirmar contrasenya
-                  </label>
-                  <input
-                    type="password"
-                    onChange={(e) => setSecondPassword(e.target.value)}
-                    value={secondPassword}
-                    className="form-control"
-                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$"
-                  />
-                </div>
-                <ul className="text-textSecondaryHackeps">
-                  <li>Majúscules, Minúscules, Números</li>
-                  <li>8 caràcters mínim</li>
-                </ul>
-                <small className="text-center text-danger mx-auto d-block">
-                  {errorMsg}
-                </small>
-                <Button primary className=" w-100 mt-2 ml-0">
-                  Restablir contrasenya
-                </Button>
-              </div>
-            </form>
-          </div>
-        </>
+              Restablir contrasenya
+            </Button>
+          </form>
+        </FormLayout>
       ) : (
-        <>
-          <FailFeedback
-            title={`Error restablint la contrasenya`}
-            text={`${errMesage}`}
-            hasButton={false}
-            italic={``}
-          />
-        </>
+        <FailFeedback
+          title={`Error restablint la contrasenya`}
+          text={`${errMesage}`}
+          hasButton={false}
+          italic={``}
+        />
       )}
-      <Footer />
-    </>
+    </DarkPage>
   );
 }

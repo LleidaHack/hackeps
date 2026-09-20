@@ -59,13 +59,9 @@
   color: var(--text-primary);
 }
 
-.fa-linkedin {
-  color: #0072b1;
-  padding-left: 0.8vh;
-}
-
+.fa-linkedin,
 .fa-globe {
-  color: var(--primary);
+  color: #ff7430;
   padding-left: 0.8vh;
 }
 

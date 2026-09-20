@@ -1,40 +1,51 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { checkToken } from "src/services/AuthenticationService";
-import Header from "src/components/hackeps/Header/Header";
-import Footer from "src/components/hackeps/Footer/Footer";
+import { isToken } from "src/modules/session";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 import LoadSection from "src/components/hackeps/LoadSection/Loadsection";
 
-export default function RequireAuth({ children, originalRoute }) {
-  let { hacker_id } = useParams();
-  if (hacker_id === undefined) {
-    hacker_id = "";
-  } else {
-    hacker_id = "/" + hacker_id;
-  }
-  const navigate = useNavigate();
-  const [auth, setAuth] = useState(false);
-  const [loading, setLoading] = useState(true);
-
+export default function RequireAuth({ children }) {
+  const location = useLocation();
+  const token = localStorage.getItem("userToken");
+  const [status, setStatus] = useState({ token: null, authorized: false });
   useEffect(() => {
-    (async () => {
-      await checkToken().then((key) => {
-        setAuth(key["success"]);
-      });
-      setLoading(false);
-    })();
-  }, []);
-
-  return loading ? ( // The code that did the magic
-    <>
-      <Header />
-      <LoadSection />
-      <Footer />
-    </>
-  ) : auth ? (
+    let cancelled = false;
+    if (isToken(token)) {
+      checkToken()
+        .then((result) => {
+          if (!cancelled)
+            setStatus({ token, authorized: result?.success === true });
+        })
+        .catch(() => {
+          if (!cancelled) setStatus({ token, authorized: false });
+        });
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
+  if (!isToken(token))
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={{ nextScreen: location.pathname + location.search }}
+      />
+    );
+  if (status.token !== token)
+    return (
+      <DarkPage>
+        <LoadSection />
+      </DarkPage>
+    );
+  return status.authorized ? (
     children
   ) : (
-    navigate("/login", { state: { nextScreen: originalRoute + hacker_id } })
+    <Navigate
+      to="/login"
+      replace
+      state={{ nextScreen: location.pathname + location.search }}
+    />
   );
 }

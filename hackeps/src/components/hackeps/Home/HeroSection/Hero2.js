@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import burbujas from "src/assets/img/burbujas.png";
-import anclaCadena from "src/assets/img/cadenalarga.png";
-import sirena from "src/assets/img/sirenapiedra.png";
-import logoHackeps from "src/assets/img/logoHackeps2025.png";
-import cartell from "src/assets/img/cartellPowered.png";
+import burbujas from "src/assets/img/burbujas.webp";
+import anclaCadena from "src/assets/img/cadenalarga.webp";
+import sirena from "src/assets/img/sirenapiedra.webp";
+import logoHackeps from "src/assets/img/logoHackeps2026.webp";
+import cartell from "src/assets/img/cartellPowered.webp";
 import CountdownTimer from "src/components/hackeps/Home/Timer.js";
 import Button from "src/components/buttons/Button";
 import peix1 from "src/assets/img/fish1.png";
@@ -36,7 +36,7 @@ const Hero2 = ({
   const cadena = useRef(null);
   const cartellet = useRef(null);
   const sirenaPiedra = useRef(null);
-  const logoHackeps2025 = useRef(null);
+  const logoHackepsRef = useRef(null);
   const [startDate, setStartDate] = useState(initialDate);
   const [endDate, setEndDate] = useState(finalDate);
   const [timerActive, setTimerActive] = useState(activeTimer);
@@ -184,19 +184,19 @@ const Hero2 = ({
                                 ease: "sine.inOut",
                               });
                               // Cambiar opacidad del logo a 100 mientras la sirena sube
-                              if (logoHackeps2025.current) {
+                              if (logoHackepsRef.current) {
                                 // Asegúrate de quitar cualquier clase de Tailwind que fuerce opacity-0
                                 // En lugar de quitar la clase inmediatamente, espera a que la animación de opacidad comience
                                 // Asegúrate de que el logo esté oculto al principio
-                                gsap.set(logoHackeps2025.current, {
+                                gsap.set(logoHackepsRef.current, {
                                   opacity: 0,
                                 });
                                 // Quita la clase de Tailwind que fuerza opacity-0
-                                logoHackeps2025.current.classList.remove(
+                                logoHackepsRef.current.classList.remove(
                                   "opacity-0",
                                 );
                                 // Anima la opacidad gradualmente a 1
-                                gsap.to(logoHackeps2025.current, {
+                                gsap.to(logoHackepsRef.current, {
                                   opacity: 1,
                                   duration: 3.5,
                                   ease: "sine.inOut",
@@ -272,7 +272,7 @@ const Hero2 = ({
             className="w-3/12 absolute bottom-0 left-[10%] transform translate-y-[70%]"
             alt="cartell"
           />
-          <div className="opacity-0" ref={logoHackeps2025}>
+          <div className="opacity-0" ref={logoHackepsRef}>
             <img
               src={logoHackeps}
               className="w-[22%] absolute bottom-[40%] left-[20%] transform  "
@@ -353,26 +353,31 @@ const Hero2 = ({
         <img
           src={peix1}
           ref={fish1}
+          alt=""
           className="absolute w-1/12 left-[-10%] top-[30%]"
         />
         <img
           src={peix2}
           ref={fish2}
+          alt=""
           className="absolute w-1/12 left-[-10%] top-[0%]"
         />
         <img
           src={peix3}
           ref={fish3}
+          alt=""
           className="absolute w-1/12 left-[-10%] top-[40%]"
         />
         <img
           src={peix4}
           ref={fish4}
+          alt=""
           className="absolute w-1/12 left-[-10%] top-[20%]"
         />
         <img
           src={peix1}
           ref={fish5}
+          alt=""
           className="absolute w-1/12 left-[-10%] top-[50%]"
         />
       </div>

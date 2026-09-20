@@ -1,11 +1,15 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
+import FormLayout from "src/components/hackeps/Forms/FormLayout";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import logo from "src/assets/img/logoHackeps2025.png";
 import { resetPassword } from "src/services/AuthenticationService";
 import SuccessFeedback from "../Feedbacks/SuccesFeedback";
+import Button from "src/components/buttons/Button";
 
 const ForgetPassword = ({ nextScreen }) => {
   const [status, setStatus] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -13,73 +17,70 @@ const ForgetPassword = ({ nextScreen }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const success = await resetPassword(data.email);
-    setStatus(success);
+    if (isSubmitting) return;
+    setSubmitting(true);
+    setError("");
+    try {
+      const result = await resetPassword(data.email);
+      if (result?.success === true) setStatus(true);
+      else setError("No hem pogut tramitar la sol·licitud. Torna-ho a provar.");
+    } catch {
+      setError("No hem pogut tramitar la sol·licitud. Torna-ho a provar.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <>
       {!status ? (
-        <div className="flex min-h-screen bg-loginPage ">
-          <div className="flex-1 w-full flex flex-col items-center mt-36">
-            <div className="logoBox place-items-center">
-              <img src={logo} alt="logo" className="w-1/5" />
-            </div>
-            <div className="w-1/3 mt-4">
-              <p className="text-4xl text-white text-center">
-                Necesites ajuda per a iniciar sessió?
-              </p>
-            </div>
-            <div className="formBox w-1/3 mt-2">
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col gap-3"
-              >
-                <label className="text-white">
-                  Introdueix el teu correu electrònic
-                  <input
-                    className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-3 text-black`}
-                    placeholder="Correu electrònic"
-                    {...register("email", {
-                      required:
-                        "Et falta indicar-nos el teu correu de contacte",
-                      pattern: {
-                        value: /^\S+@\S+$/i,
-                        message: "El correu no és vàlid",
-                      },
-                    })}
-                  />
-                  {errors.email && (
-                    <span className="text-red-400">{errors.email.message}</span>
-                  )}
-                </label>
-                <button
-                  type="submit"
-                  className="bg-primaryHackeps text-white rounded-lg p-2"
-                >
-                  Enviar enllaç de recuperació
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="bg-secondaryHackeps">
-          <div className="flex-1 flex items-center justify-center">
-            <section className="w-1/2 flex justify-center rounded-2xl p-5 flex-wrap text-white">
-              <div className="Part2">
-                <SuccessFeedback
-                  title="Enllaç enviat correctament."
-                  text={`En breus rebràs un correu electrònic amb un enllaç per a recuperar el teu compte.`}
-                  italics="Si no ho reps, comproba la bustia de spam."
-                  hasButton={true}
-                  buttonLink="/"
-                  buttonText="Tornar a l'Inici"
+        <FormLayout title="Necessites ajuda per iniciar sessió?">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="public-form flex w-full flex-col gap-3"
+            >
+              <label className="text-white">
+                <RequiredMark /> Introdueix el teu correu electrònic
+                <input aria-required="true"
+                  className={`${errors.email ? "bg-pink-100" : "bg-white"} mt-2 min-h-10 w-full px-2 text-base text-black`}
+                  placeholder="Correu electrònic"
+                  {...register("email", {
+                    required: "Et falta indicar-nos el teu correu de contacte",
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "El correu no és vàlid",
+                    },
+                  })}
                 />
-              </div>
-            </section>
-          </div>
-        </div>
+                {errors.email && (
+                  <span className="text-red-400">{errors.email.message}</span>
+                )}
+              </label>
+              {error && (
+                <p role="alert" className="text-red-400">
+                  {error}
+                </p>
+              )}
+              <Button
+                orange
+                lg
+                type="submit"
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Enviant..." : "Enviar enllaç de recuperació"}
+              </Button>
+            </form>
+        </FormLayout>
+      ) : (
+        <SuccessFeedback
+          title="Sol·licitud rebuda"
+          text={`Si el correu correspon a un compte verificat, rebràs un enllaç per recuperar-lo.`}
+          italics="Si no ho reps, comproba la bustia de spam."
+          hasButton={true}
+          buttonLink="/"
+          buttonText="Tornar a l'Inici"
+        />
       )}
     </>
   );

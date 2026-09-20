@@ -1,15 +1,12 @@
 import React from "react";
-import LaunchHeader from "src/components/hackeps/LaunchHeader/LaunchHeader";
-import LaunchFooter from "src/components/hackeps/LaunchFooter/LaunchFooter";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 import PrivacyComponent from "src/components/hackeps/Privacy/Privacy";
 
 const Privacy = () => {
   return (
-    <div className="min-h-screen flex flex-col font-space-mono">
-      <LaunchHeader />
+    <DarkPage>
       <PrivacyComponent />
-      <LaunchFooter />
-    </div>
+    </DarkPage>
   );
 };
 

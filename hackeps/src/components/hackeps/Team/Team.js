@@ -1,3 +1,4 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import React, { useEffect } from "react";
 import "src/components/hackeps/Team/Team.css";
 import Container from "react-bootstrap/Container";
@@ -17,12 +18,31 @@ import {
 import { getHackeps } from "src/services/EventService";
 import ProfilePic from "src/components/hackeps/ProfilePic/ProfilePic";
 import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
-import PopupBody from "src/components/emergentPopup/PopupBody";
-import { ROUTES } from "src/config/routes";
+import Modal from "react-bootstrap/Modal";
+import "src/components/hackeps/Forms/PublicFormLayout.css";
+
+const TeamDialog = ({ isOpen, onClose, children, titleId }) => (
+  <Modal show={isOpen} onHide={onClose} centered className="team-dialog" aria-labelledby={titleId}>
+    <Modal.Header>
+      <button type="button" className="team-dialog-close" onClick={onClose} aria-label="Tanca">×</button>
+    </Modal.Header>
+    <Modal.Body>{children}</Modal.Body>
+  </Modal>
+);
 
 const Team = (props) => {
   const [team, setTeam] = useState(props.team);
-  let is_user = props.is_user;
+  const updateTeam = (nextTeam) => {
+    setTeam(nextTeam);
+    props.onTeamChange?.(nextTeam);
+  };
+  const is_user = props.is_user;
+  const currentUserId = localStorage.getItem("userID");
+  const isCurrentUser = (id) => id != null && currentUserId != null && String(id) === String(currentUserId);
+  const canManageMember = (member) => Boolean(
+    is_user && team && member?.id != null && isCurrentUser(team.leader_id) &&
+    !isCurrentUser(member.id) && String(member.id) !== String(team.leader_id)
+  );
 
   useEffect(() => {
     setTeam(props.team);
@@ -54,13 +74,15 @@ const Team = (props) => {
   const [err, setErr] = useState("");
   const [JoinErrorMessage, setJoinErrorMessage] = useState("");
   async function handleKick(member) {
+    if (!canManageMember(member)) return;
     await removeHackerFromGroup(member.id, team.id);
-    setTeam(await getHackerGroupById(team.id));
+    updateTeam(await getHackerGroupById(team.id));
   }
 
   async function handleMakeLeader(member) {
+    if (!canManageMember(member)) return;
     await setHackerGroupLeader(team.id, member.id);
-    setTeam(await getHackerGroupById(team.id));
+    updateTeam(await getHackerGroupById(team.id));
   }
 
   async function handleLeave() {
@@ -71,18 +93,17 @@ const Team = (props) => {
     if (a.errCode) {
       setErr(a.errMssg);
     } else {
-      setTeam(null);
+      updateTeam(null);
     }
   }
 
   async function joinTeam(val) {
-    console.log("wefwefwefwefw");
     let a = await addHackerToGroupByCode(
       val.teamCode ? val.teamCode.replace(/[# ]/g, "") : "",
       localStorage.getItem("userID"),
     );
     if (a.success) {
-      setTeam(await getHackerGroupById(a.added_group_id));
+      updateTeam(await getHackerGroupById(a.added_group_id));
       setShowJoinTeam(false);
     } else {
       setJoinErrorMessage(a.errMssg);
@@ -90,67 +111,56 @@ const Team = (props) => {
   }
 
   async function createTeam(val) {
-    console.log("wefwefwefwefw");
+    const edition = await getHackeps();
+    if (!edition?.id) return;
     const team = {
       name: val.teamName,
       description: val.teamDesc,
       leader_id: localStorage.getItem("userID"),
-      event_id: (await getHackeps()).id,
+      event_id: edition.id,
     };
     let a = await addHackerGroup(team);
     if (a.success) {
-      setTeam(await getHackerGroupById(a.group_id));
+      updateTeam(await getHackerGroupById(a.group_id));
       setShowCreateTeam(false);
     }
   }
 
   function TeamButtons() {
     const handleSubmitJoinTeam2 = (data) => {
-      console.log("JKOIN team submit");
       joinTeam(data);
     };
 
     const handleSubmitCreateTeam2 = (data) => {
-      console.log("Create team submit");
       createTeam(data);
     };
 
     return (
       <>
         {is_user && (
-          <div className="p-bg-grey text-center mt-5 m-0 p-3 contss flex md:flex-row flex-col">
-            <TitleGeneralized marginBot="2" padTop="0" secondary>
-              Inscripcions
-            </TitleGeneralized>
-            <div className="gap-2 flex ">
-              <Button primary onClick={handleShowJoinTeam}>
-                Ja tinc un equip
-              </Button>
-              <Button primary secondary onClick={handleShowCreateTeam}>
-                Crear l'equip
-              </Button>
-            </div>
+          <div className="team-empty-actions">
+            <Button orange onClick={handleShowJoinTeam}>Unir-me a un equip</Button>
+            <Button className="team-create-action" onClick={handleShowCreateTeam}>Crear un equip</Button>
           </div>
         )}
 
-        <PopupBody
+        <TeamDialog
+          titleId="join-team-title"
           isOpen={showJoinTeam}
           onClose={handleCloseJoinTeam}
           children={
             <div className="team-form-container">
-              <TitleGeneralized className="text-black text-2xl">
-                {" "}
-                Unir-se a un equip{" "}
-              </TitleGeneralized>
+              <h2 id="join-team-title">Unir-me a un equip</h2>
+              <p>Introdueix el codi que t’ha compartit el teu equip.</p>
               <form
-                className="flex flex-col gap-3"
+                className="public-form flex flex-col gap-3"
                 onSubmit={handleSubmitJoinTeam((data) =>
                   handleSubmitJoinTeam2(data),
                 )}
               >
-                <label className="text-black">
-                  Codi de l'equip (#XXXXXXXXXX):
-                  <input
+                <label className="team-field-label">
+                  <RequiredMark /> Codi de l'equip (#XXXXXXXXXX):
+                  <input aria-required="true"
                     className={`${errorsJoinTeam.teamCode ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder="#1234567890"
                     {...registerJoinTeam("teamCode", {
@@ -164,8 +174,8 @@ const Team = (props) => {
                   )}
                 </label>
 
-                <Button primary type="submit">
-                  Unirse a l'equip
+                <Button orange type="submit">
+                  Unir-me a l'equip
                 </Button>
                 <p className="text-red-400">{JoinErrorMessage}</p>
               </form>
@@ -173,24 +183,22 @@ const Team = (props) => {
           }
         />
 
-        <PopupBody
+        <TeamDialog
+          titleId="create-team-title"
           isOpen={showCreateTeam}
           onClose={handleCloseCreateTeam}
           children={
             <div className="team-form-container">
               <form
-                className="flex flex-col gap-3"
+                className="public-form flex flex-col gap-3"
                 onSubmit={handleSubmitCreateTeam((data) =>
                   handleSubmitCreateTeam2(data),
                 )}
               >
-                <TitleGeneralized className="text-black text-2xl">
-                  {" "}
-                  Unir-se a un equip{" "}
-                </TitleGeneralized>
-                <label className="text-black">
-                  Nom de l'equip:
-                  <input
+                <h2 id="create-team-title">Crear un equip</h2>
+                <label className="team-field-label">
+                  <RequiredMark /> Nom de l'equip:
+                  <input aria-required="true"
                     className={`${errorsCreateTeam.teamName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder=""
                     {...registerCreateTeam("teamName", {
@@ -204,9 +212,9 @@ const Team = (props) => {
                   )}
                 </label>
 
-                <label className="text-black">
-                  Descripció:
-                  <input
+                <label className="team-field-label">
+                  <RequiredMark /> Descripció:
+                  <input aria-required="true"
                     className={`${errorsCreateTeam.teamDesc ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder=""
                     {...registerCreateTeam("teamDesc", {
@@ -220,7 +228,7 @@ const Team = (props) => {
                   )}
                 </label>
 
-                <Button primary type="submit">
+                <Button orange type="submit">
                   Crear equip
                 </Button>
               </form>
@@ -234,7 +242,7 @@ const Team = (props) => {
   function TeamInfo() {
     return (
       <div className="Alineador">
-        <div className="bg-grayStrongHackeps text-center mt-5 m-0 p-3 containerinf">
+        <div className="bg-transparent text-center mt-5 m-0 p-3 containerinf">
           <TitleGeneralized padTop="0" primary>
             {team.name} {team.code && `Codi: #${team.code}`}
           </TitleGeneralized>
@@ -242,28 +250,16 @@ const Team = (props) => {
             <Row className="justify-content-center">
               {team.members.map((member, index) => (
                 <Col className="col-xxl-3 cards" key={index}>
-                  <div className="p-3 text-center bg-white smallCard">
+                  <div className="p-3 text-center bg-transparent smallCard">
                     <ProfilePic hacker={member} size="big" bgcolor="black" />
                     <p className="team-member-name">{member.name}</p>
-                    {String(member.id) === localStorage.getItem("userID") ? (
+                    {isCurrentUser(member.id) ? (
                       ""
                     ) : (
                       <>
-                        <Button
-                          className="my-2 min-w-full"
-                          primary
-                          sm
-                          href={`${ROUTES.profile}/${member.id}`}
-                        >
-                          Veure perfil
-                        </Button>
 
-                        {(
-                          team
-                            ? String(team.leader_id) ===
-                              localStorage.getItem("userID")
-                            : false
-                        ) ? (
+
+                        {canManageMember(member) ? (
                           <>
                             <Button
                               primary
@@ -306,6 +302,6 @@ const Team = (props) => {
     );
   }
 
-  return <>{team ? <TeamInfo /> : <TeamButtons />}</>;
+  return <>{team ? <TeamInfo /> : TeamButtons()}</>;
 };
 export default Team;

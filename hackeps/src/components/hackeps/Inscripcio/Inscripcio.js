@@ -1,28 +1,37 @@
-import React, { useState, useEffect } from "react";
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
+import { HACKEPS_YEAR } from "src/config/edition";
+import { formatEditionDates } from "src/hooks/useEdition";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { registerHackerToEvent } from "src/services/EventService";
 import { getHackeps } from "src/services/EventService";
 import FailFeedback from "src/components/hackeps/Feedbacks/FailFeedback";
 import SuccessFeedback from "src/components/hackeps/Feedbacks/SuccesFeedback";
 import Button from "src/components/buttons/Button";
-import FileBase from "react-file-base64";
+import { readUpload } from "src/modules/uploads";
 import { getHackerById } from "src/services/HackerService";
-import { getEventIsHackerRegistered } from "src/services/EventService";
-import { updateHacker } from "src/services/HackerService";
-import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
+import { getEventIsHackerRegistered, getEventRegistration } from "src/services/EventService";
+import { updateRregisterHackerToEvent } from "src/services/EventService";
+import "../Forms/FormLayout.css";
+import "../Forms/PublicFormLayout.css";
+import "./Inscripcio.css";
 import { ROUTES } from "src/config/routes";
 
 const InscripcioForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
+    setValue,
+
     formState: { errors, isValid },
-    trigger,
+
   } = useForm({
     mode: "onChange",
   });
   const sizeOptions = [
+    { value: "", label: "Selecciona una talla" },
+    { value: "XS", label: "XS" },
     { value: "S", label: "S" },
     { value: "M", label: "M" },
     { value: "L", label: "L" },
@@ -32,17 +41,22 @@ const InscripcioForm = () => {
   ];
 
   const meetOptions = [
-    { value: "nan", label: "Sense Seleccionar" },
+    { value: "nan", label: "Selecciona una opció" },
     { value: "Xarxes socials", label: "Xarxes socials" },
     { value: "Un amic", label: "Un amic" },
     { value: "Altres edicions", label: "Altres edicions" },
     { value: "Cartells publicitaris", label: "Cartells publicitaris" },
     { value: "Altre mitjà", label: "Altre mitjà" },
   ];
+  const [loadError, setLoadError] = useState(false);
+  const [sending, setSending] = useState(false);
   const [disabledRestrictions, setDisabledRestrictions] = useState(true);
   const [cvFile, setCvFile] = useState("");
   const [hackepsEvent, setHackepsEvent] = useState(null);
-  const [isCvTooLarge, setCvTooLarge] = useState(false);
+  const [fileError, setFileError] = useState("");
+  const [readingFile, setReadingFile] = useState(false);
+  const [cvChanged, setCvChanged] = useState(false);
+  const cvInput = useRef(null);
   const [previousRegistration, setPreviousRegistration] = useState({
     studies: "",
     center: "",
@@ -67,29 +81,39 @@ const InscripcioForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       const hackepsEvent = await getHackeps();
-      const me = await getHackerById(localStorage.getItem("userID"));
-      setCvFile(me.cv);
-      getEventIsHackerRegistered(hackepsEvent.id, me.id).then((response) => {
-        console.log("response", response);
-        if (response) {
-          setRegistered(true);
-        } else {
-          setRegistered(false);
-        }
-      });
+      if (!hackepsEvent?.id) { setLoadError(true); return; }
+      const account = await getHackerById(localStorage.getItem("userID"));
+      if (!account?.id) { setLoadError(true); return; }
+      const response = await getEventIsHackerRegistered(hackepsEvent.id, account.id);
+      if (typeof response !== "boolean") { setLoadError(true); return; }
+      let me = account;
+      if (response) {
+        const registration = await getEventRegistration(hackepsEvent.id, account.id);
+        if (!registration || registration.errCode || registration.event_id !== hackepsEvent.id) { setLoadError(true); return; }
+        me = { ...account, ...registration };
+      }
+      setRegistered(response);
+      setCvFile(me.cv || "");
+      reset({ studies: me.studies || "", center: me.study_center || "", location: me.location || "",
+        size: me.shirt_size || "", meets: me.food_restrictions ? "yes" : "no", food: me.food_restrictions || "",
+        github: me.github || "", linkedin: me.linkedin || "", meet: me.how_did_you_meet_us || "nan",
+        cvinfo_links: me.description || "", checkboxterms: false, checkboxcredit: me.wants_credit || false });
+      setDisabledRestrictions(!me.food_restrictions);
       setHackepsEvent(hackepsEvent);
       setPreviousRegistration(me);
       if (process.env.REACT_APP_DEBUG === "true") console.log(me);
     };
 
-    fetchData();
-  }, []);
+    fetchData().catch(() => setLoadError(true));
+  }, [reset]);
 
   const submit = async (values) => {
+    if (sending || readingFile || Boolean(fileError) || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)) return;
+    setSending(true);
     const data = {
       shirt_size: values.size === undefined ? "" : values.size,
-      food_restrictions: values.food === undefined ? "" : values.food,
-      cv: cvFile,
+      food_restrictions: disabledRestrictions ? "" : values.food,
+      ...((cvChanged || !registered) && cvFile !== undefined ? { cv: cvFile } : {}),
       description: values.cvinfo_links,
       github: values.github,
       linkedin: values.linkedin,
@@ -105,7 +129,7 @@ const InscripcioForm = () => {
     let registration;
     if (registered) {
       data.id = parseInt(previousRegistration.id, 10);
-      registration = await updateHacker(data);
+      registration = await updateRregisterHackerToEvent(hackepsEvent.id, previousRegistration.id, data);
     } else {
       registration = await registerHackerToEvent(
         parseInt(hackepsEvent.id, 10),
@@ -113,9 +137,10 @@ const InscripcioForm = () => {
         data,
       );
     }
-    if (registration.errCode) {
+    setSending(false);
+    if (!registration || registration.errCode || registration.success === false) {
       setErrRegister("");
-      if (registration.errCode === 400) {
+      if (registration?.errCode === 400) {
         setErrRegister(
           "Ja estas registrat a aquest esdeveniment. En cas que es tracti d'un error, contacta amb nosatres.",
         );
@@ -136,36 +161,34 @@ const InscripcioForm = () => {
     window.location.reload();
   };
 
-  const handleFileChange = (event) => {
-    let file = event.base64;
-    setCvTooLarge(parseFloat(event.size) > 1024);
-    setCvFile(file);
+  const handleFileChange = async (event) => {
+    const input = event.target;
+    const file = input.files[0];
+    if (!file) return;
+    setReadingFile(true); setFileError("");
+    try { setCvFile(await readUpload(file, "cv")); setCvChanged(true); }
+    catch (error) { setFileError(error.message); input.value = ""; }
+    finally { setReadingFile(false); }
   };
-
   const clearFile = () => {
-    setCvFile("");
-    setCvTooLarge(false);
-    // Clear the input field to allow selecting the same file again
-    const inputElement = document.getElementById("cvinfo_file");
-    if (inputElement) {
-      inputElement.value = "";
-    }
+    setCvFile(""); setCvChanged(true); setFileError("");
+    if (cvInput.current) cvInput.current.value = "";
   };
 
   return (
-    <div className="min-h-screen justify-center items-center flex bg-secondaryHackeps">
+    <div className="event-registration text-white">
       {!submittRegister ? (
-        <>
-          <br />
-          <div className="w-2/3 items-center">
-            <TitleGeneralized underline>
-              Inscripció HackEPS 2025
-            </TitleGeneralized>
-            <div className="w-full flex flex-col justify-center items-center animate-[fadeIn_0.5s_ease-in-out]">
-              <form className="flex flex-col gap-3">
+        <section className="event-registration-layout shared-form-fields">
+              <h1 className="shared-form-title">Inscripció HackEPS {HACKEPS_YEAR}</h1>
+              <p className="event-registration-intro">Completa les dades per participar-hi. {formatEditionDates(hackepsEvent)}.</p>
+              {loadError && <p role="alert">No hem pogut carregar aquesta edició. Torna-ho a provar més tard.</p>}
+              {hackepsEvent && !hackepsEvent.is_open && !registered && <p role="status">Les inscripcions d’aquesta edició estan tancades.</p>}
+              <form className="public-form event-registration-grid" onSubmit={handleSubmit(submit)}>
+                <fieldset className="event-registration-section" disabled={!hackepsEvent || sending}>
+                  <legend>Dades de participació</legend>
                 <label className="mb-3">
-                  Que estudies o has estudiat?
-                  <input
+                  <RequiredMark /> Què estudies o has estudiat?
+                  <input aria-required="true"
                     className={`${errors.studies ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     placeholder="Estudis"
                     {...register("studies", {
@@ -178,8 +201,8 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  Centre d'estudis:
-                  <input
+                  <RequiredMark /> Centre d'estudis:
+                  <input aria-required="true"
                     className={`${errors.center ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     placeholder="UdL"
                     {...register("center", {
@@ -187,13 +210,13 @@ const InscripcioForm = () => {
                     })}
                   />
                 </label>
-                {errors.school && (
-                  <span className="text-red-400">{errors.school.message}</span>
+                {errors.center && (
+                  <span className="text-red-400">{errors.center.message}</span>
                 )}
 
                 <label className="mb-3">
-                  D'on vens?
-                  <input
+                  <RequiredMark /> D'on vens?
+                  <input aria-required="true"
                     className={`${errors.location ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     placeholder="Lleida, Barcelona, etc."
                     {...register("location", {
@@ -208,8 +231,8 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  Talla de samarreta:
-                  <select
+                  <RequiredMark /> Talla de samarreta:
+                  <select aria-required="true"
                     className={`${errors.size ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     {...register("size", {
                       required: "Aquest camp és obligatori",
@@ -227,17 +250,18 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  Tens alguna restricció alimentària o alèrgia?
-                  <select
+                  <RequiredMark /> Tens alguna restricció alimentària o alèrgia?
+                  <select aria-required="true"
                     className={`${errors.meets ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base ml-2`}
                     {...register("meets", {
                       required: "Aquest camp és obligatori",
                       validate: (value) =>
-                        value !== "" || "Selecciona una opció vàlida",
+                        value !== "nan" || "Selecciona una opció vàlida",
                     })}
                     onChange={(e) => {
+                      register("meets").onChange(e);
                       const value = e.target.value;
-                      const box = document.getElementById("foodTextArea");
+
                       if (value === "yes") {
                         setDisabledRestrictions(false);
                       } else if (value === "no") {
@@ -245,13 +269,11 @@ const InscripcioForm = () => {
                       } else {
                         setDisabledRestrictions(true);
                       }
-                      if (box) {
-                        box.value = "";
-                      }
+                      if (value !== "yes") setValue("food", "");
                     }}
                   >
-                    <option value="nan">Sense Seleccionar</option>
-                    <option value="yes">Si en tinc</option>
+                    <option value="nan">Selecciona una opció</option>
+                    <option value="yes">Sí, en tinc</option>
                     <option value="no">No en tinc</option>
                   </select>
                 </label>
@@ -259,11 +281,10 @@ const InscripcioForm = () => {
                 <label>
                   {!disabledRestrictions && (
                     <div id="foodTextArea">
-                      Quines restriccions o alèrgies tens?
-                      <input
+                      <RequiredMark /> Quines restriccions o alèrgies tens?
+                      <input aria-required="true"
                         className={`${errors.food && !disabledRestrictions ? "bg-pink-100" : "bg-white"} ${``} py-2 min-h-10 px-2 text-base mt-2`}
                         placeholder="Lactosa, gluten, etc."
-                        defaultValue={""}
                         {...register("food", {
                           required:
                             !disabledRestrictions &&
@@ -280,8 +301,8 @@ const InscripcioForm = () => {
                 </label>
 
                 <label className="mb-3">
-                  Com ens has conegut?
-                  <select
+                  <RequiredMark /> Com ens has conegut?
+                  <select aria-required="true"
                     className={`${errors.meet ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base ml-2`}
                     {...register("meet", {
                       required: "Aquest camp és obligatori",
@@ -289,6 +310,7 @@ const InscripcioForm = () => {
                         value !== "nan" || "Selecciona una opció vàlida",
                     })}
                   >
+                    {previousRegistration.how_did_you_meet_us && !meetOptions.some(option => option.value === previousRegistration.how_did_you_meet_us) && <option value={previousRegistration.how_did_you_meet_us}>{previousRegistration.how_did_you_meet_us}</option>}
                     {meetOptions.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
@@ -300,12 +322,9 @@ const InscripcioForm = () => {
                   <span className="text-red-400">{errors.meet.message}</span>
                 )}
 
-                <hr className="my-4" />
-
-                <div className="flex flex-col w-full">
-                  <p className="text-xl">
-                    Vols que les empreses de Lleida et coneguin? (Opcional)
-                  </p>
+                </fieldset>
+                <fieldset className="event-registration-section" disabled={!hackepsEvent || sending}>
+                  <legend>Perfil professional <span>(opcional)</span></legend>
                   <label className="mb-3">
                     <p className="text-sm">
                       Tens experiència en altres hackatons? Algun projecte
@@ -337,32 +356,20 @@ const InscripcioForm = () => {
                     />
                   </label>
 
-                  <label className="">
-                    Adjunta el teu CV (Opcional)
-                    <div className="flex flex-col md:flex-row gap-3 mt-2 image-input-container">
-                      <FileBase
-                        type="file"
-                        id="avatarInput"
-                        multiple={false}
-                        accept="application/pdf"
-                        onDone={handleFileChange}
-                      />
-                      <Button
-                        onClick={clearFile}
-                        className="bg-red-500 hover:bg-red-400  text-white "
-                      >
-                        Esborra
-                      </Button>
+                  <div className="event-registration-cv">
+                    <div className="event-registration-cv-heading">
+                      <label htmlFor="cvinfo_file">Adjunta el teu CV (opcional)</label>
+                      <button type="button" onClick={clearFile} disabled={readingFile || (!cvFile && !fileError)} className="event-registration-remove">Esborra</button>
                     </div>
-                    {isCvTooLarge && (
-                      <span className="text-red-400">
-                        El fitxer és massa gran. Màxim 1MB.
-                      </span>
-                    )}
-                  </label>
+                    <input ref={cvInput} id="cvinfo_file" type="file" accept="application/pdf,.pdf" onChange={handleFileChange} disabled={readingFile || sending} />
+                    <small>PDF. Màxim 1 MB.{cvFile && !cvInput.current?.files?.length ? " Ja tens un CV desat; el conservarem." : ""}</small>
+                    {fileError && <p role="alert" className="text-red-400">{fileError}</p>}
+                  </div>
 
-                  <label className="flex items-center space-x-2">
-                    <input
+                </fieldset>
+                <div className="event-registration-footer">
+                  <label className="event-registration-consent">
+                    <input aria-required="true"
                       type="checkbox"
                       className="w-fit mr-5"
                       {...register("checkboxterms", {
@@ -370,37 +377,37 @@ const InscripcioForm = () => {
                       })}
                     />
                     <p>
-                      Accepto els{" "}
-                      <a href={ROUTES.terms} className="text-primaryHackeps">
+                      <RequiredMark /> Accepto els{" "}
+                      <a href={ROUTES.terms} className="event-registration-link">
                         termes i condicions
                       </a>
                     </p>
                   </label>
 
-                  <label className="flex items-center space-x-2">
+                  <label className="event-registration-consent">
                     <input
                       type="checkbox"
                       className="w-fit mr-5"
                       {...register("checkboxcredit")}
                     />
                     <p>
-                      Vull 1 crèdit ETCS de matèria transversal (només aplicable
-                      a alumnes de la UDL)
+                      Vull 1 crèdit ECTS de matèria transversal (només aplicable
+                      a alumnes de la UdL)
                     </p>
                   </label>
                 </div>
-                <div className="flex flex-col gap-0 mb-20 ">
+                <div className="event-registration-actions">
                   <Button
-                    onClick={handleSubmit(submit)}
-                    className={`bg-primaryHackeps text-white mb-2  ${!isValid ? "opacity-50" : "opacity-100 hover:bg-blueSea"}`}
+                    type="submit"
+                    orange
+                    disabled={!isValid || sending || readingFile || Boolean(fileError) || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)}
+                    className="event-registration-submit"
                   >
-                    Enviar
+                    {sending ? "Enviant…" : "Enviar"}
                   </Button>
                 </div>
               </form>
-            </div>
-          </div>
-        </>
+        </section>
       ) : (
         <>
           {!stateRegister ? (

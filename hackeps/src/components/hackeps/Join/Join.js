@@ -1,6 +1,6 @@
 import React from "react";
 import HSkeleton from "src/components/hackeps/LoadingSkeleton/HSkeleton";
-import logo from "src/assets/img/logoHackeps2025.png";
+import logo from "src/assets/img/home10/logonaranja.webp";
 import { ROUTES } from "src/config/routes";
 
 const Join = (props) => {

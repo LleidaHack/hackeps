@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
-import Header from "src/components/hackeps/Header/Header.js";
-import Footer from "src/components/hackeps/Footer/Footer.js";
-import CalendarDates from "src/components/hackeps/Home/Calendar.js";
-import Sponsors from "src/components/hackeps/Home/Sponsors.js";
-import Schedule from "src/components/hackeps/Home/Schedule.js";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import HomeFrame from "src/components/hackeps/Home/HomeFrame.js";
+import HomeHeader from "src/components/hackeps/Home/HomeHeader.js";
+import Sponsors, {
+  SeuVellaFooter,
+} from "src/components/hackeps/Home/Sponsors.js";
 import HeroSection from "src/components/hackeps/Home/HeroSection/HeroSection.js";
-import Mentoring from "src/components/hackeps/Home/Mentoring.js";
-import { getHackeps } from "src/services/EventService";
-import Animation from "src/pages/hackeps/Animation.js";
+import Identify from "src/components/hackeps/Home/Identify.js";
+import Newsletter from "src/components/hackeps/Home/Newsletter.js";
+import Activities from "src/components/hackeps/Home/Activities.js";
+import Records from "src/components/hackeps/Home/Records.js";
+import { getHackeps, getEventSponsors } from "src/services/EventService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
+import { useSiteTheme } from "src/hooks/useSiteTheme";
+
+const Animation = lazy(() => import("src/pages/hackeps/Animation.js"));
 
 const Home = () => {
+  const { sky, gradient } = useSiteTheme();
   const [startDate, setStartDate] = useState(undefined);
   const [endDate, setEndDate] = useState(undefined);
+  const [eventUnavailable, setEventUnavailable] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
@@ -32,21 +39,28 @@ const Home = () => {
 
   useEffect(() => {
     async function getDates() {
-      const response = await getHackeps();
-      const start = new Date(response.start_date);
-      start.setMonth(start.getMonth());
-      const end = new Date(response.end_date);
-      localStorage.setItem("event", JSON.stringify(response));
-      end.setMonth(end.getMonth());
-      setStartDate(start);
-      setEndDate(end);
-      if (localStorage.getItem("userID") !== null) {
-        const isRegistered = await getEventIsHackerRegistered(
-          response.id,
-          localStorage.getItem("userID"),
-        );
-        if (isRegistered) {
-          localStorage.setItem("registeredOnEvent", "true");
+      try {
+        const response = await getHackeps();
+        if (!response || !response.start_date || !response.end_date) {
+          setEventUnavailable(true);
+          return;
+        }
+        // Start loading logos even while the optional intro animation is shown.
+        if (response.id) void getEventSponsors(response.id).catch(() => {});
+        const start = new Date(response.start_date);
+        const end = new Date(response.end_date);
+        setStartDate(start);
+        setEndDate(end);
+        if (localStorage.getItem("userID") !== null) {
+          const isRegistered = await getEventIsHackerRegistered(
+            response.id,
+            localStorage.getItem("userID"),
+          );
+          localStorage.setItem("registeredOnEvent", isRegistered === true ? String(response.id) : "");
+        }
+      } catch (error) {
+        if (process.env.REACT_APP_DEBUG === "true") {
+          console.log(error);
         }
       }
     }
@@ -55,72 +69,49 @@ const Home = () => {
 
   const timerActive = true;
 
-  const events = [
-    {
-      time: "8:30 h",
-      title: "Inici del check-in",
-      description: "Arribada i registre dels participants",
-    },
-    {
-      time: "10:00 h",
-      title: "Cerimònia d'obertura",
-      description: "Benvinguda i presentació de l'esdeveniment",
-    },
-    {
-      time: "11:00 h",
-      title: "Comença el temps de hacking",
-      description: "Inici oficial del hackathon",
-    },
-    {
-      time: "15:00 h",
-      title: "Finalitza el check-in",
-      description: "Tancament del registre per als participants",
-    },
-    {
-      time: "11:00 h",
-      title: "Finalitza el temps de hacking",
-      description: "Tancament del període de desenvolupament dels projectes",
-    },
-    {
-      time: "11:30 h",
-      title: "Presentacions dels projectes",
-      description:
-        "Presentació dels projectes desenvolupats durant el hackathon",
-    },
-    {
-      time: "14:00 h",
-      title: "Cerimònia de cloenda i entrega de premis",
-      description: "Cloenda del hackathon i entrega de premis als guanyadors",
-    },
-  ];
-
   if (!showAnimation) {
     return (
-      <div>
-        <Header />
-        <HeroSection
-          initialDate={startDate}
-          finalDate={endDate}
-          activeTimer={timerActive}
-        />
-        <CalendarDates startDate={startDate} endDate={endDate} />
-        <Schedule events={events} />
-        <Sponsors />
-        <Mentoring />
-        <Footer />
+      <div
+        className="w-full overflow-x-clip"
+        style={{ backgroundColor: sky }}
+      >
+        <HomeHeader />
+        <HomeFrame fluid>
+          <HeroSection
+            initialDate={startDate}
+            finalDate={endDate}
+            activeTimer={timerActive}
+          />
+          {eventUnavailable && (
+            <p role="status" className="m-0 p-4 text-center text-[#2e2e2e]">
+              No hem pogut carregar la informació actualitzada de
+              l’esdeveniment. Torna-ho a provar més tard.
+            </p>
+          )}
+          <Identify />
+          {/* <Newsletter /> */}
+          <div className="w-full" style={{ background: gradient }}>
+            <Activities />
+            <Records />
+            <Sponsors />
+          </div>
+        </HomeFrame>
+        <SeuVellaFooter />
       </div>
     );
-  } else {
-    return (
-      <div>
+  }
+
+  return (
+    <div>
+      <Suspense fallback={null}>
         <Animation
           initialDate={startDate}
           finalDate={endDate}
           activeTimer={timerActive}
         />
-      </div>
-    );
-  }
+      </Suspense>
+    </div>
+  );
 };
 
 export default Home;

@@ -5,23 +5,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const CountdownTimer = (props) => {
   const timestampDay = props.startTime;
   const eventendDay = props.endTime;
-  const nowDay = new Date();
+  const [nowDay, setNowDay] = useState(() => Date.now());
   const active = Boolean(props.timerActive);
-  let countdown;
-  const defaultStartTime = new Date(new Date().getFullYear(), 10, 22); // 22nd November of the current year
-  const defaultEndTime = new Date(new Date().getFullYear(), 10, 23); // 23rd November of the current year
+  const defaultStartTime = new Date(2026, 10, 28); // November 28, 2026
+  const defaultEndTime = new Date(2026, 10, 29); // November 29, 2026
 
   const startTime = props.startTime || defaultStartTime;
   const endTime = props.endTime || defaultEndTime;
 
-  if (startTime >= endTime) {
-    countdown = startTime;
-  } else {
-    countdown = endTime;
-  }
-
   function getRemainingTimeUntilMsTimestamp(countdown, nowDay) {
-    const timeDifference = countdown - nowDay;
+    const timeDifference = Math.max(0, countdown - nowDay);
     const seconds = Math.floor(timeDifference / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
@@ -36,28 +29,16 @@ const CountdownTimer = (props) => {
     };
   }
 
-  const defaultRemainingTime = getRemainingTimeUntilMsTimestamp(
-    countdown,
-    nowDay,
-  );
-
-  const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
+  const target =
+    new Date(startTime).getTime() >= nowDay
+      ? new Date(startTime).getTime()
+      : new Date(endTime).getTime();
+  const remainingTime = getRemainingTimeUntilMsTimestamp(target, nowDay);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (timestampDay >= nowDay) {
-        updateRemainingTime(timestampDay);
-      } else {
-        updateRemainingTime(eventendDay);
-      }
-    }, 1000);
+    const intervalId = setInterval(() => setNowDay(Date.now()), 1000);
     return () => clearInterval(intervalId);
-  }, [timestampDay, eventendDay, nowDay, updateRemainingTime]);
-
-  function updateRemainingTime(countdown) {
-    const nowDay = new Date();
-    setRemainingTime(getRemainingTimeUntilMsTimestamp(countdown, nowDay));
-  }
+  }, []);
 
   function padWithZeros(number, minLength = 2) {
     const numberString = String(number);
@@ -113,7 +94,7 @@ const CountdownTimer = (props) => {
           <></>
         ) : (
           <span className="" style={{ fontSize: "2vw" }}>
-            minut{remainingTime.months !== 1 && "s"}
+            minut{remainingTime.minutes !== 1 && "s"}
           </span>
         )}
         {remainingTime.days ? (
@@ -125,7 +106,7 @@ const CountdownTimer = (props) => {
           <></>
         ) : (
           <span className="" style={{ fontSize: "2vw" }}>
-            segon{remainingTime.days !== 1 && "s"}
+            segon{remainingTime.seconds !== 1 && "s"}
           </span>
         )}
       </div>

@@ -1,0 +1,23 @@
+/* Stagger continuous pulses without leaving the background completely dark. */
+.ambient-firework {
+  opacity: 0.9;
+  animation: firework-pulse 12s ease-in-out infinite;
+}
+
+@keyframes firework-pulse {
+  0%, 100% {
+    opacity: 0.9;
+    scale: 1.05;
+  }
+  50% {
+    opacity: 0.25;
+    scale: 0.95;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-firework {
+    animation: none;
+    opacity: 0.75;
+  }
+}

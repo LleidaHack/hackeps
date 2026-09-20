@@ -7,13 +7,12 @@ const LinkAccounts = ({ hacker }) => {
   let is_lin_valid =
     hacker.linkedin &&
     /^((https?:\/\/)?(www\.|es\.)?linkedin\.com\/in\/)/.test(hacker.linkedin);
+  if (!is_git_valid && !is_lin_valid) return null;
+
   return (
     <div className="container m-auto p-0">
       <div className="row join-container bg-grayStrongHackeps p-3 text-center m-auto mt-5">
-        <div className="col-8 col-sm-8 align-middle text-start m-auto pe-0">
-          Coneix aquest/a hacker:
-        </div>
-        <div className="col-4 col-sm-4 m-auto px-0">
+        <div className="m-auto flex justify-center gap-3 px-0">
           {is_git_valid && (
             <a
               href={hacker.github || "#"}

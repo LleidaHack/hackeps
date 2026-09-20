@@ -9,9 +9,34 @@ module.exports = {
           "0%": { backgroundPosition: "100% " },
           "100%": { backgroundPosition: "0% " },
         },
+        "cloud-float": {
+          "0%": { transform: "translateX(-120%)" },
+          "100%": { transform: "translateX(120vw)" },
+        },
+        "cloud-float-reverse": {
+          "0%": { transform: "translateX(120vw)" },
+          "100%": { transform: "translateX(-120%)" },
+        },
+        "bunting-sway": {
+          "0%, 100%": { transform: "rotate(-2deg)" },
+          "50%": { transform: "rotate(2deg)" },
+        },
+        "wave-drift": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        "float-gentle": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
       },
       animation: {
-        "olas-scroll": "olas-scroll 4000s linear infinite", //infinite
+        "olas-scroll": "olas-scroll 4000s linear infinite",
+        "cloud-float": "cloud-float 60s linear infinite",
+        "cloud-float-reverse": "cloud-float-reverse 80s linear infinite",
+        "bunting-sway": "bunting-sway 3s ease-in-out infinite",
+        "wave-drift": "wave-drift 8s linear infinite",
+        "float-gentle": "float-gentle 4s ease-in-out infinite",
       },
       fontFamily: {
         'space-mono': ['"Space Mono"', 'monospace'],
@@ -24,7 +49,7 @@ module.exports = {
         errorLanding: "#E55010",
         linkLanding: "#3366CC",
         grayColor: "#757575",
-        primaryHackeps: "#54311A", // src/components/hackeps/Home/Schedule.js, line 23
+        primaryHackeps: "#54311A",
         textPrimaryHackeps: "#F5F5F5",
         primaryHackepsDark: "#2F7D5F",
         secondaryHackeps: "#F5E7DE",
@@ -40,6 +65,19 @@ module.exports = {
         errorRed: "#f44336",
         blueSky: "#bdfffe",
         secondaryColorButton: "#237090",
+        /* 10th Anniversary theme colors */
+        skyTop: "#87CEEB",
+        skyBottom: "#B0E0E6",
+        skyMid: "#A8D8EA",
+        bannerOrange: "#F28C28",
+        hackepsOrange: "#F97316",
+        seaDeep: "#5B9BD5",
+        seaLight: "#87CEEB",
+        sandBeige: "#F5E6D3",
+        skyDay: "#94cbf5",
+        nightNavy: "#2c465e",
+        nightNavyDeep: "#15202b",
+        headingInk: "#1a3a52",
       },
       screens: {
         sm: "576px",

@@ -6,6 +6,7 @@ import { MemoryRouter, useLocation } from "react-router-dom";
 describe("Profile - Render", () => {
   test(`renders without crashing + header and footer.`, async () => {
     useLocation.mockReturnValue({
+      pathname: "/perfil",
       state: {
         fakevalue: "fakevalue",
       },

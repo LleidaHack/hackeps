@@ -1,5 +1,4 @@
-import Header from "src/components/hackeps/Header/Header.js";
-import Footer from "src/components/hackeps/Footer/Footer.js";
+import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
 import IfSponsors from "src/components/hackeps/Sponsors/IfSponsors.js";
 import React from "react";
 import { useParams } from "react-router-dom";
@@ -9,11 +8,9 @@ const Sponsors = () => {
   const sponsorId = ids || 0;
 
   return (
-    <div>
-      <Header />
+    <DarkPage minHeight={1100}>
       <IfSponsors id={sponsorId} />
-      <Footer />
-    </div>
+    </DarkPage>
   );
 };
 

@@ -1,0 +1,9 @@
+.verification-panel { width: min(100%, 640px); margin: auto; padding: clamp(32px, 7vw, 80px) 24px; text-align: center; color: #fff; overflow-wrap: anywhere; }
+.verification-panel h1 { color: #ff7430; font-size: clamp(26px, 5vw, 36px); margin: 20px 0; }
+.verification-panel p { line-height: 1.7; margin: 20px 0; }
+.verification-icon { display: inline-grid; place-items: center; width: 88px; height: 88px; border: 2px solid #ff7430; border-radius: 50%; color: #ff7430; font-size: 42px; }
+.verification-status { padding: 20px; border: 1px solid #686868; border-radius: 12px; }
+.verification-hint { color: #ccc; font-size: 14px; }
+.verification-button { min-height: 52px; padding: 12px 24px; width: 100%; background: #ff7430; color: #252525; border: 0; border-radius: 4px; font-weight: bold; }
+.verification-button:disabled { opacity: .6; cursor: not-allowed; }
+.verification-panel a { color: #ff9b66; text-underline-offset: 4px; }

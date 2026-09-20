@@ -2,14 +2,14 @@ import React from "react";
 
 const PrivacyComponent = () => {
   return (
-    <div className="bg-secondaryHackeps flex-1 font-space-mono">
-      <div className="max-w-3xl mx-auto px-4 md:px-6 py-10 md:py-14">
-        <h1 className="text-2xl md:text-3xl font-bold uppercase text-[#304B91]">
+    <div className="flex-1 font-space-mono text-white">
+      <div className="mx-auto max-w-3xl px-4 py-10 md:px-6 md:py-14">
+        <h1 className="text-2xl font-bold uppercase text-white md:text-3xl">
           Política de Privadesa
         </h1>
         <div className="w-16 h-1 bg-[#FF7430] mt-3 mb-8" />
 
-        <p className="text-justify leading-relaxed text-gray-800">
+        <p className="text-justify leading-relaxed text-white/90">
           La present Política de Privadesa estableix els termes en què
           LleidaHack usa i protegeix la informació que és proporcionada pels
           seus usuaris al moment d'utilitzar el seu lloc web. Aquesta companyia
@@ -22,15 +22,15 @@ const PrivacyComponent = () => {
           assegurar-se que està d'acord amb aquests canvis.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Informació que és recollida</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Informació que és recollida</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           El nostre lloc web podrà recollir informació personal per exemple:
           Nom, informació de contacte com la seva adreça de correu electrònic i
           informació demogràfica.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Ús de la informació recollida</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Ús de la informació recollida</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           El nostre lloc web fa servir la informació amb la finalitat de
           proporcionar el millor servei possible, particularment per a mantenir
           un registre d'usuaris, de comandes en cas que aplicació, i millorar
@@ -41,15 +41,15 @@ const PrivacyComponent = () => {
           benefici, aquests correus electrònics seran enviats a l'adreça que
           vostè proporcioni i podran ser cancel·lats en qualsevol moment.
         </p>
-        <p className="text-justify leading-relaxed text-gray-800 mt-3">
+        <p className="mt-3 text-justify leading-relaxed text-white/90">
           LleidaHack està altament compromès per a complir amb el compromís de
           mantenir la seva informació segura. Usem els sistemes més avançats i
           els actualitzem constantment per a assegurar-nos que no existeixi cap
           accés no autoritzat.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Cookies</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Cookies</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           Una cookie es refereix a un fitxer que és enviat amb la finalitat de
           sol·licitar permís per a emmagatzemar-se en el seu ordinador, en
           acceptar aquest fitxer es crea i la cookie serveix llavors per a tenir
@@ -58,7 +58,7 @@ const PrivacyComponent = () => {
           que amb elles les webs poden reconèixer-te individualment i, per tant,
           brindar-te el millor servei personalitzat del seu web.
         </p>
-        <p className="text-justify leading-relaxed text-gray-800 mt-3">
+        <p className="mt-3 text-justify leading-relaxed text-white/90">
           El nostre lloc web empra les cookies per a poder identificar les
           pàgines que són visitades i la seva freqüència. Aquesta informació és
           usada únicament per a anàlisi estadística i després la informació
@@ -74,8 +74,8 @@ const PrivacyComponent = () => {
           utilitzar alguns dels nostres serveis.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Enllaços a tercers</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Enllaços a tercers</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           Aquest lloc web pot contenir enllaços a altres llocs que poguessin ser
           del seu interès. Una vegada que vostè faci clic en aquests enllaços i
           abandoni la nostra pàgina, ja no tenim control sobre el lloc al qual
@@ -86,8 +86,8 @@ const PrivacyComponent = () => {
           confirmar que vostè està d'acord amb aquestes.
         </p>
 
-        <h2 className="text-lg md:text-xl font-bold mt-8 mb-2 text-[#304B91]">Control de la seva informació personal</h2>
-        <p className="text-justify leading-relaxed text-gray-800">
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Control de la seva informació personal</h2>
+        <p className="text-justify leading-relaxed text-white/90">
           En qualsevol moment vostè pot restringir la recopilació o l'ús de la
           informació personal que és proporcionada al nostre lloc web. Cada
           vegada que se li sol·liciti emplenar un formulari, com el d'alta
@@ -95,7 +95,7 @@ const PrivacyComponent = () => {
           correu electrònic. En cas que hagi marcat l'opció de rebre el nostre
           butlletí o publicitat vostè pot cancel·lar-la en qualsevol moment.
         </p>
-        <p className="text-justify leading-relaxed text-gray-800 mt-3">
+        <p className="mt-3 text-justify leading-relaxed text-white/90">
           Aquesta companyia no vendrà, cedirà ni distribuirà la informació
           personal que és recopilada sense el seu consentiment, tret que sigui
           requerit per un jutge amb un ordre judicial. LleidaHack es reserva el

@@ -1,22 +1,19 @@
 import React, { useEffect } from "react";
 import FAQCard from "src/components/hackeps/FAQ_card/FAQ_card";
-import "src/components/hackeps/FAQ_container/FAQ_container.css"; // Importa el archivo de estilos CSS para FAQContainer
-import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
 
 const FAQContainer = ({ faqs }) => {
   useEffect(() => {
-    // Coloca el scroll en la parte superior cuando el componente se monta
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className="faq-container bg-secondaryHackeps">
-      <TitleGeneralized underline>FAQs</TitleGeneralized>
-      <div className="row">
+    <div className="px-[10%] py-10">
+      <h1 className="mb-8 mt-0 text-center font-space-mono text-[30px] md:text-[48px] font-bold leading-none tracking-[-0.96px] text-white">
+        HackEPS — Preguntes freqüents (FAQs)
+      </h1>
+      <div className="mx-auto flex w-full max-w-[1100px] flex-col gap-3">
         {faqs.map((faq, index) => (
-          <div key={index} className="col-lg-4 col-md-6 col-sm-12">
-            <FAQCard question={faq.question} answer={faq.answer} />
-          </div>
+          <FAQCard key={index} question={faq.question} answer={faq.answer} />
         ))}
       </div>
     </div>

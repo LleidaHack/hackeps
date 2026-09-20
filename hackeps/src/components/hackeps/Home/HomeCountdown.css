@@ -1,0 +1,25 @@
+.home-countdown {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem clamp(0.75rem, 2vw, 2rem);
+  max-width: 100%;
+  font-size: clamp(14px, 3.3vw, 48px);
+  line-height: 1.2;
+}
+
+.home-countdown-unit {
+  display: inline-flex;
+  align-items: baseline;
+  gap: clamp(0.25rem, 1vw, 1rem);
+  white-space: nowrap;
+}
+
+.home-countdown-value {
+  font-size: clamp(28px, 6.6vw, 96px);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,167 +1,60 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import Sponsors from "../../../components/hackeps/Home/Sponsors";
-import * as CompanyService from "../../../services/CompanyService";
+import Sponsors from "src/components/hackeps/Home/Sponsors";
+import { getHackeps, getEventSponsors } from "src/services/EventService";
+jest.mock("src/services/EventService");
 
-// Mock the CompanyService
-jest.mock("../../../services/CompanyService");
+beforeEach(() => {
+  jest.clearAllMocks();
+  getHackeps.mockResolvedValue({ id: 26 });
+});
 
-describe("Home Sponsors Component", () => {
-  beforeEach(() => {
-    // Mock localStorage
-    Object.defineProperty(window, "localStorage", {
-      value: {
-        getItem: jest.fn(() => "test-event"),
-        setItem: jest.fn(),
-        removeItem: jest.fn(),
-      },
-      writable: true,
-    });
+test("loads sponsors on a first visit without a cached event", async () => {
+  Object.defineProperty(window, "localStorage", {
+    configurable: true,
+    value: { getItem: () => null },
   });
+  getEventSponsors.mockResolvedValue([{ id: 1, name: "Test Sponsor", image: "test.webp", tier: 2 }]);
+  render(<Sponsors />);
+  expect(
+    await screen.findByRole("button", { name: "Test Sponsor" }),
+  ).toBeInTheDocument();
+  expect(getEventSponsors).toHaveBeenCalledWith(26);
+});
+test("empty artwork does not introduce unnamed controls", async () => {
+  getEventSponsors.mockResolvedValue([]);
+  render(<Sponsors />);
+  await waitFor(() => expect(getEventSponsors).toHaveBeenCalledWith(26));
+  expect(screen.queryAllByRole("button")).toHaveLength(0);
+  // The section title always renders; empty tiers are not rendered at all.
+  expect(screen.getByText("SPONSORS")).toBeInTheDocument();
+  expect(screen.queryByText("Supreme")).not.toBeInTheDocument();
+});
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+test("only collaborators have a tier heading; sponsors differ by size", async () => {
+  getEventSponsors.mockResolvedValue([
+    { id: 1, name: "Top Sponsor", image: "a.webp", tier: 0 },
+    { id: 2, name: "Small Sponsor", image: "b.webp", tier: 4 },
+  ]);
+  render(<Sponsors />);
+  expect(
+    await screen.findByRole("button", { name: "Top Sponsor" }),
+  ).toBeInTheDocument();
+  expect(screen.queryByText("Supreme")).not.toBeInTheDocument();
+  expect(screen.getByRole("button", {name: "Top Sponsor"}).getAttribute("style")).not.toEqual(screen.getByRole("button", {name: "Small Sponsor"}).getAttribute("style"));
+  expect(screen.getByText("Col·laboradors")).toBeInTheDocument();
+  expect(screen.queryByText("Challenger")).not.toBeInTheDocument();
+});
+test("API error objects do not become sponsor cards", async () => {
+  getEventSponsors.mockResolvedValue({ errCode: 500 });
+  render(<Sponsors />);
+  await waitFor(() => expect(getEventSponsors).toHaveBeenCalledWith(26));
+  expect(screen.queryAllByRole("button")).toHaveLength(0);
+});
 
-  test("shows loading state initially", () => {
-    // Mock API calls to never resolve
-    CompanyService.getCompanyByTier.mockImplementation(
-      () => new Promise(() => {}),
-    );
-
-    render(
-      <MemoryRouter>
-        <Sponsors />
-      </MemoryRouter>,
-    );
-
-    expect(
-      screen.getByText("Carregant reptes de sponsors..."),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Carregant sponsors...")).toBeInTheDocument();
-  });
-
-  test("displays sponsors and challengers when data loads successfully", async () => {
-    // Mock successful API responses
-    const mockChallenger = [
-      { id: 1, name: "Challenger Company", image: "test-image.jpg", tier: 2 },
-    ];
-    const mockSponsors = [
-      [{ id: 2, name: "Sponsor Tier 1", image: "sponsor1.jpg", tier: 1 }],
-      [{ id: 3, name: "Sponsor Tier 3", image: "sponsor3.jpg", tier: 3 }],
-    ];
-
-    CompanyService.getCompanyByTier
-      .mockResolvedValueOnce(mockChallenger)
-      .mockResolvedValueOnce(mockSponsors[0])
-      .mockResolvedValueOnce(mockSponsors[1]);
-
-    render(
-      <MemoryRouter>
-        <Sponsors />
-      </MemoryRouter>,
-    );
-
-    // Wait for loading to complete
-    await waitFor(() => {
-      expect(
-        screen.queryByText("Carregant reptes de sponsors..."),
-      ).not.toBeInTheDocument();
-    });
-
-    await waitFor(() => {
-      expect(
-        screen.queryByText("Carregant sponsors..."),
-      ).not.toBeInTheDocument();
-    });
-
-    // Check that sponsor sections are rendered (titles should be present)
-    expect(screen.getByText("Reptes Proposats per...")).toBeInTheDocument();
-    expect(screen.getByText("Amb la col·laboració de...")).toBeInTheDocument();
-  });
-
-  test("shows empty state when no event is in localStorage", async () => {
-    // Mock localStorage to return null
-    window.localStorage.getItem = jest.fn(() => null);
-
-    render(
-      <MemoryRouter>
-        <Sponsors />
-      </MemoryRouter>,
-    );
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("No hi ha reptes disponibles actualment."),
-      ).toBeInTheDocument();
-    });
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("No hi ha sponsors disponibles actualment."),
-      ).toBeInTheDocument();
-    });
-  });
-
-  test("shows empty state when API returns empty data", async () => {
-    // Mock API to return empty arrays
-    CompanyService.getCompanyByTier
-      .mockResolvedValueOnce([])
-      .mockResolvedValueOnce([])
-      .mockResolvedValueOnce([]);
-
-    render(
-      <MemoryRouter>
-        <Sponsors />
-      </MemoryRouter>,
-    );
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("No hi ha reptes disponibles actualment."),
-      ).toBeInTheDocument();
-    });
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("No hi ha sponsors disponibles actualment."),
-      ).toBeInTheDocument();
-    });
-  });
-
-  test("handles API errors gracefully", async () => {
-    // Mock API to reject
-    CompanyService.getCompanyByTier.mockRejectedValue(new Error("API Error"));
-
-    // Mock console.error to avoid noise in test output
-    const consoleSpy = jest
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
-
-    render(
-      <MemoryRouter>
-        <Sponsors />
-      </MemoryRouter>,
-    );
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("No hi ha reptes disponibles actualment."),
-      ).toBeInTheDocument();
-    });
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("No hi ha sponsors disponibles actualment."),
-      ).toBeInTheDocument();
-    });
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      "Error fetching sponsors data:",
-      expect.any(Error),
-    );
-
-    consoleSpy.mockRestore();
-  });
+test("does not fetch sponsors when the configured edition is missing", async () => {
+  getHackeps.mockResolvedValue({ errCode: 404 });
+  render(<Sponsors />);
+  await waitFor(() => expect(getHackeps).toHaveBeenCalled());
+  expect(getEventSponsors).not.toHaveBeenCalled();
 });

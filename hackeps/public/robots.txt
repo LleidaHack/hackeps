@@ -1,4 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:
-Sitemap: https://www.lleidahack.dev/sitemap.xml
+Sitemap: https://hackeps.dev/sitemap.xml
