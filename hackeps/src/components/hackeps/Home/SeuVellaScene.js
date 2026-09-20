@@ -3,12 +3,12 @@ import seuVella from "src/assets/img/home10/seu-vella.svg";
 import firework from "src/assets/img/home10/firework-1.svg";
 
 // All layers share one coordinate system, so zoom cannot separate the hills,
-// trees and castle. The foreground meets the footer at exactly the same colour.
+// trees and castle. A 1px overlap hides subpixel seams against the footer.
 export default function SeuVellaScene() {
   return (
     <svg
       viewBox="0 0 1200 280"
-      className="block h-auto w-full"
+      className="-mb-px block h-auto w-full"
       role="img"
       aria-label="La Seu Vella de Lleida entre arbres i turons"
       data-testid="seu-vella-scene"
