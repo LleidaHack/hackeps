@@ -1,3 +1,4 @@
+import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import { HACKEPS_YEAR } from "src/config/edition";
 import { formatEditionDates } from "src/hooks/useEdition";
 import React, { useState, useEffect, useRef } from "react";
@@ -186,8 +187,8 @@ const InscripcioForm = () => {
                 <fieldset className="event-registration-section" disabled={!hackepsEvent || sending}>
                   <legend>Dades de participació</legend>
                 <label className="mb-3">
-                  Què estudies o has estudiat?
-                  <input
+                  Què estudies o has estudiat? <RequiredMark />
+                  <input aria-required="true"
                     className={`${errors.studies ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     placeholder="Estudis"
                     {...register("studies", {
@@ -200,8 +201,8 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  Centre d'estudis:
-                  <input
+                  Centre d'estudis: <RequiredMark />
+                  <input aria-required="true"
                     className={`${errors.center ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     placeholder="UdL"
                     {...register("center", {
@@ -214,8 +215,8 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  D'on vens?
-                  <input
+                  D'on vens? <RequiredMark />
+                  <input aria-required="true"
                     className={`${errors.location ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     placeholder="Lleida, Barcelona, etc."
                     {...register("location", {
@@ -230,8 +231,8 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  Talla de samarreta:
-                  <select
+                  Talla de samarreta: <RequiredMark />
+                  <select aria-required="true"
                     className={`${errors.size ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
                     {...register("size", {
                       required: "Aquest camp és obligatori",
@@ -249,8 +250,8 @@ const InscripcioForm = () => {
                 )}
 
                 <label className="mb-3">
-                  Tens alguna restricció alimentària o alèrgia?
-                  <select
+                  Tens alguna restricció alimentària o alèrgia? <RequiredMark />
+                  <select aria-required="true"
                     className={`${errors.meets ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base ml-2`}
                     {...register("meets", {
                       required: "Aquest camp és obligatori",
@@ -280,8 +281,8 @@ const InscripcioForm = () => {
                 <label>
                   {!disabledRestrictions && (
                     <div id="foodTextArea">
-                      Quines restriccions o alèrgies tens?
-                      <input
+                      Quines restriccions o alèrgies tens? <RequiredMark />
+                      <input aria-required="true"
                         className={`${errors.food && !disabledRestrictions ? "bg-pink-100" : "bg-white"} ${``} py-2 min-h-10 px-2 text-base mt-2`}
                         placeholder="Lactosa, gluten, etc."
                         {...register("food", {
@@ -300,8 +301,8 @@ const InscripcioForm = () => {
                 </label>
 
                 <label className="mb-3">
-                  Com ens has conegut?
-                  <select
+                  Com ens has conegut? <RequiredMark />
+                  <select aria-required="true"
                     className={`${errors.meet ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base ml-2`}
                     {...register("meet", {
                       required: "Aquest camp és obligatori",
@@ -368,7 +369,7 @@ const InscripcioForm = () => {
                 </fieldset>
                 <div className="event-registration-footer">
                   <label className="event-registration-consent">
-                    <input
+                    <input aria-required="true"
                       type="checkbox"
                       className="w-fit mr-5"
                       {...register("checkboxterms", {
@@ -379,7 +380,7 @@ const InscripcioForm = () => {
                       Accepto els{" "}
                       <a href={ROUTES.terms} className="event-registration-link">
                         termes i condicions
-                      </a>
+                      </a> <RequiredMark />
                     </p>
                   </label>
 

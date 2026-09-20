@@ -89,6 +89,7 @@ export default function BirthdatePicker({
       <div className="birthdate-field">
         <input
           id="birthdate"
+          aria-required="true"
           type="text"
           inputMode="numeric"
           autoComplete="bday"
