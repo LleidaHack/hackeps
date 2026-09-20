@@ -1,15 +1,50 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GALLERY_ITEMS } from "./galleryItems";
 import Firework from "src/components/hackeps/Home/Firework.js";
 import firework1 from "src/assets/img/home10/firework-1.svg";
 import firework3 from "src/assets/img/home10/firework-3.svg";
 import cloud2 from "src/assets/img/home10/cloud-2.svg";
 
+export function shufflePhotos(items, random = Math.random) {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 const Records = () => {
   // Drag-to-scroll with the mouse. Touch and wheel keep working natively.
   const scrollerRef = useRef(null);
   const drag = useRef({ active: false, startX: 0, scrollLeft: 0 });
   const [dragging, setDragging] = useState(false);
+  const [items] = useState(() => shufflePhotos(GALLERY_ITEMS));
+  const [paused, setPaused] = useState(false);
+  const [interacting, setInteracting] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  useEffect(() => {
+    const media = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    const update = () => setReducedMotion(Boolean(media?.matches));
+    update();
+    media?.addEventListener?.("change", update);
+    return () => media?.removeEventListener?.("change", update);
+  }, []);
+  useEffect(() => {
+    if (paused || interacting || reducedMotion || dragging) return;
+    const timer = setInterval(() => {
+      const el = scrollerRef.current;
+      if (!el || document.hidden) return;
+      const step = el.children[1]?.offsetLeft - el.children[0]?.offsetLeft;
+      if (!step) return;
+      const end = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+      el.scrollTo({
+        left: end ? 0 : el.scrollLeft + step,
+        behavior: end ? "auto" : "smooth",
+      });
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [paused, interacting, reducedMotion, dragging]);
 
   const startDrag = (e) => {
     const el = scrollerRef.current;
@@ -57,9 +92,36 @@ const Records = () => {
         className="ambient-cloud ambient-cloud--2 ambient-cloud--left pointer-events-none absolute right-[-8%] bottom-[8%] z-0 h-auto w-[28%] max-w-[320px] object-contain opacity-80"
       />
 
-      <div className="relative z-10">
+      <div
+        className="relative z-10"
+        onMouseEnter={() => setInteracting(true)}
+        onMouseLeave={() => {
+          setInteracting(false);
+          endDrag();
+        }}
+        onFocus={() => setInteracting(true)}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget))
+            setInteracting(false);
+        }}
+        onTouchStart={() => setInteracting(true)}
+        onTouchEnd={() => setInteracting(false)}
+      >
+        <button
+          type="button"
+          onClick={() => setPaused((value) => !value)}
+          aria-pressed={paused}
+          disabled={reducedMotion}
+          className="relative z-20 mx-4 mb-2 rounded border border-white bg-transparent px-4 py-2 text-sm text-white min-h-[44px]"
+        >
+          {reducedMotion
+            ? "Moviment automàtic desactivat"
+            : paused
+              ? "Reprèn les fotografies"
+              : "Pausa les fotografies"}
+        </button>
         <svg
-          className="pointer-events-none absolute left-0 top-[44px] md:top-[56px] h-[36px] w-full"
+          className="pointer-events-none absolute left-0 top-[96px] md:top-[108px] h-[36px] w-full"
           viewBox="0 0 1728 36"
           preserveAspectRatio="none"
           aria-hidden="true"
@@ -89,7 +151,7 @@ const Records = () => {
               : "snap-x snap-mandatory cursor-grab"
           }`}
         >
-          {GALLERY_ITEMS.map((item) => (
+          {items.map((item) => (
             <article
               key={item.id}
               className="w-[220px] shrink-0 snap-start sm:w-[280px] md:w-[340px]"

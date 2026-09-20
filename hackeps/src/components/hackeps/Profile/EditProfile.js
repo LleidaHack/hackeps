@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { updateHacker } from "src/services/HackerService";
+import { readUpload } from "src/modules/uploads";
 import defaultAvatar from "src/assets/img/home10/marraco-mentor-raw.webp";
 
 const EditProfile = ({ hackerObj, onSaved }) => {
@@ -26,26 +27,17 @@ const EditProfile = ({ hackerObj, onSaved }) => {
     setSaved(false);
   };
 
-  const upload = (event, kind) => {
-    const file = event.target.files[0];
+  const upload = async (event, kind) => {
+    const input = event.target;
+    const file = input.files[0];
     if (!file) return;
-    setError("");
-    setSaved(false);
-    const validType = kind === "cv" ? file.type === "application/pdf" : ["image/jpeg", "image/png", "image/webp"].includes(file.type);
-    if (!validType || file.size > 1024 * 1024) {
-      setError(!validType ? (kind === "cv" ? "Selecciona un fitxer PDF." : "Selecciona una imatge JPG, PNG o WebP.") : "El fitxer no pot superar 1 MB.");
-      event.target.value = "";
-      return;
-    }
-    setReading(true);
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (kind === "cv") { setCv(reader.result); setCvName(file.name); }
-      else { setImage(reader.result); setImageChanged(true); }
-      setReading(false);
-    };
-    reader.onerror = () => { setError("No hem pogut llegir el fitxer."); setReading(false); };
-    reader.readAsDataURL(file);
+    setError(""); setSaved(false); setReading(true);
+    try {
+      const value = await readUpload(file, kind);
+      if (kind === "cv") { setCv(value); setCvName(file.name); }
+      else { setImage(value); setImageChanged(true); }
+    } catch (error) { setError(error.message); input.value = ""; }
+    finally { setReading(false); }
   };
 
   const submit = async (event) => {
@@ -79,9 +71,6 @@ const EditProfile = ({ hackerObj, onSaved }) => {
             <small>JPG, PNG o WebP. Màxim 1 MB.</small>
           </label>
         </div>
-        <label>O enganxa un enllaç a una imatge
-          <input type="url" placeholder="https://…" value={image.startsWith("data:") ? "" : image} onChange={(event) => { setImage(event.target.value); setImageChanged(true); setSaved(false); }} />
-        </label>
       </fieldset>
       <fieldset disabled={sending || reading}>
         <legend>Dades i enllaços</legend>
@@ -96,7 +85,7 @@ const EditProfile = ({ hackerObj, onSaved }) => {
         <label>Talla de samarreta
           <select name="shirt_size" value={values.shirt_size || ""} onChange={change}>
             <option value="">Selecciona una talla</option>
-            {["S", "M", "L", "XL", "XXL", "XXXL"].map((size) => <option key={size}>{size}</option>)}
+            {["XS", "S", "M", "L", "XL", "XXL", "XXXL"].map((size) => <option key={size}>{size}</option>)}
           </select>
         </label>
       </fieldset>

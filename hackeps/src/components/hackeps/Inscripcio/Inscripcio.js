@@ -1,15 +1,15 @@
 import { HACKEPS_YEAR } from "src/config/edition";
 import { formatEditionDates } from "src/hooks/useEdition";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { registerHackerToEvent } from "src/services/EventService";
 import { getHackeps } from "src/services/EventService";
 import FailFeedback from "src/components/hackeps/Feedbacks/FailFeedback";
 import SuccessFeedback from "src/components/hackeps/Feedbacks/SuccesFeedback";
 import Button from "src/components/buttons/Button";
-import FileBase from "react-file-base64";
+import { readUpload } from "src/modules/uploads";
 import { getHackerById } from "src/services/HackerService";
-import { getEventIsHackerRegistered } from "src/services/EventService";
+import { getEventIsHackerRegistered, getEventRegistration } from "src/services/EventService";
 import { updateRregisterHackerToEvent } from "src/services/EventService";
 import "../Forms/FormLayout.css";
 import "../Forms/PublicFormLayout.css";
@@ -20,6 +20,8 @@ const InscripcioForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
+    setValue,
 
     formState: { errors, isValid },
 
@@ -27,6 +29,8 @@ const InscripcioForm = () => {
     mode: "onChange",
   });
   const sizeOptions = [
+    { value: "", label: "Selecciona una talla" },
+    { value: "XS", label: "XS" },
     { value: "S", label: "S" },
     { value: "M", label: "M" },
     { value: "L", label: "L" },
@@ -48,7 +52,10 @@ const InscripcioForm = () => {
   const [disabledRestrictions, setDisabledRestrictions] = useState(true);
   const [cvFile, setCvFile] = useState("");
   const [hackepsEvent, setHackepsEvent] = useState(null);
-  const [isCvTooLarge, setCvTooLarge] = useState(false);
+  const [fileError, setFileError] = useState("");
+  const [readingFile, setReadingFile] = useState(false);
+  const [cvChanged, setCvChanged] = useState(false);
+  const cvInput = useRef(null);
   const [previousRegistration, setPreviousRegistration] = useState({
     studies: "",
     center: "",
@@ -74,33 +81,38 @@ const InscripcioForm = () => {
     const fetchData = async () => {
       const hackepsEvent = await getHackeps();
       if (!hackepsEvent?.id) { setLoadError(true); return; }
-      const me = await getHackerById(localStorage.getItem("userID"));
-      if (!me?.id) { setLoadError(true); return; }
-      setCvFile(me.cv);
-      getEventIsHackerRegistered(hackepsEvent.id, me.id).then((response) => {
-
-        if (typeof response !== "boolean") { setLoadError(true); return; }
-        if (response === true) {
-          setRegistered(true);
-        } else {
-          setRegistered(false);
-        }
-      });
+      const account = await getHackerById(localStorage.getItem("userID"));
+      if (!account?.id) { setLoadError(true); return; }
+      const response = await getEventIsHackerRegistered(hackepsEvent.id, account.id);
+      if (typeof response !== "boolean") { setLoadError(true); return; }
+      let me = account;
+      if (response) {
+        const registration = await getEventRegistration(hackepsEvent.id, account.id);
+        if (!registration || registration.errCode || registration.event_id !== hackepsEvent.id) { setLoadError(true); return; }
+        me = { ...account, ...registration };
+      }
+      setRegistered(response);
+      setCvFile(me.cv || "");
+      reset({ studies: me.studies || "", center: me.study_center || "", location: me.location || "",
+        size: me.shirt_size || "", meets: me.food_restrictions ? "yes" : "no", food: me.food_restrictions || "",
+        github: me.github || "", linkedin: me.linkedin || "", meet: me.how_did_you_meet_us || "nan",
+        cvinfo_links: me.description || "", checkboxterms: false, checkboxcredit: me.wants_credit || false });
+      setDisabledRestrictions(!me.food_restrictions);
       setHackepsEvent(hackepsEvent);
       setPreviousRegistration(me);
       if (process.env.REACT_APP_DEBUG === "true") console.log(me);
     };
 
     fetchData().catch(() => setLoadError(true));
-  }, []);
+  }, [reset]);
 
   const submit = async (values) => {
-    if (sending || isCvTooLarge || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)) return;
+    if (sending || readingFile || Boolean(fileError) || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)) return;
     setSending(true);
     const data = {
       shirt_size: values.size === undefined ? "" : values.size,
       food_restrictions: disabledRestrictions ? "" : values.food,
-      cv: cvFile,
+      ...((cvChanged || !registered) && cvFile !== undefined ? { cv: cvFile } : {}),
       description: values.cvinfo_links,
       github: values.github,
       linkedin: values.linkedin,
@@ -148,20 +160,18 @@ const InscripcioForm = () => {
     window.location.reload();
   };
 
-  const handleFileChange = (event) => {
-    let file = event.base64;
-    setCvTooLarge(parseFloat(event.size) > 1024);
-    setCvFile(file);
+  const handleFileChange = async (event) => {
+    const input = event.target;
+    const file = input.files[0];
+    if (!file) return;
+    setReadingFile(true); setFileError("");
+    try { setCvFile(await readUpload(file, "cv")); setCvChanged(true); }
+    catch (error) { setFileError(error.message); input.value = ""; }
+    finally { setReadingFile(false); }
   };
-
   const clearFile = () => {
-    setCvFile("");
-    setCvTooLarge(false);
-    // Clear the input field to allow selecting the same file again
-    const inputElement = document.getElementById("cvinfo_file");
-    if (inputElement) {
-      inputElement.value = "";
-    }
+    setCvFile(""); setCvChanged(true); setFileError("");
+    if (cvInput.current) cvInput.current.value = "";
   };
 
   return (
@@ -173,7 +183,7 @@ const InscripcioForm = () => {
               {loadError && <p role="alert">No hem pogut carregar aquesta edició. Torna-ho a provar més tard.</p>}
               {hackepsEvent && !hackepsEvent.is_open && !registered && <p role="status">Les inscripcions d’aquesta edició estan tancades.</p>}
               <form className="public-form event-registration-grid" onSubmit={handleSubmit(submit)}>
-                <fieldset className="event-registration-section">
+                <fieldset className="event-registration-section" disabled={!hackepsEvent || sending}>
                   <legend>Dades de participació</legend>
                 <label className="mb-3">
                   Què estudies o has estudiat?
@@ -250,7 +260,7 @@ const InscripcioForm = () => {
                     onChange={(e) => {
                       register("meets").onChange(e);
                       const value = e.target.value;
-                      const box = document.getElementById("foodTextArea");
+
                       if (value === "yes") {
                         setDisabledRestrictions(false);
                       } else if (value === "no") {
@@ -258,9 +268,7 @@ const InscripcioForm = () => {
                       } else {
                         setDisabledRestrictions(true);
                       }
-                      if (box) {
-                        box.value = "";
-                      }
+                      if (value !== "yes") setValue("food", "");
                     }}
                   >
                     <option value="nan">Selecciona una opció</option>
@@ -276,7 +284,6 @@ const InscripcioForm = () => {
                       <input
                         className={`${errors.food && !disabledRestrictions ? "bg-pink-100" : "bg-white"} ${``} py-2 min-h-10 px-2 text-base mt-2`}
                         placeholder="Lactosa, gluten, etc."
-                        defaultValue={""}
                         {...register("food", {
                           required:
                             !disabledRestrictions &&
@@ -302,6 +309,7 @@ const InscripcioForm = () => {
                         value !== "nan" || "Selecciona una opció vàlida",
                     })}
                   >
+                    {previousRegistration.how_did_you_meet_us && !meetOptions.some(option => option.value === previousRegistration.how_did_you_meet_us) && <option value={previousRegistration.how_did_you_meet_us}>{previousRegistration.how_did_you_meet_us}</option>}
                     {meetOptions.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
@@ -314,7 +322,7 @@ const InscripcioForm = () => {
                 )}
 
                 </fieldset>
-                <fieldset className="event-registration-section">
+                <fieldset className="event-registration-section" disabled={!hackepsEvent || sending}>
                   <legend>Perfil professional <span>(opcional)</span></legend>
                   <label className="mb-3">
                     <p className="text-sm">
@@ -347,30 +355,15 @@ const InscripcioForm = () => {
                     />
                   </label>
 
-                  <label className="">
-                    Adjunta el teu CV (Opcional)
-                    <div className="flex flex-col md:flex-row gap-3 mt-2 image-input-container">
-                      <FileBase
-                        type="file"
-                        id="avatarInput"
-                        multiple={false}
-                        accept="application/pdf"
-                        onDone={handleFileChange}
-                      />
-                      <Button
-                        type="button"
-                        onClick={clearFile}
-                        className="event-registration-remove"
-                      >
-                        Esborra
-                      </Button>
+                  <div className="event-registration-cv">
+                    <div className="event-registration-cv-heading">
+                      <label htmlFor="cvinfo_file">Adjunta el teu CV (opcional)</label>
+                      <button type="button" onClick={clearFile} disabled={readingFile || (!cvFile && !fileError)} className="event-registration-remove">Esborra</button>
                     </div>
-                    {isCvTooLarge && (
-                      <span className="text-red-400">
-                        El fitxer és massa gran. Màxim 1MB.
-                      </span>
-                    )}
-                  </label>
+                    <input ref={cvInput} id="cvinfo_file" type="file" accept="application/pdf,.pdf" onChange={handleFileChange} disabled={readingFile || sending} />
+                    <small>PDF. Màxim 1 MB.{cvFile && !cvInput.current?.files?.length ? " Ja tens un CV desat; el conservarem." : ""}</small>
+                    {fileError && <p role="alert" className="text-red-400">{fileError}</p>}
+                  </div>
 
                 </fieldset>
                 <div className="event-registration-footer">
@@ -406,7 +399,7 @@ const InscripcioForm = () => {
                   <Button
                     type="submit"
                     orange
-                    disabled={!isValid || sending || isCvTooLarge || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)}
+                    disabled={!isValid || sending || readingFile || Boolean(fileError) || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)}
                     className="event-registration-submit"
                   >
                     {sending ? "Enviant…" : "Enviar"}

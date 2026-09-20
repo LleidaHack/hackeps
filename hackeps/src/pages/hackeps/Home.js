@@ -46,10 +46,7 @@ const Home = () => {
           return;
         }
         const start = new Date(response.start_date);
-        start.setMonth(start.getMonth());
         const end = new Date(response.end_date);
-
-        end.setMonth(end.getMonth());
         setStartDate(start);
         setEndDate(end);
         if (localStorage.getItem("userID") !== null) {

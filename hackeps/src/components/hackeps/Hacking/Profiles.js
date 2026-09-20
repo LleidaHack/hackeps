@@ -92,11 +92,7 @@ const profiles = {
               </ul>
               <br></br>
               <p>
-                Si no trobes el devPost de la HackEps, pots accedir amb el
-                nostre acces directe des de:{" "}
-                <a href="https://lleidahack.dev/devpostHackeps">
-                  lleidahack.dev/devpostHackeps
-                </a>
+                L'organització facilitarà l'enllaç del Devpost de l'edició actual.
               </p>
             </div>
           </div>

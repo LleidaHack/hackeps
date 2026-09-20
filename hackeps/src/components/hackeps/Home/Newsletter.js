@@ -13,7 +13,7 @@ const Newsletter = () => {
         lifeLorena Ipsum sobre que fa el lifeLorena Ipsum sobre que fa el life
       </p>
       <a
-        href="https://live.lleidahack.dev"
+        href="https://live.hackeps.dev"
         className="relative mx-auto flex w-fit flex-col items-center justify-center rounded-[4px] bg-[#ff7430] px-4 py-2 no-underline"
       >
         <span className="font-space-mono text-[22px] leading-normal tracking-[-0.44px] text-[#2e2e2e] md:text-[32px] md:tracking-[-0.64px]">

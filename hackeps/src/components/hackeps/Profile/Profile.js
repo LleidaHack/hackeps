@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import { loadProfile } from "src/modules/loadProfile";
 import { clearSession } from "src/modules/session";
 import EditProfile from "./EditProfile";
+import { memberSince } from "src/modules/memberSince";
 import qrIcon from "src/icons/qr.png";
 
 //import Medals from "src/components/Medals/Medals";
@@ -71,19 +72,6 @@ const ProfileComponent = () => {
     clearSession();
   }
 
-  function generateMemberTime(creationDate) {
-    let first = new Date(creationDate);
-    let now = Date.now();
-
-    let seconds = (now - first) / 1000;
-    let days = seconds / 60 / 60 / 24;
-
-    if (days > 365) return `${~~(days / 365)} anys`;
-
-    if (days > 30) return `${~~(days / 30)} mesos`;
-
-    return `${~~days} dies`;
-  }
   if (loadError)
     return (
       <p role="alert" className="p-6 text-center text-white">
@@ -111,7 +99,7 @@ const ProfileComponent = () => {
               <h1>{user ? user.name : "Carregant el perfil…"}</h1>
               {user?.created_at && (
                 <p className="hacker-profile-membership">
-                  Membre des de fa {generateMemberTime(user.created_at)}
+                  {memberSince(user.created_at)}
                 </p>
               )}
             </div>

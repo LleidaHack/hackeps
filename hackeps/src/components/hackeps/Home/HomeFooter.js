@@ -75,7 +75,7 @@ const HomeFooter = ({ tone = "orange", compact = false }) => {
           Termes i Condicions
         </a>
         <a href={ROUTES.privacy} className="text-black" target="_blank" rel="noreferrer">
-          Politica de Privadesa de LleidaHack
+          Política de Privadesa de LleidaHack
         </a>
         <a
           href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
@@ -91,7 +91,7 @@ const HomeFooter = ({ tone = "orange", compact = false }) => {
         <p className="m-0">
           Made with <span className="text-black">❤</span> by{" "}
           <a
-            href="https://www.lleidahack.dev/"
+            href="https://hackeps.dev/"
             target="_blank"
             rel="noreferrer"
             className="underline underline-offset-2"

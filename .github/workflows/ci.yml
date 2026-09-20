@@ -1,0 +1,78 @@
+# Runs on every pull request and on pushes to main. The app lives in hackeps/,
+# so every step runs there; GitHub only reads workflows from the repo root.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: hackeps
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: hackeps/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: hackeps/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+        env:
+          CI: "true"
+          TZ: Europe/Madrid
+
+  build:
+    name: Build (${{ matrix.mode }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - mode: waiting page
+            launch_pending: "1"
+          - mode: full site
+            launch_pending: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: hackeps/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: hackeps/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+        env:
+          REACT_APP_LAUNCH_PENDING: ${{ matrix.launch_pending }}
+          REACT_APP_DOMAIN: https://api.example.invalid
+          REACT_APP_HACKEPS_YEAR: "2026"
+
+  format:
+    name: Prettier (informational)
+    runs-on: ubuntu-latest
+    # 66 files predate the formatter. Drop continue-on-error after a one-off
+    # `pnpm format` commit so this check becomes blocking.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: hackeps/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: hackeps/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec prettier --check .
