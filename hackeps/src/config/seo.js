@@ -4,6 +4,7 @@ const PUBLIC_PAGES = {
   "/": "HackEPS 2026",
   "/terms": "Termes i condicions · HackEPS 2026",
   "/privacy": "Política de privadesa · HackEPS 2026",
+  "/contacte": "Contacte · HackEPS 2026",
   "/contacte-mentor": "Mentoria · HackEPS 2026",
   "/sponsors": "Patrocinadors · HackEPS 2026",
 };

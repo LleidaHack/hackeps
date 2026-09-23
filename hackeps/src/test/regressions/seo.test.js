@@ -31,7 +31,7 @@ test("legacy and trailing-slash URLs canonicalize to the same page", () => {
 });
 
 test("pages folded into the home page are no longer indexed on their own", () => {
-  for (const route of ["/faq", "/dates", "/contacte"]) {
+  for (const route of ["/faq", "/dates"]) {
     expect(PUBLIC_PAGES[route]).toBeUndefined();
     expect(pageMetadata(route).robots).toBe("noindex,follow");
   }

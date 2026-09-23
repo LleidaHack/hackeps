@@ -5,6 +5,8 @@ import RequireAuth from "src/modules/RequireAuth";
 import { refreshToken } from "src/services/AuthenticationService";
 import { ROUTES } from "src/config/routes";
 
+const Contacte = lazy(() => import("src/pages/hackeps/Contacte"));
+
 const Error404 = lazy(() => import("src/pages/hackeps/Error404"));
 const Profile = lazy(() => import("src/pages/hackeps/Profile.js"));
 const HackerForm = lazy(() => import("src/pages/hackeps/HackerSignup"));
@@ -56,7 +58,7 @@ export default function MainRoutes() {
         {/* These pages are now sections of the home page. */}
         <Route path={ROUTES.dates} element={<Navigate to="/#dates" replace />} />
         <Route path={ROUTES.faq} element={<Navigate to="/#faq" replace />} />
-        <Route path={ROUTES.contact} element={<Navigate to="/#contacte" replace />} />
+        <Route path={ROUTES.contact} element={<Contacte />} />
         <Route path={ROUTES.contactMentor} element={<ContacteMentor />} />
         <Route path="/home" element={<Home />} />
         <Route

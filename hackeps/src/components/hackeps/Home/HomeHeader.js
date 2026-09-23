@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { isToken } from "src/modules/session";
 import { ROUTES } from "src/config/routes";
 import isotip from "src/assets/img/home10/isotip.svg";
 import mlhBadge from "src/assets/img/home10/mlh.webp";
 
-// Everything lives on the home page, so the header only carries the logo,
-// the MLH badge and the way into the account.
+// Everything else lives on the home page, so the header only carries the
+// logo, the MLH badge, the contact page and the way into the account.
 const HomeHeader = () => {
   const hasSession = isToken(localStorage.getItem("userToken"));
+  // Once the page scrolls, the bar turns translucent over the content.
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 8);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
   return (
     <div
@@ -19,7 +28,10 @@ const HomeHeader = () => {
       <nav
         id="main-nav"
         aria-label="Principal"
-        className="relative flex h-14 w-full items-center justify-between gap-2 bg-[#ff7430] px-3 md:h-16 md:px-5 lg:px-8"
+        data-scrolled={scrolled}
+        className={`relative flex h-14 w-full items-center justify-between gap-2 px-3 transition-[background-color,box-shadow] duration-300 md:h-16 md:px-5 lg:px-8 ${
+          scrolled ? "bg-[#ff7430]/70 shadow-[0_2px_12px_rgba(0,0,0,0.12)] backdrop-blur-md" : "bg-[#ff7430]"
+        }`}
       >
         <div className="relative flex h-full shrink-0 items-center self-stretch">
           <Link to="/" className="flex items-center" aria-label="HackEPS, inici">
@@ -50,13 +62,21 @@ const HomeHeader = () => {
           </a>
         </div>
 
-        <Link
-          to={hasSession ? ROUTES.profile : ROUTES.login}
-          state={hasSession ? undefined : { nextScreen: ROUTES.profile }}
-          className="rounded-[4px] border-2 border-[#2e2e2e] px-4 py-1.5 font-space-mono text-[16px] font-bold uppercase leading-normal tracking-[0.04em] text-[#2e2e2e] no-underline transition-colors hover:bg-[#2e2e2e] hover:text-[#ff7430] md:px-5 md:text-[18px]"
-        >
-          {hasSession ? "Perfil" : "Login"}
-        </Link>
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-6">
+          <Link
+            to={ROUTES.contact}
+            className="font-space-mono text-[14px] font-bold uppercase leading-normal tracking-[0.04em] text-[#2e2e2e] no-underline underline-offset-4 hover:underline sm:text-[16px] md:text-[18px]"
+          >
+            Contacte
+          </Link>
+          <Link
+            to={hasSession ? ROUTES.profile : ROUTES.login}
+            state={hasSession ? undefined : { nextScreen: ROUTES.profile }}
+            className="rounded-[4px] border-2 border-[#2e2e2e] px-3 py-1.5 font-space-mono text-[14px] font-bold uppercase leading-normal tracking-[0.04em] text-[#2e2e2e] no-underline transition-colors hover:bg-[#2e2e2e] hover:text-[#ff7430] sm:px-4 sm:text-[16px] md:px-5 md:text-[18px]"
+          >
+            {hasSession ? "Perfil" : "Login"}
+          </Link>
+        </div>
       </nav>
     </div>
   );

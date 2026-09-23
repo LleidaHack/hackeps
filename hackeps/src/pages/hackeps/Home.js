@@ -12,7 +12,6 @@ import Activities from "src/components/hackeps/Home/Activities.js";
 import Records from "src/components/hackeps/Home/Records.js";
 import DatesContent from "src/components/hackeps/Dates/DatesContent.js";
 import FAQ from "src/components/hackeps/Home/FAQ.js";
-import ContactSection from "src/components/hackeps/Contacte/Contacte.js";
 import { getHackeps, getEventSponsors } from "src/services/EventService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
@@ -139,7 +138,6 @@ const Home = () => {
           <Records />
           <FAQ />
           <Sponsors />
-          <ContactSection />
         </div>
       </HomeFrame>
       <SeuVellaFooter />
