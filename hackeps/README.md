@@ -52,7 +52,8 @@ services; the website migration does not change them.
 `pnpm build` generates route-specific canonical/Open Graph metadata in static
 HTML and a sitemap containing only public routes available in that build. The
 waiting build lists `/`, `/terms`, and `/privacy`; the full build also lists the
-programme, FAQ, contact, mentoring and sponsors pages. Account routes are noindex.
+mentoring and sponsors pages. The programme, FAQ and contact are sections of the
+home page (`/#dates`, `/#faq`, `/#contacte`); their old URLs redirect there. Account routes are noindex.
 Metadata also updates during client-side navigation. This does not prerender
 the React page body.
 

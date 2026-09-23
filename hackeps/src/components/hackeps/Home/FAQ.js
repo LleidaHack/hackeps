@@ -1,6 +1,5 @@
 import React from "react";
-import FAQContainer from "src/components/hackeps/FAQ_container/FAQ_container.js";
-import DarkPage from "src/components/hackeps/Layout/DarkPage.js";
+import FAQCard from "src/components/hackeps/FAQ_card/FAQ_card";
 
 const faqContent = [
   {
@@ -124,31 +123,44 @@ const faqContent = [
   },
 ];
 
-const faqs = faqContent.map(({ question, blocks }) => ({
-  question,
-  answer: (
-    <div className="space-y-4">
-      {blocks.map((block, index) =>
-        Array.isArray(block) ? (
-          <ul key={index} className="m-0 list-disc space-y-2 pl-5">
-            {block.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        ) : (
-          <p key={index} className="m-0">
-            {block}
-          </p>
-        ),
-      )}
-    </div>
-  ),
-}));
-
-const FAQPage = () => (
-  <DarkPage>
-    <FAQContainer faqs={faqs} />
-  </DarkPage>
+const renderAnswer = (blocks) => (
+  <div className="space-y-4">
+    {blocks.map((block, index) =>
+      Array.isArray(block) ? (
+        <ul key={index} className="m-0 list-disc space-y-2 pl-5">
+          {block.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      ) : (
+        <p key={index} className="m-0">
+          {block}
+        </p>
+      ),
+    )}
+  </div>
 );
 
-export default FAQPage;
+// Two independent columns, so opening a question never stretches its
+// neighbour in the other column.
+const half = Math.ceil(faqContent.length / 2);
+const COLUMNS = [faqContent.slice(0, half), faqContent.slice(half)];
+
+const FAQ = () => (
+  <section id="faq" className="relative w-full px-4 pb-16 pt-12 md:px-8 md:pb-24 md:pt-20">
+    <h2 className="m-0 mb-8 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] text-white md:mb-12 md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]">
+      FAQs
+    </h2>
+    <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 items-start gap-3 lg:grid-cols-2 lg:gap-6">
+      {COLUMNS.map((column, index) => (
+        <div key={index} className="flex flex-col gap-3">
+          {column.map(({ question, blocks }) => (
+            <FAQCard key={question} question={question} answer={renderAnswer(blocks)} />
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+);
+
+export default FAQ;

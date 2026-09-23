@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Sections reached through /#anchor links clear the sticky header. */
+[id] {
+  scroll-margin-top: 4.5rem;
+}
+
 .appear-animation {
   animation-name: appear;
   animation-duration: 0.3s;

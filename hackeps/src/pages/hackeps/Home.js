@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import HomeFrame from "src/components/hackeps/Home/HomeFrame.js";
 import HomeHeader from "src/components/hackeps/Home/HomeHeader.js";
 import Sponsors, {
@@ -9,6 +10,9 @@ import Identify from "src/components/hackeps/Home/Identify.js";
 import Newsletter from "src/components/hackeps/Home/Newsletter.js";
 import Activities from "src/components/hackeps/Home/Activities.js";
 import Records from "src/components/hackeps/Home/Records.js";
+import DatesContent from "src/components/hackeps/Dates/DatesContent.js";
+import FAQ from "src/components/hackeps/Home/FAQ.js";
+import ContactSection from "src/components/hackeps/Contacte/Contacte.js";
 import { getHackeps, getEventSponsors } from "src/services/EventService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
@@ -32,6 +36,8 @@ const INTRO_INTERVAL_MS = 2 * 60 * 60 * 1000;
 // motion or less data. Pure, so it can seed state before the first paint.
 function shouldPlayIntro() {
   if (process.env.REACT_APP_HERO_ANIMATED !== "1") return false;
+  // A link to a section (/#faq…) wants that section, not the intro.
+  if (window.location.hash) return false;
   // `/?intro` replays it on demand, e.g. to review it.
   if (new URLSearchParams(window.location.search).has("intro")) return true;
   if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
@@ -49,6 +55,20 @@ const Home = () => {
   const [eventUnavailable, setEventUnavailable] = useState(false);
   const [showAnimation, setShowAnimation] = useState(shouldPlayIntro);
   const hideIntro = useCallback(() => setShowAnimation(false), []);
+  const { hash } = useLocation();
+
+  // Everything lives on this page: bring /#faq, /#dates… into view. Once more
+  // after images above it have loaded and pushed it down.
+  useEffect(() => {
+    if (!hash) return undefined;
+    const reveal = () => document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView();
+    const frame = requestAnimationFrame(reveal);
+    const settle = setTimeout(reveal, 600);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(settle);
+    };
+  }, [hash]);
 
   useEffect(() => {
     if (showAnimation) localStorage.setItem("lastAnimation", Date.now());
@@ -113,10 +133,13 @@ const Home = () => {
         )}
         <Identify />
         {/* <Newsletter /> */}
+        <DatesContent />
         <div className="w-full" style={{ background: gradient }}>
           <Activities />
           <Records />
+          <FAQ />
           <Sponsors />
+          <ContactSection />
         </div>
       </HomeFrame>
       <SeuVellaFooter />

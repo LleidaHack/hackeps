@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import Home from "src/pages/hackeps/Home";
 import SeuVellaScene from "src/components/hackeps/Home/SeuVellaScene";
 
@@ -31,6 +31,7 @@ const renderHome = () =>
   );
 
 beforeEach(() => {
+  useLocation.mockReturnValue({ pathname: "/", hash: "" });
   mockMatchMedia(() => false);
   localStorage.clear();
   process.env.REACT_APP_HERO_ANIMATED = "1";

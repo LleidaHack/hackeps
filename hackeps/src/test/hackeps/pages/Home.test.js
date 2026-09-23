@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import Home from "src/pages/hackeps/Home";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 
 jest.mock("src/services/EventService", () => ({
   getHackeps: jest.fn().mockResolvedValue({
@@ -11,6 +11,10 @@ jest.mock("src/services/EventService", () => ({
   }),
   getEventIsHackerRegistered: jest.fn().mockResolvedValue(false),
 }));
+
+beforeEach(() => {
+  useLocation.mockReturnValue({ pathname: "/", hash: "" });
+});
 
 describe("Home - Render", () => {
   test(`renders without crashing + header and footer.`, async () => {

@@ -1,22 +1,13 @@
-import React, { useState } from "react";
-import "./HomeHeader.css";
-import { HashLink as Link } from "react-router-hash-link";
+import React from "react";
+import { Link } from "react-router-dom";
 import { isToken } from "src/modules/session";
 import { ROUTES } from "src/config/routes";
 import isotip from "src/assets/img/home10/isotip.svg";
-import iconProfile from "src/assets/img/home10/icon-profile.svg";
 import mlhBadge from "src/assets/img/home10/mlh.webp";
 
-const NAV_LINKS = [
-  { label: "Home", to: "/" },
-  { label: "Dates i Horaris", to: ROUTES.dates },
-  { label: "Sponsors", to: "/#sponsors" },
-  { label: "FAQ", to: ROUTES.faq },
-  { label: "Contacte", to: ROUTES.contact },
-];
-
+// Everything lives on the home page, so the header only carries the logo,
+// the MLH badge and the way into the account.
 const HomeHeader = () => {
-  const [open, setOpen] = useState(false);
   const hasSession = isToken(localStorage.getItem("userToken"));
 
   return (
@@ -27,10 +18,11 @@ const HomeHeader = () => {
     >
       <nav
         id="main-nav"
+        aria-label="Principal"
         className="relative flex h-14 w-full items-center justify-between gap-2 bg-[#ff7430] px-3 md:h-16 md:px-5 lg:px-8"
       >
         <div className="relative flex h-full shrink-0 items-center self-stretch">
-          <Link to="/" className="flex items-center" aria-label="Home">
+          <Link to="/" className="flex items-center" aria-label="HackEPS, inici">
             <img
               src={isotip}
               alt="HackEPS"
@@ -58,71 +50,14 @@ const HomeHeader = () => {
           </a>
         </div>
 
-        <ul className="m-0 hidden min-w-0 list-none items-center justify-center gap-10 p-0 lg:flex lg:flex-1 xl:gap-16">
-          {NAV_LINKS.map((link) => (
-            <li key={link.label}>
-              <Link
-                to={link.to}
-                className="whitespace-nowrap font-space-mono text-[16px] leading-normal tracking-[-0.32px] text-[#2e2e2e] no-underline xl:text-[22px] xl:tracking-[-0.44px]"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex shrink-0 items-center gap-0">
-          <button
-            type="button"
-            className="flex h-11 w-11 items-center justify-center border-0 bg-transparent p-0 leading-none text-[#2e2e2e] lg:hidden"
-            aria-label={open ? "Tancar menú" : "Obrir menú"}
-            aria-expanded={open}
-            aria-controls="mobile-navigation"
-            onClick={() => setOpen((value) => !value)}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-              {open ? <path d="m6 6 12 12M6 18 18 6" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
-            </svg>
-          </button>
-          <Link
-            to={hasSession ? ROUTES.profile : ROUTES.login}
-            state={hasSession ? undefined : { nextScreen: ROUTES.profile }}
-            className="flex h-11 w-11 items-center justify-center p-0"
-            aria-label="Perfil"
-          >
-            <img
-              src={iconProfile}
-              alt=""
-              width={18}
-              height={22}
-              className="h-5 w-4 md:h-[22px] md:w-[18px]"
-            />
-          </Link>
-        </div>
+        <Link
+          to={hasSession ? ROUTES.profile : ROUTES.login}
+          state={hasSession ? undefined : { nextScreen: ROUTES.profile }}
+          className="rounded-[4px] border-2 border-[#2e2e2e] px-4 py-1.5 font-space-mono text-[16px] font-bold uppercase leading-normal tracking-[0.04em] text-[#2e2e2e] no-underline transition-colors hover:bg-[#2e2e2e] hover:text-[#ff7430] md:px-5 md:text-[18px]"
+        >
+          {hasSession ? "Perfil" : "Login"}
+        </Link>
       </nav>
-
-      <div
-        id="mobile-navigation"
-        className={`mobile-navigation lg:hidden ${open ? "mobile-navigation--open" : ""}`}
-        aria-hidden={!open}
-      >
-        <div className="min-h-0 overflow-hidden">
-        <ul className="m-0 list-none bg-[#ff7430] px-4 py-2">
-          {NAV_LINKS.map((link) => (
-            <li key={link.label} className="border-t border-black/10 py-3">
-              <Link
-                to={link.to}
-                className="block font-space-mono text-[18px] text-[#2e2e2e] no-underline"
-                tabIndex={open ? undefined : -1}
-                onClick={() => setOpen(false)}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        </div>
-      </div>
     </div>
   );
 };

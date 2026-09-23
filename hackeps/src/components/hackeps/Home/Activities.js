@@ -17,7 +17,7 @@ const Activities = () => {
   const { event } = useEdition();
   const activities = event?.activities?.length ? event.activities.slice(0, 6).map((label, index) => ({ ...ACTIVITIES[index], label: /^activitat\s*\d+$/i.test(label.trim()) ? "Sorpresa!" : label })) : ACTIVITIES;
   return (
-    <section className="relative w-full overflow-hidden bg-transparent px-0 pb-12 pt-10 md:px-8 md:pb-20 md:pt-16">
+    <section id="activitats" className="relative w-full overflow-hidden bg-transparent px-0 pb-12 pt-10 md:px-8 md:pb-20 md:pt-16">
       <h2 className="relative z-20 m-0 mb-4 px-4 text-center md:px-0 font-space-mono text-[26px] font-bold leading-tight tracking-[-0.52px] text-[#2e2e2e] md:mb-6 md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]">
         QUÈ PODRAS FER A LA HACKEPS?
       </h2>
