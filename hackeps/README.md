@@ -22,7 +22,7 @@ at build time and is therefore public in the bundle. Never put a secret there.
 | `REACT_APP_LAUNCH_PENDING` | `1` publishes only the waiting page (`/`, `/terms`, `/privacy`; anything else redirects to `/`). `0` publishes the full site. |
 | `REACT_APP_DEBUG` | `"true"` logs API responses (never credentials) to the console. |
 | `REACT_APP_MAIN` | `0` shows the "test site" banner on the full site. |
-| `REACT_APP_HERO_ANIMATED` | `1` plays the intro animation on the home page. |
+| `REACT_APP_HERO_ANIMATED` | `1` plays the intro animation on the home page, at most once every 2 h and never with reduced motion or data saver. |
 | `REACT_APP_INDEXING` | `1` for production, `0` for previews (including custom preview domains). Vercel Preview builds also disable indexing automatically. |
 
 ## Scripts

@@ -22,6 +22,7 @@ const HomeHeader = () => {
   return (
     <div
       data-testid="headerHackeps"
+      data-intro="header"
       className="sticky top-0 z-50 w-full overflow-visible"
     >
       <nav

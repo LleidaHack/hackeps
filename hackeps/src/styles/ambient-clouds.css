@@ -1,16 +1,16 @@
 /* Independent translation preserves the positioning transforms on each cloud. */
 .ambient-cloud {
-  animation: ambient-cloud-drift 18s ease-in-out infinite alternate;
+  animation: ambient-cloud-drift 12s ease-in-out infinite alternate;
 }
 
 .ambient-cloud--1 {
-  animation-duration: 22s;
-  animation-delay: -8s;
+  animation-duration: 14s;
+  animation-delay: -5s;
 }
 
 .ambient-cloud--2 {
-  animation-duration: 26s;
-  animation-delay: -15s;
+  animation-duration: 17s;
+  animation-delay: -10s;
 }
 
 .ambient-cloud--left {
