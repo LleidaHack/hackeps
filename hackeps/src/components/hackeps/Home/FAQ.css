@@ -1,3 +1,13 @@
+.faq-questions {
+  padding-top: 4rem;
+}
+
+@media (min-width: 768px) {
+  .faq-questions {
+    padding-top: 6rem;
+  }
+}
+
 .faq-row {
   display: flex;
   flex-direction: column;
