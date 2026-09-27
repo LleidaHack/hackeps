@@ -6,10 +6,11 @@ import cloud1 from "src/assets/img/home10/cloud-1.svg";
 import cloud2 from "src/assets/img/home10/cloud-2.svg";
 import cloud3 from "src/assets/img/home10/cloud-3.svg";
 import cloudWave from "src/assets/img/home10/cloud-wave.webp";
+import HeroIntroExtras from "src/components/hackeps/Home/HeroIntroExtras";
 
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
-const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
+const HeroSection = ({ initialDate, finalDate, activeTimer, intro = false }) => {
   const { sky } = useSiteTheme();
   const [startDate, setStartDate] = useState(initialDate);
   const [endDate, setEndDate] = useState(finalDate);
@@ -25,6 +26,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
     <div className="relative w-full overflow-hidden" style={{ backgroundColor: sky }}>
       <div className="relative w-full pb-14 pt-0 md:pb-12" style={{ backgroundColor: sky }}>
         <img
+          data-intro="bunting"
           src={banderilles}
           alt=""
           aria-hidden="true"
@@ -33,7 +35,10 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           className="pointer-events-none relative z-20 mx-auto block h-auto w-full max-w-[1728px] object-contain object-top"
         />
 
+        {intro && <HeroIntroExtras />}
+
         <img
+          data-intro="cloud"
           src={cloud1}
           alt=""
           aria-hidden="true"
@@ -42,6 +47,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           className="ambient-cloud ambient-cloud--1 ambient-cloud--left pointer-events-none absolute right-[4%] top-[22%] z-[5] h-auto w-[28%] max-w-[320px] object-contain"
         />
         <img
+          data-intro="cloud"
           src={cloud2}
           alt=""
           aria-hidden="true"
@@ -50,6 +56,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
           className="ambient-cloud ambient-cloud--2 ambient-cloud--right pointer-events-none absolute bottom-[14%] left-[6%] z-[5] h-auto w-[30%] max-w-[340px] object-contain"
         />
         <img
+          data-intro="cloud"
           src={cloud3}
           alt=""
           aria-hidden="true"
@@ -63,7 +70,11 @@ const HeroSection = ({ initialDate, finalDate, activeTimer }) => {
         </div>
       </div>
 
-      <div className="relative z-10 mt-0 w-full md:-mt-10" style={{ backgroundColor: sky }}>
+      <div
+        data-intro="wave"
+        className="relative z-10 mt-0 w-full md:-mt-10"
+        style={{ backgroundColor: sky }}
+      >
         <img
           src={cloudWave}
           alt=""

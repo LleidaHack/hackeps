@@ -27,11 +27,13 @@ function build(env = {}) {
 
 test("full build emits route-specific HTML and only public canonical sitemap entries", () => {
   const sitemap = build();
-  expect(sitemap).toContain("https://hackeps.dev/faq");
-  expect(sitemap).not.toMatch(/lleidahack|\/login|\/perfil/);
-  const faq = fs.readFileSync(path.join(output, "faq/index.html"), "utf8");
-  expect(faq).toContain('rel="canonical" href="https://hackeps.dev/faq"');
-  expect(faq).toContain('property="og:url" content="https://hackeps.dev/faq"');
+  expect(sitemap).toContain("https://hackeps.dev/sponsors");
+  expect(sitemap).toContain("https://hackeps.dev/contacte");
+  // FAQ and dates are sections of the home page now.
+  expect(sitemap).not.toMatch(/lleidahack|\/login|\/perfil|\/faq|\/dates/);
+  const sponsors = fs.readFileSync(path.join(output, "sponsors/index.html"), "utf8");
+  expect(sponsors).toContain('rel="canonical" href="https://hackeps.dev/sponsors"');
+  expect(sponsors).toContain('property="og:url" content="https://hackeps.dev/sponsors"');
   expect(
     fs.readFileSync(path.join(output, "validate-email/index.html"), "utf8"),
   ).toContain('name="robots" content="noindex,follow"');
@@ -40,7 +42,7 @@ test("full build emits route-specific HTML and only public canonical sitemap ent
 test("waiting build advertises only its three available pages", () => {
   const sitemap = build({ REACT_APP_LAUNCH_PENDING: "1" });
   expect((sitemap.match(/<loc>/g) || []).length).toBe(3);
-  expect(sitemap).not.toContain("/faq");
+  expect(sitemap).not.toContain("/sponsors");
 });
 
 test.each([{ VERCEL_ENV: "preview" }, { REACT_APP_INDEXING: "0" }])(

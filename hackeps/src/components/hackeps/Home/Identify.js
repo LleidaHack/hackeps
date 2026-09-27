@@ -14,6 +14,7 @@ const Identify = () => {
   const { sky, text } = useSiteTheme();
   return (
     <section
+      id="registrat"
       className="relative w-full overflow-x-hidden px-4 pb-16 pt-10 md:px-8 md:pb-24 md:pt-16"
       style={{ backgroundColor: sky }}
     >
