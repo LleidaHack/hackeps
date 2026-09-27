@@ -5,21 +5,12 @@ import firework1 from "src/assets/img/home10/firework-1.svg";
 import firework3 from "src/assets/img/home10/firework-3.svg";
 import cloud2 from "src/assets/img/home10/cloud-2.svg";
 
-export function shufflePhotos(items, random = Math.random) {
-  const result = [...items];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
-
 const Records = () => {
   // Drag-to-scroll with the mouse. Touch and wheel keep working natively.
   const scrollerRef = useRef(null);
   const drag = useRef({ active: false, startX: 0, scrollLeft: 0 });
   const [dragging, setDragging] = useState(false);
-  const [items] = useState(() => shufflePhotos(GALLERY_ITEMS));
+  const items = GALLERY_ITEMS;
   const [interacting, setInteracting] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   useEffect(() => {

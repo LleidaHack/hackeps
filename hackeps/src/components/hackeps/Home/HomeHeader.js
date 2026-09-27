@@ -62,7 +62,7 @@ const HomeHeader = () => {
           </a>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3 md:gap-6">
+        <div className="flex items-center gap-5 sm:gap-8 md:gap-12">
           <Link
             to={ROUTES.contact}
             className="font-space-mono text-[14px] font-bold uppercase leading-normal tracking-[0.04em] text-[#2e2e2e] no-underline underline-offset-4 hover:underline sm:text-[16px] md:text-[18px]"

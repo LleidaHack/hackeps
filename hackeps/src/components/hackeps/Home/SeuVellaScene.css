@@ -1,0 +1,11 @@
+.tree-apple--falling { animation: tree-apple-fall 1.4s both; }
+@keyframes tree-apple-fall {
+  0%, 15% { transform: translateY(0); opacity: 1; }
+  65% { transform: translateY(var(--apple-fall)) rotate(25deg); opacity: 1; }
+  78% { transform: translateY(calc(var(--apple-fall) - 14px)) rotate(15deg); opacity: 1; }
+  90% { transform: translateY(var(--apple-fall)) rotate(25deg); opacity: 1; }
+  100% { transform: translateY(var(--apple-fall)) rotate(25deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tree-apple--falling { animation: none; }
+}
