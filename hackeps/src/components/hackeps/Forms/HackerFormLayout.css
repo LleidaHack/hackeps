@@ -47,7 +47,7 @@
   opacity: 1;
 }
 
-#hackerForm label > span {
+#hackerForm label > span:not(.required-mark) {
   display: block;
   margin-top: 0.5rem;
 }

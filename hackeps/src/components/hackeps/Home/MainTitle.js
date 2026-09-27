@@ -1,6 +1,6 @@
 import { useEdition } from "src/hooks/useEdition";
 import Modal from "react-bootstrap/Modal";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Button from "src/components/buttons/Button";
 import hackLogo from "src/assets/img/home10/logo-taronja.webp";
 import "./MainTitle.css";
@@ -24,9 +24,14 @@ const FIRE_CANVAS = { left: 30, width: 160, height: 160 };
 
 const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
   const navigate = useNavigate();
-  const { event } = useEdition();
+  const { event, loading } = useEdition();
   const [show, setShow] = useState(false);
-  const [hackDay, setHackDay] = useState(false);
+  const now = Date.now();
+  const hackDay = Boolean(event && now >= Date.parse(event.start_date) && now <= Date.parse(event.end_date));
+  const textButton = loading ? "Carregant inscripcions…"
+    : !event ? "Inscripcions no disponibles"
+    : hackDay ? "Web en directe"
+    : event.is_open ? buttonText : "Inscripcions tancades";
   const handleClose = () => setShow(false);
   const logoArt = useRef(null);
   const dragonLayer = useRef(null);
@@ -141,23 +146,10 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
       }
     }
   }
-  const [textButton, setTextButton] = useState(buttonText);
-
-  useEffect(() => {
-    setTextButton(buttonText);
-  }, [buttonText]);
-
   const handleSignUp = () => navigate(ROUTES.hackerForm);
   const handleSignIn = () => {
     navigate(ROUTES.login, { state: { nextScreen: ROUTES.inscription } });
   };
-
-  useEffect(() => {
-    const now = Date.now();
-    const live = Boolean(event && now >= Date.parse(event.start_date) && now <= Date.parse(event.end_date));
-    setHackDay(live);
-    setTextButton(live ? "Web en directe" : event?.is_open ? buttonText : "Inscripcions tancades");
-  }, [event, buttonText]);
 
   return (
     <>
@@ -203,7 +195,8 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
           <button
             id="hero-cta-button"
             onClick={handleShow}
-            disabled={!event || (!event.is_open && !hackDay)}
+            aria-busy={loading}
+            disabled={loading || !event || (!event.is_open && !hackDay)}
             className="rounded-[4px] bg-[#ff7430] px-4 py-2 font-space-mono text-[22px] leading-normal tracking-[-0.44px] text-[#2e2e2e] md:text-[32px] md:tracking-[-0.64px]"
           >
             {textButton}

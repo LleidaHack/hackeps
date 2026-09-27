@@ -153,7 +153,7 @@ const FAQ = () => (
     </h2>
     <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 items-start gap-3 lg:grid-cols-2 lg:gap-6">
       {COLUMNS.map((column, index) => (
-        <div key={index} className="flex flex-col gap-3">
+        <div key={index} className={`flex flex-col gap-3 ${index === 1 ? "lg:pt-10" : ""}`}>
           {column.map(({ question, blocks }) => (
             <FAQCard key={question} question={question} answer={renderAnswer(blocks)} />
           ))}
