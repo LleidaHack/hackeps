@@ -1,3 +1,17 @@
+.tree-apple {
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-testid="seu-vella-tree"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+[data-testid="seu-vella-tree"]:focus-visible {
+  outline: 2px solid #ff7430;
+  outline-offset: 4px;
+}
+
 .tree-apple--falling { animation: tree-apple-fall 1.4s both; }
 @keyframes tree-apple-fall {
   0%, 15% { transform: translateY(0); opacity: 1; }
