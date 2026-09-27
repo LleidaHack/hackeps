@@ -1,4 +1,5 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import HomeFrame from "src/components/hackeps/Home/HomeFrame.js";
 import HomeHeader from "src/components/hackeps/Home/HomeHeader.js";
 import Sponsors, {
@@ -9,33 +10,68 @@ import Identify from "src/components/hackeps/Home/Identify.js";
 import Newsletter from "src/components/hackeps/Home/Newsletter.js";
 import Activities from "src/components/hackeps/Home/Activities.js";
 import Records from "src/components/hackeps/Home/Records.js";
+import DatesContent from "src/components/hackeps/Dates/DatesContent.js";
+import FAQ from "src/components/hackeps/Home/FAQ.js";
 import { getHackeps, getEventSponsors } from "src/services/EventService";
 import { getEventIsHackerRegistered } from "src/services/EventService";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
-const Animation = lazy(() => import("src/pages/hackeps/Animation.js"));
+// If the intro cannot be downloaded, drop the intro rather than the page.
+const SkipIntro = ({ onFinish }) => {
+  useEffect(() => onFinish(), [onFinish]);
+  return null;
+};
+
+// GSAP is only downloaded when the intro actually plays.
+const HomeIntro = lazy(() =>
+  import("src/components/hackeps/Home/HomeIntro.js").catch(() => ({
+    default: SkipIntro,
+  })),
+);
+
+const INTRO_INTERVAL_MS = 2 * 60 * 60 * 1000;
+
+// At most once every two hours, and never when the visitor asks for less
+// motion or less data. Pure, so it can seed state before the first paint.
+function shouldPlayIntro() {
+  if (process.env.REACT_APP_HERO_ANIMATED !== "1") return false;
+  // A link to a section (/#faq…) wants that section, not the intro.
+  if (window.location.hash) return false;
+  // `/?intro` replays it on demand, e.g. to review it.
+  if (new URLSearchParams(window.location.search).has("intro")) return true;
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+    return false;
+  }
+  if (navigator.connection?.saveData) return false;
+  const lastAnimation = Number(localStorage.getItem("lastAnimation"));
+  return !lastAnimation || Date.now() - lastAnimation >= INTRO_INTERVAL_MS;
+}
 
 const Home = () => {
   const { sky, gradient } = useSiteTheme();
   const [startDate, setStartDate] = useState(undefined);
   const [endDate, setEndDate] = useState(undefined);
   const [eventUnavailable, setEventUnavailable] = useState(false);
-  const [showAnimation, setShowAnimation] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(shouldPlayIntro);
+  const hideIntro = useCallback(() => setShowAnimation(false), []);
+  const { hash } = useLocation();
+
+  // Everything lives on this page: bring /#faq, /#dates… into view. Once more
+  // after images above it have loaded and pushed it down.
+  useEffect(() => {
+    if (!hash) return undefined;
+    const reveal = () => document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView();
+    const frame = requestAnimationFrame(reveal);
+    const settle = setTimeout(reveal, 600);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(settle);
+    };
+  }, [hash]);
 
   useEffect(() => {
-    const minimalTime = 2 * 60 * 60 * 1000;
-    if (process.env.REACT_APP_DEBUG === "true") {
-      console.log(process.env.REACT_APP_HERO_ANIMATED);
-    }
-    if (process.env.REACT_APP_HERO_ANIMATED === "1") {
-      const lastAnimation = localStorage.getItem("lastAnimation");
-      const now = Date.now();
-      if (!lastAnimation || now - Number(lastAnimation) >= minimalTime) {
-        setShowAnimation(true);
-        localStorage.setItem("lastAnimation", now);
-      }
-    }
-  }, []);
+    if (showAnimation) localStorage.setItem("lastAnimation", Date.now());
+  }, [showAnimation]);
 
   useEffect(() => {
     async function getDates() {
@@ -69,47 +105,42 @@ const Home = () => {
 
   const timerActive = true;
 
-  if (!showAnimation) {
-    return (
-      <div
-        className="w-full overflow-x-clip"
-        style={{ backgroundColor: sky }}
-      >
-        <HomeHeader />
-        <HomeFrame fluid>
-          <HeroSection
-            initialDate={startDate}
-            finalDate={endDate}
-            activeTimer={timerActive}
-          />
-          {eventUnavailable && (
-            <p role="status" className="m-0 p-4 text-center text-[#2e2e2e]">
-              No hem pogut carregar la informació actualitzada de
-              l’esdeveniment. Torna-ho a provar més tard.
-            </p>
-          )}
-          <Identify />
-          {/* <Newsletter /> */}
-          <div className="w-full" style={{ background: gradient }}>
-            <Activities />
-            <Records />
-            <Sponsors />
-          </div>
-        </HomeFrame>
-        <SeuVellaFooter />
-      </div>
-    );
-  }
-
   return (
-    <div>
-      <Suspense fallback={null}>
-        <Animation
+    <div
+      className="w-full overflow-x-clip"
+      style={{ backgroundColor: sky }}
+    >
+      {showAnimation && (
+        // The fallback is the intro's first frame, so the page never flashes.
+        <Suspense fallback={<div className="fixed inset-0 z-[100] bg-[#2e2e2e]" />}>
+          <HomeIntro onFinish={hideIntro} />
+        </Suspense>
+      )}
+      <HomeHeader />
+      <HomeFrame fluid>
+        <HeroSection
           initialDate={startDate}
           finalDate={endDate}
           activeTimer={timerActive}
+          intro={showAnimation}
         />
-      </Suspense>
+        {eventUnavailable && (
+          <p role="status" className="m-0 p-4 text-center text-[#2e2e2e]">
+            No hem pogut carregar la informació actualitzada de
+            l’esdeveniment. Torna-ho a provar més tard.
+          </p>
+        )}
+        <Identify />
+        {/* <Newsletter /> */}
+        <DatesContent />
+        <div className="w-full" style={{ background: gradient }}>
+          <Activities />
+          <Records />
+          <FAQ />
+          <Sponsors />
+        </div>
+      </HomeFrame>
+      <SeuVellaFooter />
     </div>
   );
 };

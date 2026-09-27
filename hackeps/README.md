@@ -22,7 +22,7 @@ at build time and is therefore public in the bundle. Never put a secret there.
 | `REACT_APP_LAUNCH_PENDING` | `1` publishes only the waiting page (`/`, `/terms`, `/privacy`; anything else redirects to `/`). `0` publishes the full site. |
 | `REACT_APP_DEBUG` | `"true"` logs API responses (never credentials) to the console. |
 | `REACT_APP_MAIN` | `0` shows the "test site" banner on the full site. |
-| `REACT_APP_HERO_ANIMATED` | `1` plays the intro animation on the home page. |
+| `REACT_APP_HERO_ANIMATED` | `1` plays the intro animation on the home page, at most once every 2 h and never with reduced motion or data saver. |
 | `REACT_APP_INDEXING` | `1` for production, `0` for previews (including custom preview domains). Vercel Preview builds also disable indexing automatically. |
 
 ## Scripts
@@ -52,7 +52,8 @@ services; the website migration does not change them.
 `pnpm build` generates route-specific canonical/Open Graph metadata in static
 HTML and a sitemap containing only public routes available in that build. The
 waiting build lists `/`, `/terms`, and `/privacy`; the full build also lists the
-programme, FAQ, contact, mentoring and sponsors pages. Account routes are noindex.
+contact, mentoring and sponsors pages. The programme and FAQ are sections of the
+home page (`/#dates`, `/#faq`); their old URLs redirect there. Account routes are noindex.
 Metadata also updates during client-side navigation. This does not prerender
 the React page body.
 

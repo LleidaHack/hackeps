@@ -62,6 +62,16 @@
   ],
   "redirects": [
     {
+      "source": "/hackeps",
+      "destination": "https://hackeps.dev/",
+      "permanent": true
+    },
+    {
+      "source": "/hackeps/:path*",
+      "destination": "https://hackeps.dev/:path*",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
@@ -70,7 +80,7 @@
         }
       ],
       "destination": "https://hackeps.dev/:path*",
-      "permanent": true
+      "permanent": false
     },
     {
       "source": "/:path*",
@@ -81,7 +91,7 @@
         }
       ],
       "destination": "https://hackeps.dev/:path*",
-      "permanent": true
+      "permanent": false
     },
     {
       "source": "/:path*",
@@ -92,11 +102,6 @@
         }
       ],
       "destination": "https://hackeps.dev/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/hackeps/:path*",
-      "destination": "/:path*",
       "permanent": true
     }
   ]

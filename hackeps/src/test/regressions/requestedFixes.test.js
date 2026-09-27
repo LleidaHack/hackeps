@@ -2,7 +2,8 @@ import React from "react";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { memberSince } from "src/modules/memberSince";
 import { readUpload } from "src/modules/uploads";
-import { shufflePhotos } from "src/components/hackeps/Home/Records";
+import Records from "src/components/hackeps/Home/Records";
+import { GALLERY_ITEMS } from "src/components/hackeps/Home/galleryItems";
 import Inscripcio from "src/components/hackeps/Inscripcio/Inscripcio";
 import DatesHorari from "src/components/hackeps/Dates/DatesHorari";
 import {
@@ -74,12 +75,13 @@ test("new and future timestamps do not display spurious days of membership", () 
   );
 });
 
-test("shuffle retains every photo exactly once and does not mutate source order", () => {
-  const source = [1, 2, 3, 4];
-  const mixed = shufflePhotos(source, () => 0);
-  expect(mixed).not.toEqual(source);
-  expect([...mixed].sort()).toEqual(source);
-  expect(source).toEqual([1, 2, 3, 4]);
+test("gallery keeps edition order across mounts", () => {
+  const { unmount } = render(<Records />);
+  const photos = () => Array.from(document.querySelectorAll("#hackeps-gallery img"), image => image.getAttribute("src"));
+  expect(photos()).toEqual(GALLERY_ITEMS.map(item => item.image));
+  unmount();
+  render(<Records />);
+  expect(photos()).toEqual(GALLERY_ITEMS.map(item => item.image));
 });
 
 test("file selection rejects SVG, spoofed types and files over 1 MiB", async () => {

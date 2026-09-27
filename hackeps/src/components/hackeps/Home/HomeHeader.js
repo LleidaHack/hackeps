@@ -1,35 +1,40 @@
-import React, { useState } from "react";
-import "./HomeHeader.css";
-import { HashLink as Link } from "react-router-hash-link";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { isToken } from "src/modules/session";
 import { ROUTES } from "src/config/routes";
 import isotip from "src/assets/img/home10/isotip.svg";
-import iconProfile from "src/assets/img/home10/icon-profile.svg";
 import mlhBadge from "src/assets/img/home10/mlh.webp";
 
-const NAV_LINKS = [
-  { label: "Home", to: "/" },
-  { label: "Dates i Horaris", to: ROUTES.dates },
-  { label: "Sponsors", to: "/#sponsors" },
-  { label: "FAQ", to: ROUTES.faq },
-  { label: "Contacte", to: ROUTES.contact },
-];
-
+// Everything else lives on the home page, so the header only carries the
+// logo, the MLH badge, the contact page and the way into the account.
 const HomeHeader = () => {
-  const [open, setOpen] = useState(false);
   const hasSession = isToken(localStorage.getItem("userToken"));
+  // Once the page scrolls, the bar turns translucent over the content.
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 8);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
   return (
     <div
       data-testid="headerHackeps"
+      data-intro="header"
       className="sticky top-0 z-50 w-full overflow-visible"
     >
       <nav
         id="main-nav"
-        className="relative flex h-14 w-full items-center justify-between gap-2 bg-[#ff7430] px-3 md:h-16 md:px-5 lg:px-8"
+        aria-label="Principal"
+        data-scrolled={scrolled}
+        className={`relative flex h-14 w-full items-center justify-between gap-2 px-3 transition-[background-color,box-shadow] duration-300 md:h-16 md:px-5 lg:px-8 ${
+          scrolled ? "bg-[#ff7430]/70 shadow-[0_2px_12px_rgba(0,0,0,0.12)] backdrop-blur-md" : "bg-[#ff7430]"
+        }`}
       >
         <div className="relative flex h-full shrink-0 items-center self-stretch">
-          <Link to="/" className="flex items-center" aria-label="Home">
+          <Link to="/" className="flex items-center" aria-label="HackEPS, inici">
             <img
               src={isotip}
               alt="HackEPS"
@@ -57,71 +62,22 @@ const HomeHeader = () => {
           </a>
         </div>
 
-        <ul className="m-0 hidden min-w-0 list-none items-center justify-center gap-10 p-0 lg:flex lg:flex-1 xl:gap-16">
-          {NAV_LINKS.map((link) => (
-            <li key={link.label}>
-              <Link
-                to={link.to}
-                className="whitespace-nowrap font-space-mono text-[16px] leading-normal tracking-[-0.32px] text-[#2e2e2e] no-underline xl:text-[22px] xl:tracking-[-0.44px]"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex shrink-0 items-center gap-0">
-          <button
-            type="button"
-            className="flex h-11 w-11 items-center justify-center border-0 bg-transparent p-0 leading-none text-[#2e2e2e] lg:hidden"
-            aria-label={open ? "Tancar menú" : "Obrir menú"}
-            aria-expanded={open}
-            aria-controls="mobile-navigation"
-            onClick={() => setOpen((value) => !value)}
+        <div className="flex items-center gap-5 sm:gap-8 md:gap-12">
+          <Link
+            to={ROUTES.contact}
+            className="font-space-mono text-[14px] font-bold uppercase leading-normal tracking-[0.04em] text-[#2e2e2e] no-underline underline-offset-4 hover:underline sm:text-[16px] md:text-[18px]"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-              {open ? <path d="m6 6 12 12M6 18 18 6" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
-            </svg>
-          </button>
+            Contacte
+          </Link>
           <Link
             to={hasSession ? ROUTES.profile : ROUTES.login}
             state={hasSession ? undefined : { nextScreen: ROUTES.profile }}
-            className="flex h-11 w-11 items-center justify-center p-0"
-            aria-label="Perfil"
+            className="rounded-[4px] border-2 border-[#2e2e2e] px-3 py-1.5 font-space-mono text-[14px] font-bold uppercase leading-normal tracking-[0.04em] text-[#2e2e2e] no-underline transition-colors hover:bg-[#2e2e2e] hover:text-[#ff7430] sm:px-4 sm:text-[16px] md:px-5 md:text-[18px]"
           >
-            <img
-              src={iconProfile}
-              alt=""
-              width={18}
-              height={22}
-              className="h-5 w-4 md:h-[22px] md:w-[18px]"
-            />
+            {hasSession ? "Perfil" : "Login"}
           </Link>
         </div>
       </nav>
-
-      <div
-        id="mobile-navigation"
-        className={`mobile-navigation lg:hidden ${open ? "mobile-navigation--open" : ""}`}
-        aria-hidden={!open}
-      >
-        <div className="min-h-0 overflow-hidden">
-        <ul className="m-0 list-none bg-[#ff7430] px-4 py-2">
-          {NAV_LINKS.map((link) => (
-            <li key={link.label} className="border-t border-black/10 py-3">
-              <Link
-                to={link.to}
-                className="block font-space-mono text-[18px] text-[#2e2e2e] no-underline"
-                tabIndex={open ? undefined : -1}
-                onClick={() => setOpen(false)}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        </div>
-      </div>
     </div>
   );
 };
