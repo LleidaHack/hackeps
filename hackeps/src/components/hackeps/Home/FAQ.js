@@ -1,3 +1,4 @@
+import "./FAQ.css";
 import React from "react";
 import FAQCard from "src/components/hackeps/FAQ_card/FAQ_card";
 
@@ -141,20 +142,20 @@ const renderAnswer = (blocks) => (
   </div>
 );
 
-// Two independent columns, so opening a question never stretches its
-// neighbour in the other column.
-const half = Math.ceil(faqContent.length / 2);
-const COLUMNS = [faqContent.slice(0, half), faqContent.slice(half)];
+// Pair adjacent questions so each row shares its question height.
+const ROWS = Array.from({ length: Math.ceil(faqContent.length / 2) }, (_, index) =>
+  faqContent.slice(index * 2, index * 2 + 2),
+);
 
 const FAQ = () => (
   <section id="faq" className="relative w-full px-4 pb-16 pt-12 md:px-8 md:pb-24 md:pt-20">
     <h2 className="m-0 mb-8 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] text-white md:mb-12 md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]">
       FAQs
     </h2>
-    <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 items-start gap-3 lg:grid-cols-2 lg:gap-6">
-      {COLUMNS.map((column, index) => (
-        <div key={index} className={`flex flex-col gap-3 ${index === 1 ? "lg:pt-10" : ""}`}>
-          {column.map(({ question, blocks }) => (
+    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-3 lg:gap-6">
+      {ROWS.map((row, index) => (
+        <div key={index} className="faq-row">
+          {row.map(({ question, blocks }) => (
             <FAQCard key={question} question={question} answer={renderAnswer(blocks)} />
           ))}
         </div>
