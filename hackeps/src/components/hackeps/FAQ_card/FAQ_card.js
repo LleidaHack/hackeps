@@ -4,7 +4,7 @@ const FAQCard = ({ question, answer }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="w-full">
+    <div className="faq-card w-full">
       <button
         type="button"
         aria-expanded={open}
