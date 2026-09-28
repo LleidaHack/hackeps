@@ -21,7 +21,7 @@ import photo20 from "src/assets/img/gallery/hackeps-8-2.webp";
 import photo21 from "src/assets/img/gallery/hackeps-8-3.webp";
 import photo22 from "src/assets/img/gallery/hackeps-9-1.webp";
 import photo23 from "src/assets/img/gallery/hackeps-9-2.webp";
-import photo24 from "src/assets/img/gallery/hackeps-9-3.webp";
+import photo24 from "src/assets/img/gallery/hackeps-8-4.webp";
 
 export const GALLERY_ITEMS = [
   {
@@ -172,6 +172,13 @@ export const GALLERY_ITEMS = [
     alt: "Record de la HackEPS, fotografia 21",
   },
   {
+    id: "photo-24",
+    image: photo24,
+    width: 680,
+    height: 1047,
+    alt: "Record de la HackEPS 8, fotografia 24",
+  },
+  {
     id: "photo-22",
     image: photo22,
     width: 680,
@@ -185,11 +192,5 @@ export const GALLERY_ITEMS = [
     height: 1046,
     alt: "Record de la HackEPS, fotografia 23",
   },
-  {
-    id: "photo-24",
-    image: photo24,
-    width: 680,
-    height: 1047,
-    alt: "Record de la HackEPS, fotografia 24",
-  },
+
 ];
