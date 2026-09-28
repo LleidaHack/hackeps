@@ -149,10 +149,10 @@ const ROWS = Array.from({ length: Math.ceil(faqContent.length / 2) }, (_, index)
 
 const FAQ = () => (
   <section id="faq" className="relative w-full px-4 pb-16 pt-12 md:px-8 md:pb-24 md:pt-20">
-    <h2 className="m-0 mb-12 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] text-white md:mb-20 md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]">
+    <h2 className="m-0 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] text-white md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]">
       FAQs
     </h2>
-    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-3 lg:gap-6">
+    <div className="faq-questions mx-auto flex w-full max-w-[1200px] flex-col gap-3 lg:gap-6">
       {ROWS.map((row, index) => (
         <div key={index} className="faq-row">
           {row.map(({ question, blocks }) => (
