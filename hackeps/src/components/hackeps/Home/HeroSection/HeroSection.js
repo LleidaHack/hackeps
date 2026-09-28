@@ -66,7 +66,7 @@ const HeroSection = ({ initialDate, finalDate, activeTimer, intro = false }) => 
         />
 
         <div className="relative z-10 mx-auto mt-2 w-full max-w-[577px] px-4 md:mt-[-40px]">
-          <MainTitle buttonText="Apuntat!" />
+          <MainTitle buttonText="Apunta’t-hi!" />
         </div>
       </div>
 
