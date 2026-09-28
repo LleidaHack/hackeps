@@ -34,7 +34,19 @@ const HomeHeader = () => {
         }`}
       >
         <div className="relative flex h-full shrink-0 items-center self-stretch">
-          <Link to="/" className="flex items-center" aria-label="HackEPS, inici">
+          <Link
+            to="/"
+            className="flex items-center"
+            aria-label="HackEPS, inici"
+            onClick={(event) => {
+              if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+              window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+              });
+            }}
+          >
             <img
               src={isotip}
               alt="HackEPS"
