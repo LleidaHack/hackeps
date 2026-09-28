@@ -77,7 +77,7 @@ test("new and future timestamps do not display spurious days of membership", () 
 
 test("gallery keeps edition order across mounts", () => {
   const { unmount } = render(<Records />);
-  const photos = () => Array.from(document.querySelectorAll("#hackeps-gallery img"), image => image.getAttribute("src"));
+  const photos = () => Array.from(document.querySelectorAll("#hackeps-gallery article:not([aria-hidden]) img"), image => image.getAttribute("src"));
   expect(photos()).toEqual(GALLERY_ITEMS.map(item => item.image));
   unmount();
   render(<Records />);
@@ -121,4 +121,26 @@ test("editing a registration preserves event-specific experience instead of rese
   await waitFor(() => expect(screen.getByLabelText("Github:")).toHaveValue("event-github"));
   expect(screen.getByRole("combobox", { name: "Talla de samarreta:" })).toHaveValue("XL");
   expect(screen.getByPlaceholderText(/Explica'ns/)).toHaveValue("Projecte de robòtica");
+});
+
+test("gallery wraps to the matching original position after the repeated photos settle", () => {
+  jest.useFakeTimers();
+  try {
+    render(<Records />);
+    const gallery = document.getElementById("hackeps-gallery");
+    const count = GALLERY_ITEMS.length;
+    expect(gallery.children).toHaveLength(count * 2);
+    expect(gallery.children[count]).toHaveAttribute("aria-hidden", "true");
+    expect(gallery.children[count].querySelector("img").src).toBe(gallery.children[0].querySelector("img").src);
+    Object.defineProperty(gallery.children[0], "offsetLeft", { value: 0 });
+    Object.defineProperty(gallery.children[count], "offsetLeft", { value: 6000 });
+    gallery.scrollTo = jest.fn();
+    gallery.scrollLeft = 6250;
+    fireEvent.scroll(gallery);
+    expect(gallery.scrollTo).not.toHaveBeenCalled();
+    jest.advanceTimersByTime(200);
+    expect(gallery.scrollTo).toHaveBeenCalledWith({ left: 250, behavior: "instant" });
+  } finally {
+    jest.useRealTimers();
+  }
 });
