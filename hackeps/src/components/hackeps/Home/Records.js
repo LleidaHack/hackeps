@@ -20,6 +20,31 @@ const Records = () => {
     media?.addEventListener?.("change", update);
     return () => media?.removeEventListener?.("change", update);
   }, []);
+  // The second copy lets the last edition slide directly into the first.
+  // Reset only after scrolling settles, at the visually identical position.
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return undefined;
+    let settleTimer;
+    const normalize = () => {
+      if (drag.current.active) return;
+      const cycle = el.children[items.length]?.offsetLeft - el.children[0]?.offsetLeft;
+      if (cycle > 0 && el.scrollLeft >= cycle) {
+        el.scrollTo({ left: el.scrollLeft % cycle, behavior: "instant" });
+      }
+    };
+    const onScroll = () => {
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(normalize, 200);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    el.addEventListener("scrollend", normalize);
+    return () => {
+      clearTimeout(settleTimer);
+      el.removeEventListener("scroll", onScroll);
+      el.removeEventListener("scrollend", normalize);
+    };
+  }, [items.length]);
   useEffect(() => {
     if (interacting || reducedMotion || dragging) return;
     const timer = setInterval(() => {
@@ -27,10 +52,9 @@ const Records = () => {
       if (!el || document.hidden) return;
       const step = el.children[1]?.offsetLeft - el.children[0]?.offsetLeft;
       if (!step) return;
-      const end = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
       el.scrollTo({
-        left: end ? 0 : el.scrollLeft + step,
-        behavior: end ? "auto" : "smooth",
+        left: el.scrollLeft + step,
+        behavior: "smooth",
       });
     }, 1500);
     return () => clearInterval(timer);
@@ -128,9 +152,10 @@ const Records = () => {
               : "snap-x snap-mandatory cursor-grab"
           }`}
         >
-          {items.map((item) => (
+          {[...items, ...items].map((item, index) => (
             <article
-              key={item.id}
+              key={`${item.id}-${index}`}
+              aria-hidden={index >= items.length ? true : undefined}
               className="w-[220px] shrink-0 snap-start sm:w-[280px] md:w-[340px]"
             >
               <img
