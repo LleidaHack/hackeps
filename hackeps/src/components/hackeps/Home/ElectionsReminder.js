@@ -32,9 +32,10 @@ const ElectionsReminder = () => {
             El 29 de novembre també es vota!
           </h2>
           <p className="mb-0 mt-2 text-[15px] leading-snug md:text-[16px]">
-            La HackEPS coincideix amb les eleccions generals. Si vens a la
-            hackató, no et quedis sense votar: demana el vot per correu amb
-            temps.
+            La HackEPS coincideix amb les eleccions generals, però la hackató
+            acaba a les 15:00, així que tindràs temps d&apos;anar a votar
+            abans que tanquin els col·legis. Si ho prefereixes, també pots
+            demanar el vot per correu.
           </p>
           <a
             href={POSTAL_VOTE_URL}
