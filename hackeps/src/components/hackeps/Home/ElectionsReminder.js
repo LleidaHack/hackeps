@@ -5,7 +5,7 @@ import { useSiteTheme } from "src/hooks/useSiteTheme";
 // Shown until election day is over (Madrid time); then it disappears on its own.
 const HIDE_AFTER = new Date("2026-11-30T00:00:00+01:00").getTime();
 const POSTAL_VOTE_URL =
-  "https://www.correos.es/es/es/particulares/voto-por-correo";
+  "https://www.correos.es/es/es/particulares/para-el-ciudadano/voto-por-correo";
 
 const ElectionsReminder = () => {
   const { text } = useSiteTheme();
