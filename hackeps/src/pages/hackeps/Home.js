@@ -7,6 +7,7 @@ import Sponsors, {
 } from "src/components/hackeps/Home/Sponsors.js";
 import HeroSection from "src/components/hackeps/Home/HeroSection/HeroSection.js";
 import Identify from "src/components/hackeps/Home/Identify.js";
+import ElectionsReminder from "src/components/hackeps/Home/ElectionsReminder.js";
 import Newsletter from "src/components/hackeps/Home/Newsletter.js";
 import Activities from "src/components/hackeps/Home/Activities.js";
 import Records from "src/components/hackeps/Home/Records.js";
@@ -130,6 +131,7 @@ const Home = () => {
             l’esdeveniment. Torna-ho a provar més tard.
           </p>
         )}
+        <ElectionsReminder />
         <Identify />
         {/* <Newsletter /> */}
         <DatesContent />

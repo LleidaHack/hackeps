@@ -83,3 +83,27 @@
   margin: 0.2rem 0 0;
   padding: 0;
 }
+
+/* Same entrance as the hacker signup steps (HackerFormLayout.css). */
+.public-form {
+  animation: public-form-reveal 240ms ease-out;
+}
+
+@keyframes public-form-reveal {
+  from {
+    opacity: 0.5;
+    filter: blur(4px);
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-form {
+    animation: none;
+  }
+}
