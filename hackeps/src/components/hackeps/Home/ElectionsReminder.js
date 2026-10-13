@@ -1,5 +1,5 @@
 import React from "react";
-import marracoVota from "src/assets/img/home10/marraco-vota.svg";
+import marracoVota from "src/assets/img/home10/marraco-vota.webp";
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
 // Shown until election day is over (Madrid time); then it disappears on its own.
@@ -20,9 +20,9 @@ const ElectionsReminder = () => {
           src={marracoVota}
           alt=""
           aria-hidden="true"
-          width={120}
-          height={120}
-          className="h-24 w-24 shrink-0 sm:h-28 sm:w-28"
+          width={462}
+          height={480}
+          className="h-auto w-36 shrink-0 sm:w-44"
         />
         <div className="text-center sm:text-left" style={{ color: text }}>
           <h2
