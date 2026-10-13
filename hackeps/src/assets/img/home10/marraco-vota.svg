@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="t">
+  <title id="t">El Marraco posant el vot a l'urna</title>
+  <!-- Mane -->
+  <path fill="#fbe345" stroke="#e5161f" stroke-width="5" stroke-linejoin="round"
+    d="M70 30 L84 56 L96 22 L108 52 L124 18 L134 54 L152 28 L156 62 L178 46 L172 82 L196 78 L180 108 L58 108 L44 80 L66 84 L54 52 L76 62 Z"/>
+  <!-- Head -->
+  <path fill="#38b59d" stroke="#1f7f6c" stroke-width="3"
+    d="M64 92 C64 58 92 44 120 44 C148 44 176 58 176 92 L176 120 C176 140 162 150 148 152 L92 152 C78 150 64 140 64 120 Z"/>
+  <!-- Ears -->
+  <path fill="#38b59d" stroke="#1f7f6c" stroke-width="3" d="M70 70 L58 40 L86 58 Z"/>
+  <path fill="#38b59d" stroke="#1f7f6c" stroke-width="3" d="M170 70 L182 40 L154 58 Z"/>
+  <!-- Eyes -->
+  <ellipse cx="98" cy="86" rx="14" ry="12" fill="#fbe345" stroke="#e5161f" stroke-width="3"/>
+  <ellipse cx="142" cy="86" rx="14" ry="12" fill="#fbe345" stroke="#e5161f" stroke-width="3"/>
+  <rect x="96" y="76" width="4" height="20" rx="2" fill="#1f7f6c"/>
+  <rect x="140" y="76" width="4" height="20" rx="2" fill="#1f7f6c"/>
+  <!-- Snout -->
+  <path fill="#e5161f" d="M92 122 C92 108 108 104 112 116 C112 122 106 124 102 120 C100 126 92 128 92 122 Z"/>
+  <path fill="#e5161f" d="M148 122 C148 108 132 104 128 116 C128 122 134 124 138 120 C140 126 148 128 148 122 Z"/>
+  <path fill="none" stroke="#1f7f6c" stroke-width="3" stroke-linecap="round" d="M106 104 Q120 98 134 104"/>
+  <!-- Fangs -->
+  <path fill="#fbe345" stroke="#e5161f" stroke-width="2" d="M96 150 L102 170 L108 150 Z"/>
+  <path fill="#fbe345" stroke="#e5161f" stroke-width="2" d="M132 150 L138 170 L144 150 Z"/>
+  <!-- Ballot box -->
+  <rect x="40" y="150" width="160" height="78" rx="8" fill="#ffffff" stroke="#2e2e2f" stroke-width="5"/>
+  <rect x="40" y="150" width="160" height="18" rx="6" fill="#dfe6f3" stroke="#2e2e2f" stroke-width="5"/>
+  <rect x="92" y="155" width="56" height="8" rx="4" fill="#2e2e2f"/>
+  <text x="120" y="208" text-anchor="middle" font-family="Space Mono, monospace" font-weight="700" font-size="24" fill="#2e2e2f">29N</text>
+  <!-- Ballot going into the slot -->
+  <g transform="rotate(10 138 146)">
+    <rect x="124" y="124" width="28" height="36" rx="3" fill="#ffffff" stroke="#2e2e2f" stroke-width="4"/>
+    <path fill="none" stroke="#ee7438" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M130 140 L136 146 L146 132"/>
+  </g>
+  <!-- Claw holding the ballot -->
+  <path fill="#e5161f" stroke="#2e2e2f" stroke-width="3" d="M150 152 C150 136 168 134 172 146 L172 158 L150 158 Z"/>
+  <path fill="#fbe345" d="M156 140 L160 127 L164 140 Z"/>
+  <path fill="#fbe345" d="M164 143 L170 132 L171 146 Z"/>
+</svg>

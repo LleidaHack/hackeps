@@ -33,24 +33,30 @@ function LegacyPrefixRedirect() {
 }
 
 export default function MainRoutes() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+  const pageKey = [
+    ROUTES.profile,
+    `${ROUTES.profile}/esdeveniments`,
+    `${ROUTES.profile}/equip`,
+    `${ROUTES.profile}/dades`,
+  ].includes(pathname)
+    ? ROUTES.profile
+    : pathname;
   useEffect(() => {
     const intervalId = setInterval(refreshToken, 1000 * 60 * 12);
     return () => clearInterval(intervalId);
   }, []);
 
+  // A new page starts at the top (e.g. Home → /hacker-form kept the old
+  // scroll position). Links to a section (/#faq) scroll there themselves.
+  useEffect(() => {
+    if (!hash) window.scrollTo(0, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageKey]);
+
   return (
     <div
-      key={
-        [
-          ROUTES.profile,
-          `${ROUTES.profile}/esdeveniments`,
-          `${ROUTES.profile}/equip`,
-          `${ROUTES.profile}/dades`,
-        ].includes(pathname)
-          ? ROUTES.profile
-          : pathname
-      }
+      key={pageKey}
       className="route-page"
     >
       <Routes>

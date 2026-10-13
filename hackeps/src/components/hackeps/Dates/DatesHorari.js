@@ -13,11 +13,11 @@ const HEADS = [cabeza1, cabeza2, cabeza3, cabeza4, cabeza5, cabeza6];
 export const SCHEDULE_2026 = [
   { starts_at: "2026-11-28T08:30:00+01:00", title: "Inici del check-in", description: "Arribada i registre dels participants" },
   { starts_at: "2026-11-28T10:00:00+01:00", title: "Cerimònia d'obertura", description: "Benvinguda i presentació de l'esdeveniment" },
-  { starts_at: "2026-11-28T11:00:00+01:00", title: "Comença el temps de hacking", description: "Inici oficial del hackathon" },
+  { starts_at: "2026-11-28T11:00:00+01:00", title: "Comença el temps de hacking", description: "Inici oficial de la hackató" },
   { starts_at: "2026-11-28T15:00:00+01:00", title: "Finalitza el check-in", description: "Tancament del registre per als participants" },
   { starts_at: "2026-11-29T11:00:00+01:00", title: "Finalitza el temps de hacking", description: "Tancament del període de desenvolupament dels projectes" },
-  { starts_at: "2026-11-29T11:30:00+01:00", title: "Presentacions dels projectes", description: "Presentació dels projectes desenvolupats durant el hackathon" },
-  { starts_at: "2026-11-29T14:00:00+01:00", title: "Cerimònia de cloenda i entrega de premis", description: "Cloenda del hackathon i entrega de premis als guanyadors" },
+  { starts_at: "2026-11-29T11:30:00+01:00", title: "Presentacions dels projectes", description: "Presentació dels projectes desenvolupats durant la hackató" },
+  { starts_at: "2026-11-29T14:00:00+01:00", title: "Cerimònia de cloenda i entrega de premis", description: "Cloenda de la hackató i entrega de premis als guanyadors" },
 ];
 
 const DatesHorari = () => {
