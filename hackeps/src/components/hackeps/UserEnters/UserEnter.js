@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router-dom";
 import LoginForm from "src/components/loginForm/LoginForm";
 import { ROUTES } from "src/config/routes";
 import hacker from "src/assets/img/home10/marraco-hacker-raw.webp";
-import mentor from "src/assets/img/home10/marraco-mentor-raw.webp";
 import "./UserEnter.css";
 
 const LinkAccounts = () => {
@@ -21,12 +20,6 @@ const LinkAccounts = () => {
             <img src={hacker} alt="" width={518} height={509} />
           </div>
           <span>HACKER</span>
-        </Link>
-        <Link className="account-welcome-option" to={ROUTES.contactMentor}>
-          <div className="account-welcome-art account-welcome-art--mentor">
-            <img src={mentor} alt="" width={526} height={523} />
-          </div>
-          <span>MENTOR</span>
         </Link>
       </div>
     </section>

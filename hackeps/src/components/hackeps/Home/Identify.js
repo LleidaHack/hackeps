@@ -94,10 +94,7 @@ const Identify = () => {
               height={498}
               className="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[78%] max-w-[376px] -translate-x-1/2 object-contain"
             />
-            <Link
-              to={ROUTES.contactMentor}
-              className="relative z-10 block w-full no-underline"
-            >
+            <div className="relative z-10 block w-full">
               <img
         loading="lazy"
         decoding="async"
@@ -105,15 +102,18 @@ const Identify = () => {
                 alt="MENTOR"
                 width={526}
                 height={523}
-                className="h-auto w-full origin-center object-contain transition-transform duration-300 ease-out hover:rotate-[6deg] hover:scale-105"
+                className="h-auto w-full object-contain"
               />
-            </Link>
+            </div>
           </div>
           <p
             className="mt-2 mb-0 text-center font-space-mono text-[28px] font-bold leading-none tracking-[-0.56px] md:text-[40px] lg:text-[48px]"
             style={{ color: text }}
           >
             MENTOR
+          </p>
+          <p className="mt-4 text-center font-space-mono" style={{ color: text }}>
+            Inscripcions tancades · Equip complet
           </p>
         </div>
       </div>

@@ -13,6 +13,8 @@ import Button from "src/components/buttons/Button";
 import { ROUTES } from "src/config/routes";
 import "./HackerFormLayout.css";
 
+import { isValidPhoneNumber, normalizePhoneNumber } from "src/modules/phoneValidation";
+
 import { isAtLeastAge } from "src/modules/ageValidation";
 
 const MINIMUM_ACCOUNT_AGE = 14;
@@ -54,7 +56,7 @@ export const HackerStepperForm = () => {
         comercial_notifications: values.notifications,
         terms_and_conditions: true,
       },
-      telephone: values.phone.replace(/\s+/g, ""),
+      telephone: normalizePhoneNumber(values.phone),
       address: "",
       image: "",
       github: "",
@@ -286,10 +288,9 @@ export const HackerStepperForm = () => {
                           placeholder="Telèfon"
                           {...register("phone", {
                             required: "El telèfon és obligatori",
-                            pattern: {
-                              value: /^ *(\+ *(\d *){1,2})?(\d *){9}$/,
-                              message: "Nombre de telèfon no vàlid",
-                            },
+                            validate: (value) =>
+                              isValidPhoneNumber(value) ||
+                              "Introdueix 9 dígits o un número internacional amb + i entre 7 i 15 dígits",
                           })}
                         />
                         {errors.phone && (
