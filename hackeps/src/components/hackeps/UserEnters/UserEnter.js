@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import LoginForm from "src/components/loginForm/LoginForm";
 import { ROUTES } from "src/config/routes";
+import mentor from "src/assets/img/home10/marraco-mentor-raw.webp";
 import hacker from "src/assets/img/home10/marraco-hacker-raw.webp";
 import "./UserEnter.css";
 
@@ -21,6 +22,12 @@ const LinkAccounts = () => {
           </div>
           <span>HACKER</span>
         </Link>
+        <div className="account-welcome-option">
+          <div className="account-welcome-art account-welcome-art--mentor">
+            <img className="grayscale" src={mentor} alt="" width={526} height={523} />
+          </div>
+          <span>MENTOR</span>
+        </div>
       </div>
     </section>
   );
