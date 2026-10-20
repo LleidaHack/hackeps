@@ -102,7 +102,7 @@ const Identify = () => {
                 alt="MENTOR"
                 width={526}
                 height={523}
-                className="h-auto w-full object-contain"
+                className="h-auto w-full object-contain grayscale"
               />
             </div>
           </div>
@@ -111,9 +111,6 @@ const Identify = () => {
             style={{ color: text }}
           >
             MENTOR
-          </p>
-          <p className="mt-4 text-center font-space-mono" style={{ color: text }}>
-            Inscripcions tancades · Equip complet
           </p>
         </div>
       </div>
