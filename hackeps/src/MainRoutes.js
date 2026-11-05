@@ -5,6 +5,7 @@ import RequireAuth from "src/modules/RequireAuth";
 import { refreshToken } from "src/services/AuthenticationService";
 import { ROUTES } from "src/config/routes";
 
+const Scanner = lazy(() => import("src/components/hackeps/Operations/Scanner"));
 const Contacte = lazy(() => import("src/pages/hackeps/Contacte"));
 
 const Error404 = lazy(() => import("src/pages/hackeps/Error404"));
@@ -61,6 +62,7 @@ export default function MainRoutes() {
     >
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/organitzacio" element={<RequireAuth originalRoute="/organitzacio"><Scanner /></RequireAuth>} />
         {/* These pages are now sections of the home page. */}
         <Route path={ROUTES.dates} element={<Navigate to="/#dates" replace />} />
         <Route path={ROUTES.faq} element={<Navigate to="/#faq" replace />} />

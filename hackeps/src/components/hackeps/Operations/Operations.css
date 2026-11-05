@@ -1,0 +1,90 @@
+.event-ops {
+  max-width: 900px;
+  margin: 90px auto 30px;
+  padding: 24px;
+  background: #faf4df;
+  color: #203b2d;
+  border-radius: 20px;
+  font-family: Arial, sans-serif;
+}
+.event-ops h1 {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 10px 0 20px;
+}
+.event-ops h2 {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 14px 0;
+}
+.event-ops label {
+  display: block;
+  margin: 14px 0;
+}
+.event-ops input:not([type="checkbox"]),
+.event-ops select {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #789078;
+  border-radius: 8px;
+  background: white;
+  color: #203b2d;
+}
+.event-ops button,
+.event-ops a.ops-link {
+  padding: 12px 18px;
+  background: #203b2d;
+  color: white;
+  border-radius: 8px;
+  display: inline-block;
+  margin: 5px 8px 5px 0;
+}
+.event-ops button:disabled {
+  opacity: 0.5;
+}
+.event-ops video {
+  width: 100%;
+  max-height: 320px;
+  border-radius: 12px;
+}
+.ops-result {
+  padding: 20px;
+  border-radius: 12px;
+  font-size: 20px;
+  margin: 15px 0;
+  background: #dcecc6;
+}
+.ops-error {
+  background: #ffe1d8;
+}
+.ops-wallet {
+  margin: 20px 0;
+  padding: 20px;
+  background: #faf4df;
+  color: #203b2d;
+  border-radius: 14px;
+}
+.ops-wallet h2 {
+  font-size: 24px;
+  font-weight: 800;
+}
+.ops-wallet table {
+  width: 100%;
+  margin: 15px 0;
+}
+.ops-wallet td,
+.ops-wallet th {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #bcc9ad;
+}
+.ops-wallet select,
+.ops-wallet button {
+  padding: 10px;
+  border: 1px solid #789078;
+  border-radius: 8px;
+  margin: 6px;
+  background: #fffdf4;
+  color: #203b2d;
+}
