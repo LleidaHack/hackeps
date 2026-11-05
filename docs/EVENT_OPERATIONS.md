@@ -13,3 +13,5 @@ The scanner supports check-in, badge linking, one meal per round, activities, pr
 Participant profiles show wallet history and prizes. Team leaders choose one challenge plus optional MLH. Presentation schedules are exposed when judging starts. Configure API and admin URLs explicitly in deployment; never point a deployed scanner to localhost.
 
 Validation: production build and regression suite. Two existing mentor-form tests fail on both the unchanged base commit and this branch because the current mentor page is closed rather than displaying the old form. Actual phone-camera and mobile-push checks remain device acceptance tests.
+
+Scanner pages reuse the existing `DarkPage` shell, including HomeHeader, HomeFooter and the edition decoration. Wallet and scanner controls use the same dark surfaces, orange accents, Space Mono type and four-pixel control corners as the participant area. Business behavior and permissions are unchanged by the visual integration.

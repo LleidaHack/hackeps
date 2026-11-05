@@ -40,7 +40,7 @@ export default function Wallet({ eventId, team }) {
       {error && <p role="alert">{error}</p>}
       {wallet && (
         <>
-          <strong style={{ fontSize: 34 }}>{wallet.balance} LC</strong>
+          <strong className="ops-wallet-balance">{wallet.balance} LC</strong>
           <button onClick={load}>Actualitzar</button>
           <details>
             <summary>Historial de moviments</summary>

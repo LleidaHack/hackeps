@@ -1,90 +1,199 @@
+/* Operations reuse the participant area's existing dark HackEPS theme. */
+.event-ops,
+.ops-wallet {
+  --ops-orange: #ff7430;
+  --ops-ink: #2e2e2e;
+  font-family: "Space Mono", monospace;
+  color: #fff;
+}
 .event-ops {
-  max-width: 900px;
-  margin: 90px auto 30px;
-  padding: 24px;
-  background: #faf4df;
-  color: #203b2d;
-  border-radius: 20px;
-  font-family: Arial, sans-serif;
+  width: min(100%, 800px);
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 56px) 20px;
+  min-height: 75vh;
+}
+.ops-eyebrow {
+  color: #ffa16f;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 .event-ops h1 {
-  font-size: 32px;
-  font-weight: 800;
-  margin: 10px 0 20px;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700;
+  margin: 12px 0 24px;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
-.event-ops h2 {
-  font-size: 24px;
-  font-weight: 800;
-  margin: 14px 0;
+.event-ops h2,
+.ops-wallet h2 {
+  font-size: 23px;
+  font-weight: 700;
+  margin: 16px 0;
+}
+.event-ops p,
+.ops-wallet p {
+  line-height: 1.7;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.event-ops form {
+  background: #383838;
+  border: 1px solid #666;
+  border-top: 4px solid var(--ops-orange);
+  padding: clamp(16px, 3vw, 28px);
+  margin-top: 24px;
+  border-radius: 4px;
 }
 .event-ops label {
   display: block;
-  margin: 14px 0;
+  margin: 20px 0;
+  font-size: 14px;
 }
 .event-ops input:not([type="checkbox"]),
-.event-ops select {
+.event-ops select,
+.ops-wallet select {
   display: block;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: 12px;
-  border: 1px solid #789078;
-  border-radius: 8px;
-  background: white;
-  color: #203b2d;
+  margin: 8px 0 0;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ops-ink);
+  font: inherit;
+  font-size: 16px;
 }
 .event-ops button,
-.event-ops a.ops-link {
+.event-ops a.ops-link,
+.ops-wallet button {
   padding: 12px 18px;
-  background: #203b2d;
-  color: white;
-  border-radius: 8px;
+  min-height: 44px;
+  border: 2px solid var(--ops-orange);
+  background: var(--ops-orange);
+  color: var(--ops-ink);
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 4px;
   display: inline-block;
-  margin: 5px 8px 5px 0;
+  margin: 6px 10px 6px 0;
+  text-decoration: none;
 }
-.event-ops button:disabled {
+.event-ops > .ops-link {
+  background: transparent;
+  color: #fff;
+}
+.event-ops button:hover,
+.ops-wallet button:hover,
+.event-ops .ops-link:hover {
+  background: #ffa16f;
+  border-color: #ffa16f;
+  color: #2e2e2e;
+}
+.event-ops button:disabled,
+.ops-wallet button:disabled {
   opacity: 0.5;
+  cursor: not-allowed;
+}
+.event-ops :is(button, input, select, a):focus-visible,
+.ops-wallet :is(button, select, summary):focus-visible {
+  outline: 3px solid #ffa16f;
+  outline-offset: 3px;
 }
 .event-ops video {
   width: 100%;
   max-height: 320px;
-  border-radius: 12px;
+  border: 2px solid #ff7430;
+  border-radius: 4px;
+  background: #222;
 }
 .ops-result {
-  padding: 20px;
-  border-radius: 12px;
-  font-size: 20px;
-  margin: 15px 0;
-  background: #dcecc6;
+  padding: 18px;
+  border: 1px solid #78c6bd;
+  border-left: 5px solid #78c6bd;
+  border-radius: 4px;
+  font-size: 16px;
+  margin: 20px 0;
+  background: #263d39;
+  color: white;
 }
 .ops-error {
-  background: #ffe1d8;
+  border-color: #ff9b6b;
+  background: #512e28;
 }
 .ops-wallet {
-  margin: 20px 0;
-  padding: 20px;
-  background: #faf4df;
-  color: #203b2d;
-  border-radius: 14px;
+  margin: 28px 0;
+  padding: clamp(16px, 3vw, 28px);
+  background: #383838;
+  border: 1px solid #666;
+  border-top: 4px solid var(--ops-orange);
+  border-radius: 4px;
 }
 .ops-wallet h2 {
-  font-size: 24px;
-  font-weight: 800;
+  margin-top: 0;
+  text-transform: uppercase;
+}
+.ops-wallet h3 {
+  margin: 24px 0 14px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.ops-wallet-balance {
+  display: block;
+  font-size: clamp(36px, 7vw, 52px);
+  color: #ffa16f;
+  font-variant-numeric: tabular-nums;
 }
 .ops-wallet table {
   width: 100%;
-  margin: 15px 0;
+  table-layout: fixed;
+  margin: 16px 0;
+  border-collapse: collapse;
+  font-size: 12px;
 }
 .ops-wallet td,
 .ops-wallet th {
   text-align: left;
-  padding: 8px;
-  border-bottom: 1px solid #bcc9ad;
+  padding: 12px 8px;
+  border-bottom: 1px solid #666;
+  overflow-wrap: anywhere;
 }
-.ops-wallet select,
-.ops-wallet button {
-  padding: 10px;
-  border: 1px solid #789078;
-  border-radius: 8px;
-  margin: 6px;
-  background: #fffdf4;
-  color: #203b2d;
+.ops-wallet th:last-child,
+.ops-wallet td:last-child {
+  width: 22%;
+  text-align: right;
+}
+.ops-wallet summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 16px 0;
+  color: #ffa16f;
+}
+.ops-wallet form {
+  margin-top: 24px;
+  border-top: 1px solid #666;
+}
+.ops-wallet input[type="checkbox"] {
+  accent-color: #ff7430;
+}
+
+.ops-wallet {
+  scroll-margin-top: 90px;
+}
+.ops-wallet form label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0;
+  font-size: 14px;
+}
+.ops-wallet input[type="checkbox"] {
+  display: inline-block;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin: 0;
 }

@@ -4,6 +4,7 @@ import { BrowserQRCodeReader } from "@zxing/browser";
 import { getHackeps } from "src/services/EventService";
 import { operationRequest } from "./api";
 import "./Operations.css";
+import DarkPage from "src/components/hackeps/Layout/DarkPage";
 
 export default function Scanner() {
   const [eventId, setEventId] = useState(null),
@@ -153,166 +154,170 @@ export default function Scanner() {
     }
   }
   return (
-    <main className="event-ops">
-      <h1>Organització · Escàner</h1>
-      <Link className="ops-link" to="/perfil">
-        El meu perfil
-      </Link>
-      {data && ["superadmin", "admin"].includes(data.access_role) && (
-        <a
-          className="ops-link"
-          href={process.env.REACT_APP_ADMIN_URL || "http://localhost:5175"}
-        >
-          Panel de gestió
-        </a>
-      )}
-      <p>Selecciona l’operació abans de llegir l’acreditació.</p>
-      {message && (
-        <div
-          role={failed ? "alert" : "status"}
-          className={`ops-result ${failed ? "ops-error" : ""}`}
-        >
-          {message}
-        </div>
-      )}
-      {data && (
-        <form onSubmit={submit}>
-          <label>
-            Operació
-            <select
-              value={form.kind}
-              onChange={(e) => {
-                change("kind", e.target.value);
-                change("target", "");
-              }}
-            >
-              {[
-                ["meal", "Àpat"],
-                ["activity", "Activitat"],
-                ["checkin", "Entrada"],
-                ["badge", "Vincular acreditació"],
-                ["redeem", "Bescanviar premi"],
-                ["award", "Atorgar punts"],
-              ]
-                .filter(
-                  ([v]) => v !== "award" || data.access_role === "superadmin",
-                )
-                .map(([v, t]) => (
-                  <option value={v} key={v}>
-                    {t}
-                  </option>
-                ))}
-            </select>
-          </label>
-          {["meal", "activity", "redeem"].includes(form.kind) && (
-            <label>
-              {form.kind === "meal"
-                ? "Àpat"
-                : form.kind === "activity"
-                  ? "Activitat"
-                  : "Premi"}
-              <select
-                required
-                value={form.target}
-                onChange={(e) => change("target", e.target.value)}
-              >
-                <option value="">Selecciona…</option>
-                {data[
-                  form.kind === "meal"
-                    ? "meals"
-                    : form.kind === "activity"
-                      ? "activities"
-                      : "prizes"
-                ].map((v) => (
-                  <option value={v.id} key={v.id}>
-                    {v.title || v.name}
-                    {v.cost ? ` · ${v.cost} punts · ${v.stock} unitats` : ""}
-                  </option>
-                ))}
-              </select>
-            </label>
-          )}
-          {form.kind === "meal" && form.target && (
-            <h2>
-              Ronda {round.round} · {round.open ? "Oberta" : "Tancada"}
-            </h2>
-          )}
-          {camera && <video ref={video} muted playsInline />}
-          <button
-            type="button"
-            onClick={() => {
-              scanField.current = "code";
-              setCamera(!camera);
-            }}
+    <DarkPage>
+      <main className="event-ops">
+        <p className="ops-eyebrow">HACKEPS · EQUIP D’ORGANITZACIÓ</p>
+        <h1>Organització · Escàner</h1>
+        <Link className="ops-link" to="/perfil">
+          El meu perfil
+        </Link>
+        {data && ["superadmin", "admin"].includes(data.access_role) && (
+          <a
+            className="ops-link"
+            href={process.env.REACT_APP_ADMIN_URL || "http://localhost:5175"}
           >
-            {camera ? "Tancar càmera" : "Llegir QR amb la càmera"}
-          </button>
-          <label>
-            {form.kind === "badge"
-              ? "Tiquet del participant"
-              : "Codi del participant o acreditació"}
-            <input
-              required
-              value={form.code}
-              onChange={(e) => change("code", e.target.value)}
-              autoComplete="off"
-            />
-          </label>
-          {form.kind === "badge" && (
+            Panel de gestió
+          </a>
+        )}
+        <p>Selecciona l’operació abans de llegir l’acreditació.</p>
+        {message && (
+          <div
+            role={failed ? "alert" : "status"}
+            className={`ops-result ${failed ? "ops-error" : ""}`}
+          >
+            {message}
+          </div>
+        )}
+        {data && (
+          <form onSubmit={submit}>
             <label>
-              Acreditació física lliure
-              <button
-                type="button"
-                onClick={() => {
-                  scanField.current = "badge";
-                  setCamera(true);
+              Operació
+              <select
+                value={form.kind}
+                onChange={(e) => {
+                  change("kind", e.target.value);
+                  change("target", "");
                 }}
               >
-                Llegir QR de l’acreditació
-              </button>
+                {[
+                  ["meal", "Àpat"],
+                  ["activity", "Activitat"],
+                  ["checkin", "Entrada"],
+                  ["badge", "Vincular acreditació"],
+                  ["redeem", "Bescanviar premi"],
+                  ["award", "Atorgar punts"],
+                ]
+                  .filter(
+                    ([v]) => v !== "award" || data.access_role === "superadmin",
+                  )
+                  .map(([v, t]) => (
+                    <option value={v} key={v}>
+                      {t}
+                    </option>
+                  ))}
+              </select>
+            </label>
+            {["meal", "activity", "redeem"].includes(form.kind) && (
+              <label>
+                {form.kind === "meal"
+                  ? "Àpat"
+                  : form.kind === "activity"
+                    ? "Activitat"
+                    : "Premi"}
+                <select
+                  required
+                  value={form.target}
+                  onChange={(e) => change("target", e.target.value)}
+                >
+                  <option value="">Selecciona…</option>
+                  {data[
+                    form.kind === "meal"
+                      ? "meals"
+                      : form.kind === "activity"
+                        ? "activities"
+                        : "prizes"
+                  ].map((v) => (
+                    <option value={v.id} key={v.id}>
+                      {v.title || v.name}
+                      {v.cost ? ` · ${v.cost} punts · ${v.stock} unitats` : ""}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+            {form.kind === "meal" && form.target && (
+              <h2>
+                Ronda {round.round} · {round.open ? "Oberta" : "Tancada"}
+              </h2>
+            )}
+            {camera && <video ref={video} muted playsInline />}
+            <button
+              type="button"
+              onClick={() => {
+                scanField.current = "code";
+                setCamera(!camera);
+              }}
+            >
+              {camera ? "Tancar càmera" : "Llegir QR amb la càmera"}
+            </button>
+            <label>
+              {form.kind === "badge"
+                ? "Tiquet del participant"
+                : "Codi del participant o acreditació"}
               <input
                 required
-                placeholder="Codi de l’acreditació"
-                value={form.badge}
-                onChange={(e) => change("badge", e.target.value)}
+                value={form.code}
+                onChange={(e) => change("code", e.target.value)}
+                autoComplete="off"
               />
             </label>
-          )}
-          {form.kind === "award" && (
-            <>
+            {form.kind === "badge" && (
               <label>
-                Punts
-                <input
-                  type="number"
-                  required
-                  min="1"
-                  value={form.amount}
-                  onChange={(e) => change("amount", e.target.value)}
-                />
-              </label>
-              <label>
-                Motiu
+                Acreditació física lliure
+                <button
+                  type="button"
+                  onClick={() => {
+                    scanField.current = "badge";
+                    setCamera(true);
+                  }}
+                >
+                  Llegir QR de l’acreditació
+                </button>
                 <input
                   required
-                  minLength="3"
-                  value={form.reason}
-                  onChange={(e) => change("reason", e.target.value)}
+                  placeholder="Codi de l’acreditació"
+                  value={form.badge}
+                  onChange={(e) => change("badge", e.target.value)}
                 />
               </label>
-            </>
-          )}
-          <button disabled={busy || (form.kind === "meal" && !round.open)}>
-            {busy
-              ? "Registrant…"
-              : pending.current
-                ? "Reintentar la mateixa operació"
-                : "Registrar"}
-          </button>
-          <p>
-            Una lectura no entrega res fins que el servidor confirma l’operació.
-          </p>
-        </form>
-      )}
-    </main>
+            )}
+            {form.kind === "award" && (
+              <>
+                <label>
+                  Punts
+                  <input
+                    type="number"
+                    required
+                    min="1"
+                    value={form.amount}
+                    onChange={(e) => change("amount", e.target.value)}
+                  />
+                </label>
+                <label>
+                  Motiu
+                  <input
+                    required
+                    minLength="3"
+                    value={form.reason}
+                    onChange={(e) => change("reason", e.target.value)}
+                  />
+                </label>
+              </>
+            )}
+            <button disabled={busy || (form.kind === "meal" && !round.open)}>
+              {busy
+                ? "Registrant…"
+                : pending.current
+                  ? "Reintentar la mateixa operació"
+                  : "Registrar"}
+            </button>
+            <p>
+              Una lectura no entrega res fins que el servidor confirma
+              l’operació.
+            </p>
+          </form>
+        )}
+      </main>
+    </DarkPage>
   );
 }
