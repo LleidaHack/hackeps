@@ -28,7 +28,7 @@ const QrCode = (props) => {
           )}
           <p>
             {ticket?.checkedIn
-              ? "Ja has fet el check-in. Durant l’esdeveniment ensenya la teva acreditació."
+              ? "Ja has fet el check-in. Fes servir l’acreditació per als àpats i les activitats. Aquest QR només serveix perquè l’organització recuperi la teva acreditació si la perds."
               : "Ensenya aquest QR al check-in i et donarem la teva acreditació."}
           </p>
           <div className="qrcode__container" style={{ margin: 30 }}>

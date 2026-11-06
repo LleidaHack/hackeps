@@ -12,6 +12,7 @@ import "./Profile.css";
 import Modal from "react-bootstrap/Modal";
 import { loadProfile } from "src/modules/loadProfile";
 import { clearSession } from "src/modules/session";
+import NicknameRequest from "./NicknameRequest";
 import EditProfile from "./EditProfile";
 import { memberSince } from "src/modules/memberSince";
 import qrIcon from "src/icons/qr.png";
@@ -148,10 +149,11 @@ const ProfileComponent = () => {
                       professionals.
                     </p>
                     <div className="hacker-profile-actions">
-                      <EditProfile hackerObj={user} onSaved={setUser} />
+                      <NicknameRequest />
+                      {user.access_role !== "mentor" && <EditProfile hackerObj={user} onSaved={setUser} />}
                     </div>
                     <div className="hacker-profile-accounts">
-                      <LinkAccounts hacker={user} />
+                      {user.access_role !== "mentor" && <LinkAccounts hacker={user} />}
                     </div>
                   </>
                 ) : section === "lleidacoins" && isHacker ? (
@@ -201,7 +203,7 @@ const ProfileComponent = () => {
             user && (
               <>
                 <div className="hacker-profile-accounts">
-                  <LinkAccounts hacker={user} />
+                  {user.access_role !== "mentor" && <LinkAccounts hacker={user} />}
                 </div>
                 {event?.registered && isHacker && (
                   <section className="hacker-profile-team" aria-label="Equip">

@@ -10,7 +10,7 @@ export default function Scanner() {
   const [eventId, setEventId] = useState(null),
     [data, setData] = useState(null),
     [form, setForm] = useState({
-      kind: "meal",
+      kind: "badge",
       code: "",
       target: "",
       amount: 10,
@@ -71,6 +71,7 @@ export default function Scanner() {
         video.current,
         (result) => {
           if (result && active && !busyRef.current) {
+            pending.current = null;
             setForm((f) => ({ ...f, [scanField.current]: result.getText() }));
             setCamera(false);
           }
@@ -102,9 +103,9 @@ export default function Scanner() {
     e.preventDefault();
     if (busyRef.current) return;
     if (
-      form.kind === "redeem" &&
+      ["redeem", "replace_badge", "mentor_replace_badge"].includes(form.kind) &&
       !window.confirm(
-        "Confirmar el lliurament del premi i descomptar les LleidaCoins?",
+        ["replace_badge", "mentor_replace_badge"].includes(form.kind) ? "Invalidar l’acreditació anterior i vincular la nova?" : "Confirmar el lliurament del premi i descomptar les LleidaCoins?",
       )
     )
       return;
@@ -114,9 +115,11 @@ export default function Scanner() {
     setFailed(false);
     try {
       let result;
-      if (form.kind === "badge") {
+      if (["mentor_badge", "mentor_replace_badge"].includes(form.kind)) {
+        result = await operationRequest(`/operations/${eventId}/mentors/${form.target}/badge`, "PUT", { code: form.badge.trim(), replace: form.kind === "mentor_replace_badge" });
+      } else if (["badge", "replace_badge"].includes(form.kind)) {
         result = await operationRequest(
-          `/event/${eventId}/vouchers/${encodeURIComponent(form.badge)}/assign/${encodeURIComponent(form.code)}`,
+          `/event/${eventId}/vouchers/${encodeURIComponent(form.badge.trim())}/${form.kind === "replace_badge" ? "replace" : "assign"}/${encodeURIComponent(form.code.trim())}`,
           "PUT",
         );
       } else {
@@ -138,7 +141,7 @@ export default function Scanner() {
         );
       }
       setMessage(
-        `Registrat: ${result.participant || result.hacker_name || "participant"}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
+        result.team ? `${result.team} · Presentant${result.next_team ? ` · Següent: ${result.next_team}` : ""}` : `Registrat: ${result.participant || result.hacker_name || "participant"}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
       );
       pending.current = null;
       setForm((f) => ({ ...f, code: "", badge: "" }));
@@ -192,13 +195,16 @@ export default function Scanner() {
                 {[
                   ["meal", "Àpat"],
                   ["activity", "Activitat"],
-                  ["checkin", "Entrada"],
-                  ["badge", "Vincular acreditació"],
+                  ["judging_start", "Presentació · entrada a la sala"],
+                  ["badge", "Check-in · entrada i acreditació"],
+                  ["replace_badge", "Substituir acreditació perduda"],
+                  ["mentor_badge", "Mentor · vincular acreditació"],
+                  ["mentor_replace_badge", "Mentor · substituir acreditació"],
                   ["redeem", "Bescanviar premi"],
                   ["award", "Atorgar punts"],
                 ]
                   .filter(
-                    ([v]) => v !== "award" || data.access_role === "superadmin",
+                    ([v]) => (v !== "award" || data.access_role === "superadmin") && (!["replace_badge", "mentor_replace_badge"].includes(v) || ["superadmin", "admin"].includes(data.access_role)),
                   )
                   .map(([v, t]) => (
                     <option value={v} key={v}>
@@ -207,9 +213,9 @@ export default function Scanner() {
                   ))}
               </select>
             </label>
-            {["meal", "activity", "redeem"].includes(form.kind) && (
+            {["meal", "activity", "redeem", "judging_start"].includes(form.kind) && (
               <label>
-                {form.kind === "meal"
+                {form.kind === "judging_start" ? "Sala de presentació" : form.kind === "meal"
                   ? "Àpat"
                   : form.kind === "activity"
                     ? "Activitat"
@@ -221,12 +227,12 @@ export default function Scanner() {
                 >
                   <option value="">Selecciona…</option>
                   {data[
-                    form.kind === "meal"
+                    form.kind === "judging_start" ? "rooms" : form.kind === "meal"
                       ? "meals"
                       : form.kind === "activity"
                         ? "activities"
                         : "prizes"
-                  ].map((v) => (
+                  ]?.map((v) => (
                     <option value={v.id} key={v.id}>
                       {v.title || v.name}
                       {v.cost ? ` · ${v.cost} punts · ${v.stock} unitats` : ""}
@@ -235,12 +241,16 @@ export default function Scanner() {
                 </select>
               </label>
             )}
+            {form.kind === "judging_start" && !data.rooms?.length && <p>Les sales es mostraran quan comenci el judging i els reptes estiguin publicats.</p>}
             {form.kind === "meal" && form.target && (
               <h2>
                 Ronda {round.round} · {round.open ? "Oberta" : "Tancada"}
               </h2>
             )}
+            {["mentor_badge", "mentor_replace_badge"].includes(form.kind) && <label>Mentor<select required value={form.target} onChange={e => change("target", e.target.value)}><option value="">Selecciona el mentor…</option>{data.mentors?.map(m => <option key={m.id} value={m.id}>{m.name}{m.has_badge ? " · Acreditació vinculada" : ""}</option>)}</select></label>}
             {camera && <video ref={video} muted playsInline />}
+            {!["mentor_badge", "mentor_replace_badge"].includes(form.kind) && <>
+
             <button
               type="button"
               onClick={() => {
@@ -251,9 +261,9 @@ export default function Scanner() {
               {camera ? "Tancar càmera" : "Llegir QR amb la càmera"}
             </button>
             <label>
-              {form.kind === "badge"
-                ? "Tiquet del participant"
-                : "Codi del participant o acreditació"}
+              {["badge", "replace_badge"].includes(form.kind)
+                ? "1. QR de l’entrada del participant"
+                : "QR de l’acreditació física"}
               <input
                 required
                 value={form.code}
@@ -261,9 +271,10 @@ export default function Scanner() {
                 autoComplete="off"
               />
             </label>
-            {form.kind === "badge" && (
+            </>}
+            {["badge", "replace_badge", "mentor_badge", "mentor_replace_badge"].includes(form.kind) && (
               <label>
-                Acreditació física lliure
+                QR de l’acreditació física lliure
                 <button
                   type="button"
                   onClick={() => {
