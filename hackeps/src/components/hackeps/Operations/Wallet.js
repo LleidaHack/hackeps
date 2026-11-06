@@ -68,14 +68,6 @@ export default function Wallet({ eventId, team }) {
       )}
       {live && (
         <>
-          <h3>Premis disponibles</h3>
-          {live.prizes.map((p) => (
-            <p key={p.id}>
-              {p.title} · {p.cost} LC ·{" "}
-              {p.stock > 0 ? `${p.stock} disponibles` : "Esgotat"}
-            </p>
-          ))}
-          <p>Demana el bescanvi a organització amb la teva acreditació.</p>
           {live.phase === "judging" && team && (
             <>
               <h3>Els nostres torns</h3>
