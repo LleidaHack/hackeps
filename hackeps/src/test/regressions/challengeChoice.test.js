@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import ChallengeChoice from "src/components/hackeps/Team/ChallengeChoice";
 import { fetchPlus } from "src/modules/fetchModule";
 
@@ -8,16 +8,34 @@ const team = { id: 4, event_id: 2 };
 const state = { published: true, open: true, choice: null, version: 0, challenges: [{ id: "one", title: "Challenge One" }, { id: "two", title: "Challenge Two" }] };
 beforeEach(() => fetchPlus.mockReset());
 
-test("hidden and closed choices cannot be submitted", async () => {
-  fetchPlus.mockResolvedValue({ ...state, published: false, open: false, challenges: [] });
-  const { unmount } = render(<ChallengeChoice team={team} />);
-  expect(await screen.findByText("Els reptes encara no s’han publicat.")).toBeInTheDocument();
-  expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
-  unmount();
-  fetchPlus.mockResolvedValue({ ...state, open: false });
-  render(<ChallengeChoice team={team} />);
-  expect(await screen.findByRole("combobox")).toBeDisabled();
-  expect(screen.queryByRole("button")).not.toBeInTheDocument();
+test.each([
+  { published: false, open: false },
+  { published: true, open: false },
+  { published: false, open: true },
+])("does not render the choice card when unavailable: %j", async (flags) => {
+  fetchPlus.mockResolvedValue({ ...state, ...flags });
+  let view;
+  await act(async () => { view = render(<ChallengeChoice team={team} />); });
+  expect(view.container).toBeEmptyDOMElement();
+});
+
+test("polling reveals opened choices and hides them again when closed", async () => {
+  jest.useFakeTimers();
+  fetchPlus.mockResolvedValueOnce({ ...state, open: false })
+    .mockResolvedValueOnce(state)
+    .mockResolvedValueOnce({ ...state, open: false });
+  const view = render(<ChallengeChoice team={team} />);
+  try {
+    await act(async () => {});
+    expect(view.container).toBeEmptyDOMElement();
+    await act(async () => { jest.advanceTimersByTime(10000); });
+    expect(screen.getByRole("combobox")).toBeEnabled();
+    await act(async () => { jest.advanceTimersByTime(10000); });
+    expect(view.container).toBeEmptyDOMElement();
+  } finally {
+    view.unmount();
+    jest.useRealTimers();
+  }
 });
 
 test("saving uses the shared team version and displays confirmation", async () => {

@@ -33,7 +33,7 @@ export default function Wallet({ eventId, team }) {
   if (!eventId) return null;
   return (
     <section className="ops-wallet">
-      <h2>Les meves LleidaCoins</h2>
+      <h2>Els meus LleidaCoins</h2>
       {error && <p role="alert">{error}</p>}
       {wallet && (
         <>

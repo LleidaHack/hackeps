@@ -64,7 +64,7 @@ export default function ChallengeChoice({ team }) {
     }
     setBusy(false);
   }
-  if (!data) return <p role="status">{error || "Carregant els reptes…"}</p>;
+  if (!data?.open || !data.published) return null;
   return (
     <section
       className="team-challenge-choice"
