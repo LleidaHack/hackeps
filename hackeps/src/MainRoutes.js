@@ -80,6 +80,7 @@ export default function MainRoutes() {
           <Route index />
           <Route path="esdeveniments" />
           <Route path="equip" />
+          <Route path="lleidacoins" />
           <Route path="dades" />
         </Route>
         <Route

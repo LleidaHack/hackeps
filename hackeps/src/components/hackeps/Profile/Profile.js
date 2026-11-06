@@ -131,6 +131,7 @@ const ProfileComponent = () => {
                   <NavLink to="/perfil/esdeveniments">Esdeveniments</NavLink>
                 )}
                 {isHacker && <NavLink to="/perfil/equip">El meu equip</NavLink>}
+                {isHacker && <NavLink to="/perfil/lleidacoins">LleidaCoins</NavLink>}
                 <NavLink to="/perfil/dades">El meu perfil</NavLink>
                 <Link to="/" className="profile-signout" onClick={logOut}>
                   Tancar sessió
@@ -153,6 +154,8 @@ const ProfileComponent = () => {
                       <LinkAccounts hacker={user} />
                     </div>
                   </>
+                ) : section === "lleidacoins" && isHacker ? (
+                  event?.event_id ? <Wallet eventId={event.event_id} team={team} /> : <p>No hi ha cap esdeveniment disponible.</p>
                 ) : section === "esdeveniments" && isHacker ? (
                   <>
                     <h2>Esdeveniments</h2>
@@ -211,9 +214,6 @@ const ProfileComponent = () => {
         </div>
       </main>
 
-      {isUser && isHacker && event?.event_id && (
-        <Wallet eventId={event.event_id} team={team} />
-      )}
       {isUser &&
         ["superadmin", "admin", "lleidahacker"].includes(user?.access_role) && (
           <div className="event-ops">

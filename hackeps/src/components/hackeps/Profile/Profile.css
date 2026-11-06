@@ -389,3 +389,5 @@
   .hacker-profile #profile-pic-big { width: 80px; height: 80px; }
   .hacker-profile-identity { flex: 1 1 150px; }
 }
+
+.profile-panel > .ops-wallet { margin: 0; padding: 0; border: 0; background: transparent; }

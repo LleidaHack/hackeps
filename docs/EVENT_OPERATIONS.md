@@ -23,3 +23,7 @@ The private profile's team section shows published event challenges and the curr
 This does not submit a Devpost project, enroll judging turns, or award coins. Publication and choice controls live in Gestió → Projectes i jurat → Reptes. The backend migration `20261106_challenge_votes` is required.
 
 The previous direct presentation-enrollment form is removed from the wallet to avoid a second challenge selector. The team section contains the preliminary choice; final presentations are based on Devpost imports or explicit organizer enrollment. The wallet still displays published judging turns.
+
+## Wallet navigation
+
+Participant balances, movement history and available prizes are under **Perfil → LleidaCoins** (`/perfil/lleidacoins`). The wallet is rendered inside the profile panel rather than below the entire profile page. It is available in the authenticated participant's own profile; organizer accounts use the organization tools instead.

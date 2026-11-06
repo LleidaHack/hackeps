@@ -4,6 +4,7 @@ import { MemoryRouter, useLocation } from "react-router-dom";
 import Profile from "src/components/hackeps/Profile/Profile";
 import { loadProfile } from "src/modules/loadProfile";
 
+jest.mock("src/components/hackeps/Operations/Wallet", () => () => <div>Wallet balance 30 LC</div>);
 jest.mock("src/modules/loadProfile", () => ({ loadProfile: jest.fn() }));
 jest.mock("src/components/hackeps/Profile/EditProfile", () => () => <div>Profile editor</div>);
 jest.mock("src/components/hackeps/LinkAccounts/LinkAccounts", () => () => <div>Social accounts</div>);
@@ -14,7 +15,7 @@ jest.mock("src/components/hackeps/Join/Join", () => () => <div>Event registratio
 test("separates personal sections without reloading shared profile data", async () => {
   useLocation.mockImplementation(jest.requireActual("react-router-dom").useLocation);
   jest.spyOn(Storage.prototype, "getItem").mockImplementation((key) => key === "userID" ? "1" : null);
-  loadProfile.mockResolvedValue({user: {id: "1", name: "Test Hacker"}, isHacker: true, team: null, event: {registered: true}, qrCode: null});
+  loadProfile.mockResolvedValue({user: {id: "1", name: "Test Hacker"}, isHacker: true, team: null, event: {registered: true, event_id: 1}, qrCode: null});
   render(<MemoryRouter initialEntries={["/perfil"]}><Profile /></MemoryRouter>);
   await screen.findByText("Test Hacker");
   expect(screen.queryByText("Profile editor")).not.toBeInTheDocument();
@@ -24,6 +25,10 @@ test("separates personal sections without reloading shared profile data", async 
   expect(screen.queryByText("Team management")).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("link", {name: "El meu equip"}));
   expect(screen.getByText("Team management")).toBeInTheDocument();
+  expect(screen.queryByText("Wallet balance 30 LC")).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("link", {name: "LleidaCoins"}));
+  expect(screen.getByText("Wallet balance 30 LC")).toBeInTheDocument();
+  expect(screen.queryByText("Team management")).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("link", {name: "El meu perfil"}));
   expect(screen.getByText("Profile editor")).toBeInTheDocument();
   expect(screen.queryByText("Event registration")).not.toBeInTheDocument();
