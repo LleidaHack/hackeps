@@ -15,3 +15,11 @@ Participant profiles show wallet history and prizes. Team leaders choose one cha
 Validation: production build and regression suite. Two existing mentor-form tests fail on both the unchanged base commit and this branch because the current mentor page is closed rather than displaying the old form. Actual phone-camera and mobile-push checks remain device acceptance tests.
 
 Scanner pages reuse the existing `DarkPage` shell, including HomeHeader, HomeFooter and the edition decoration. Wallet and scanner controls use the same dark surfaces, orange accents, Space Mono type and four-pixel control corners as the participant area. Business behavior and permissions are unchanged by the visual integration.
+
+## Team challenge choice
+
+The private profile's team section shows published event challenges and the current team's preliminary choice. Current members may submit or change the single shared choice while management has opened voting. Closed/hidden states disable submission. Optimistic versions detect a teammate's intervening change; on conflict the UI refreshes the shared choice rather than silently retrying. The component polls status every ten seconds and renders only for the user's own team.
+
+This does not submit a Devpost project, enroll judging turns, or award coins. Publication and choice controls live in Gestió → Projectes i jurat → Reptes. The backend migration `20261106_challenge_votes` is required.
+
+The previous direct presentation-enrollment form is removed from the wallet to avoid a second challenge selector. The team section contains the preliminary choice; final presentations are based on Devpost imports or explicit organizer enrollment. The wallet still displays published judging turns.

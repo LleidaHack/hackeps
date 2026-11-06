@@ -1,3 +1,4 @@
+import ChallengeChoice from "./ChallengeChoice";
 import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import React, { useEffect } from "react";
 import "src/components/hackeps/Team/Team.css";
@@ -289,6 +290,7 @@ const Team = (props) => {
               ))}
             </Row>
           </Container>
+          {is_user && team.event_id && <div className="w-100"><ChallengeChoice team={team} /></div>}
           {is_user && (
             <>
               <Button primary onClick={() => handleLeave()}>
