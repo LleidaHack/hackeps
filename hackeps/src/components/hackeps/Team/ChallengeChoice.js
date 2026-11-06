@@ -7,7 +7,6 @@ export default function ChallengeChoice({ team }) {
   const [selected, setSelected] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [notice, setNotice] = useState("");
   const dirty = useRef(false);
   const endpoint = `/operations/${team.event_id}/teams/${team.id}/challenge-vote`;
   useEffect(() => {
@@ -37,7 +36,6 @@ export default function ChallengeChoice({ team }) {
     event.preventDefault();
     setBusy(true);
     setError("");
-    setNotice("");
     const result = await fetchPlus({
       Url: endpoint,
       Method: "PUT",
@@ -60,7 +58,6 @@ export default function ChallengeChoice({ team }) {
       setData(result);
       setSelected(result.choice);
       dirty.current = false;
-      setNotice("Elecció de l’equip desada.");
     }
     setBusy(false);
   }
@@ -75,11 +72,6 @@ export default function ChallengeChoice({ team }) {
         <p>Els reptes encara no s’han publicat.</p>
       ) : (
         <>
-          <p>
-            {data.open
-              ? "Una elecció per equip. La podeu canviar mentre estigui oberta."
-              : "L’elecció de repte està tancada."}
-          </p>
           {data.choice && (
             <p>
               <strong>Elecció actual:</strong>{" "}
@@ -98,8 +90,7 @@ export default function ChallengeChoice({ team }) {
               onChange={(e) => {
                 setSelected(e.target.value);
                 dirty.current = true;
-                setNotice("");
-              }}
+                          }}
               required
             >
               <option value="">Selecciona un repte</option>
@@ -123,14 +114,9 @@ export default function ChallengeChoice({ team }) {
               </button>
             )}
           </form>
-          <p className="team-challenge-note">
-            Aquesta elecció és orientativa. L’entrega del projecte es fa a
-            Devpost.
-          </p>
         </>
       )}
       {error && <p role="alert">{error}</p>}
-      {notice && <p role="status">{notice}</p>}
     </section>
   );
 }

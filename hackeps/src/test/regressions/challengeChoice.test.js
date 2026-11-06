@@ -38,12 +38,13 @@ test("polling reveals opened choices and hides them again when closed", async ()
   }
 });
 
-test("saving uses the shared team version and displays confirmation", async () => {
+test("saving uses the shared team version and updates the selected choice", async () => {
   fetchPlus.mockResolvedValueOnce(state).mockResolvedValueOnce({ ...state, choice: "one", version: 1 });
   render(<ChallengeChoice team={team} />);
   fireEvent.change(await screen.findByRole("combobox"), { target: { value: "one" } });
   fireEvent.click(screen.getByRole("button", { name: "Desar elecció de l’equip" }));
-  expect(await screen.findByText("Elecció de l’equip desada.")).toBeInTheDocument();
+  await waitFor(() => expect(screen.getByRole("button", { name: "Desar elecció de l’equip" })).toBeDisabled());
+  expect(screen.getByText("Elecció actual:")).toBeInTheDocument();
   expect(fetchPlus).toHaveBeenLastCalledWith(expect.objectContaining({ Url: "/operations/2/teams/4/challenge-vote", Method: "PUT", Body: { challenge: "one", version: 0 } }));
 });
 
