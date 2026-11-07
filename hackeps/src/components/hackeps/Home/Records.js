@@ -28,7 +28,8 @@ const Records = () => {
     let settleTimer;
     const normalize = () => {
       if (drag.current.active) return;
-      const cycle = el.children[items.length]?.offsetLeft - el.children[0]?.offsetLeft;
+      const cycle =
+        el.children[items.length]?.offsetLeft - el.children[0]?.offsetLeft;
       if (cycle > 0 && el.scrollLeft >= cycle) {
         el.scrollTo({ left: el.scrollLeft % cycle, behavior: "instant" });
       }

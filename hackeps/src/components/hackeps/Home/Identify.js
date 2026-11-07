@@ -38,8 +38,8 @@ const Identify = () => {
 
       <div className="relative z-10 mx-auto mt-4 grid max-w-[1200px] grid-cols-1 gap-10 md:mt-6 md:grid-cols-2 md:gap-8">
         <img
-        loading="lazy"
-        decoding="async"
+          loading="lazy"
+          decoding="async"
           src={cloud3}
           alt=""
           aria-hidden="true"
@@ -50,8 +50,8 @@ const Identify = () => {
         <div className="flex flex-col items-center">
           <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
             <img
-        loading="lazy"
-        decoding="async"
+              loading="lazy"
+              decoding="async"
               src={mountain}
               alt=""
               aria-hidden="true"
@@ -64,8 +64,8 @@ const Identify = () => {
               className="relative z-10 block w-full no-underline"
             >
               <img
-        loading="lazy"
-        decoding="async"
+                loading="lazy"
+                decoding="async"
                 src={marracoHacker}
                 alt="HACKER"
                 width={541}
@@ -85,8 +85,8 @@ const Identify = () => {
         <div className="flex flex-col items-center">
           <div className="relative flex w-full max-w-[288px] md:max-w-[480px] items-end justify-center">
             <img
-        loading="lazy"
-        decoding="async"
+              loading="lazy"
+              decoding="async"
               src={mountain}
               alt=""
               aria-hidden="true"
@@ -96,8 +96,8 @@ const Identify = () => {
             />
             <div className="relative z-10 block w-full">
               <img
-        loading="lazy"
-        decoding="async"
+                loading="lazy"
+                decoding="async"
                 src={marracoMentor}
                 alt="MENTOR"
                 width={526}
@@ -119,13 +119,16 @@ const Identify = () => {
         style={{ color: text }}
       >
         <p>
-          LleidaHack et dona la benvinguda a la HackEPS {year}, la primera hackató
-          de les terres de Lleida!
+          LleidaHack et dona la benvinguda a la HackEPS {year}, la primera
+          hackató de les terres de Lleida!
         </p>
         <p>
-          Aquesta edició tindrà lloc a <strong>{event?.location || "una ubicació pendent de confirmar"}</strong>{" "}
-          els dies <strong>{dates}</strong>. Aquest és un
-          esdeveniment que no voldràs perdre’t!
+          Aquesta edició tindrà lloc a{" "}
+          <strong>
+            {event?.location || "una ubicació pendent de confirmar"}
+          </strong>{" "}
+          els dies <strong>{dates}</strong>. Aquest és un esdeveniment que no
+          voldràs perdre’t!
         </p>
         <p className="mb-0">
           Així que, si ets un apassionat de la tecnologia, amant dels reptes i

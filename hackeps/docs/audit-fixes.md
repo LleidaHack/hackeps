@@ -56,6 +56,7 @@ restart the frontend after changing environment variables. The API origin must
 not include `/docs` or `/v1`.
 
 Browser verification against the running local API:
+
 - Sponsor tier requests return HTTP 200 without CORS errors.
 - The event endpoint returns HTTP 404 because the local database has no event
   for the current year or earlier. The page shows its Catalan error message.

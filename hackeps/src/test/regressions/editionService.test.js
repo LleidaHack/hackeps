@@ -2,11 +2,19 @@ const { getHackeps } = jest.requireActual("src/services/EventService");
 import { fetchPlus } from "src/modules/fetchModule";
 jest.mock("src/modules/fetchModule", () => ({ fetchPlus: jest.fn() }));
 
-beforeEach(() => { jest.useFakeTimers(); jest.setSystemTime(Date.now() + 120000); fetchPlus.mockReset(); });
+beforeEach(() => {
+  jest.useFakeTimers();
+  jest.setSystemTime(Date.now() + 120000);
+  fetchPlus.mockReset();
+});
 afterEach(() => jest.useRealTimers());
 
 test("rejects a previous edition instead of using it for registration", async () => {
-  fetchPlus.mockResolvedValue({ id: 25, start_date: "2025-11-22", end_date: "2025-11-23" });
+  fetchPlus.mockResolvedValue({
+    id: 25,
+    start_date: "2025-11-22",
+    end_date: "2025-11-23",
+  });
   expect(await getHackeps()).toEqual(expect.objectContaining({ errCode: 404 }));
   expect(fetchPlus).toHaveBeenCalledWith({ Url: "/event/get_hackeps/2026" });
 });

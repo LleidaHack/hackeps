@@ -30,7 +30,9 @@ const HomeHeader = () => {
         aria-label="Principal"
         data-scrolled={scrolled}
         className={`relative flex h-14 w-full items-center justify-between gap-2 px-3 transition-[background-color,box-shadow] duration-300 md:h-16 md:px-5 lg:px-8 ${
-          scrolled ? "bg-[#ff7430]/70 shadow-[0_2px_12px_rgba(0,0,0,0.12)] backdrop-blur-md" : "bg-[#ff7430]"
+          scrolled
+            ? "bg-[#ff7430]/70 shadow-[0_2px_12px_rgba(0,0,0,0.12)] backdrop-blur-md"
+            : "bg-[#ff7430]"
         }`}
       >
         <div className="relative flex h-full shrink-0 items-center self-stretch">
@@ -39,11 +41,22 @@ const HomeHeader = () => {
             className="flex items-center"
             aria-label="HackEPS, inici"
             onClick={(event) => {
-              if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+              if (
+                event.button !== 0 ||
+                event.metaKey ||
+                event.ctrlKey ||
+                event.shiftKey ||
+                event.altKey
+              )
+                return;
               window.scrollTo({
                 top: 0,
                 left: 0,
-                behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+                behavior: window.matchMedia?.(
+                  "(prefers-reduced-motion: reduce)",
+                ).matches
+                  ? "instant"
+                  : "smooth",
               });
             }}
           >

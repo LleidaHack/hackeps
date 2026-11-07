@@ -56,15 +56,22 @@ export default function MainRoutes() {
   }, [pageKey]);
 
   return (
-    <div
-      key={pageKey}
-      className="route-page"
-    >
+    <div key={pageKey} className="route-page">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/organitzacio" element={<RequireAuth originalRoute="/organitzacio"><Scanner /></RequireAuth>} />
+        <Route
+          path="/organitzacio"
+          element={
+            <RequireAuth originalRoute="/organitzacio">
+              <Scanner />
+            </RequireAuth>
+          }
+        />
         {/* These pages are now sections of the home page. */}
-        <Route path={ROUTES.dates} element={<Navigate to="/#dates" replace />} />
+        <Route
+          path={ROUTES.dates}
+          element={<Navigate to="/#dates" replace />}
+        />
         <Route path={ROUTES.faq} element={<Navigate to="/#faq" replace />} />
         <Route path={ROUTES.contact} element={<Contacte />} />
         <Route path={ROUTES.contactMentor} element={<ContacteMentor />} />

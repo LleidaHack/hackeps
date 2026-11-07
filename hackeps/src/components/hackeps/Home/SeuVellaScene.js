@@ -27,24 +27,43 @@ export default function SeuVellaScene() {
   const clicks = useRef({ count: 0, last: 0 });
   const [fireworks, setFireworks] = useState(false);
   const [drops, setDrops] = useState([0, 0]);
-  const apples = (tree) => [
-    { x: 27, y: 77 }, { x: 68, y: 49 }, { x: 95, y: 96 },
-  ].map(({ x, y }, index) => (
-    <g key={index} transform={`translate(${x} ${y})`} aria-hidden="true">
-      <g key={drops[tree]}
-        className={drops[tree] > 0 && index === (drops[tree] - 1) % 3 ? "tree-apple tree-apple--falling" : "tree-apple"}
-        style={{ "--apple-fall": `${175 - y}px` }}>
-        <path d="M0 -5 Q-9 -11 -10 -1 Q-9 11 -2 10 Q0 8 2 10 Q9 11 10 -1 Q9 -11 0 -5Z" fill="#db4935" />
-        <path d="M0 -5 Q-1 -10 2 -13" fill="none" stroke="#684633" strokeWidth="2" />
-        <path d="M1 -8 Q4 -16 10 -11 Q7 -5 1 -8Z" fill="#23755b" />
+  const apples = (tree) =>
+    [
+      { x: 27, y: 77 },
+      { x: 68, y: 49 },
+      { x: 95, y: 96 },
+    ].map(({ x, y }, index) => (
+      <g key={index} transform={`translate(${x} ${y})`} aria-hidden="true">
+        <g
+          key={drops[tree]}
+          className={
+            drops[tree] > 0 && index === (drops[tree] - 1) % 3
+              ? "tree-apple tree-apple--falling"
+              : "tree-apple"
+          }
+          style={{ "--apple-fall": `${175 - y}px` }}
+        >
+          <path
+            d="M0 -5 Q-9 -11 -10 -1 Q-9 11 -2 10 Q0 8 2 10 Q9 11 10 -1 Q9 -11 0 -5Z"
+            fill="#db4935"
+          />
+          <path
+            d="M0 -5 Q-1 -10 2 -13"
+            fill="none"
+            stroke="#684633"
+            strokeWidth="2"
+          />
+          <path d="M1 -8 Q4 -16 10 -11 Q7 -5 1 -8Z" fill="#23755b" />
+        </g>
       </g>
-    </g>
-  ));
+    ));
 
   // Easter egg: every click sways the tree; five in a row set off fireworks.
   const shakeTree = (event, tree) => {
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-    setDrops(values => values.map((value, index) => index === tree ? value + 1 : value));
+    setDrops((values) =>
+      values.map((value, index) => (index === tree ? value + 1 : value)),
+    );
     const now = Date.now();
     const state = clicks.current;
     state.count = now - state.last > CLICK_WINDOW_MS ? 1 : state.count + 1;

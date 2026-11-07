@@ -77,7 +77,13 @@ const ProfilePic = ({
           <></>
         )
       ) : (
-        <span className={is_profile ? "profile-avatar-skeleton" : "inline-block"} style={is_profile ? undefined : { width: 150, height: 150 }} aria-label="Carregant la foto de perfil"><HSkeleton height="100%" width="100%" circle={true} /></span>
+        <span
+          className={is_profile ? "profile-avatar-skeleton" : "inline-block"}
+          style={is_profile ? undefined : { width: 150, height: 150 }}
+          aria-label="Carregant la foto de perfil"
+        >
+          <HSkeleton height="100%" width="100%" circle={true} />
+        </span>
       )}
     </>
   );

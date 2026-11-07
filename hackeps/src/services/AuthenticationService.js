@@ -54,7 +54,9 @@ export async function me() {
 
 export async function verify(Token) {
   const result = await fetchPlus({
-    Url: "/auth/verify", Method: "POST", Query: { token: Token },
+    Url: "/auth/verify",
+    Method: "POST",
+    Query: { token: Token },
   });
   if (result?.success === true && hasSessionCredentials(result)) {
     localStorage.setItem("userToken", result.access_token);

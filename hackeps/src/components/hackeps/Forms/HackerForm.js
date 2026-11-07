@@ -13,7 +13,10 @@ import Button from "src/components/buttons/Button";
 import { ROUTES } from "src/config/routes";
 import "./HackerFormLayout.css";
 
-import { isValidPhoneNumber, normalizePhoneNumber } from "src/modules/phoneValidation";
+import {
+  isValidPhoneNumber,
+  normalizePhoneNumber,
+} from "src/modules/phoneValidation";
 
 import { isAtLeastAge } from "src/modules/ageValidation";
 
@@ -110,273 +113,293 @@ export const HackerStepperForm = () => {
       <div id="hackerForm" className="hacker-signup text-white">
         {!submiting ? (
           <FormLayout image={hackerIllustration} imageAlt="Hacker">
-                <div key={step} className="hacker-signup-step">
-                {step === 1 ? (
-                  <>
-                    <TitleGeneralized alignText={"left"} primary>
-                      {" "}
-                      Informació Personal
-                    </TitleGeneralized>
-                    <form className="flex flex-col gap-3" onSubmit={async (event) => {
+            <div key={step} className="hacker-signup-step">
+              {step === 1 ? (
+                <>
+                  <TitleGeneralized alignText={"left"} primary>
+                    {" "}
+                    Informació Personal
+                  </TitleGeneralized>
+                  <form
+                    className="flex flex-col gap-3"
+                    onSubmit={async (event) => {
                       event.preventDefault();
-                      if (await trigger(["firstName", "lastName", "password", "confirmPassword", "birthdate"])) setStep(2);
-                    }}>
-                      <label>
-                        <RequiredMark /> Nom:
-                        <input aria-required="true"
-                          className={`${errors.firstName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
-                          autoComplete="given-name"
-                          placeholder="Nom"
-                          {...register("firstName", {
-                            required: "El nom no pot estar buit",
-                          })}
-                        />
-                        {errors.firstName && (
-                          <span className="text-red-400">
-                            {errors.firstName.message}
-                          </span>
-                        )}
-                      </label>
-
-                      <label>
-                        <RequiredMark /> Cognoms:
-                        <input aria-required="true"
-                          className={`${errors.lastName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
-                          autoComplete="family-name"
-                          placeholder="Cognoms"
-                          {...register("lastName", {
-                            required: "Els cognoms no pot estar buit",
-                          })}
-                        />
-                        {errors.lastName && (
-                          <span className="text-red-400">
-                            {errors.lastName.message}
-                          </span>
-                        )}
-                      </label>
-
-                      <label>
-                        <RequiredMark /> Contrasenya:
-                        <PasswordInput aria-required="true"
-                          visibilityLabel="la contrasenya"
-                          autoComplete="new-password"
-                          className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="Contrasenya"
-                          {...register("password", {
-                            required: "La contrasenya no pot estar buida",
-                            minLength: {
-                              value: 8,
-                              message: "Ha de tenir almenys 8 caràcters",
-                            },
-
-                            validate: {
-                              hasUpperCase: (value) =>
-                                /[A-Z]/.test(value) ||
-                                "Ha de tenir almenys una majúscula",
-                              hasLowerCase: (value) =>
-                                /[a-z]/.test(value) ||
-                                "Ha de tenir almenys una minúscula",
-                              hasNumber: (value) =>
-                                /\d/.test(value) ||
-                                "Ha de tenir almenys un número",
-                            },
-                          })}
-                        />
-                        <span className="text-xs text-gray-400">
-                          La contrasenya ha de tenir almenys 8 caràcters, una
-                          majúscula, una minúscula i un número.
+                      if (
+                        await trigger([
+                          "firstName",
+                          "lastName",
+                          "password",
+                          "confirmPassword",
+                          "birthdate",
+                        ])
+                      )
+                        setStep(2);
+                    }}
+                  >
+                    <label>
+                      <RequiredMark /> Nom:
+                      <input
+                        aria-required="true"
+                        className={`${errors.firstName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
+                        autoComplete="given-name"
+                        placeholder="Nom"
+                        {...register("firstName", {
+                          required: "El nom no pot estar buit",
+                        })}
+                      />
+                      {errors.firstName && (
+                        <span className="text-red-400">
+                          {errors.firstName.message}
                         </span>
-                        <br />
-                        {errors.password && (
-                          <span className="text-red-400">
-                            {errors.password.message}
-                          </span>
-                        )}
+                      )}
+                    </label>
+
+                    <label>
+                      <RequiredMark /> Cognoms:
+                      <input
+                        aria-required="true"
+                        className={`${errors.lastName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-4`}
+                        autoComplete="family-name"
+                        placeholder="Cognoms"
+                        {...register("lastName", {
+                          required: "Els cognoms no pot estar buit",
+                        })}
+                      />
+                      {errors.lastName && (
+                        <span className="text-red-400">
+                          {errors.lastName.message}
+                        </span>
+                      )}
+                    </label>
+
+                    <label>
+                      <RequiredMark /> Contrasenya:
+                      <PasswordInput
+                        aria-required="true"
+                        visibilityLabel="la contrasenya"
+                        autoComplete="new-password"
+                        className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
+                        placeholder="Contrasenya"
+                        {...register("password", {
+                          required: "La contrasenya no pot estar buida",
+                          minLength: {
+                            value: 8,
+                            message: "Ha de tenir almenys 8 caràcters",
+                          },
+
+                          validate: {
+                            hasUpperCase: (value) =>
+                              /[A-Z]/.test(value) ||
+                              "Ha de tenir almenys una majúscula",
+                            hasLowerCase: (value) =>
+                              /[a-z]/.test(value) ||
+                              "Ha de tenir almenys una minúscula",
+                            hasNumber: (value) =>
+                              /\d/.test(value) ||
+                              "Ha de tenir almenys un número",
+                          },
+                        })}
+                      />
+                      <span className="text-xs text-gray-400">
+                        La contrasenya ha de tenir almenys 8 caràcters, una
+                        majúscula, una minúscula i un número.
+                      </span>
+                      <br />
+                      {errors.password && (
+                        <span className="text-red-400">
+                          {errors.password.message}
+                        </span>
+                      )}
+                    </label>
+
+                    <label>
+                      <RequiredMark /> Confirma la contrasenya:
+                      <PasswordInput
+                        aria-required="true"
+                        visibilityLabel="la confirmació de la contrasenya"
+                        autoComplete="new-password"
+                        className={`${errors.confirmPassword ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
+                        placeholder="Confirma la contrasenya"
+                        {...register("confirmPassword", {
+                          required: "Has de confirmar la contrasenya",
+                          validate: (value) =>
+                            value === password ||
+                            "Les contrasenyes no coincideixen",
+                        })}
+                      />
+                      {errors.confirmPassword && (
+                        <span className="text-red-400">
+                          {errors.confirmPassword.message}
+                        </span>
+                      )}
+                    </label>
+
+                    <div>
+                      <label htmlFor="birthdate">
+                        <RequiredMark /> Data de naixement:
                       </label>
-
-                      <label>
-                        <RequiredMark /> Confirma la contrasenya:
-                        <PasswordInput aria-required="true"
-                          visibilityLabel="la confirmació de la contrasenya"
-                          autoComplete="new-password"
-                          className={`${errors.confirmPassword ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="Confirma la contrasenya"
-                          {...register("confirmPassword", {
-                            required: "Has de confirmar la contrasenya",
-                            validate: (value) =>
-                              value === password ||
-                              "Les contrasenyes no coincideixen",
-                          })}
-                        />
-                        {errors.confirmPassword && (
-                          <span className="text-red-400">
-                            {errors.confirmPassword.message}
-                          </span>
+                      <Controller
+                        name="birthdate"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: "La data de naixement és obligatòria",
+                          validate: (value) =>
+                            isAtLeastAge(value, MINIMUM_ACCOUNT_AGE) ||
+                            "Has de tenir almenys 14 anys",
+                        }}
+                        render={({ field }) => (
+                          <BirthdatePicker
+                            value={field.value}
+                            onChange={field.onChange}
+                            onBlur={field.onBlur}
+                            invalid={Boolean(errors.birthdate)}
+                          />
                         )}
-                      </label>
+                      />
+                      {errors.birthdate && (
+                        <span
+                          id="birthdate-error"
+                          className="mt-2 block text-red-400"
+                        >
+                          {errors.birthdate.message}
+                        </span>
+                      )}
+                    </div>
 
-                      <div>
-                        <label htmlFor="birthdate"><RequiredMark /> Data de naixement:</label>
-                        <Controller
-                          name="birthdate"
-                          control={control}
-                          defaultValue=""
-                          rules={{
-                            required: "La data de naixement és obligatòria",
-                            validate: (value) =>
-                              isAtLeastAge(value, MINIMUM_ACCOUNT_AGE) ||
-                              "Has de tenir almenys 14 anys",
-                          }}
-                          render={({ field }) => (
-                            <BirthdatePicker
-                              value={field.value}
-                              onChange={field.onChange}
-                              onBlur={field.onBlur}
-                              invalid={Boolean(errors.birthdate)}
-                            />
-                          )}
-                        />
-                        {errors.birthdate && (
-                          <span
-                            id="birthdate-error"
-                            className="mt-2 block text-red-400"
-                          >
-                            {errors.birthdate.message}
-                          </span>
-                        )}
-                      </div>
+                    <Button orange type="submit" className="min-h-10">
+                      Següent
+                    </Button>
+                  </form>
+                </>
+              ) : null}
+              {step === 2 ? (
+                <>
+                  <TitleGeneralized alignText={"left"} primary>
+                    Contacte{" "}
+                  </TitleGeneralized>
+                  <form
+                    className="flex flex-col gap-3"
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
+                    <label>
+                      <RequiredMark /> Àlies:
+                      <input
+                        aria-required="true"
+                        className={`${errors.nickname ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
+                        placeholder="Àlies"
+                        {...register("nickname", {
+                          required: "El nickname és obligatori",
+                        })}
+                      />
+                      {errors.nickname && (
+                        <span className="text-red-400">
+                          {errors.nickname.message}
+                        </span>
+                      )}
+                    </label>
 
+                    <label>
+                      <RequiredMark /> Telèfon:
+                      <input
+                        aria-required="true"
+                        type="tel"
+                        autoComplete="tel"
+                        className={`${errors.phone ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
+                        placeholder="Telèfon"
+                        {...register("phone", {
+                          required: "El telèfon és obligatori",
+                          validate: (value) =>
+                            isValidPhoneNumber(value) ||
+                            "Introdueix 9 dígits o un número internacional amb + i entre 7 i 15 dígits",
+                        })}
+                      />
+                      {errors.phone && (
+                        <span className="text-red-400">
+                          {errors.phone.message}
+                        </span>
+                      )}
+                    </label>
+
+                    <label>
+                      <RequiredMark /> Correu electrònic:
+                      <input
+                        aria-required="true"
+                        type="email"
+                        autoComplete="email"
+                        className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
+                        placeholder="Correu electrònic"
+                        {...register("email", {
+                          required: "El correu electrònic és obligatori",
+                          pattern: {
+                            value:
+                              /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                            message: "El correu ha de tenir un format vàlid",
+                          },
+                        })}
+                      />
+                      {errors.email && (
+                        <span className="text-red-400">
+                          {errors.email.message}
+                        </span>
+                      )}
+                    </label>
+
+                    <label className="hacker-signup-consent">
+                      <input
+                        type="checkbox"
+                        className="shrink-0"
+                        {...register("notifications")}
+                      />
+                      Accepto rebre notificacions electròniques de caràcter
+                      informatiu, comercial i promocional.
+                    </label>
+
+                    <label className="hacker-signup-consent">
+                      <input
+                        aria-required="true"
+                        type="checkbox"
+                        className="shrink-0"
+                        {...register("termsConditions", {
+                          required: "Has d'acceptar els termes i condicions",
+                        })}
+                      />
+                      <p>
+                        <RequiredMark /> Acceptes els nostres{" "}
+                        <a href={ROUTES.terms} className="text-[#ff7430]">
+                          termes i condicions
+                        </a>
+                        .
+                      </p>
+                    </label>
+
+                    <div className="buttonsBox flex flex-wrap gap-3">
                       <Button
                         orange
-                        type="submit"
                         className="min-h-10"
+                        type="button"
+                        onClick={() => setStep(1)}
                       >
-                        Següent
+                        Anterior
                       </Button>
-                    </form>
-                  </>
-                ) : null}
-                {step === 2 ? (
-                  <>
-                    <TitleGeneralized alignText={"left"} primary>
-                      Contacte{" "}
-                    </TitleGeneralized>
-                    <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
-                      <label>
-                        <RequiredMark /> Àlies:
-                        <input aria-required="true"
-                          className={`${errors.nickname ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="Àlies"
-                          {...register("nickname", {
-                            required: "El nickname és obligatori",
-                          })}
-                        />
-                        {errors.nickname && (
-                          <span className="text-red-400">
-                            {errors.nickname.message}
-                          </span>
-                        )}
-                      </label>
-
-
-                      <label>
-                        <RequiredMark /> Telèfon:
-                        <input aria-required="true"
-                          type="tel"
-                          autoComplete="tel"
-                          className={`${errors.phone ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="Telèfon"
-                          {...register("phone", {
-                            required: "El telèfon és obligatori",
-                            validate: (value) =>
-                              isValidPhoneNumber(value) ||
-                              "Introdueix 9 dígits o un número internacional amb + i entre 7 i 15 dígits",
-                          })}
-                        />
-                        {errors.phone && (
-                          <span className="text-red-400">
-                            {errors.phone.message}
-                          </span>
-                        )}
-                      </label>
-
-                      <label>
-                        <RequiredMark /> Correu electrònic:
-                        <input aria-required="true"
-                          type="email"
-                          autoComplete="email"
-                          className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
-                          placeholder="Correu electrònic"
-                          {...register("email", {
-                            required: "El correu electrònic és obligatori",
-                            pattern: {
-                              value:
-                                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                              message: "El correu ha de tenir un format vàlid",
-                            },
-                          })}
-                        />
-                        {errors.email && (
-                          <span className="text-red-400">
-                            {errors.email.message}
-                          </span>
-                        )}
-                      </label>
-
-                      <label className="hacker-signup-consent">
-                        <input
-                          type="checkbox"
-                          className="shrink-0"
-                          {...register("notifications")}
-                        />
-                        Accepto rebre notificacions electròniques de caràcter
-                        informatiu, comercial i promocional.
-                      </label>
-
-                      <label className="hacker-signup-consent">
-                        <input aria-required="true"
-                          type="checkbox"
-                          className="shrink-0"
-                          {...register("termsConditions", {
-                            required: "Has d'acceptar els termes i condicions",
-                          })}
-                        />
-                        <p>
-                          <RequiredMark /> Acceptes els nostres{" "}
-                          <a href={ROUTES.terms} className="text-[#ff7430]">
-                            termes i condicions
-                          </a>
-                          .
-                        </p>
-                      </label>
-
-                      <div className="buttonsBox flex flex-wrap gap-3">
-                        <Button
-                          orange
-                          className="min-h-10"
-                          type="button"
-                          onClick={() => setStep(1)}
-                        >
-                          Anterior
-                        </Button>
-                        <Button
-                          orange
-                          disabled={
-                            !isValid || !watch("termsConditions") || hideSubmit
-                          }
-                          className={`form-submit-action ${!isValid || !watch("termsConditions") || hideSubmit ? "opacity-50" : ""}`}
-                          type="submit"
-                        >
-                          Enviar
-                        </Button>
-                      </div>
-                      {errorMsg && (
-                        <span className="text-red-400">{errorMsg}</span>
-                      )}
-                    </form>
-                  </>
-                ) : null}
-                </div>
+                      <Button
+                        orange
+                        disabled={
+                          !isValid || !watch("termsConditions") || hideSubmit
+                        }
+                        className={`form-submit-action ${!isValid || !watch("termsConditions") || hideSubmit ? "opacity-50" : ""}`}
+                        type="submit"
+                      >
+                        Enviar
+                      </Button>
+                    </div>
+                    {errorMsg && (
+                      <span className="text-red-400">{errorMsg}</span>
+                    )}
+                  </form>
+                </>
+              ) : null}
+            </div>
           </FormLayout>
         ) : (
           <>
@@ -394,7 +417,13 @@ export const HackerStepperForm = () => {
               </>
             ) : (
               <>
-                <LoginUnverified email={watch("email")} credentials={{ email: watch("email"), password: watch("password") }} />
+                <LoginUnverified
+                  email={watch("email")}
+                  credentials={{
+                    email: watch("email"),
+                    password: watch("password"),
+                  }}
+                />
               </>
             )}
           </>

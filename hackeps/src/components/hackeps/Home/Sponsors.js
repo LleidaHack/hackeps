@@ -39,7 +39,10 @@ const Slot = ({ company, tier }) => (
     aria-label={company?.name || "Veure patrocinador"}
     type="button"
     className="relative aspect-[358/198] max-w-full border-0 bg-transparent p-0"
-    style={{ width: `${[86, 70, 56, 44, 44][tier]}vw`, maxWidth: [440, 350, 270, 200, 200][tier] }}
+    style={{
+      width: `${[86, 70, 56, 44, 44][tier]}vw`,
+      maxWidth: [440, 350, 270, 200, 200][tier],
+    }}
     onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
   >
     <img
@@ -96,7 +99,8 @@ const TIER_SECTIONS = [
 
 function chunk(list, size) {
   const rows = [];
-  for (let i = 0; i < list.length; i += size) rows.push(list.slice(i, i + size));
+  for (let i = 0; i < list.length; i += size)
+    rows.push(list.slice(i, i + size));
   return rows;
 }
 
@@ -180,7 +184,11 @@ const Sponsors = () => {
 
         {sections.map((section, index) => (
           <div key={section.tier} className="relative z-10 mt-10 md:mt-14">
-            {section.tier === 4 && <h3 className="mb-6 mt-12 text-center font-space-mono text-2xl font-bold text-white md:text-4xl">Col·laboradors</h3>}
+            {section.tier === 4 && (
+              <h3 className="mb-6 mt-12 text-center font-space-mono text-2xl font-bold text-white md:text-4xl">
+                Col·laboradors
+              </h3>
+            )}
             <div
               className={`relative z-10 flex flex-col gap-6 md:gap-12 ${
                 index === sections.length - 1
@@ -189,7 +197,11 @@ const Sponsors = () => {
               }`}
             >
               {section.rows.map((row, i) => (
-                <SlotRow key={`${section.tier}-${i}`} companies={row} tier={section.tier} />
+                <SlotRow
+                  key={`${section.tier}-${i}`}
+                  companies={row}
+                  tier={section.tier}
+                />
               ))}
             </div>
           </div>

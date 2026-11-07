@@ -14,9 +14,24 @@ const DRAGON_MOUTH = { x: 72, y: 54 };
 // inside of the mouth, the lower jaw that hinges open from its top, and the
 // fangs, which hang from the lips and stay in front. Fetched on first click.
 const DRAGON_PARTS = {
-  mouth: { load: () => import("src/assets/img/home10/dragon-mouth.webp"), left: 58.752, top: 40.707, width: 27.383 },
-  jaw: { load: () => import("src/assets/img/home10/dragon-jaw.webp"), left: 58.752, top: 40.543, width: 27.383 },
-  fangs: { load: () => import("src/assets/img/home10/dragon-fangs.webp"), left: 58.232, top: 40.461, width: 27.903 },
+  mouth: {
+    load: () => import("src/assets/img/home10/dragon-mouth.webp"),
+    left: 58.752,
+    top: 40.707,
+    width: 27.383,
+  },
+  jaw: {
+    load: () => import("src/assets/img/home10/dragon-jaw.webp"),
+    left: 58.752,
+    top: 40.543,
+    width: 27.383,
+  },
+  fangs: {
+    load: () => import("src/assets/img/home10/dragon-fangs.webp"),
+    left: 58.232,
+    top: 40.461,
+    width: 27.903,
+  },
 };
 const JAW_OPEN = 1.23;
 // The flame canvas overhangs the logo so the fire can spread past it.
@@ -27,11 +42,20 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
   const { event, loading } = useEdition();
   const [show, setShow] = useState(false);
   const now = Date.now();
-  const hackDay = Boolean(event && now >= Date.parse(event.start_date) && now <= Date.parse(event.end_date));
-  const textButton = loading ? "Carregant inscripcions…"
-    : !event ? "Inscripcions no disponibles"
-    : hackDay ? "Web en directe"
-    : event.is_open ? buttonText : "Inscripcions tancades";
+  const hackDay = Boolean(
+    event &&
+    now >= Date.parse(event.start_date) &&
+    now <= Date.parse(event.end_date),
+  );
+  const textButton = loading
+    ? "Carregant inscripcions…"
+    : !event
+      ? "Inscripcions no disponibles"
+      : hackDay
+        ? "Web en directe"
+        : event.is_open
+          ? buttonText
+          : "Inscripcions tancades";
   const handleClose = () => setShow(false);
   const logoArt = useRef(null);
   const dragonLayer = useRef(null);
@@ -70,14 +94,26 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
     ]);
     if (!gsap || !fireCanvas.current) return;
     const { offsetWidth: size, offsetHeight: height } = logoArt.current;
-    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const reduced = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     const inhale = reduced ? 0 : 0.14;
     if (!reduced) {
       gsap
         .timeline()
-        .to(logoArt.current, { scale: 0.95, rotation: -3, duration: inhale, ease: "power2.in" })
-        .to(logoArt.current, { scale: 1, rotation: 0, duration: 0.8, ease: "elastic.out(1.1, 0.35)" });
+        .to(logoArt.current, {
+          scale: 0.95,
+          rotation: -3,
+          duration: inhale,
+          ease: "power2.in",
+        })
+        .to(logoArt.current, {
+          scale: 1,
+          rotation: 0,
+          duration: 0.8,
+          ease: "elastic.out(1.1, 0.35)",
+        });
     }
 
     if (parts) {
@@ -87,7 +123,16 @@ const MainTitle = ({ buttonText = "Apunta't!", refresh = false }) => {
       gsap
         .timeline({ delay: inhale })
         .set(layers, { visibility: "visible" })
-        .fromTo(parts.jaw, { scaleY: 1 }, { scaleY: open, transformOrigin: "50% 0%", duration: 0.14, ease: "back.out(2)" })
+        .fromTo(
+          parts.jaw,
+          { scaleY: 1 },
+          {
+            scaleY: open,
+            transformOrigin: "50% 0%",
+            duration: 0.14,
+            ease: "back.out(2)",
+          },
+        )
         .to(parts.jaw, {
           scaleY: 1 + (open - 1) * 0.75,
           duration: 0.09,

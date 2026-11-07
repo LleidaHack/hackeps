@@ -15,12 +15,10 @@ test("keeps the approved name while a request is pending", async () => {
   fireEvent.change(screen.getByLabelText("Nou nom"), {
     target: { value: "Tractor" },
   });
-  operationRequest
-    .mockResolvedValueOnce({ id: 1 })
-    .mockResolvedValueOnce({
-      nickname: "Original",
-      requests: [{ id: 1, proposed: "Tractor", status: "pending" }],
-    });
+  operationRequest.mockResolvedValueOnce({ id: 1 }).mockResolvedValueOnce({
+    nickname: "Original",
+    requests: [{ id: 1, proposed: "Tractor", status: "pending" }],
+  });
   fireEvent.click(screen.getByRole("button", { name: "Sol·licita el canvi" }));
   await waitFor(() =>
     expect(screen.getByRole("status")).toHaveTextContent("Pendent d’aprovació"),

@@ -1,32 +1,148 @@
-.event-registration { width: 100%; color: #fff; }
-.event-registration-intro { margin: 0 0 2rem; color: #ddd; line-height: 1.7; }
-.event-registration .public-form label { color: #fff; }
-.event-registration .public-form :is(input:not([type="checkbox"]):not([type="file"]), textarea, select) { background: #fff; color: #2e2e2e; border: 1px solid #bdbdbd; border-radius: 4px; }
-.event-registration .public-form .event-registration-consent { display: flex; align-items: flex-start; gap: 12px; margin-top: 20px; font-size: 14px; line-height: 1.6; }
-.event-registration .event-registration-consent input { flex: 0 0 20px; width: 20px; height: 20px; min-height: 20px; margin: 2px 0 0; padding: 0; accent-color: #ff7430; }
-.event-registration-consent p { margin: 0; }
-.event-registration-link { color: #ff9b66; text-decoration: underline; text-underline-offset: 3px; }
-.event-registration .public-form input[type="file"] { color: #fff; font-size: 14px; border: 1px solid #777; padding: 12px; }
-.event-registration-remove { background: transparent; color: #ff9b66; border: 1px solid #777; border-radius: 4px; padding: 8px 16px; }
-.event-registration-submit:disabled { opacity: .55; cursor: not-allowed; }
-.event-registration .image-input-container { min-width: 0; }
-.event-registration .image-input-container input { min-width: 0; }
-
-.event-registration-layout.shared-form-fields { max-width: 1400px; min-height: 0; margin-inline: auto; padding: clamp(24px, 4vw, 56px) clamp(16px, 4vw, 48px); }
-.event-registration-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: start; }
-.event-registration-section { min-width: 0; display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; border: 0; }
-.event-registration-section legend { float: none; width: 100%; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #626262; font-size: 20px; color: #ff9b66; }
-.event-registration-section legend span { font-size: 14px; color: #ccc; }
-.event-registration-footer { border-top: 1px solid #626262; padding-top: 4px; }
-.event-registration-actions { width: 100%; }
-@media (min-width: 900px) {
-  .event-registration-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; }
-  .event-registration-footer { grid-column: 1 / -1; }
-  .event-registration-actions { grid-column: 1 / -1; max-width: 480px; justify-self: end; }
+.event-registration {
+  width: 100%;
+  color: #fff;
+}
+.event-registration-intro {
+  margin: 0 0 2rem;
+  color: #ddd;
+  line-height: 1.7;
+}
+.event-registration .public-form label {
+  color: #fff;
+}
+.event-registration
+  .public-form
+  :is(input:not([type="checkbox"]):not([type="file"]), textarea, select) {
+  background: #fff;
+  color: #2e2e2e;
+  border: 1px solid #bdbdbd;
+  border-radius: 4px;
+}
+.event-registration .public-form .event-registration-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.event-registration .event-registration-consent input {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  margin: 2px 0 0;
+  padding: 0;
+  accent-color: #ff7430;
+}
+.event-registration-consent p {
+  margin: 0;
+}
+.event-registration-link {
+  color: #ff9b66;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.event-registration .public-form input[type="file"] {
+  color: #fff;
+  font-size: 14px;
+  border: 1px solid #777;
+  padding: 12px;
+}
+.event-registration-remove {
+  background: transparent;
+  color: #ff9b66;
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 8px 16px;
+}
+.event-registration-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.event-registration .image-input-container {
+  min-width: 0;
+}
+.event-registration .image-input-container input {
+  min-width: 0;
 }
 
-.event-registration-cv { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.event-registration-cv-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.event-registration-cv-heading label { margin: 0; }
-.event-registration-cv-heading button { flex: 0 0 auto; min-height: 44px; }
-.event-registration-cv input { width: 100%; min-width: 0; }
+.event-registration-layout.shared-form-fields {
+  max-width: 1400px;
+  min-height: 0;
+  margin-inline: auto;
+  padding: clamp(24px, 4vw, 56px) clamp(16px, 4vw, 48px);
+}
+.event-registration-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.event-registration-section {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.event-registration-section legend {
+  float: none;
+  width: 100%;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #626262;
+  font-size: 20px;
+  color: #ff9b66;
+}
+.event-registration-section legend span {
+  font-size: 14px;
+  color: #ccc;
+}
+.event-registration-footer {
+  border-top: 1px solid #626262;
+  padding-top: 4px;
+}
+.event-registration-actions {
+  width: 100%;
+}
+@media (min-width: 900px) {
+  .event-registration-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 48px;
+  }
+  .event-registration-footer {
+    grid-column: 1 / -1;
+  }
+  .event-registration-actions {
+    grid-column: 1 / -1;
+    max-width: 480px;
+    justify-self: end;
+  }
+}
+
+.event-registration-cv {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.event-registration-cv-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.event-registration-cv-heading label {
+  margin: 0;
+}
+.event-registration-cv-heading button {
+  flex: 0 0 auto;
+  min-height: 44px;
+}
+.event-registration-cv input {
+  width: 100%;
+  min-width: 0;
+}

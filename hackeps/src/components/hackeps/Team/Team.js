@@ -23,9 +23,22 @@ import Modal from "react-bootstrap/Modal";
 import "src/components/hackeps/Forms/PublicFormLayout.css";
 
 const TeamDialog = ({ isOpen, onClose, children, titleId }) => (
-  <Modal show={isOpen} onHide={onClose} centered className="team-dialog" aria-labelledby={titleId}>
+  <Modal
+    show={isOpen}
+    onHide={onClose}
+    centered
+    className="team-dialog"
+    aria-labelledby={titleId}
+  >
     <Modal.Header>
-      <button type="button" className="team-dialog-close" onClick={onClose} aria-label="Tanca">×</button>
+      <button
+        type="button"
+        className="team-dialog-close"
+        onClick={onClose}
+        aria-label="Tanca"
+      >
+        ×
+      </button>
     </Modal.Header>
     <Modal.Body>{children}</Modal.Body>
   </Modal>
@@ -39,11 +52,17 @@ const Team = (props) => {
   };
   const is_user = props.is_user;
   const currentUserId = localStorage.getItem("userID");
-  const isCurrentUser = (id) => id != null && currentUserId != null && String(id) === String(currentUserId);
-  const canManageMember = (member) => Boolean(
-    is_user && team && member?.id != null && isCurrentUser(team.leader_id) &&
-    !isCurrentUser(member.id) && String(member.id) !== String(team.leader_id)
-  );
+  const isCurrentUser = (id) =>
+    id != null && currentUserId != null && String(id) === String(currentUserId);
+  const canManageMember = (member) =>
+    Boolean(
+      is_user &&
+      team &&
+      member?.id != null &&
+      isCurrentUser(team.leader_id) &&
+      !isCurrentUser(member.id) &&
+      String(member.id) !== String(team.leader_id),
+    );
 
   useEffect(() => {
     setTeam(props.team);
@@ -140,8 +159,15 @@ const Team = (props) => {
       <>
         {is_user && (
           <div className="team-empty-actions">
-            <Button orange onClick={handleShowJoinTeam}>Unir-me a un equip</Button>
-            <Button className="team-create-action" onClick={handleShowCreateTeam}>Crear un equip</Button>
+            <Button orange onClick={handleShowJoinTeam}>
+              Unir-me a un equip
+            </Button>
+            <Button
+              className="team-create-action"
+              onClick={handleShowCreateTeam}
+            >
+              Crear un equip
+            </Button>
           </div>
         )}
 
@@ -161,7 +187,8 @@ const Team = (props) => {
               >
                 <label className="team-field-label">
                   <RequiredMark /> Codi de l'equip (#XXXXXXXXXX):
-                  <input aria-required="true"
+                  <input
+                    aria-required="true"
                     className={`${errorsJoinTeam.teamCode ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder="#1234567890"
                     {...registerJoinTeam("teamCode", {
@@ -199,7 +226,8 @@ const Team = (props) => {
                 <h2 id="create-team-title">Crear un equip</h2>
                 <label className="team-field-label">
                   <RequiredMark /> Nom de l'equip:
-                  <input aria-required="true"
+                  <input
+                    aria-required="true"
                     className={`${errorsCreateTeam.teamName ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder=""
                     {...registerCreateTeam("teamName", {
@@ -215,7 +243,8 @@ const Team = (props) => {
 
                 <label className="team-field-label">
                   <RequiredMark /> Descripció:
-                  <input aria-required="true"
+                  <input
+                    aria-required="true"
                     className={`${errorsCreateTeam.teamDesc ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base mt-2`}
                     placeholder=""
                     {...registerCreateTeam("teamDesc", {
@@ -258,8 +287,6 @@ const Team = (props) => {
                       ""
                     ) : (
                       <>
-
-
                         {canManageMember(member) ? (
                           <>
                             <Button
@@ -290,7 +317,11 @@ const Team = (props) => {
               ))}
             </Row>
           </Container>
-          {is_user && team.event_id && <div className="w-100"><ChallengeChoice team={team} /></div>}
+          {is_user && team.event_id && (
+            <div className="w-100">
+              <ChallengeChoice team={team} />
+            </div>
+          )}
           {is_user && (
             <>
               <Button primary onClick={() => handleLeave()}>

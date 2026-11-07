@@ -19,4 +19,3 @@ export const ROUTES = {
   assistance: "/assistance",
   hacking: "/hacking",
 };
-

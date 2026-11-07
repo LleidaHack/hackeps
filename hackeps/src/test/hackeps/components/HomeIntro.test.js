@@ -51,7 +51,9 @@ test("the intro plays over the real page and records when it played", async () =
 
 test("skipping leaves the page elements exactly as they are without the intro", async () => {
   renderHome();
-  fireEvent.click(await screen.findByRole("button", { name: "Salta la intro" }));
+  fireEvent.click(
+    await screen.findByRole("button", { name: "Salta la intro" }),
+  );
   expect(screen.queryByTestId("home-intro")).not.toBeInTheDocument();
   for (const element of document.querySelectorAll("[data-intro]")) {
     expect(element.style.transform).toBe("");
@@ -95,7 +97,9 @@ test("clicking the logo makes the dragon open its mouth and breathe fire", async
   const getContext = jest
     .spyOn(HTMLCanvasElement.prototype, "getContext")
     .mockImplementation(() => null);
-  const logo = screen.getByRole("button", { name: /fes que el drac escupi foc/ });
+  const logo = screen.getByRole("button", {
+    name: /fes que el drac escupi foc/,
+  });
   expect(logo.querySelectorAll("img")).toHaveLength(1);
   fireEvent.click(logo);
   await waitFor(() => expect(getContext).toHaveBeenCalledWith("2d"));

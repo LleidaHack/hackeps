@@ -21,7 +21,10 @@ const Activities = () => {
     return { ...activity, label: placeholder ? activity.label : label };
   });
   return (
-    <section id="activitats" className="relative w-full overflow-hidden bg-transparent px-0 pb-12 pt-10 md:px-8 md:pb-20 md:pt-16">
+    <section
+      id="activitats"
+      className="relative w-full overflow-hidden bg-transparent px-0 pb-12 pt-10 md:px-8 md:pb-20 md:pt-16"
+    >
       <h2 className="relative z-20 m-0 mb-4 px-4 text-center md:px-0 font-space-mono text-[26px] font-bold leading-tight tracking-[-0.52px] text-[#2e2e2e] md:mb-6 md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]">
         QUÈ PODRAS FER A LA HACKEPS?
       </h2>
@@ -65,7 +68,13 @@ const Activities = () => {
           </div>
         ))}
       </div>
-      {event?.activities?.length > 6 && <ul className="relative z-20 mx-auto max-w-3xl px-8 text-[#2e2e2e]">{event.activities.slice(6).map((label, index) => <li key={index}>{label}</li>)}</ul>}
+      {event?.activities?.length > 6 && (
+        <ul className="relative z-20 mx-auto max-w-3xl px-8 text-[#2e2e2e]">
+          {event.activities.slice(6).map((label, index) => (
+            <li key={index}>{label}</li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 };

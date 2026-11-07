@@ -45,7 +45,9 @@ function sprite([r, g, b], core = 0.3) {
 let sprites;
 function palette() {
   sprites ??= {
-    flame: Array.from({ length: STEPS }, (_, i) => sprite(rampColor(i / (STEPS - 1)))),
+    flame: Array.from({ length: STEPS }, (_, i) =>
+      sprite(rampColor(i / (STEPS - 1))),
+    ),
     smoke: sprite([78, 70, 70], 0.2),
     spark: sprite([255, 236, 170], 0.15),
   };
@@ -59,7 +61,10 @@ const engines = new WeakMap();
  * `size` scales everything (the logo width works well). Calling it again while
  * the flame is still burning just keeps it going.
  */
-export function breatheFire(canvas, { mouthX, mouthY, size, delay = 0, duration = 0.62, reduced = false }) {
+export function breatheFire(
+  canvas,
+  { mouthX, mouthY, size, delay = 0, duration = 0.62, reduced = false },
+) {
   const ctx = canvas.getContext?.("2d");
   if (!ctx) return;
   const now = performance.now();
@@ -93,7 +98,9 @@ export function breatheFire(canvas, { mouthX, mouthY, size, delay = 0, duration 
     const isSpark = !calm && Math.random() < 0.05;
     const angle = Math.PI / 2 + (Math.random() - 0.5) * (isSpark ? 1.1 : 0.5);
     const speed = s * (calm ? 0.8 : 2.4); // px/s out of the mouth
-    const v = speed * (isSpark ? 1.2 + Math.random() * 0.6 : 0.65 + Math.random() * 0.5);
+    const v =
+      speed *
+      (isSpark ? 1.2 + Math.random() * 0.6 : 0.65 + Math.random() * 0.5);
     engine.particles.push({
       spark: isSpark,
       x: x + (Math.random() - 0.5) * s * 0.06,
@@ -154,13 +161,20 @@ export function breatheFire(canvas, { mouthX, mouthY, size, delay = 0, duration 
       // The light inside the mouth.
       const r = s * (0.06 + 0.012 * Math.sin(time * 0.05));
       ctx.globalAlpha = 0.8;
-      ctx.drawImage(flame[4], engine.mouthX - r, engine.mouthY - r, r * 2, r * 2);
+      ctx.drawImage(
+        flame[4],
+        engine.mouthX - r,
+        engine.mouthY - r,
+        r * 2,
+        r * 2,
+      );
     }
     for (const p of particles) {
       const k = p.age / p.ttl;
       if (p.spark) {
         const r = s * 0.012;
-        ctx.globalAlpha = (1 - k) * (0.6 + 0.4 * Math.sin(time * 0.08 + p.phase));
+        ctx.globalAlpha =
+          (1 - k) * (0.6 + 0.4 * Math.sin(time * 0.08 + p.phase));
         ctx.drawImage(spark, p.x - r, p.y - r, r * 2, r * 2);
         continue;
       }
@@ -168,7 +182,13 @@ export function breatheFire(canvas, { mouthX, mouthY, size, delay = 0, duration 
       const flicker = 1 + 0.12 * Math.sin(time * 0.03 + p.phase);
       const r = (p.r0 + p.grow * k) * flicker;
       ctx.globalAlpha = Math.min(1, k * 12) * (1 - k / 0.85) * 0.5;
-      ctx.drawImage(flame[Math.min(STEPS - 1, Math.floor(k * STEPS))], p.x - r, p.y - r, r * 2, r * 2);
+      ctx.drawImage(
+        flame[Math.min(STEPS - 1, Math.floor(k * STEPS))],
+        p.x - r,
+        p.y - r,
+        r * 2,
+        r * 2,
+      );
     }
     ctx.globalAlpha = 1;
 

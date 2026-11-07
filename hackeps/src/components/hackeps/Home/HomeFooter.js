@@ -10,7 +10,9 @@ const HomeFooter = ({ tone = "orange", compact = false }) => {
         compact ? "pt-5 pb-5" : "pt-6 pb-6 md:pt-8 md:pb-8"
       }`}
     >
-      <div className={`flex gap-6 md:gap-7 ${compact ? "mb-4 mt-1" : "mb-5 mt-2 md:mb-6"}`}>
+      <div
+        className={`flex gap-6 md:gap-7 ${compact ? "mb-4 mt-1" : "mb-5 mt-2 md:mb-6"}`}
+      >
         <a
           href="https://www.instagram.com/hackeps_/"
           target="_blank"
@@ -71,10 +73,20 @@ const HomeFooter = ({ tone = "orange", compact = false }) => {
       </div>
 
       <div className="mb-3 flex max-w-full flex-col items-center gap-2 px-2 text-center text-sm font-bold underline decoration-1 underline-offset-4 md:mb-4 md:text-sm">
-        <a href={ROUTES.terms} className="text-black" target="_blank" rel="noreferrer">
+        <a
+          href={ROUTES.terms}
+          className="text-black"
+          target="_blank"
+          rel="noreferrer"
+        >
           Termes i Condicions
         </a>
-        <a href={ROUTES.privacy} className="text-black" target="_blank" rel="noreferrer">
+        <a
+          href={ROUTES.privacy}
+          className="text-black"
+          target="_blank"
+          rel="noreferrer"
+        >
           Política de Privadesa de LleidaHack
         </a>
         <a

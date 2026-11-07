@@ -45,7 +45,9 @@ test("registration fills the existing account fields, but never accepts terms fo
       "https://github.com/test",
     ),
   );
-  expect(screen.getByRole("combobox", { name: "Talla de samarreta:" })).toHaveValue("XL");
+  expect(
+    screen.getByRole("combobox", { name: "Talla de samarreta:" }),
+  ).toHaveValue("XL");
   expect(screen.getByPlaceholderText("Estudis")).toHaveValue("Informàtica");
   expect(screen.getByPlaceholderText("Lactosa, gluten, etc.")).toHaveValue(
     "Gluten",
@@ -77,11 +79,17 @@ test("new and future timestamps do not display spurious days of membership", () 
 
 test("gallery keeps edition order across mounts", () => {
   const { unmount } = render(<Records />);
-  const photos = () => Array.from(document.querySelectorAll("#hackeps-gallery article:not([aria-hidden]) img"), image => image.getAttribute("src"));
-  expect(photos()).toEqual(GALLERY_ITEMS.map(item => item.image));
+  const photos = () =>
+    Array.from(
+      document.querySelectorAll(
+        "#hackeps-gallery article:not([aria-hidden]) img",
+      ),
+      (image) => image.getAttribute("src"),
+    );
+  expect(photos()).toEqual(GALLERY_ITEMS.map((item) => item.image));
   unmount();
   render(<Records />);
-  expect(photos()).toEqual(GALLERY_ITEMS.map(item => item.image));
+  expect(photos()).toEqual(GALLERY_ITEMS.map((item) => item.image));
 });
 
 test("file selection rejects SVG, spoofed types and files over 1 MiB", async () => {
@@ -114,13 +122,30 @@ test("file selection rejects SVG, spoofed types and files over 1 MiB", async () 
 });
 
 test("editing a registration preserves event-specific experience instead of resetting it to the account", async () => {
-  getHackerById.mockResolvedValue({ id: 1, shirt_size: "M", github: "old-profile" });
+  getHackerById.mockResolvedValue({
+    id: 1,
+    shirt_size: "M",
+    github: "old-profile",
+  });
   getEventIsHackerRegistered.mockResolvedValue(true);
-  getEventRegistration.mockResolvedValue({ event_id: 26, user_id: 1, shirt_size: "XL", github: "event-github", description: "Projecte de robòtica", food_restrictions: "" });
+  getEventRegistration.mockResolvedValue({
+    event_id: 26,
+    user_id: 1,
+    shirt_size: "XL",
+    github: "event-github",
+    description: "Projecte de robòtica",
+    food_restrictions: "",
+  });
   render(<Inscripcio />);
-  await waitFor(() => expect(screen.getByLabelText("Github:")).toHaveValue("event-github"));
-  expect(screen.getByRole("combobox", { name: "Talla de samarreta:" })).toHaveValue("XL");
-  expect(screen.getByPlaceholderText(/Explica'ns/)).toHaveValue("Projecte de robòtica");
+  await waitFor(() =>
+    expect(screen.getByLabelText("Github:")).toHaveValue("event-github"),
+  );
+  expect(
+    screen.getByRole("combobox", { name: "Talla de samarreta:" }),
+  ).toHaveValue("XL");
+  expect(screen.getByPlaceholderText(/Explica'ns/)).toHaveValue(
+    "Projecte de robòtica",
+  );
 });
 
 test("gallery wraps to the matching original position after the repeated photos settle", () => {
@@ -131,15 +156,22 @@ test("gallery wraps to the matching original position after the repeated photos 
     const count = GALLERY_ITEMS.length;
     expect(gallery.children).toHaveLength(count * 2);
     expect(gallery.children[count]).toHaveAttribute("aria-hidden", "true");
-    expect(gallery.children[count].querySelector("img").src).toBe(gallery.children[0].querySelector("img").src);
+    expect(gallery.children[count].querySelector("img").src).toBe(
+      gallery.children[0].querySelector("img").src,
+    );
     Object.defineProperty(gallery.children[0], "offsetLeft", { value: 0 });
-    Object.defineProperty(gallery.children[count], "offsetLeft", { value: 6000 });
+    Object.defineProperty(gallery.children[count], "offsetLeft", {
+      value: 6000,
+    });
     gallery.scrollTo = jest.fn();
     gallery.scrollLeft = 6250;
     fireEvent.scroll(gallery);
     expect(gallery.scrollTo).not.toHaveBeenCalled();
     jest.advanceTimersByTime(200);
-    expect(gallery.scrollTo).toHaveBeenCalledWith({ left: 250, behavior: "instant" });
+    expect(gallery.scrollTo).toHaveBeenCalledWith({
+      left: 250,
+      behavior: "instant",
+    });
   } finally {
     jest.useRealTimers();
   }

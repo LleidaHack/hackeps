@@ -20,7 +20,9 @@ export async function loadProfile(userId) {
   const account = requireData(await getUserById(userId));
   if (
     account.type !== "hacker" ||
-    ["superadmin", "admin", "lleidahacker", "mentor"].includes(account.access_role)
+    ["superadmin", "admin", "lleidahacker", "mentor"].includes(
+      account.access_role,
+    )
   )
     return {
       user: account,

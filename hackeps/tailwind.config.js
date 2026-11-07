@@ -39,7 +39,7 @@ module.exports = {
         "float-gentle": "float-gentle 4s ease-in-out infinite",
       },
       fontFamily: {
-        'space-mono': ['"Space Mono"', 'monospace'],
+        "space-mono": ['"Space Mono"', "monospace"],
       },
       colors: {
         primaryLanding: "#FF7430",
@@ -100,7 +100,7 @@ module.exports = {
       "background-cartellB": "url('/src/assets/Cartell B.png')",
       "background-cartellC": "url('/src/assets/Cartell C.png')",
       "background-cartellD": "url('/src/assets/Cartell D.png')",
-      'background-garabato': "url('/src/assets/img/garabato.png')",
+      "background-garabato": "url('/src/assets/img/garabato.png')",
     },
   },
   plugins: [],

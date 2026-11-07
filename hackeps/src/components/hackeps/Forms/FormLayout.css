@@ -50,7 +50,9 @@
 }
 
 @media (min-width: 640px) {
-  .shared-form-layout { padding-inline: 1.5rem; }
+  .shared-form-layout {
+    padding-inline: 1.5rem;
+  }
 }
 
 @media (min-width: 1024px) {

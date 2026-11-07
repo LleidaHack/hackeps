@@ -10,7 +10,12 @@ import HeroIntroExtras from "src/components/hackeps/Home/HeroIntroExtras";
 
 import { useSiteTheme } from "src/hooks/useSiteTheme";
 
-const HeroSection = ({ initialDate, finalDate, activeTimer, intro = false }) => {
+const HeroSection = ({
+  initialDate,
+  finalDate,
+  activeTimer,
+  intro = false,
+}) => {
   const { sky } = useSiteTheme();
   const [startDate, setStartDate] = useState(initialDate);
   const [endDate, setEndDate] = useState(finalDate);
@@ -23,8 +28,14 @@ const HeroSection = ({ initialDate, finalDate, activeTimer, intro = false }) => 
   }, [initialDate, finalDate, activeTimer]);
 
   return (
-    <div className="relative w-full overflow-hidden" style={{ backgroundColor: sky }}>
-      <div className="relative w-full pb-14 pt-0 md:pb-12" style={{ backgroundColor: sky }}>
+    <div
+      className="relative w-full overflow-hidden"
+      style={{ backgroundColor: sky }}
+    >
+      <div
+        className="relative w-full pb-14 pt-0 md:pb-12"
+        style={{ backgroundColor: sky }}
+      >
         <img
           data-intro="bunting"
           src={banderilles}

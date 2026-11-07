@@ -10,7 +10,10 @@ import SuccessFeedback from "src/components/hackeps/Feedbacks/SuccesFeedback";
 import Button from "src/components/buttons/Button";
 import { readUpload } from "src/modules/uploads";
 import { getHackerById } from "src/services/HackerService";
-import { getEventIsHackerRegistered, getEventRegistration } from "src/services/EventService";
+import {
+  getEventIsHackerRegistered,
+  getEventRegistration,
+} from "src/services/EventService";
 import { updateRregisterHackerToEvent } from "src/services/EventService";
 import "../Forms/FormLayout.css";
 import "../Forms/PublicFormLayout.css";
@@ -25,7 +28,6 @@ const InscripcioForm = () => {
     setValue,
 
     formState: { errors, isValid },
-
   } = useForm({
     mode: "onChange",
   });
@@ -81,23 +83,55 @@ const InscripcioForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       const hackepsEvent = await getHackeps();
-      if (!hackepsEvent?.id) { setLoadError(true); return; }
+      if (!hackepsEvent?.id) {
+        setLoadError(true);
+        return;
+      }
       const account = await getHackerById(localStorage.getItem("userID"));
-      if (!account?.id) { setLoadError(true); return; }
-      const response = await getEventIsHackerRegistered(hackepsEvent.id, account.id);
-      if (typeof response !== "boolean") { setLoadError(true); return; }
+      if (!account?.id) {
+        setLoadError(true);
+        return;
+      }
+      const response = await getEventIsHackerRegistered(
+        hackepsEvent.id,
+        account.id,
+      );
+      if (typeof response !== "boolean") {
+        setLoadError(true);
+        return;
+      }
       let me = account;
       if (response) {
-        const registration = await getEventRegistration(hackepsEvent.id, account.id);
-        if (!registration || registration.errCode || registration.event_id !== hackepsEvent.id) { setLoadError(true); return; }
+        const registration = await getEventRegistration(
+          hackepsEvent.id,
+          account.id,
+        );
+        if (
+          !registration ||
+          registration.errCode ||
+          registration.event_id !== hackepsEvent.id
+        ) {
+          setLoadError(true);
+          return;
+        }
         me = { ...account, ...registration };
       }
       setRegistered(response);
       setCvFile(me.cv || "");
-      reset({ studies: me.studies || "", center: me.study_center || "", location: me.location || "",
-        size: me.shirt_size || "", meets: me.food_restrictions ? "yes" : "no", food: me.food_restrictions || "",
-        github: me.github || "", linkedin: me.linkedin || "", meet: me.how_did_you_meet_us || "nan",
-        cvinfo_links: me.description || "", checkboxterms: false, checkboxcredit: me.wants_credit || false });
+      reset({
+        studies: me.studies || "",
+        center: me.study_center || "",
+        location: me.location || "",
+        size: me.shirt_size || "",
+        meets: me.food_restrictions ? "yes" : "no",
+        food: me.food_restrictions || "",
+        github: me.github || "",
+        linkedin: me.linkedin || "",
+        meet: me.how_did_you_meet_us || "nan",
+        cvinfo_links: me.description || "",
+        checkboxterms: false,
+        checkboxcredit: me.wants_credit || false,
+      });
       setDisabledRestrictions(!me.food_restrictions);
       setHackepsEvent(hackepsEvent);
       setPreviousRegistration(me);
@@ -108,12 +142,22 @@ const InscripcioForm = () => {
   }, [reset]);
 
   const submit = async (values) => {
-    if (sending || readingFile || Boolean(fileError) || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)) return;
+    if (
+      sending ||
+      readingFile ||
+      Boolean(fileError) ||
+      loadError ||
+      !hackepsEvent?.id ||
+      (!registered && !hackepsEvent.is_open)
+    )
+      return;
     setSending(true);
     const data = {
       shirt_size: values.size === undefined ? "" : values.size,
       food_restrictions: disabledRestrictions ? "" : values.food,
-      ...((cvChanged || !registered) && cvFile !== undefined ? { cv: cvFile } : {}),
+      ...((cvChanged || !registered) && cvFile !== undefined
+        ? { cv: cvFile }
+        : {}),
       description: values.cvinfo_links,
       github: values.github,
       linkedin: values.linkedin,
@@ -129,7 +173,11 @@ const InscripcioForm = () => {
     let registration;
     if (registered) {
       data.id = parseInt(previousRegistration.id, 10);
-      registration = await updateRregisterHackerToEvent(hackepsEvent.id, previousRegistration.id, data);
+      registration = await updateRregisterHackerToEvent(
+        hackepsEvent.id,
+        previousRegistration.id,
+        data,
+      );
     } else {
       registration = await registerHackerToEvent(
         parseInt(hackepsEvent.id, 10),
@@ -138,7 +186,11 @@ const InscripcioForm = () => {
       );
     }
     setSending(false);
-    if (!registration || registration.errCode || registration.success === false) {
+    if (
+      !registration ||
+      registration.errCode ||
+      registration.success === false
+    ) {
       setErrRegister("");
       if (registration?.errCode === 400) {
         setErrRegister(
@@ -165,13 +217,22 @@ const InscripcioForm = () => {
     const input = event.target;
     const file = input.files[0];
     if (!file) return;
-    setReadingFile(true); setFileError("");
-    try { setCvFile(await readUpload(file, "cv")); setCvChanged(true); }
-    catch (error) { setFileError(error.message); input.value = ""; }
-    finally { setReadingFile(false); }
+    setReadingFile(true);
+    setFileError("");
+    try {
+      setCvFile(await readUpload(file, "cv"));
+      setCvChanged(true);
+    } catch (error) {
+      setFileError(error.message);
+      input.value = "";
+    } finally {
+      setReadingFile(false);
+    }
   };
   const clearFile = () => {
-    setCvFile(""); setCvChanged(true); setFileError("");
+    setCvFile("");
+    setCvChanged(true);
+    setFileError("");
     if (cvInput.current) cvInput.current.value = "";
   };
 
@@ -179,234 +240,304 @@ const InscripcioForm = () => {
     <div className="event-registration text-white">
       {!submittRegister ? (
         <section className="event-registration-layout shared-form-fields">
-              <h1 className="shared-form-title">Inscripció HackEPS {HACKEPS_YEAR}</h1>
-              <p className="event-registration-intro">Completa les dades per participar-hi. {formatEditionDates(hackepsEvent)}.</p>
-              {loadError && <p role="alert">No hem pogut carregar aquesta edició. Torna-ho a provar més tard.</p>}
-              {hackepsEvent && !hackepsEvent.is_open && !registered && <p role="status">Les inscripcions d’aquesta edició estan tancades.</p>}
-              <form className="public-form event-registration-grid" onSubmit={handleSubmit(submit)}>
-                <fieldset className="event-registration-section" disabled={!hackepsEvent || sending}>
-                  <legend>Dades de participació</legend>
-                <label className="mb-3">
-                  <RequiredMark /> Què estudies o has estudiat?
-                  <input aria-required="true"
-                    className={`${errors.studies ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
-                    placeholder="Estudis"
-                    {...register("studies", {
-                      required: "Aquest camp és obligatori",
-                    })}
-                  />
-                </label>
-                {errors.studies && (
-                  <span className="text-red-400">{errors.studies.message}</span>
-                )}
+          <h1 className="shared-form-title">
+            Inscripció HackEPS {HACKEPS_YEAR}
+          </h1>
+          <p className="event-registration-intro">
+            Completa les dades per participar-hi.{" "}
+            {formatEditionDates(hackepsEvent)}.
+          </p>
+          {loadError && (
+            <p role="alert">
+              No hem pogut carregar aquesta edició. Torna-ho a provar més tard.
+            </p>
+          )}
+          {hackepsEvent && !hackepsEvent.is_open && !registered && (
+            <p role="status">
+              Les inscripcions d’aquesta edició estan tancades.
+            </p>
+          )}
+          <form
+            className="public-form event-registration-grid"
+            onSubmit={handleSubmit(submit)}
+          >
+            <fieldset
+              className="event-registration-section"
+              disabled={!hackepsEvent || sending}
+            >
+              <legend>Dades de participació</legend>
+              <label className="mb-3">
+                <RequiredMark /> Què estudies o has estudiat?
+                <input
+                  aria-required="true"
+                  className={`${errors.studies ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
+                  placeholder="Estudis"
+                  {...register("studies", {
+                    required: "Aquest camp és obligatori",
+                  })}
+                />
+              </label>
+              {errors.studies && (
+                <span className="text-red-400">{errors.studies.message}</span>
+              )}
 
-                <label className="mb-3">
-                  <RequiredMark /> Centre d'estudis:
-                  <input aria-required="true"
-                    className={`${errors.center ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
-                    placeholder="UdL"
-                    {...register("center", {
-                      required: "Aquest camp és obligatori",
-                    })}
-                  />
-                </label>
-                {errors.center && (
-                  <span className="text-red-400">{errors.center.message}</span>
-                )}
+              <label className="mb-3">
+                <RequiredMark /> Centre d'estudis:
+                <input
+                  aria-required="true"
+                  className={`${errors.center ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
+                  placeholder="UdL"
+                  {...register("center", {
+                    required: "Aquest camp és obligatori",
+                  })}
+                />
+              </label>
+              {errors.center && (
+                <span className="text-red-400">{errors.center.message}</span>
+              )}
 
-                <label className="mb-3">
-                  <RequiredMark /> D'on vens?
-                  <input aria-required="true"
-                    className={`${errors.location ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
-                    placeholder="Lleida, Barcelona, etc."
-                    {...register("location", {
-                      required: "Aquest camp és obligatori",
-                    })}
-                  />
-                </label>
-                {errors.location && (
-                  <span className="text-red-400">
-                    {errors.location.message}
-                  </span>
-                )}
+              <label className="mb-3">
+                <RequiredMark /> D'on vens?
+                <input
+                  aria-required="true"
+                  className={`${errors.location ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
+                  placeholder="Lleida, Barcelona, etc."
+                  {...register("location", {
+                    required: "Aquest camp és obligatori",
+                  })}
+                />
+              </label>
+              {errors.location && (
+                <span className="text-red-400">{errors.location.message}</span>
+              )}
 
-                <label className="mb-3">
-                  <RequiredMark /> Talla de samarreta:
-                  <select aria-required="true"
-                    className={`${errors.size ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
-                    {...register("size", {
-                      required: "Aquest camp és obligatori",
-                    })}
-                  >
-                    {sizeOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                {errors.size && (
-                  <span className="text-red-400">{errors.size.message}</span>
-                )}
+              <label className="mb-3">
+                <RequiredMark /> Talla de samarreta:
+                <select
+                  aria-required="true"
+                  className={`${errors.size ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base mt-2`}
+                  {...register("size", {
+                    required: "Aquest camp és obligatori",
+                  })}
+                >
+                  {sizeOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {errors.size && (
+                <span className="text-red-400">{errors.size.message}</span>
+              )}
 
-                <label className="mb-3">
-                  <RequiredMark /> Tens alguna restricció alimentària o alèrgia?
-                  <select aria-required="true"
-                    className={`${errors.meets ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base ml-2`}
-                    {...register("meets", {
-                      required: "Aquest camp és obligatori",
-                      validate: (value) =>
-                        value !== "nan" || "Selecciona una opció vàlida",
-                    })}
-                    onChange={(e) => {
-                      register("meets").onChange(e);
-                      const value = e.target.value;
+              <label className="mb-3">
+                <RequiredMark /> Tens alguna restricció alimentària o alèrgia?
+                <select
+                  aria-required="true"
+                  className={`${errors.meets ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base ml-2`}
+                  {...register("meets", {
+                    required: "Aquest camp és obligatori",
+                    validate: (value) =>
+                      value !== "nan" || "Selecciona una opció vàlida",
+                  })}
+                  onChange={(e) => {
+                    register("meets").onChange(e);
+                    const value = e.target.value;
 
-                      if (value === "yes") {
-                        setDisabledRestrictions(false);
-                      } else if (value === "no") {
-                        setDisabledRestrictions(true);
-                      } else {
-                        setDisabledRestrictions(true);
-                      }
-                      if (value !== "yes") setValue("food", "");
-                    }}
-                  >
-                    <option value="nan">Selecciona una opció</option>
-                    <option value="yes">Sí, en tinc</option>
-                    <option value="no">No en tinc</option>
-                  </select>
-                </label>
+                    if (value === "yes") {
+                      setDisabledRestrictions(false);
+                    } else if (value === "no") {
+                      setDisabledRestrictions(true);
+                    } else {
+                      setDisabledRestrictions(true);
+                    }
+                    if (value !== "yes") setValue("food", "");
+                  }}
+                >
+                  <option value="nan">Selecciona una opció</option>
+                  <option value="yes">Sí, en tinc</option>
+                  <option value="no">No en tinc</option>
+                </select>
+              </label>
 
-                <label>
-                  {!disabledRestrictions && (
-                    <div id="foodTextArea">
-                      <RequiredMark /> Quines restriccions o alèrgies tens?
-                      <input aria-required="true"
-                        className={`${errors.food && !disabledRestrictions ? "bg-pink-100" : "bg-white"} ${``} py-2 min-h-10 px-2 text-base mt-2`}
-                        placeholder="Lactosa, gluten, etc."
-                        {...register("food", {
-                          required:
-                            !disabledRestrictions &&
-                            "Indicans les teves restriccions o alergies.",
-                        })}
-                      />
-                      {errors.food && !disabledRestrictions && (
-                        <span className="text-red-400">
-                          {errors.food.message}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </label>
-
-                <label className="mb-3">
-                  <RequiredMark /> Com ens has conegut?
-                  <select aria-required="true"
-                    className={`${errors.meet ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base ml-2`}
-                    {...register("meet", {
-                      required: "Aquest camp és obligatori",
-                      validate: (value) =>
-                        value !== "nan" || "Selecciona una opció vàlida",
-                    })}
-                  >
-                    {previousRegistration.how_did_you_meet_us && !meetOptions.some(option => option.value === previousRegistration.how_did_you_meet_us) && <option value={previousRegistration.how_did_you_meet_us}>{previousRegistration.how_did_you_meet_us}</option>}
-                    {meetOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                {errors.meet && (
-                  <span className="text-red-400">{errors.meet.message}</span>
-                )}
-
-                </fieldset>
-                <fieldset className="event-registration-section" disabled={!hackepsEvent || sending}>
-                  <legend>Perfil professional <span>(opcional)</span></legend>
-                  <label className="mb-3">
-                    <p className="text-sm">
-                      Tens experiència en altres hackatons? Algun projecte
-                      personal que vulguis compartir? Explica'ns què t'apassiona
-                      i deixa aquí els enllaços de les teves xarxes socials
-                    </p>
-                    <textarea
-                      className={`${errors.cvinfo_links ? "bg-pink-100" : "bg-white"} px-2 text-base mt-2`}
-                      placeholder="Explica'ns què t'apassiona i deixa aquí els enllaços de les teves xarxes socials"
-                      {...register("cvinfo_links")}
-                    />
-                  </label>
-
-                  <label className="mb-3">
-                    Github:
+              <label>
+                {!disabledRestrictions && (
+                  <div id="foodTextArea">
+                    <RequiredMark /> Quines restriccions o alèrgies tens?
                     <input
-                      className={`py-2 min-h-10 px-2 text-base mt-2`}
-                      placeholder="Github"
-                      {...register("github")}
-                    />
-                  </label>
-
-                  <label className="mb-3">
-                    Linkedin:
-                    <input
-                      className={`py-2 min-h-10 px-2 text-base mt-2`}
-                      placeholder="Linkedin"
-                      {...register("linkedin")}
-                    />
-                  </label>
-
-                  <div className="event-registration-cv">
-                    <div className="event-registration-cv-heading">
-                      <label htmlFor="cvinfo_file">Adjunta el teu CV (opcional)</label>
-                      <button type="button" onClick={clearFile} disabled={readingFile || (!cvFile && !fileError)} className="event-registration-remove">Esborra</button>
-                    </div>
-                    <input ref={cvInput} id="cvinfo_file" type="file" accept="application/pdf,.pdf" onChange={handleFileChange} disabled={readingFile || sending} />
-                    <small>PDF. Màxim 1 MB.{cvFile && !cvInput.current?.files?.length ? " Ja tens un CV desat; el conservarem." : ""}</small>
-                    {fileError && <p role="alert" className="text-red-400">{fileError}</p>}
-                  </div>
-
-                </fieldset>
-                <div className="event-registration-footer">
-                  <label className="event-registration-consent">
-                    <input aria-required="true"
-                      type="checkbox"
-                      className="w-fit mr-5"
-                      {...register("checkboxterms", {
-                        required: "Aquest camp és obligatori",
+                      aria-required="true"
+                      className={`${errors.food && !disabledRestrictions ? "bg-pink-100" : "bg-white"} ${``} py-2 min-h-10 px-2 text-base mt-2`}
+                      placeholder="Lactosa, gluten, etc."
+                      {...register("food", {
+                        required:
+                          !disabledRestrictions &&
+                          "Indicans les teves restriccions o alergies.",
                       })}
                     />
-                    <p>
-                      <RequiredMark /> Accepto els{" "}
-                      <a href={ROUTES.terms} className="event-registration-link">
-                        termes i condicions
-                      </a>
-                    </p>
-                  </label>
+                    {errors.food && !disabledRestrictions && (
+                      <span className="text-red-400">
+                        {errors.food.message}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </label>
 
-                  <label className="event-registration-consent">
-                    <input
-                      type="checkbox"
-                      className="w-fit mr-5"
-                      {...register("checkboxcredit")}
-                    />
-                    <p>
-                      Vull 1 crèdit ECTS de matèria transversal (només aplicable
-                      a alumnes de la UdL)
-                    </p>
+              <label className="mb-3">
+                <RequiredMark /> Com ens has conegut?
+                <select
+                  aria-required="true"
+                  className={`${errors.meet ? "bg-pink-100" : "bg-white"} py-2 min-h-10 px-2 text-base ml-2`}
+                  {...register("meet", {
+                    required: "Aquest camp és obligatori",
+                    validate: (value) =>
+                      value !== "nan" || "Selecciona una opció vàlida",
+                  })}
+                >
+                  {previousRegistration.how_did_you_meet_us &&
+                    !meetOptions.some(
+                      (option) =>
+                        option.value ===
+                        previousRegistration.how_did_you_meet_us,
+                    ) && (
+                      <option value={previousRegistration.how_did_you_meet_us}>
+                        {previousRegistration.how_did_you_meet_us}
+                      </option>
+                    )}
+                  {meetOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {errors.meet && (
+                <span className="text-red-400">{errors.meet.message}</span>
+              )}
+            </fieldset>
+            <fieldset
+              className="event-registration-section"
+              disabled={!hackepsEvent || sending}
+            >
+              <legend>
+                Perfil professional <span>(opcional)</span>
+              </legend>
+              <label className="mb-3">
+                <p className="text-sm">
+                  Tens experiència en altres hackatons? Algun projecte personal
+                  que vulguis compartir? Explica'ns què t'apassiona i deixa aquí
+                  els enllaços de les teves xarxes socials
+                </p>
+                <textarea
+                  className={`${errors.cvinfo_links ? "bg-pink-100" : "bg-white"} px-2 text-base mt-2`}
+                  placeholder="Explica'ns què t'apassiona i deixa aquí els enllaços de les teves xarxes socials"
+                  {...register("cvinfo_links")}
+                />
+              </label>
+
+              <label className="mb-3">
+                Github:
+                <input
+                  className={`py-2 min-h-10 px-2 text-base mt-2`}
+                  placeholder="Github"
+                  {...register("github")}
+                />
+              </label>
+
+              <label className="mb-3">
+                Linkedin:
+                <input
+                  className={`py-2 min-h-10 px-2 text-base mt-2`}
+                  placeholder="Linkedin"
+                  {...register("linkedin")}
+                />
+              </label>
+
+              <div className="event-registration-cv">
+                <div className="event-registration-cv-heading">
+                  <label htmlFor="cvinfo_file">
+                    Adjunta el teu CV (opcional)
                   </label>
-                </div>
-                <div className="event-registration-actions">
-                  <Button
-                    type="submit"
-                    orange
-                    disabled={!isValid || sending || readingFile || Boolean(fileError) || loadError || !hackepsEvent?.id || (!registered && !hackepsEvent.is_open)}
-                    className="event-registration-submit"
+                  <button
+                    type="button"
+                    onClick={clearFile}
+                    disabled={readingFile || (!cvFile && !fileError)}
+                    className="event-registration-remove"
                   >
-                    {sending ? "Enviant…" : "Enviar"}
-                  </Button>
+                    Esborra
+                  </button>
                 </div>
-              </form>
+                <input
+                  ref={cvInput}
+                  id="cvinfo_file"
+                  type="file"
+                  accept="application/pdf,.pdf"
+                  onChange={handleFileChange}
+                  disabled={readingFile || sending}
+                />
+                <small>
+                  PDF. Màxim 1 MB.
+                  {cvFile && !cvInput.current?.files?.length
+                    ? " Ja tens un CV desat; el conservarem."
+                    : ""}
+                </small>
+                {fileError && (
+                  <p role="alert" className="text-red-400">
+                    {fileError}
+                  </p>
+                )}
+              </div>
+            </fieldset>
+            <div className="event-registration-footer">
+              <label className="event-registration-consent">
+                <input
+                  aria-required="true"
+                  type="checkbox"
+                  className="w-fit mr-5"
+                  {...register("checkboxterms", {
+                    required: "Aquest camp és obligatori",
+                  })}
+                />
+                <p>
+                  <RequiredMark /> Accepto els{" "}
+                  <a href={ROUTES.terms} className="event-registration-link">
+                    termes i condicions
+                  </a>
+                </p>
+              </label>
+
+              <label className="event-registration-consent">
+                <input
+                  type="checkbox"
+                  className="w-fit mr-5"
+                  {...register("checkboxcredit")}
+                />
+                <p>
+                  Vull 1 crèdit ECTS de matèria transversal (només aplicable a
+                  alumnes de la UdL)
+                </p>
+              </label>
+            </div>
+            <div className="event-registration-actions">
+              <Button
+                type="submit"
+                orange
+                disabled={
+                  !isValid ||
+                  sending ||
+                  readingFile ||
+                  Boolean(fileError) ||
+                  loadError ||
+                  !hackepsEvent?.id ||
+                  (!registered && !hackepsEvent.is_open)
+                }
+                className="event-registration-submit"
+              >
+                {sending ? "Enviant…" : "Enviar"}
+              </Button>
+            </div>
+          </form>
         </section>
       ) : (
         <>

@@ -22,11 +22,20 @@ test("the home page holds the dates and FAQ sections", () => {
       <Home />
     </MemoryRouter>,
   );
-  for (const id of ["registrat", "dates", "horari", "activitats", "faq", "sponsors"]) {
+  for (const id of [
+    "registrat",
+    "dates",
+    "horari",
+    "activitats",
+    "faq",
+    "sponsors",
+  ]) {
     expect(document.getElementById(id)).toBeInTheDocument();
   }
   expect(screen.getByRole("heading", { name: "FAQs" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "Què és la HackEPS?" })).toBeInTheDocument();
+  expect(
+    screen.getByRole("button", { name: "Què és la HackEPS?" }),
+  ).toBeInTheDocument();
 });
 
 test("the header is just the logo, the MLH badge, contact and login", () => {
@@ -36,12 +45,11 @@ test("the header is just the logo, the MLH badge, contact and login", () => {
     </MemoryRouter>,
   );
   const header = within(screen.getByTestId("headerHackeps"));
-  expect(header.getAllByRole("link").map((link) => link.getAttribute("aria-label") || link.textContent)).toEqual([
-    "HackEPS, inici",
-    "Major League Hacking",
-    "Contacte",
-    "Login",
-  ]);
+  expect(
+    header
+      .getAllByRole("link")
+      .map((link) => link.getAttribute("aria-label") || link.textContent),
+  ).toEqual(["HackEPS, inici", "Major League Hacking", "Contacte", "Login"]);
 });
 
 test("the header turns translucent once the page scrolls", () => {
@@ -90,6 +98,8 @@ test("contact keeps its own page", async () => {
       <MainRoutes />
     </MemoryRouter>,
   );
-  expect(await screen.findByRole("heading", { name: "Contacte" })).toBeInTheDocument();
+  expect(
+    await screen.findByRole("heading", { name: "Contacte" }),
+  ).toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Enviar" })).toBeInTheDocument();
 });

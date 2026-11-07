@@ -3,12 +3,12 @@
 Revisión del repositorio `LleidaHack/hackeps` y del sitio publicado en
 `www.lleidahack.dev`.
 
-| | |
-|---|---|
-| **Rama** | `bepes/page-audit-fff391` |
-| **Commit** | `d71884b` |
-| **Fecha** | 4 de septiembre de 2026 |
-| **Alcance** | 137 ficheros JS · 10.085 líneas |
+|                      |                                                                      |
+| -------------------- | -------------------------------------------------------------------- |
+| **Rama**             | `bepes/page-audit-fff391`                                            |
+| **Commit**           | `d71884b`                                                            |
+| **Fecha**            | 4 de septiembre de 2026                                              |
+| **Alcance**          | 137 ficheros JS · 10.085 líneas                                      |
 | **Informe completo** | https://claude.ai/code/artifact/d4b8025f-0be5-4da5-88e2-afde34e4eb5a |
 
 **Resumen:** 5 hallazgos de prioridad alta · 11 de prioridad media · 12 de
@@ -61,7 +61,7 @@ Ficheros: `src/services/AuthenticationService.js:11-28` ·
 El bloque `saveLoginInfo` de `fetchPlus` vive en un `.then()` por el que también
 pasan las respuestas de error, que se resuelven como `{errCode, errMssg}`. Con
 un 401, `data.access_token` es `undefined` y `localStorage.setItem` lo convierte
-en el *string* `"undefined"`, que es truthy.
+en el _string_ `"undefined"`, que es truthy.
 
 A partir de ahí la app cree que hay sesión: `Header.js:20` comprueba
 `if (localStorage.getItem("userToken"))` y entra, `MainTitle.js:31` compara
@@ -149,7 +149,7 @@ Fichero: `public/manifest.json`
 ### M-4 · La cuenta atrás se congela el 29 de noviembre y se reinicia el 1 de enero ✓
 
 La fecha objetivo es `new Date(new Date().getFullYear(), 10, 28)`: el 28 de
-noviembre *del año en curso*. Del 29 de noviembre al 31 de diciembre la
+noviembre _del año en curso_. Del 29 de noviembre al 31 de diciembre la
 diferencia es negativa y el contador muestra `0 mesos 0 dies 0 hores` — justo
 durante y después del evento. El 1 de enero vuelve a saltar a once meses.
 
@@ -188,7 +188,7 @@ Fichero: `src/components/hackeps/Waiting/Waiting.js:134-139`
 ni el color se aplican. En el mismo bloque, los enlaces a términos, privacidad
 y código de conducta usan `target="_blank"` sin `rel="noreferrer"`, a diferencia
 del resto del fichero. Aparte, «Politica de Privadesa» va sin acento
-(*Política*).
+(_Política_).
 
 Fichero: `src/components/hackeps/Waiting/Waiting.js:143-145,150`
 
@@ -306,9 +306,9 @@ Ficheros: `src/components/hackeps/Home/HeroSection/Hero2.js:353-373` ·
 
 ### B-9 · El precargado de fuentes no se está aprovechando ✓
 
-La consola de producción avisa por los dos ficheros: *«space-mono-latin-400.woff2
+La consola de producción avisa por los dos ficheros: _«space-mono-latin-400.woff2
 was preloaded using link preload but not used within a few seconds from the
-window's load event»*. Merece comprobar el emparejamiento entre el `preload` y
+window's load event»_. Merece comprobar el emparejamiento entre el `preload` y
 el `@font-face` (atributo `crossorigin` y `unicode-range`).
 
 Ficheros: `public/index.html:8-10` · `public/style.css:4-20`
@@ -361,19 +361,19 @@ Fichero: `src/components/hackeps/Profile/Profile.js:130-132`
 
 Comprobado el 4 de septiembre de 2026 contra `www.lleidahack.dev`.
 
-| Comprobación | Resultado |
-|---|---|
-| `GET /` | OK — página de espera, «2 mesos 25 dies 0 hores» |
-| `GET /terms` · `/privacy` | OK — contenido renderizado desde chunk diferido |
-| `GET /hackeps` | **200 con root vacío** — página en blanco |
-| `GET /hackeps/faq` | **200 con root vacío** — está en el sitemap |
-| `GET /login` | **200 con root vacío** |
-| Cabeceras de respuesta | `server: Vercel` · solo `strict-transport-security`; **sin CSP ni X-Frame-Options** |
-| `<html lang>` | **`en`** — contenido en catalán |
-| `og:url` / `og:image` | **cadena vacía / ruta relativa** |
-| Encabezados de la home | **ninguno** — sin `h1` |
-| Rendimiento | load 128 ms · JS 60 KB · CSS 8 KB (comprimidos) |
-| Consola | Sin errores; 2 avisos de `preload` de fuentes sin usar |
+| Comprobación              | Resultado                                                                           |
+| ------------------------- | ----------------------------------------------------------------------------------- |
+| `GET /`                   | OK — página de espera, «2 mesos 25 dies 0 hores»                                    |
+| `GET /terms` · `/privacy` | OK — contenido renderizado desde chunk diferido                                     |
+| `GET /hackeps`            | **200 con root vacío** — página en blanco                                           |
+| `GET /hackeps/faq`        | **200 con root vacío** — está en el sitemap                                         |
+| `GET /login`              | **200 con root vacío**                                                              |
+| Cabeceras de respuesta    | `server: Vercel` · solo `strict-transport-security`; **sin CSP ni X-Frame-Options** |
+| `<html lang>`             | **`en`** — contenido en catalán                                                     |
+| `og:url` / `og:image`     | **cadena vacía / ruta relativa**                                                    |
+| Encabezados de la home    | **ninguno** — sin `h1`                                                              |
+| Rendimiento               | load 128 ms · JS 60 KB · CSS 8 KB (comprimidos)                                     |
+| Consola                   | Sin errores; 2 avisos de `preload` de fuentes sin usar                              |
 
 ---
 
@@ -391,7 +391,7 @@ Ordenado por relación entre impacto y esfuerzo, no por gravedad.
 4. **Contraseña fuera de la query string** (A-2). Necesita coordinación con
    backend, así que conviene abrirlo pronto.
 5. **Los dos bugs de formulario y sesión** (A-3, A-4). No molestan mientras el
-   sitio esté en modo espera, pero tienen que estar cerrados *antes* de abrir
+   sitio esté en modo espera, pero tienen que estar cerrados _antes_ de abrir
    inscripciones.
 6. **Fecha del evento como constante** (M-4). Si no, el 29 de noviembre el
    contador se queda a cero durante el propio hackathon.
