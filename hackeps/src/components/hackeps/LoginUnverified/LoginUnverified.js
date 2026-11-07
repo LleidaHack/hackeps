@@ -1,3 +1,4 @@
+import { loginDestination } from "src/modules/loginDestination";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -47,13 +48,18 @@ export default function LoginUnverified({
         if (localStorage.getItem("userToken")) {
           const account = await me();
           if (account?.email?.toLowerCase() === email?.toLowerCase()) {
-            if (!disposed) navigate(nextScreen, { replace: true });
+            if (!disposed)
+              navigate(loginDestination(account, nextScreen), {
+                replace: true,
+              });
             return;
           }
         }
         const result = await login(credentialsRef.current);
         if (!disposed && hasSessionCredentials(result)) {
-          navigate(nextScreen, { replace: true });
+          const account = await me();
+          if (!disposed)
+            navigate(loginDestination(account, nextScreen), { replace: true });
         }
       } catch {
         if (!disposed)

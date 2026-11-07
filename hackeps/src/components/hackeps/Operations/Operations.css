@@ -197,3 +197,96 @@
   height: 18px;
   margin: 0;
 }
+
+.event-ops .ops-dietary-alert {
+  border: 3px solid #f5b82e;
+  background: #342700;
+  color: #fff4cf;
+  overflow-wrap: anywhere;
+}
+
+.scanner-app {
+  min-height: 100dvh;
+  background: #202522;
+}
+.scanner-app .event-ops {
+  max-width: 620px;
+  padding: 20px 16px 40px;
+}
+.scanner-app .event-ops h1 {
+  margin: 6px 0 10px;
+  font-size: 28px;
+}
+.scanner-app .event-ops form {
+  margin-top: 16px;
+  padding: 16px;
+}
+.scanner-app .event-ops label {
+  margin: 8px 0 16px;
+}
+.scanner-app fieldset {
+  min-width: 0;
+}
+.scanner-camera {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #111;
+  margin: 18px 0 8px;
+}
+.scanner-camera video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.scanner-app .scanner-hint {
+  margin: 0;
+  padding: 14px;
+  text-align: center;
+  background: #15271c;
+  color: #dbffe7;
+  font-weight: bold;
+}
+.scanner-manual {
+  margin-top: 20px;
+  border-top: 1px solid #666;
+  padding-top: 16px;
+}
+.scanner-manual summary {
+  cursor: pointer;
+  padding: 8px 0;
+}
+.scanner-app .ops-result {
+  position: sticky;
+  top: 8px;
+  z-index: 5;
+}
+.scanner-app .ops-dietary-alert {
+  top: 8px;
+}
+
+.scanner-app .event-ops {
+  width: 100%;
+  max-width: 1200px;
+  padding-inline: clamp(16px, 3vw, 48px);
+}
+.scanner-app .event-ops form {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+.scanner-app .scanner-camera {
+  max-width: none;
+}
+.scanner-app .scanner-camera video {
+  max-height: 60dvh;
+  aspect-ratio: 16 / 9;
+}
+@media (max-width: 640px) {
+  .scanner-app .scanner-camera video {
+    aspect-ratio: 1;
+    max-height: 52dvh;
+  }
+}

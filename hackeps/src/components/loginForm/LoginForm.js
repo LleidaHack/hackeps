@@ -1,3 +1,4 @@
+import { loginDestination } from "src/modules/loginDestination";
 import { getUserById } from "src/services/UserService";
 import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import React, { useState } from "react";
@@ -34,19 +35,8 @@ const LoginForm = ({ nextScreen }) => {
       } else if (hasSessionCredentials(a)) {
         if (process.env.REACT_APP_DEBUG === "true")
           console.log("Login successful");
-        // Honour deep links first; only the default landing page depends on role.
-        if (nextScreen) {
-          navigate(nextScreen);
-        } else {
-          const account = await getUserById(a.user_id);
-          navigate(
-            ["superadmin", "admin", "lleidahacker"].includes(
-              account?.access_role,
-            )
-              ? "/organitzacio"
-              : "/perfil",
-          );
-        }
+        const account = await getUserById(a.user_id);
+        navigate(loginDestination(account, nextScreen), { replace: true });
       } else {
         setErrorText(
           [401, 404].includes(a?.errCode)
@@ -65,7 +55,7 @@ const LoginForm = ({ nextScreen }) => {
       <LoginUnverified
         email={pendingCredentials.email}
         credentials={pendingCredentials}
-        nextScreen={nextScreen || "/perfil"}
+        nextScreen={nextScreen}
       />
     );
   return (
