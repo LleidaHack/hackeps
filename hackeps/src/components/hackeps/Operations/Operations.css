@@ -197,3 +197,10 @@
   height: 18px;
   margin: 0;
 }
+
+.event-ops .ops-dietary-alert {
+  border: 3px solid #f5b82e;
+  background: #342700;
+  color: #fff4cf;
+  overflow-wrap: anywhere;
+}

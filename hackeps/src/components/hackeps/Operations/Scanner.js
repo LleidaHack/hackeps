@@ -4,6 +4,7 @@ import { BrowserQRCodeReader } from "@zxing/browser";
 import { getHackeps } from "src/services/EventService";
 import { operationRequest } from "./api";
 import "./Operations.css";
+import { dietaryWarning } from "./dietary";
 import DarkPage from "src/components/hackeps/Layout/DarkPage";
 
 const ADMIN_URL = process.env.REACT_APP_ADMIN_URL;
@@ -28,6 +29,7 @@ export default function Scanner() {
     [message, setMessage] = useState(""),
     [failed, setFailed] = useState(false),
     [camera, setCamera] = useState(false);
+  const [dietaryAlert, setDietaryAlert] = useState(null);
   const scanField = useRef("code");
   const video = useRef(null),
     controls = useRef(null),
@@ -119,7 +121,7 @@ export default function Scanner() {
   }
   async function submit(e) {
     e.preventDefault();
-    if (busyRef.current) return;
+    if (busyRef.current || dietaryAlert) return;
     if (
       ["redeem", "replace_badge", "mentor_replace_badge"].includes(form.kind) &&
       !window.confirm(
@@ -173,9 +175,13 @@ export default function Scanner() {
           ? `${result.team} · Presentant${result.next_team ? ` · Següent: ${result.next_team}` : ""}`
           : `Registrat: ${result.participant || result.hacker_name || "participant"}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
       );
+      const restriction = dietaryWarning(result.food_restrictions);
+      if (restriction) {
+        setDietaryAlert({ participant: result.participant || result.hacker_name || "Participant", restriction });
+      }
       pending.current = null;
       setForm((f) => ({ ...f, code: "", badge: "" }));
-      navigator.vibrate?.(100);
+      navigator.vibrate?.(restriction ? [200, 100, 200] : 100);
       succeeded = true;
     } catch (err) {
       setFailed(true);
@@ -217,6 +223,15 @@ export default function Scanner() {
           >
             {message}
           </div>
+        )}
+        {dietaryAlert && (
+          <section className="ops-result ops-dietary-alert" role="alert" aria-label="Restriccions alimentàries">
+            <h2>Atenció: restriccions alimentàries</h2>
+            <strong>{dietaryAlert.participant}</strong>
+            <p>{dietaryAlert.restriction}</p>
+            <p>Dirigeix aquesta persona a la cua d’intoleràncies i dietes especials. L’operació ja s’ha registrat.</p>
+            <button type="button" autoFocus onClick={() => setDietaryAlert(null)}>Entès · continuar</button>
+          </section>
         )}
         {data && (
           <form onSubmit={submit}>
@@ -389,7 +404,7 @@ export default function Scanner() {
                 </label>
               </>
             )}
-            <button disabled={busy || (form.kind === "meal" && !round.open)}>
+            <button disabled={busy || !!dietaryAlert || (form.kind === "meal" && !round.open)}>
               {busy
                 ? "Registrant…"
                 : pending.current
