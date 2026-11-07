@@ -1,12 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BrowserQRCodeReader } from "@zxing/browser";
 import { getHackeps } from "src/services/EventService";
 import { operationRequest } from "./api";
 import "./Operations.css";
 import DarkPage from "src/components/hackeps/Layout/DarkPage";
 
+const ADMIN_URL = process.env.REACT_APP_ADMIN_URL;
+// Retrying after these may hit an operation the server already committed, so
+// the retry must reuse the same operation_id (the server replays the result).
+const isAmbiguousFailure = (code) =>
+  !(code > 0) || code >= 500 || code === 408 || code === 429;
+
 export default function Scanner() {
+  const navigate = useNavigate();
   const [eventId, setEventId] = useState(null),
     [data, setData] = useState(null),
     [form, setForm] = useState({
@@ -43,24 +50,34 @@ export default function Scanner() {
   useEffect(() => {
     if (!eventId) return;
     let active = true;
-    const load = () =>
+    let timer = null;
+    const load = () => {
+      // Do not poll from background tabs.
+      if (document.hidden) return;
       operationRequest(`/operations/${eventId}/scanner`)
         .then((d) => {
           if (active) setData(d);
         })
         .catch((e) => {
-          if (active) {
-            setMessage(e.message);
-            setFailed(true);
+          if (!active) return;
+          setMessage(e.message);
+          setFailed(true);
+          // Not staff or session expired: stop polling instead of retrying forever.
+          if (e.code === 401 || e.code === 403) {
+            clearInterval(timer);
+            if (e.code === 401) navigate("/login");
           }
         });
-    void load();
-    const timer = setInterval(load, 5000);
+    };
+    load();
+    timer = setInterval(load, 5000);
+    document.addEventListener("visibilitychange", load);
     return () => {
       active = false;
       clearInterval(timer);
+      document.removeEventListener("visibilitychange", load);
     };
-  }, [eventId]);
+  }, [eventId, navigate]);
   useEffect(() => {
     if (!camera) return;
     let active = true;
@@ -82,6 +99,7 @@ export default function Scanner() {
         else c.stop();
       })
       .catch(() => {
+        if (!active) return;
         setMessage(
           "No es pot obrir la càmera. Permet-ne l’accés o introdueix el codi.",
         );
@@ -105,7 +123,9 @@ export default function Scanner() {
     if (
       ["redeem", "replace_badge", "mentor_replace_badge"].includes(form.kind) &&
       !window.confirm(
-        ["replace_badge", "mentor_replace_badge"].includes(form.kind) ? "Invalidar l’acreditació anterior i vincular la nova?" : "Confirmar el lliurament del premi i descomptar les LleidaCoins?",
+        ["replace_badge", "mentor_replace_badge"].includes(form.kind)
+          ? "Invalidar l’acreditació anterior i vincular la nova?"
+          : "Confirmar el lliurament del premi i descomptar les LleidaCoins?",
       )
     )
       return;
@@ -113,10 +133,18 @@ export default function Scanner() {
     setBusy(true);
     setMessage("");
     setFailed(false);
+    let succeeded = false;
     try {
       let result;
       if (["mentor_badge", "mentor_replace_badge"].includes(form.kind)) {
-        result = await operationRequest(`/operations/${eventId}/mentors/${form.target}/badge`, "PUT", { code: form.badge.trim(), replace: form.kind === "mentor_replace_badge" });
+        result = await operationRequest(
+          `/operations/${eventId}/mentors/${form.target}/badge`,
+          "PUT",
+          {
+            code: form.badge.trim(),
+            replace: form.kind === "mentor_replace_badge",
+          },
+        );
       } else if (["badge", "replace_badge"].includes(form.kind)) {
         result = await operationRequest(
           `/event/${eventId}/vouchers/${encodeURIComponent(form.badge.trim())}/${form.kind === "replace_badge" ? "replace" : "assign"}/${encodeURIComponent(form.code.trim())}`,
@@ -141,20 +169,30 @@ export default function Scanner() {
         );
       }
       setMessage(
-        result.team ? `${result.team} · Presentant${result.next_team ? ` · Següent: ${result.next_team}` : ""}` : `Registrat: ${result.participant || result.hacker_name || "participant"}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
+        result.team
+          ? `${result.team} · Presentant${result.next_team ? ` · Següent: ${result.next_team}` : ""}`
+          : `Registrat: ${result.participant || result.hacker_name || "participant"}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
       );
       pending.current = null;
       setForm((f) => ({ ...f, code: "", badge: "" }));
       navigator.vibrate?.(100);
-      setData(await operationRequest(`/operations/${eventId}/scanner`));
+      succeeded = true;
     } catch (err) {
       setFailed(true);
       setMessage(err.message);
-      if (err.code > 0) pending.current = null;
+      // Keep the operation_id for ambiguous failures so a retry is replayed,
+      // not executed twice (e.g. a prize redeemed after a 502 from the proxy).
+      if (!isAmbiguousFailure(err.code)) pending.current = null;
     } finally {
       busyRef.current = false;
       setBusy(false);
     }
+    // Refresh counters separately: a failed refresh must not turn a confirmed
+    // operation into an error and prompt the operator to scan again.
+    if (succeeded)
+      operationRequest(`/operations/${eventId}/scanner`)
+        .then(setData)
+        .catch(() => {});
   }
   return (
     <DarkPage>
@@ -164,14 +202,13 @@ export default function Scanner() {
         <Link className="ops-link" to="/perfil">
           El meu perfil
         </Link>
-        {data && ["superadmin", "admin"].includes(data.access_role) && (
-          <a
-            className="ops-link"
-            href={process.env.REACT_APP_ADMIN_URL || "http://localhost:5175"}
-          >
-            Panel de gestió
-          </a>
-        )}
+        {ADMIN_URL &&
+          data &&
+          ["superadmin", "admin"].includes(data.access_role) && (
+            <a className="ops-link" href={ADMIN_URL}>
+              Panel de gestió
+            </a>
+          )}
         <p>Selecciona l’operació abans de llegir l’acreditació.</p>
         {message && (
           <div
@@ -204,7 +241,10 @@ export default function Scanner() {
                   ["award", "Atorgar punts"],
                 ]
                   .filter(
-                    ([v]) => (v !== "award" || data.access_role === "superadmin") && (!["replace_badge", "mentor_replace_badge"].includes(v) || ["superadmin", "admin"].includes(data.access_role)),
+                    ([v]) =>
+                      (v !== "award" || data.access_role === "superadmin") &&
+                      (!["replace_badge", "mentor_replace_badge"].includes(v) ||
+                        ["superadmin", "admin"].includes(data.access_role)),
                   )
                   .map(([v, t]) => (
                     <option value={v} key={v}>
@@ -213,13 +253,17 @@ export default function Scanner() {
                   ))}
               </select>
             </label>
-            {["meal", "activity", "redeem", "judging_start"].includes(form.kind) && (
+            {["meal", "activity", "redeem", "judging_start"].includes(
+              form.kind,
+            ) && (
               <label>
-                {form.kind === "judging_start" ? "Sala de presentació" : form.kind === "meal"
-                  ? "Àpat"
-                  : form.kind === "activity"
-                    ? "Activitat"
-                    : "Premi"}
+                {form.kind === "judging_start"
+                  ? "Sala de presentació"
+                  : form.kind === "meal"
+                    ? "Àpat"
+                    : form.kind === "activity"
+                      ? "Activitat"
+                      : "Premi"}
                 <select
                   required
                   value={form.target}
@@ -227,11 +271,13 @@ export default function Scanner() {
                 >
                   <option value="">Selecciona…</option>
                   {data[
-                    form.kind === "judging_start" ? "rooms" : form.kind === "meal"
-                      ? "meals"
-                      : form.kind === "activity"
-                        ? "activities"
-                        : "prizes"
+                    form.kind === "judging_start"
+                      ? "rooms"
+                      : form.kind === "meal"
+                        ? "meals"
+                        : form.kind === "activity"
+                          ? "activities"
+                          : "prizes"
                   ]?.map((v) => (
                     <option value={v.id} key={v.id}>
                       {v.title || v.name}
@@ -241,38 +287,66 @@ export default function Scanner() {
                 </select>
               </label>
             )}
-            {form.kind === "judging_start" && !data.rooms?.length && <p>Les sales es mostraran quan comenci el judging i els reptes estiguin publicats.</p>}
+            {form.kind === "judging_start" && !data.rooms?.length && (
+              <p>
+                Les sales es mostraran quan comenci el judging i els reptes
+                estiguin publicats.
+              </p>
+            )}
             {form.kind === "meal" && form.target && (
               <h2>
                 Ronda {round.round} · {round.open ? "Oberta" : "Tancada"}
               </h2>
             )}
-            {["mentor_badge", "mentor_replace_badge"].includes(form.kind) && <label>Mentor<select required value={form.target} onChange={e => change("target", e.target.value)}><option value="">Selecciona el mentor…</option>{data.mentors?.map(m => <option key={m.id} value={m.id}>{m.name}{m.has_badge ? " · Acreditació vinculada" : ""}</option>)}</select></label>}
+            {["mentor_badge", "mentor_replace_badge"].includes(form.kind) && (
+              <label>
+                Mentor
+                <select
+                  required
+                  value={form.target}
+                  onChange={(e) => change("target", e.target.value)}
+                >
+                  <option value="">Selecciona el mentor…</option>
+                  {data.mentors?.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.name}
+                      {m.has_badge ? " · Acreditació vinculada" : ""}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
             {camera && <video ref={video} muted playsInline />}
-            {!["mentor_badge", "mentor_replace_badge"].includes(form.kind) && <>
-
-            <button
-              type="button"
-              onClick={() => {
-                scanField.current = "code";
-                setCamera(!camera);
-              }}
-            >
-              {camera ? "Tancar càmera" : "Llegir QR amb la càmera"}
-            </button>
-            <label>
-              {["badge", "replace_badge"].includes(form.kind)
-                ? "1. QR de l’entrada del participant"
-                : "QR de l’acreditació física"}
-              <input
-                required
-                value={form.code}
-                onChange={(e) => change("code", e.target.value)}
-                autoComplete="off"
-              />
-            </label>
-            </>}
-            {["badge", "replace_badge", "mentor_badge", "mentor_replace_badge"].includes(form.kind) && (
+            {!["mentor_badge", "mentor_replace_badge"].includes(form.kind) && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    scanField.current = "code";
+                    setCamera(!camera);
+                  }}
+                >
+                  {camera ? "Tancar càmera" : "Llegir QR amb la càmera"}
+                </button>
+                <label>
+                  {["badge", "replace_badge"].includes(form.kind)
+                    ? "1. QR de l’entrada del participant"
+                    : "QR de l’acreditació física"}
+                  <input
+                    required
+                    value={form.code}
+                    onChange={(e) => change("code", e.target.value)}
+                    autoComplete="off"
+                  />
+                </label>
+              </>
+            )}
+            {[
+              "badge",
+              "replace_badge",
+              "mentor_badge",
+              "mentor_replace_badge",
+            ].includes(form.kind) && (
               <label>
                 QR de l’acreditació física lliure
                 <button

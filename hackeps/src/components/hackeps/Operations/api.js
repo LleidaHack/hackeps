@@ -1,20 +1,30 @@
 import { fetchPlus } from "src/modules/fetchModule";
 const messages = {
-  "Mentor is not active for this event": "El mentor no està actiu en aquest esdeveniment.",
-  "Mentor badges can only be used for meals": "L’acreditació de mentor només serveix per als àpats.",
+  "Mentor is not active for this event":
+    "El mentor no està actiu en aquest esdeveniment.",
+  "Mentor badges can only be used for meals":
+    "L’acreditació de mentor només serveix per als àpats.",
   "Active mentor not found": "No s’ha trobat el mentor actiu.",
-  "Free badge not found": "No s’ha trobat cap acreditació lliure amb aquest codi.",
+  "Free badge not found":
+    "No s’ha trobat cap acreditació lliure amb aquest codi.",
   "Badge already assigned": "Aquesta acreditació ja està vinculada.",
   "Judging is not open": "Les presentacions encara no estan obertes.",
   "Room is paused": "Aquesta sala està en pausa.",
-  "Participant must belong to exactly one event team": "No s’ha pogut identificar un únic equip per a aquest participant.",
-  "Team has no unique presentation in this room": "L’equip no té una presentació assignada a aquesta sala.",
-  "Team presentation is already closed": "Aquest equip ja ha finalitzat la presentació en aquesta sala.",
-  "Team is busy in another room or still travelling": "L’equip està convocat o presentant en una altra sala, o encara està en temps de trasllat.",
-  "Scan the physical badge; tickets cannot be used here": "Escaneja l’acreditació física. El QR de l’entrada no serveix per a aquesta operació.",
+  "Participant must belong to exactly one event team":
+    "No s’ha pogut identificar un únic equip per a aquest participant.",
+  "Team has no unique presentation in this room":
+    "L’equip no té una presentació assignada a aquesta sala.",
+  "Team presentation is already closed":
+    "Aquest equip ja ha finalitzat la presentació en aquesta sala.",
+  "Team is busy in another room or still travelling":
+    "L’equip està convocat o presentant en una altra sala, o encara està en temps de trasllat.",
+  "Scan the physical badge; tickets cannot be used here":
+    "Escaneja l’acreditació física. El QR de l’entrada no serveix per a aquesta operació.",
   "Badge has been revoked": "Aquesta acreditació està invalidada.",
-  "Participant already has a badge; ask an admin to replace it": "Aquest participant ja té acreditació. Un administrador pot substituir-la si s’ha perdut.",
-  "Participant has no badge to replace": "Aquest participant encara no té cap acreditació.",
+  "Participant already has a badge; ask an admin to replace it":
+    "Aquest participant ja té acreditació. Un administrador pot substituir-la si s’ha perdut.",
+  "Participant has no badge to replace":
+    "Aquest participant encara no té cap acreditació.",
   "Nickname already exists": "Aquest nom d’usuari ja existeix.",
   "A nickname request is already pending": "Ja tens una sol·licitud pendent.",
   "Choose a different nickname": "Tria un nom diferent de l’actual.",

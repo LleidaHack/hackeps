@@ -27,3 +27,9 @@ The previous direct presentation-enrollment form is removed from the wallet to a
 ## Wallet navigation
 
 Participant balances, movement history and available prizes are under **Perfil → LleidaCoins** (`/perfil/lleidacoins`). The wallet is rendered inside the profile panel rather than below the entire profile page. It is available in the authenticated participant's own profile; organizer accounts use the organization tools instead.
+
+## Deployment notes
+
+- `Permissions-Policy` allows `camera=(self)` (Vercel and nginx); the scanner cannot open the camera otherwise.
+- Set `REACT_APP_ADMIN_URL` (Vercel env or Docker build arg) to show the "Panel de gestió" link to admins; without it the link is hidden.
+- Deploy after the backend `feat/event-operations` release and its migrations.

@@ -90,7 +90,7 @@ export default function ChallengeChoice({ team }) {
               onChange={(e) => {
                 setSelected(e.target.value);
                 dirty.current = true;
-                          }}
+              }}
               required
             >
               <option value="">Selecciona un repte</option>

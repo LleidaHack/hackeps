@@ -132,7 +132,9 @@ const ProfileComponent = () => {
                   <NavLink to="/perfil/esdeveniments">Esdeveniments</NavLink>
                 )}
                 {isHacker && <NavLink to="/perfil/equip">El meu equip</NavLink>}
-                {isHacker && <NavLink to="/perfil/lleidacoins">LleidaCoins</NavLink>}
+                {isHacker && (
+                  <NavLink to="/perfil/lleidacoins">LleidaCoins</NavLink>
+                )}
                 <NavLink to="/perfil/dades">El meu perfil</NavLink>
                 <Link to="/" className="profile-signout" onClick={logOut}>
                   Tancar sessió
@@ -150,14 +152,28 @@ const ProfileComponent = () => {
                     </p>
                     <div className="hacker-profile-actions">
                       <NicknameRequest />
-                      {user.access_role !== "mentor" && <EditProfile hackerObj={user} onSaved={setUser} />}
+                      {/* Staff and mentors cannot edit participant data (the backend returns 403). */}
+                      {![
+                        "mentor",
+                        "lleidahacker",
+                        "admin",
+                        "superadmin",
+                      ].includes(user.access_role) && (
+                        <EditProfile hackerObj={user} onSaved={setUser} />
+                      )}
                     </div>
                     <div className="hacker-profile-accounts">
-                      {user.access_role !== "mentor" && <LinkAccounts hacker={user} />}
+                      {user.access_role !== "mentor" && (
+                        <LinkAccounts hacker={user} />
+                      )}
                     </div>
                   </>
                 ) : section === "lleidacoins" && isHacker ? (
-                  event?.event_id ? <Wallet eventId={event.event_id} team={team} /> : <p>No hi ha cap esdeveniment disponible.</p>
+                  event?.event_id ? (
+                    <Wallet eventId={event.event_id} team={team} />
+                  ) : (
+                    <p>No hi ha cap esdeveniment disponible.</p>
+                  )
                 ) : section === "esdeveniments" && isHacker ? (
                   <>
                     <h2>Esdeveniments</h2>
@@ -203,7 +219,9 @@ const ProfileComponent = () => {
             user && (
               <>
                 <div className="hacker-profile-accounts">
-                  {user.access_role !== "mentor" && <LinkAccounts hacker={user} />}
+                  {user.access_role !== "mentor" && (
+                    <LinkAccounts hacker={user} />
+                  )}
                 </div>
                 {event?.registered && isHacker && (
                   <section className="hacker-profile-team" aria-label="Equip">

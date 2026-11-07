@@ -34,14 +34,19 @@ const LoginForm = ({ nextScreen }) => {
       } else if (hasSessionCredentials(a)) {
         if (process.env.REACT_APP_DEBUG === "true")
           console.log("Login successful");
-        const account = await getUserById(a.user_id);
-        if (
-          ["superadmin", "admin", "lleidahacker"].includes(account?.access_role)
-        ) {
-          navigate("/organitzacio");
-        } else if (nextScreen) {
+        // Honour deep links first; only the default landing page depends on role.
+        if (nextScreen) {
           navigate(nextScreen);
-        } else navigate("/perfil");
+        } else {
+          const account = await getUserById(a.user_id);
+          navigate(
+            ["superadmin", "admin", "lleidahacker"].includes(
+              account?.access_role,
+            )
+              ? "/organitzacio"
+              : "/perfil",
+          );
+        }
       } else {
         setErrorText(
           [401, 404].includes(a?.errCode)
