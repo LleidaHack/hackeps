@@ -1,0 +1,49 @@
+export const needsTwoCodes = (kind) =>
+  ["badge", "replace_badge"].includes(kind);
+export const needsMentor = (kind) =>
+  ["mentor_badge", "mentor_replace_badge"].includes(kind);
+export function readyToScan(form, data) {
+  if (!data) return false;
+  if (["meal", "activity", "redeem", "judging_start"].includes(form.kind)) {
+    const collection = {
+      meal: "meals",
+      activity: "activities",
+      redeem: "prizes",
+      judging_start: "rooms",
+    }[form.kind];
+    if (!data[collection]?.some((item) => String(item.id) === form.target))
+      return false;
+    if (form.kind === "meal" && data.meal_rounds?.[form.target]?.open === false)
+      return false;
+  }
+  if (
+    needsMentor(form.kind) &&
+    !data.mentors?.some((item) => String(item.id) === form.target)
+  )
+    return false;
+  if (
+    form.kind === "award" &&
+    (!(Number(form.amount) > 0) || form.reason.trim().length < 3)
+  )
+    return false;
+  return true;
+}
+
+// A stationary QR must disappear before it can be accepted again. Different
+// badges can pass consecutively without stopping or restarting the camera.
+export function createScanGate() {
+  let lastCode = "",
+    lastSeen = 0;
+  return {
+    observe(code, now) {
+      if (!code) {
+        if (now - lastSeen > 1200) lastCode = "";
+        return false;
+      }
+      const repeated = code === lastCode;
+      lastCode = code;
+      lastSeen = now;
+      return !repeated;
+    },
+  };
+}

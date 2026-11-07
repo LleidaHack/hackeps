@@ -11,6 +11,9 @@ import {
 } from "src/services/AuthenticationService";
 const mockNavigate = jest.fn();
 jest.mock("src/services/AuthenticationService");
+jest.mock("src/services/UserService", () => ({
+  getUserById: jest.fn().mockResolvedValue({ access_role: "participant" }),
+}));
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNavigate,
@@ -53,7 +56,9 @@ test("login navigates only on validated credentials", async () => {
   change(/Correu:/, "audit@example.test");
   change(/Contrasenya:/, "ExamplePassword42");
   fireEvent.submit(container.querySelector("form"));
-  await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/perfil"));
+  await waitFor(() =>
+    expect(mockNavigate).toHaveBeenCalledWith("/perfil", { replace: true }),
+  );
 });
 test.each([
   { errCode: 500 },

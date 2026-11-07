@@ -1,3 +1,4 @@
+import { isScannerVolunteer } from "src/modules/loginDestination";
 import Wallet from "src/components/hackeps/Operations/Wallet";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -79,6 +80,9 @@ const ProfileComponent = () => {
   function logOut() {
     clearSession();
   }
+
+  if (isUser && isScannerVolunteer(user))
+    return <Navigate to="/organitzacio" replace />;
 
   if (loadError)
     return (

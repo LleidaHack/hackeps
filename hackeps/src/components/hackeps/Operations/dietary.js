@@ -2,6 +2,23 @@
 export function dietaryWarning(value) {
   if (typeof value !== "string") return "";
   const text = value.trim();
-  const normalized = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[.!]+$/, "").trim();
-  return ["", "-", "null", "no", "none", "cap", "ninguna", "ninguno", "sense restriccions"].includes(normalized) ? "" : text;
+  const normalized = text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[.!]+$/, "")
+    .trim();
+  return [
+    "",
+    "-",
+    "null",
+    "no",
+    "none",
+    "cap",
+    "ninguna",
+    "ninguno",
+    "sense restriccions",
+  ].includes(normalized)
+    ? ""
+    : text;
 }
