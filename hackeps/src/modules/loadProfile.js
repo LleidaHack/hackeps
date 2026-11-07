@@ -18,7 +18,12 @@ function requireData(value) {
 export async function loadProfile(userId) {
   if (!userId) throw new Error("Missing profile ID");
   const account = requireData(await getUserById(userId));
-  if (account.type !== "hacker")
+  if (
+    account.type !== "hacker" ||
+    ["superadmin", "admin", "lleidahacker", "mentor"].includes(
+      account.access_role,
+    )
+  )
     return {
       user: account,
       isHacker: false,
@@ -49,7 +54,9 @@ export async function loadProfile(userId) {
   // the ticket exists once the hacker is accepted and confirmed; an older
   // backend without the endpoint just leaves the check-in state unknown
   const ticket =
-    accepted && confirmed ? await getEventTicket(currentEvent.id, userId) : null;
+    accepted && confirmed
+      ? await getEventTicket(currentEvent.id, userId)
+      : null;
   const ticketState =
     ticket && ticket.errCode == null && ticket.has_ticket
       ? {

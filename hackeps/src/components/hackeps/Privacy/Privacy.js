@@ -22,14 +22,18 @@ const PrivacyComponent = () => {
           assegurar-se que està d'acord amb aquests canvis.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Informació que és recollida</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">
+          Informació que és recollida
+        </h2>
         <p className="text-justify leading-relaxed text-white/90">
           El nostre lloc web podrà recollir informació personal per exemple:
           Nom, informació de contacte com la seva adreça de correu electrònic i
           informació demogràfica.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Ús de la informació recollida</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">
+          Ús de la informació recollida
+        </h2>
         <p className="text-justify leading-relaxed text-white/90">
           El nostre lloc web fa servir la informació amb la finalitat de
           proporcionar el millor servei possible, particularment per a mantenir
@@ -48,7 +52,9 @@ const PrivacyComponent = () => {
           accés no autoritzat.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Cookies</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">
+          Cookies
+        </h2>
         <p className="text-justify leading-relaxed text-white/90">
           Una cookie es refereix a un fitxer que és enviat amb la finalitat de
           sol·licitar permís per a emmagatzemar-se en el seu ordinador, en
@@ -74,7 +80,9 @@ const PrivacyComponent = () => {
           utilitzar alguns dels nostres serveis.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Enllaços a tercers</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">
+          Enllaços a tercers
+        </h2>
         <p className="text-justify leading-relaxed text-white/90">
           Aquest lloc web pot contenir enllaços a altres llocs que poguessin ser
           del seu interès. Una vegada que vostè faci clic en aquests enllaços i
@@ -86,7 +94,9 @@ const PrivacyComponent = () => {
           confirmar que vostè està d'acord amb aquestes.
         </p>
 
-        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">Control de la seva informació personal</h2>
+        <h2 className="mb-2 mt-8 text-lg font-bold text-[#ff7430] md:text-xl">
+          Control de la seva informació personal
+        </h2>
         <p className="text-justify leading-relaxed text-white/90">
           En qualsevol moment vostè pot restringir la recopilació o l'ús de la
           informació personal que és proporcionada al nostre lloc web. Cada

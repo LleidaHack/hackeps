@@ -7,14 +7,21 @@ let editionExpires = 0;
 export function getHackeps() {
   if (!editionRequest || Date.now() >= editionExpires) {
     editionExpires = Date.now() + 60000;
-    editionRequest = getHackepsByYear(HACKEPS_YEAR).then(event => {
-      if (!event?.id || !event.start_date || !event.end_date ||
-          Number(event.start_date.slice(0, 4)) !== HACKEPS_YEAR ||
-          !Number.isFinite(Date.parse(event.start_date)) ||
-          !Number.isFinite(Date.parse(event.end_date)) ||
-          Date.parse(event.end_date) < Date.parse(event.start_date)) {
+    editionRequest = getHackepsByYear(HACKEPS_YEAR).then((event) => {
+      if (
+        !event?.id ||
+        !event.start_date ||
+        !event.end_date ||
+        Number(event.start_date.slice(0, 4)) !== HACKEPS_YEAR ||
+        !Number.isFinite(Date.parse(event.start_date)) ||
+        !Number.isFinite(Date.parse(event.end_date)) ||
+        Date.parse(event.end_date) < Date.parse(event.start_date)
+      ) {
         editionExpires = 0;
-        return { errCode: event?.errCode || 404, errMssg: "Configured edition unavailable" };
+        return {
+          errCode: event?.errCode || 404,
+          errMssg: "Configured edition unavailable",
+        };
       }
       return event;
     });
@@ -127,17 +134,18 @@ export function getEventSponsors(event_id) {
     return cached.request;
   }
   for (const [id, entry] of sponsorRequests) {
-    if (!entry.pending && Date.now() >= entry.expires) sponsorRequests.delete(id);
+    if (!entry.pending && Date.now() >= entry.expires)
+      sponsorRequests.delete(id);
   }
   const entry = { pending: true, expires: 0 };
   entry.request = fetchPlus({ Url: `/event/${event_id}/sponsors` })
-    .then(data => {
+    .then((data) => {
       entry.pending = false;
       if (Array.isArray(data)) entry.expires = Date.now() + 60000;
       else if (sponsorRequests.get(key) === entry) sponsorRequests.delete(key);
       return data;
     })
-    .catch(error => {
+    .catch((error) => {
       if (sponsorRequests.get(key) === entry) sponsorRequests.delete(key);
       throw error;
     });
@@ -347,11 +355,17 @@ export async function hackers_participants_grouped_list(event_id) {
 }
 
 export function updateEventSponsor(eventId, companyId, tier, displayOrder = 0) {
-  return fetchPlus({ Url: `/event/${eventId}/sponsors/${companyId}`, Method: "PATCH",
-    hasUserauth: true, Body: { tier, display_order: displayOrder } })
-    .finally(() => sponsorRequests.delete(String(eventId)));
+  return fetchPlus({
+    Url: `/event/${eventId}/sponsors/${companyId}`,
+    Method: "PATCH",
+    hasUserauth: true,
+    Body: { tier, display_order: displayOrder },
+  }).finally(() => sponsorRequests.delete(String(eventId)));
 }
 
 export async function getEventRegistration(eventId, hackerId) {
-  return fetchPlus({ Url: `/event/${eventId}/registration/${hackerId}`, hasUserauth: true });
+  return fetchPlus({
+    Url: `/event/${eventId}/registration/${hackerId}`,
+    hasUserauth: true,
+  });
 }

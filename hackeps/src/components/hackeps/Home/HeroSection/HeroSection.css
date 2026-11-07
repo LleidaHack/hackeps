@@ -53,9 +53,17 @@
 }
 
 @media (max-width: 768px) {
-  .hero-cloud-1 { width: 42vw; top: 14%; }
-  .hero-cloud-2 { width: 46vw; bottom: 28%; }
-  .hero-cloud-3 { display: none; }
+  .hero-cloud-1 {
+    width: 42vw;
+    top: 14%;
+  }
+  .hero-cloud-2 {
+    width: 46vw;
+    bottom: 28%;
+  }
+  .hero-cloud-3 {
+    display: none;
+  }
 }
 
 /* ---------- Bunting / Banderines ---------- */
@@ -115,15 +123,20 @@
 }
 
 @keyframes bunting-sway {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
 }
 
 /* ---------- Orange Banner Ribbon ---------- */
 .banner-ribbon {
   position: relative;
   display: inline-block;
-  background: #F28C28;
+  background: #f28c28;
   color: white;
   padding: 12px 60px;
   font-size: 1.4rem;
@@ -133,12 +146,12 @@
   text-align: center;
   z-index: 15;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  font-family: 'Oswald', 'Arial Black', sans-serif;
+  font-family: "Oswald", "Arial Black", sans-serif;
 }
 
 .banner-ribbon::before,
 .banner-ribbon::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   width: 30px;
@@ -147,13 +160,13 @@
 
 .banner-ribbon::before {
   left: -28px;
-  background: #F28C28;
+  background: #f28c28;
   clip-path: polygon(100% 0, 100% 100%, 0 50%);
 }
 
 .banner-ribbon::after {
   right: -28px;
-  background: #F28C28;
+  background: #f28c28;
   clip-path: polygon(0 0, 0 100%, 100% 50%);
 }
 
@@ -186,7 +199,7 @@
 
 .cloud::before,
 .cloud::after {
-  content: '';
+  content: "";
   position: absolute;
   background: white;
   border-radius: 50%;
@@ -284,44 +297,115 @@
 }
 
 @keyframes cloud-drift-1 {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(40px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(40px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 @keyframes cloud-drift-2 {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(-60px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-60px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 @keyframes cloud-drift-3 {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(50px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(50px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 @keyframes cloud-drift-4 {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(-40px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-40px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* Mobile cloud adjustments */
 @media (max-width: 768px) {
-  .cloud-1 { width: 80px; height: 30px; top: 18%; right: 5%; }
-  .cloud-1::before { width: 35px; height: 35px; top: -18px; left: 12px; }
-  .cloud-1::after { width: 28px; height: 28px; top: -12px; left: 40px; }
+  .cloud-1 {
+    width: 80px;
+    height: 30px;
+    top: 18%;
+    right: 5%;
+  }
+  .cloud-1::before {
+    width: 35px;
+    height: 35px;
+    top: -18px;
+    left: 12px;
+  }
+  .cloud-1::after {
+    width: 28px;
+    height: 28px;
+    top: -12px;
+    left: 40px;
+  }
 
-  .cloud-2 { width: 100px; height: 36px; top: 12%; right: 20%; }
-  .cloud-2::before { width: 45px; height: 45px; top: -22px; left: 18px; }
-  .cloud-2::after { width: 32px; height: 32px; top: -14px; left: 50px; }
+  .cloud-2 {
+    width: 100px;
+    height: 36px;
+    top: 12%;
+    right: 20%;
+  }
+  .cloud-2::before {
+    width: 45px;
+    height: 45px;
+    top: -22px;
+    left: 18px;
+  }
+  .cloud-2::after {
+    width: 32px;
+    height: 32px;
+    top: -14px;
+    left: 50px;
+  }
 
-  .cloud-3 { width: 70px; height: 24px; top: 22%; left: 3%; }
-  .cloud-3::before { width: 30px; height: 30px; top: -15px; left: 10px; }
-  .cloud-3::after { width: 22px; height: 22px; top: -10px; left: 35px; }
+  .cloud-3 {
+    width: 70px;
+    height: 24px;
+    top: 22%;
+    left: 3%;
+  }
+  .cloud-3::before {
+    width: 30px;
+    height: 30px;
+    top: -15px;
+    left: 10px;
+  }
+  .cloud-3::after {
+    width: 22px;
+    height: 22px;
+    top: -10px;
+    left: 35px;
+  }
 
-  .cloud-4 { display: none; }
+  .cloud-4 {
+    display: none;
+  }
 }
 
 /* ---------- Logo container ---------- */
@@ -343,8 +427,13 @@
 }
 
 @keyframes float-logo {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @media (min-width: 768px) {
@@ -373,8 +462,10 @@
   font-size: clamp(1.25rem, 3vw, 2rem);
   letter-spacing: -0.02em;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-  font-family: 'Space Mono', monospace;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+  font-family: "Space Mono", monospace;
 }
 
 .hero-cta-btn:hover {

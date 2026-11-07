@@ -192,5 +192,4 @@ export const GALLERY_ITEMS = [
     height: 1047,
     alt: "Record de la HackEPS, fotografia 23",
   },
-
 ];

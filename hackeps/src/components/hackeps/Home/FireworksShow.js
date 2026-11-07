@@ -23,7 +23,9 @@ const FireworksShow = ({ onDone }) => {
 
   useGSAP(
     () => {
-      const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+      const reduced = window.matchMedia?.(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
       const width = window.innerWidth;
       const height = window.innerHeight;
       const unit = Math.min(width, height) / 100;
@@ -59,7 +61,13 @@ const FireworksShow = ({ onDone }) => {
           tl.fromTo(
             rocket,
             { xPercent: -50, y: 0, opacity: 1 },
-            { xPercent: -50, y: y - height, opacity: 1, duration: 0.55, ease: "power2.out" },
+            {
+              xPercent: -50,
+              y: y - height,
+              opacity: 1,
+              duration: 0.55,
+              ease: "power2.out",
+            },
             at,
           ).set(rocket, { opacity: 0 }, at + 0.55);
           burstAt = at + 0.55;
@@ -68,12 +76,30 @@ const FireworksShow = ({ onDone }) => {
         const spin = (Math.random() - 0.5) * 40;
         tl.fromTo(
           burst,
-          { clipPath: "circle(0% at 50% 50%)", scale: reduced ? 1 : 0.5, rotation: spin - 12, opacity: 1 },
-          { clipPath: "circle(75% at 50% 50%)", scale: 1, rotation: spin, opacity: 1, duration: 0.6, ease: "expo.out" },
+          {
+            clipPath: "circle(0% at 50% 50%)",
+            scale: reduced ? 1 : 0.5,
+            rotation: spin - 12,
+            opacity: 1,
+          },
+          {
+            clipPath: "circle(75% at 50% 50%)",
+            scale: 1,
+            rotation: spin,
+            opacity: 1,
+            duration: 0.6,
+            ease: "expo.out",
+          },
           burstAt,
         ).to(
           burst,
-          { opacity: 0, scale: reduced ? 1 : 1.1, y: reduced ? 0 : 3 * unit, duration: 0.7, ease: "power1.in" },
+          {
+            opacity: 0,
+            scale: reduced ? 1 : 1.1,
+            y: reduced ? 0 : 3 * unit,
+            duration: 0.7,
+            ease: "power1.in",
+          },
           burstAt + 0.55,
         );
       };

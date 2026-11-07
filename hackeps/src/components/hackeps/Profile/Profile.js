@@ -1,10 +1,18 @@
+import Wallet from "src/components/hackeps/Operations/Wallet";
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams, Link, NavLink, Navigate, useLocation } from "react-router-dom";
+import {
+  useParams,
+  Link,
+  NavLink,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import "./Profile.css";
 import Modal from "react-bootstrap/Modal";
 import { loadProfile } from "src/modules/loadProfile";
 import { clearSession } from "src/modules/session";
+import NicknameRequest from "./NicknameRequest";
 import EditProfile from "./EditProfile";
 import { memberSince } from "src/modules/memberSince";
 import qrIcon from "src/icons/qr.png";
@@ -109,7 +117,9 @@ const ProfileComponent = () => {
                 className="hacker-profile-ticket"
                 onClick={handleShowQR}
               >
-                <span>{ticket?.checkedIn ? "Check-in fet" : "Mostra el teu tiquet"}</span>
+                <span>
+                  {ticket?.checkedIn ? "Check-in fet" : "Mostra el teu tiquet"}
+                </span>
                 <img src={qrIcon} alt="" width="48" height="48" />
               </button>
             )}
@@ -118,52 +128,120 @@ const ProfileComponent = () => {
           {isUser ? (
             <div className="profile-workspace">
               <nav className="profile-navigation" aria-label="Àrea personal">
-                {isHacker && <NavLink to="/perfil/esdeveniments">Esdeveniments</NavLink>}
+                {isHacker && (
+                  <NavLink to="/perfil/esdeveniments">Esdeveniments</NavLink>
+                )}
                 {isHacker && <NavLink to="/perfil/equip">El meu equip</NavLink>}
+                {isHacker && (
+                  <NavLink to="/perfil/lleidacoins">LleidaCoins</NavLink>
+                )}
                 <NavLink to="/perfil/dades">El meu perfil</NavLink>
-                <Link to="/" className="profile-signout" onClick={logOut}>Tancar sessió</Link>
+                <Link to="/" className="profile-signout" onClick={logOut}>
+                  Tancar sessió
+                </Link>
               </nav>
               <div className="profile-panel" key={section}>
-                {!user ? <p role="status">Carregant el perfil…</p> : section === "dades" ? (
+                {!user ? (
+                  <p role="status">Carregant el perfil…</p>
+                ) : section === "dades" ? (
                   <>
                     <h2>El meu perfil</h2>
-                    <p className="profile-description">Actualitza les teves dades, la foto i els enllaços professionals.</p>
-                    <div className="hacker-profile-actions"><EditProfile hackerObj={user} onSaved={setUser} /></div>
-                    <div className="hacker-profile-accounts"><LinkAccounts hacker={user} /></div>
+                    <p className="profile-description">
+                      Actualitza les teves dades, la foto i els enllaços
+                      professionals.
+                    </p>
+                    <div className="hacker-profile-actions">
+                      <NicknameRequest />
+                      {/* Staff and mentors cannot edit participant data (the backend returns 403). */}
+                      {![
+                        "mentor",
+                        "lleidahacker",
+                        "admin",
+                        "superadmin",
+                      ].includes(user.access_role) && (
+                        <EditProfile hackerObj={user} onSaved={setUser} />
+                      )}
+                    </div>
+                    <div className="hacker-profile-accounts">
+                      {user.access_role !== "mentor" && (
+                        <LinkAccounts hacker={user} />
+                      )}
+                    </div>
                   </>
+                ) : section === "lleidacoins" && isHacker ? (
+                  event?.event_id ? (
+                    <Wallet eventId={event.event_id} team={team} />
+                  ) : (
+                    <p>No hi ha cap esdeveniment disponible.</p>
+                  )
                 ) : section === "esdeveniments" && isHacker ? (
                   <>
                     <h2>Esdeveniments</h2>
-                    <p className="profile-description">Consulta la teva inscripció i les dates de la HackEPS.</p>
+                    <p className="profile-description">
+                      Consulta la teva inscripció i les dates de la HackEPS.
+                    </p>
                     <div className="profile-event-grid">
-                      <div className="hacker-profile-event"><Join event={event} /></div>
+                      <div className="hacker-profile-event">
+                        <Join event={event} />
+                      </div>
                       <ProfileHighlights event={event} />
                     </div>
                   </>
                 ) : section === "equip" && isHacker ? (
                   <>
                     <h2>El meu equip</h2>
-                    {event?.registered ? <Team team={team} is_user={true} onTeamChange={setTeam} /> : (
+                    {event?.registered ? (
+                      <Team team={team} is_user={true} onTeamChange={setTeam} />
+                    ) : (
                       <div className="profile-summary-card">
-                        <p>Inscriu-te a la HackEPS per crear un equip o unir-te a un.</p>
-                        <Link className="profile-primary-link" to="/perfil/esdeveniments">Veure l’esdeveniment</Link>
+                        <p>
+                          Inscriu-te a la HackEPS per crear un equip o unir-te a
+                          un.
+                        </p>
+                        <Link
+                          className="profile-primary-link"
+                          to="/perfil/esdeveniments"
+                        >
+                          Veure l’esdeveniment
+                        </Link>
                       </div>
                     )}
                   </>
                 ) : (
-                  <Navigate to={isHacker ? "/perfil/esdeveniments" : "/perfil/dades"} replace />
+                  <Navigate
+                    to={isHacker ? "/perfil/esdeveniments" : "/perfil/dades"}
+                    replace
+                  />
                 )}
               </div>
             </div>
-          ) : user && (
-            <>
-              <div className="hacker-profile-accounts"><LinkAccounts hacker={user} /></div>
-              {event?.registered && isHacker && <section className="hacker-profile-team" aria-label="Equip"><Team team={team} is_user={false} /></section>}
-            </>
+          ) : (
+            user && (
+              <>
+                <div className="hacker-profile-accounts">
+                  {user.access_role !== "mentor" && (
+                    <LinkAccounts hacker={user} />
+                  )}
+                </div>
+                {event?.registered && isHacker && (
+                  <section className="hacker-profile-team" aria-label="Equip">
+                    <Team team={team} is_user={false} />
+                  </section>
+                )}
+              </>
+            )
           )}
         </div>
       </main>
 
+      {isUser &&
+        ["superadmin", "admin", "lleidahacker"].includes(user?.access_role) && (
+          <div className="event-ops">
+            <Link className="ops-link" to="/organitzacio">
+              Obrir escàner d’organització
+            </Link>
+          </div>
+        )}
       <Modal show={showQR} onHide={handleCloseQR} centered>
         <QrCode url={qrCode} ticket={ticket} />
       </Modal>

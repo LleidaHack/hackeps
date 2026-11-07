@@ -4,10 +4,20 @@ import Team from "src/components/hackeps/Team/Team";
 
 jest.mock("src/components/hackeps/ProfilePic/ProfilePic", () => () => null);
 
-const team = {id: 10, name: "Test team", leader_id: 1, members: [{id: "1", name: "Leader"}, {id: 2, name: "Member"}]};
+const team = {
+  id: 10,
+  name: "Test team",
+  leader_id: 1,
+  members: [
+    { id: "1", name: "Leader" },
+    { id: 2, name: "Member" },
+  ],
+};
 
 beforeEach(() => {
-  jest.spyOn(Storage.prototype, "getItem").mockImplementation((key) => key === "userID" ? "1" : null);
+  jest
+    .spyOn(Storage.prototype, "getItem")
+    .mockImplementation((key) => (key === "userID" ? "1" : null));
 });
 
 test("leader can manage another member but cannot kick or promote themselves", () => {

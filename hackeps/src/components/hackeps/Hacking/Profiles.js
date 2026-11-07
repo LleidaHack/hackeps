@@ -92,7 +92,8 @@ const profiles = {
               </ul>
               <br></br>
               <p>
-                L'organització facilitarà l'enllaç del Devpost de l'edició actual.
+                L'organització facilitarà l'enllaç del Devpost de l'edició
+                actual.
               </p>
             </div>
           </div>

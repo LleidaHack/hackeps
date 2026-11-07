@@ -143,12 +143,16 @@ const renderAnswer = (blocks) => (
 );
 
 // Pair adjacent questions so each row shares its question height.
-const ROWS = Array.from({ length: Math.ceil(faqContent.length / 2) }, (_, index) =>
-  faqContent.slice(index * 2, index * 2 + 2),
+const ROWS = Array.from(
+  { length: Math.ceil(faqContent.length / 2) },
+  (_, index) => faqContent.slice(index * 2, index * 2 + 2),
 );
 
 const FAQ = () => (
-  <section id="faq" className="relative w-full px-4 pb-16 pt-12 md:px-8 md:pb-24 md:pt-20">
+  <section
+    id="faq"
+    className="relative w-full px-4 pb-16 pt-12 md:px-8 md:pb-24 md:pt-20"
+  >
     <h2 className="m-0 text-center font-space-mono text-[32px] font-bold leading-tight tracking-[-0.64px] text-white md:text-[48px] lg:text-[64px] lg:tracking-[-1.28px]">
       FAQs
     </h2>
@@ -156,7 +160,11 @@ const FAQ = () => (
       {ROWS.map((row, index) => (
         <div key={index} className="faq-row">
           {row.map(({ question, blocks }) => (
-            <FAQCard key={question} question={question} answer={renderAnswer(blocks)} />
+            <FAQCard
+              key={question}
+              question={question}
+              answer={renderAnswer(blocks)}
+            />
           ))}
         </div>
       ))}

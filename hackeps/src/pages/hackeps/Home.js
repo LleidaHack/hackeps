@@ -61,7 +61,10 @@ const Home = () => {
   // after images above it have loaded and pushed it down.
   useEffect(() => {
     if (!hash) return undefined;
-    const reveal = () => document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView();
+    const reveal = () =>
+      document
+        .getElementById(decodeURIComponent(hash.slice(1)))
+        ?.scrollIntoView();
     const frame = requestAnimationFrame(reveal);
     const settle = setTimeout(reveal, 600);
     return () => {
@@ -93,7 +96,10 @@ const Home = () => {
             response.id,
             localStorage.getItem("userID"),
           );
-          localStorage.setItem("registeredOnEvent", isRegistered === true ? String(response.id) : "");
+          localStorage.setItem(
+            "registeredOnEvent",
+            isRegistered === true ? String(response.id) : "",
+          );
         }
       } catch (error) {
         if (process.env.REACT_APP_DEBUG === "true") {
@@ -107,13 +113,12 @@ const Home = () => {
   const timerActive = true;
 
   return (
-    <div
-      className="w-full overflow-x-clip"
-      style={{ backgroundColor: sky }}
-    >
+    <div className="w-full overflow-x-clip" style={{ backgroundColor: sky }}>
       {showAnimation && (
         // The fallback is the intro's first frame, so the page never flashes.
-        <Suspense fallback={<div className="fixed inset-0 z-[100] bg-[#2e2e2e]" />}>
+        <Suspense
+          fallback={<div className="fixed inset-0 z-[100] bg-[#2e2e2e]" />}
+        >
           <HomeIntro onFinish={hideIntro} />
         </Suspense>
       )}
@@ -127,8 +132,8 @@ const Home = () => {
         />
         {eventUnavailable && (
           <p role="status" className="m-0 p-4 text-center text-[#2e2e2e]">
-            No hem pogut carregar la informació actualitzada de
-            l’esdeveniment. Torna-ho a provar més tard.
+            No hem pogut carregar la informació actualitzada de l’esdeveniment.
+            Torna-ho a provar més tard.
           </p>
         )}
         <ElectionsReminder />

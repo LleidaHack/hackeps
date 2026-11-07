@@ -35,42 +35,43 @@ const ForgetPassword = ({ nextScreen }) => {
     <>
       {!status ? (
         <FormLayout title="Necessites ajuda per iniciar sessió?">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="public-form flex w-full flex-col gap-3"
-            >
-              <label className="text-white">
-                <RequiredMark /> Introdueix el teu correu electrònic
-                <input aria-required="true"
-                  className={`${errors.email ? "bg-pink-100" : "bg-white"} mt-2 min-h-10 w-full px-2 text-base text-black`}
-                  placeholder="Correu electrònic"
-                  {...register("email", {
-                    required: "Et falta indicar-nos el teu correu de contacte",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "El correu no és vàlid",
-                    },
-                  })}
-                />
-                {errors.email && (
-                  <span className="text-red-400">{errors.email.message}</span>
-                )}
-              </label>
-              {error && (
-                <p role="alert" className="text-red-400">
-                  {error}
-                </p>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="public-form flex w-full flex-col gap-3"
+          >
+            <label className="text-white">
+              <RequiredMark /> Introdueix el teu correu electrònic
+              <input
+                aria-required="true"
+                className={`${errors.email ? "bg-pink-100" : "bg-white"} mt-2 min-h-10 w-full px-2 text-base text-black`}
+                placeholder="Correu electrònic"
+                {...register("email", {
+                  required: "Et falta indicar-nos el teu correu de contacte",
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "El correu no és vàlid",
+                  },
+                })}
+              />
+              {errors.email && (
+                <span className="text-red-400">{errors.email.message}</span>
               )}
-              <Button
-                orange
-                lg
-                type="submit"
-                className="w-full"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Enviant..." : "Enviar enllaç de recuperació"}
-              </Button>
-            </form>
+            </label>
+            {error && (
+              <p role="alert" className="text-red-400">
+                {error}
+              </p>
+            )}
+            <Button
+              orange
+              lg
+              type="submit"
+              className="w-full"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Enviant..." : "Enviar enllaç de recuperació"}
+            </Button>
+          </form>
         </FormLayout>
       ) : (
         <SuccessFeedback

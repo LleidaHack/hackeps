@@ -13,7 +13,9 @@ const LinkAccounts = () => {
       <div className="account-welcome-form">
         <LoginForm nextScreen={state?.nextScreen || ROUTES.home} />
       </div>
-      <div className="account-welcome-divider"><span>o també</span></div>
+      <div className="account-welcome-divider">
+        <span>o també</span>
+      </div>
       <h2>Crea un compte</h2>
       <div className="account-welcome-options">
         <Link className="account-welcome-option" to={ROUTES.hackerForm}>
@@ -24,7 +26,13 @@ const LinkAccounts = () => {
         </Link>
         <div className="account-welcome-option">
           <div className="account-welcome-art account-welcome-art--mentor">
-            <img className="grayscale" src={mentor} alt="" width={526} height={523} />
+            <img
+              className="grayscale"
+              src={mentor}
+              alt=""
+              width={526}
+              height={523}
+            />
           </div>
           <span>MENTOR</span>
         </div>

@@ -15,7 +15,11 @@ const EditProfile = ({ hackerObj, onSaved }) => {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    setValues({ shirt_size: hackerObj.shirt_size || "", linkedin: hackerObj.linkedin || "", github: hackerObj.github || "" });
+    setValues({
+      shirt_size: hackerObj.shirt_size || "",
+      linkedin: hackerObj.linkedin || "",
+      github: hackerObj.github || "",
+    });
     setImage(hackerObj.image || "");
     setImageChanged(false);
     setCv(null);
@@ -23,7 +27,10 @@ const EditProfile = ({ hackerObj, onSaved }) => {
   }, [hackerObj]);
 
   const change = (event) => {
-    setValues((current) => ({ ...current, [event.target.name]: event.target.value }));
+    setValues((current) => ({
+      ...current,
+      [event.target.name]: event.target.value,
+    }));
     setSaved(false);
   };
 
@@ -31,13 +38,24 @@ const EditProfile = ({ hackerObj, onSaved }) => {
     const input = event.target;
     const file = input.files[0];
     if (!file) return;
-    setError(""); setSaved(false); setReading(true);
+    setError("");
+    setSaved(false);
+    setReading(true);
     try {
       const value = await readUpload(file, kind);
-      if (kind === "cv") { setCv(value); setCvName(file.name); }
-      else { setImage(value); setImageChanged(true); }
-    } catch (error) { setError(error.message); input.value = ""; }
-    finally { setReading(false); }
+      if (kind === "cv") {
+        setCv(value);
+        setCvName(file.name);
+      } else {
+        setImage(value);
+        setImageChanged(true);
+      }
+    } catch (error) {
+      setError(error.message);
+      input.value = "";
+    } finally {
+      setReading(false);
+    }
   };
 
   const submit = async (event) => {
@@ -46,18 +64,29 @@ const EditProfile = ({ hackerObj, onSaved }) => {
     setSending(true);
     setError("");
     setSaved(false);
-    const data = { id: hackerObj.id || localStorage.getItem("userID"), ...values };
+    const data = {
+      id: hackerObj.id || localStorage.getItem("userID"),
+      ...values,
+    };
     if (!data.shirt_size) delete data.shirt_size;
     if (imageChanged) data.image = image;
     if (cv !== null) data.cv = cv;
     try {
       const result = await updateHacker(data);
-      if (!result?.success) { setError(result?.errMssg || "No hem pogut desar els canvis. Torna-ho a provar."); return; }
+      if (!result?.success) {
+        setError(
+          result?.errMssg ||
+            "No hem pogut desar els canvis. Torna-ho a provar.",
+        );
+        return;
+      }
       onSaved?.({ ...hackerObj, ...data });
       setSaved(true);
     } catch {
       setError("No hem pogut desar els canvis. Torna-ho a provar.");
-    } finally { setSending(false); }
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -65,9 +94,17 @@ const EditProfile = ({ hackerObj, onSaved }) => {
       <fieldset disabled={sending || reading}>
         <legend>Foto de perfil</legend>
         <div className="profile-editor-photo">
-          <img src={image || defaultAvatar} alt="Previsualització de la foto de perfil" />
-          <label>Canvia la foto
-            <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => upload(event, "image")} />
+          <img
+            src={image || defaultAvatar}
+            alt="Previsualització de la foto de perfil"
+          />
+          <label>
+            Canvia la foto
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={(event) => upload(event, "image")}
+            />
             <small>JPG, PNG o WebP. Màxim 1 MB.</small>
           </label>
         </div>
@@ -75,38 +112,91 @@ const EditProfile = ({ hackerObj, onSaved }) => {
       <fieldset disabled={sending || reading}>
         <legend>Dades i enllaços</legend>
         <div className="profile-editor-grid">
-          <label>LinkedIn
-            <input type="url" name="linkedin" placeholder="https://www.linkedin.com/in/…" value={values.linkedin || ""} onChange={change} />
+          <label>
+            LinkedIn
+            <input
+              type="url"
+              name="linkedin"
+              placeholder="https://www.linkedin.com/in/…"
+              value={values.linkedin || ""}
+              onChange={change}
+            />
           </label>
-          <label>GitHub
-            <input type="url" name="github" placeholder="https://github.com/…" value={values.github || ""} onChange={change} />
+          <label>
+            GitHub
+            <input
+              type="url"
+              name="github"
+              placeholder="https://github.com/…"
+              value={values.github || ""}
+              onChange={change}
+            />
           </label>
         </div>
-        <label>Talla de samarreta
-          <select name="shirt_size" value={values.shirt_size || ""} onChange={change}>
+        <label>
+          Talla de samarreta
+          <select
+            name="shirt_size"
+            value={values.shirt_size || ""}
+            onChange={change}
+          >
             <option value="">Selecciona una talla</option>
-            {["XS", "S", "M", "L", "XL", "XXL", "XXXL"].map((size) => <option key={size}>{size}</option>)}
+            {["XS", "S", "M", "L", "XL", "XXL", "XXXL"].map((size) => (
+              <option key={size}>{size}</option>
+            ))}
           </select>
         </label>
       </fieldset>
       <fieldset disabled={sending || reading}>
-        <legend>Currículum <small>Opcional</small></legend>
-        <label>Adjunta el teu CV
-          <input type="file" accept="application/pdf" onChange={(event) => upload(event, "cv")} />
+        <legend>
+          Currículum <small>Opcional</small>
+        </legend>
+        <label>
+          Adjunta el teu CV
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(event) => upload(event, "cv")}
+          />
           <small>Format PDF. Màxim 1 MB.</small>
         </label>
-        {cvName && <div className="profile-editor-file">
-          <p>{cvName}</p>
-          <button type="button" onClick={(event) => {
-            event.currentTarget.closest("fieldset").querySelector('input[type="file"]').value = "";
-            setCv(""); setCvName(""); setSaved(false);
-          }}>Treu el fitxer</button>
-        </div>}
+        {cvName && (
+          <div className="profile-editor-file">
+            <p>{cvName}</p>
+            <button
+              type="button"
+              onClick={(event) => {
+                event.currentTarget
+                  .closest("fieldset")
+                  .querySelector('input[type="file"]').value = "";
+                setCv("");
+                setCvName("");
+                setSaved(false);
+              }}
+            >
+              Treu el fitxer
+            </button>
+          </div>
+        )}
       </fieldset>
       <div className="profile-editor-save">
-        {error && <p role="alert" className="profile-editor-error">{error}</p>}
-        {saved && <p role="status" className="profile-editor-success">Els canvis s’han desat correctament.</p>}
-        <button type="submit" disabled={sending || reading}>{sending ? "Desant…" : reading ? "Carregant fitxer…" : "Desa els canvis"}</button>
+        {error && (
+          <p role="alert" className="profile-editor-error">
+            {error}
+          </p>
+        )}
+        {saved && (
+          <p role="status" className="profile-editor-success">
+            Els canvis s’han desat correctament.
+          </p>
+        )}
+        <button type="submit" disabled={sending || reading}>
+          {sending
+            ? "Desant…"
+            : reading
+              ? "Carregant fitxer…"
+              : "Desa els canvis"}
+        </button>
       </div>
     </form>
   );

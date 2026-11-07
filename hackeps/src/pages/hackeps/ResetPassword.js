@@ -63,10 +63,12 @@ export default function ResetPassword() {
             onSubmit={(e) => handleResetPassword(e)}
             className="public-form flex w-full flex-col"
           >
-
             <label className="mb-3 w-full text-base text-white">
-             <p className="mb-2"><RequiredMark /> Nova contrasenya</p>
-              <input aria-required="true"
+              <p className="mb-2">
+                <RequiredMark /> Nova contrasenya
+              </p>
+              <input
+                aria-required="true"
                 type="password"
                 required
                 autoComplete="new-password"
@@ -77,8 +79,11 @@ export default function ResetPassword() {
               />
             </label>
             <label className="mb-3 w-full text-base text-white">
-             <p className="mb-2"><RequiredMark /> Confirmar contrasenya</p>
-              <input aria-required="true"
+              <p className="mb-2">
+                <RequiredMark /> Confirmar contrasenya
+              </p>
+              <input
+                aria-required="true"
                 type="password"
                 required
                 autoComplete="new-password"

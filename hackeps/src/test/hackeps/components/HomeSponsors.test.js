@@ -14,7 +14,9 @@ test("loads sponsors on a first visit without a cached event", async () => {
     configurable: true,
     value: { getItem: () => null },
   });
-  getEventSponsors.mockResolvedValue([{ id: 1, name: "Test Sponsor", image: "test.webp", tier: 2 }]);
+  getEventSponsors.mockResolvedValue([
+    { id: 1, name: "Test Sponsor", image: "test.webp", tier: 2 },
+  ]);
   render(<Sponsors />);
   expect(
     await screen.findByRole("button", { name: "Test Sponsor" }),
@@ -41,7 +43,11 @@ test("only collaborators have a tier heading; sponsors differ by size", async ()
     await screen.findByRole("button", { name: "Top Sponsor" }),
   ).toBeInTheDocument();
   expect(screen.queryByText("Supreme")).not.toBeInTheDocument();
-  expect(screen.getByRole("button", {name: "Top Sponsor"}).getAttribute("style")).not.toEqual(screen.getByRole("button", {name: "Small Sponsor"}).getAttribute("style"));
+  expect(
+    screen.getByRole("button", { name: "Top Sponsor" }).getAttribute("style"),
+  ).not.toEqual(
+    screen.getByRole("button", { name: "Small Sponsor" }).getAttribute("style"),
+  );
   expect(screen.getByText("Col·laboradors")).toBeInTheDocument();
   expect(screen.queryByText("Challenger")).not.toBeInTheDocument();
 });

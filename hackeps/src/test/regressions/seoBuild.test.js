@@ -31,9 +31,16 @@ test("full build emits route-specific HTML and only public canonical sitemap ent
   expect(sitemap).toContain("https://hackeps.dev/contacte");
   // FAQ and dates are sections of the home page now.
   expect(sitemap).not.toMatch(/lleidahack|\/login|\/perfil|\/faq|\/dates/);
-  const sponsors = fs.readFileSync(path.join(output, "sponsors/index.html"), "utf8");
-  expect(sponsors).toContain('rel="canonical" href="https://hackeps.dev/sponsors"');
-  expect(sponsors).toContain('property="og:url" content="https://hackeps.dev/sponsors"');
+  const sponsors = fs.readFileSync(
+    path.join(output, "sponsors/index.html"),
+    "utf8",
+  );
+  expect(sponsors).toContain(
+    'rel="canonical" href="https://hackeps.dev/sponsors"',
+  );
+  expect(sponsors).toContain(
+    'property="og:url" content="https://hackeps.dev/sponsors"',
+  );
   expect(
     fs.readFileSync(path.join(output, "validate-email/index.html"), "utf8"),
   ).toContain('name="robots" content="noindex,follow"');

@@ -9,7 +9,9 @@ const mount = (Component) =>
     </MemoryRouter>,
   );
 const change = (label, value) =>
-  fireEvent.change(screen.getByRole("textbox", { name: label }), { target: { value } });
+  fireEvent.change(screen.getByRole("textbox", { name: label }), {
+    target: { value },
+  });
 
 test("signup displays errors for the actual first and last name fields", async () => {
   mount(HackerStepperForm);

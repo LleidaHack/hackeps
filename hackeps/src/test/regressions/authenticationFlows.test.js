@@ -3,7 +3,6 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import LoginForm from "src/components/loginForm/LoginForm";
 import Contact from "src/components/hackeps/Contacte/Contacte";
-import Mentor from "src/components/hackeps/Contacte/ContacteMentor";
 import ForgetPassword from "src/components/hackeps/ForgetPassword/ForgetPassword";
 import {
   login,
@@ -72,20 +71,6 @@ test.each([
   expect(
     screen.queryByText("Missatge enviat correctament."),
   ).not.toBeInTheDocument();
-});
-test("mentor does not report a rejected application as sent", async () => {
-  contacte.mockResolvedValue({ errCode: 500 });
-  const { container } = mount(Mentor);
-  change(/Nom complet/, "Audit");
-  change(/Correu electrònic/, "audit@example.test");
-  change(/Àrea d'especialització/, "frontend");
-  change(/Anys d'experiència/, "2-3");
-  change(/Experiència prèvia/, "Experience");
-  change(/Motivació/, "Motivation");
-  change(/Disponibilitat/, "Available");
-  fireEvent.click(screen.getByRole("checkbox", { name: /Accepto els/ }));
-  fireEvent.submit(container.querySelector("form"));
-  await screen.findByText("Error enviant el teu missatge.");
 });
 test("password recovery keeps the form available on failure", async () => {
   resetPassword.mockResolvedValue({ errCode: -2 });

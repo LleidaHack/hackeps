@@ -72,7 +72,10 @@ const ContactePage = () => {
   }
 
   return (
-    <FormLayout title="Contacte" visualFooter={<>
+    <FormLayout
+      title="Contacte"
+      visualFooter={
+        <>
           <p className="mt-3 mb-2 text-center font-space-mono text-[16px] leading-normal tracking-[-0.32px]">
             Esdeveniment ofert per LleidaHack
           </p>
@@ -84,7 +87,10 @@ const ContactePage = () => {
               aria-label="Instagram"
               style={{ color: "#ff354b" }}
             >
-              <InstagramIcon aria-hidden="true" className="contact-social-icon" />
+              <InstagramIcon
+                aria-hidden="true"
+                className="contact-social-icon"
+              />
             </a>
             <a
               href="https://www.linkedin.com/company/lleidahack"
@@ -93,7 +99,10 @@ const ContactePage = () => {
               aria-label="LinkedIn"
               style={{ color: "#3478f6" }}
             >
-              <LinkedInIcon aria-hidden="true" className="contact-social-icon" />
+              <LinkedInIcon
+                aria-hidden="true"
+                className="contact-social-icon"
+              />
             </a>
             <a
               href="https://twitter.com/lleidahack"
@@ -105,98 +114,98 @@ const ContactePage = () => {
               <XIcon aria-hidden="true" className="contact-social-icon" />
             </a>
           </div>
-    </>}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="public-form flex w-full min-w-0 flex-col gap-5"
-        >
-          <label className="font-space-mono text-[16px]">
-            <RequiredMark /> Nom:
-            <input aria-required="true"
-              className={inputClass(errors.name)}
-              placeholder="Nom i cognoms"
-              {...register("name", {
-                required: "El nom no pot estar buit",
-              })}
-              disabled={isLoading}
-            />
-            {errors.name && (
-              <span className="text-sm text-red-400">
-                {errors.name.message}
-              </span>
-            )}
-          </label>
-
-          <label className="font-space-mono text-[16px]">
-            <RequiredMark /> E-mail:
-            <input aria-required="true"
-              className={inputClass(errors.email)}
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              placeholder="nom@exemple.cat"
-              {...register("email", {
-                required: "Et falta indicar-nos el teu correu de contacte",
-                pattern: {
-                  value: /^\S+@\S+$/i,
-                  message: "El correu no és vàlid",
-                },
-              })}
-              disabled={isLoading}
-            />
-            {errors.email && (
-              <span className="text-sm text-red-400">
-                {errors.email.message}
-              </span>
-            )}
-          </label>
-
-          <label className="font-space-mono text-[16px]">
-            <RequiredMark /> Títol:
-            <input aria-required="true"
-              className={inputClass(errors.title)}
-              placeholder="Títol de l'anunci"
-              {...register("title", {
-                required: "El titol no pot estar buit",
-              })}
-              disabled={isLoading}
-            />
-            {errors.title && (
-              <span className="text-sm text-red-400">
-                {errors.title.message}
-              </span>
-            )}
-          </label>
-
-          <label className="font-space-mono text-[16px]">
-            <RequiredMark /> Missatge:
-            <textarea aria-required="true"
-              className={`${inputClass(errors.message)} min-h-[72px] py-2`}
-              placeholder="Explica'ns de què ens vols parlar."
-              {...register("message", {
-                required: "El missatge no pot estar buit",
-              })}
-              disabled={isLoading}
-            />
-            {errors.message && (
-              <span className="text-sm text-red-400">
-                {errors.message.message}
-              </span>
-            )}
-          </label>
-
-          <button
-            className={`mt-2 min-h-[42px] w-full border-0 font-space-mono text-[18px] font-bold text-[#2e2e2e] ${
-              isLoading
-                ? "cursor-not-allowed bg-gray-400"
-                : "cursor-pointer bg-[#ff7430] hover:bg-[#ff8a52]"
-            }`}
-            type="submit"
+        </>
+      }
+    >
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="public-form flex w-full min-w-0 flex-col gap-5"
+      >
+        <label className="font-space-mono text-[16px]">
+          <RequiredMark /> Nom:
+          <input
+            aria-required="true"
+            className={inputClass(errors.name)}
+            placeholder="Nom i cognoms"
+            {...register("name", {
+              required: "El nom no pot estar buit",
+            })}
             disabled={isLoading}
-          >
-            {isLoading ? "Enviant..." : "Enviar"}
-          </button>
-        </form>
+          />
+          {errors.name && (
+            <span className="text-sm text-red-400">{errors.name.message}</span>
+          )}
+        </label>
+
+        <label className="font-space-mono text-[16px]">
+          <RequiredMark /> E-mail:
+          <input
+            aria-required="true"
+            className={inputClass(errors.email)}
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            placeholder="nom@exemple.cat"
+            {...register("email", {
+              required: "Et falta indicar-nos el teu correu de contacte",
+              pattern: {
+                value: /^\S+@\S+$/i,
+                message: "El correu no és vàlid",
+              },
+            })}
+            disabled={isLoading}
+          />
+          {errors.email && (
+            <span className="text-sm text-red-400">{errors.email.message}</span>
+          )}
+        </label>
+
+        <label className="font-space-mono text-[16px]">
+          <RequiredMark /> Títol:
+          <input
+            aria-required="true"
+            className={inputClass(errors.title)}
+            placeholder="Títol de l'anunci"
+            {...register("title", {
+              required: "El titol no pot estar buit",
+            })}
+            disabled={isLoading}
+          />
+          {errors.title && (
+            <span className="text-sm text-red-400">{errors.title.message}</span>
+          )}
+        </label>
+
+        <label className="font-space-mono text-[16px]">
+          <RequiredMark /> Missatge:
+          <textarea
+            aria-required="true"
+            className={`${inputClass(errors.message)} min-h-[72px] py-2`}
+            placeholder="Explica'ns de què ens vols parlar."
+            {...register("message", {
+              required: "El missatge no pot estar buit",
+            })}
+            disabled={isLoading}
+          />
+          {errors.message && (
+            <span className="text-sm text-red-400">
+              {errors.message.message}
+            </span>
+          )}
+        </label>
+
+        <button
+          className={`mt-2 min-h-[42px] w-full border-0 font-space-mono text-[18px] font-bold text-[#2e2e2e] ${
+            isLoading
+              ? "cursor-not-allowed bg-gray-400"
+              : "cursor-pointer bg-[#ff7430] hover:bg-[#ff8a52]"
+          }`}
+          type="submit"
+          disabled={isLoading}
+        >
+          {isLoading ? "Enviant..." : "Enviar"}
+        </button>
+      </form>
     </FormLayout>
   );
 };

@@ -1,5 +1,8 @@
 import { fetchPlus } from "src/modules/fetchModule";
-import { getEventSponsors, updateEventSponsor } from "src/services/EventService";
+import {
+  getEventSponsors,
+  updateEventSponsor,
+} from "src/services/EventService";
 jest.mock("src/modules/fetchModule", () => ({ fetchPlus: jest.fn() }));
 
 beforeEach(() => {
@@ -10,7 +13,12 @@ afterEach(() => jest.useRealTimers());
 
 test("shares concurrent logo requests and reuses the result for a minute", async () => {
   let resolve;
-  fetchPlus.mockImplementationOnce(() => new Promise(done => { resolve = done; }));
+  fetchPlus.mockImplementationOnce(
+    () =>
+      new Promise((done) => {
+        resolve = done;
+      }),
+  );
   const first = getEventSponsors(101);
   const second = getEventSponsors("101");
   expect(fetchPlus).toHaveBeenCalledTimes(1);
@@ -25,7 +33,10 @@ test("shares concurrent logo requests and reuses the result for a minute", async
 });
 
 test("does not cache errors or mix different events", async () => {
-  fetchPlus.mockResolvedValueOnce({ errCode: 503 }).mockResolvedValueOnce([]).mockResolvedValueOnce([{ id: 2 }]);
+  fetchPlus
+    .mockResolvedValueOnce({ errCode: 503 })
+    .mockResolvedValueOnce([])
+    .mockResolvedValueOnce([{ id: 2 }]);
   await getEventSponsors(102);
   expect(await getEventSponsors(102)).toEqual([]);
   expect(await getEventSponsors(103)).toEqual([{ id: 2 }]);

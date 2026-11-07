@@ -22,10 +22,16 @@
 }
 
 @keyframes ambient-cloud-drift {
-  from { translate: -48px 0; }
-  to { translate: 48px -8px; }
+  from {
+    translate: -48px 0;
+  }
+  to {
+    translate: 48px -8px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ambient-cloud { animation: none; }
+  .ambient-cloud {
+    animation: none;
+  }
 }

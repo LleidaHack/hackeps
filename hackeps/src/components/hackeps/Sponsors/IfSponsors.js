@@ -11,11 +11,15 @@ const InfoSponsors = ({ id }) => {
     let cancelled = false;
     setInfoCompany(null);
     setFailed(false);
-    getHackeps().then(async event => {
-      if (!event?.id) return null;
-      const sponsors = await getEventSponsors(event.id);
-      return Array.isArray(sponsors) ? sponsors.find(company => String(company.id) === String(id)) : null;
-    }).then((data) => {
+    getHackeps()
+      .then(async (event) => {
+        if (!event?.id) return null;
+        const sponsors = await getEventSponsors(event.id);
+        return Array.isArray(sponsors)
+          ? sponsors.find((company) => String(company.id) === String(id))
+          : null;
+      })
+      .then((data) => {
         if (cancelled) return;
         if (!data || data.errCode != null || !data.name) setFailed(true);
         else setInfoCompany(data);
@@ -110,7 +114,6 @@ const InfoSponsors = ({ id }) => {
       </div>
     );
   }
-
 
   let errorImages = [
     "https://media.tenor.com/Wv6zVQPZFtcAAAAC/error.gif",

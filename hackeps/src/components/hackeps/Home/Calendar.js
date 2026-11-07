@@ -40,9 +40,9 @@ const CalendarDates = () => {
         </p>
         <p className="m-0 mb-0">
           Així que, si ets un apassionat de la tecnologia, amant dels reptes i
-          defensor del treball en equip, la HackEPS 2026 és el teu lloc. Uneix-te
-          a nosaltres per a una experiència inoblidable per a desenvolupar-te
-          com a futur programador!
+          defensor del treball en equip, la HackEPS 2026 és el teu lloc.
+          Uneix-te a nosaltres per a una experiència inoblidable per a
+          desenvolupar-te com a futur programador!
         </p>
         <p className="m-0">FICAR QUAN ES FA</p>
       </div>

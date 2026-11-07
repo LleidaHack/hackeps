@@ -1,3 +1,4 @@
+import { getUserById } from "src/services/UserService";
 import RequiredMark from "src/components/hackeps/Forms/RequiredMark";
 import React, { useState } from "react";
 import LoginUnverified from "src/components/hackeps/LoginUnverified/LoginUnverified";
@@ -33,9 +34,19 @@ const LoginForm = ({ nextScreen }) => {
       } else if (hasSessionCredentials(a)) {
         if (process.env.REACT_APP_DEBUG === "true")
           console.log("Login successful");
+        // Honour deep links first; only the default landing page depends on role.
         if (nextScreen) {
           navigate(nextScreen);
-        } else navigate("/perfil");
+        } else {
+          const account = await getUserById(a.user_id);
+          navigate(
+            ["superadmin", "admin", "lleidahacker"].includes(
+              account?.access_role,
+            )
+              ? "/organitzacio"
+              : "/perfil",
+          );
+        }
       } else {
         setErrorText(
           [401, 404].includes(a?.errCode)
@@ -49,14 +60,24 @@ const LoginForm = ({ nextScreen }) => {
       setSubmitting(false);
     }
   };
-  if (pendingCredentials) return <LoginUnverified email={pendingCredentials.email} credentials={pendingCredentials} nextScreen={nextScreen || "/perfil"} />;
+  if (pendingCredentials)
+    return (
+      <LoginUnverified
+        email={pendingCredentials.email}
+        credentials={pendingCredentials}
+        nextScreen={nextScreen || "/perfil"}
+      />
+    );
   return (
     <div className="w-full min-w-0">
       <form className="public-form" onSubmit={handleSubmit(submit)}>
         <div className="text-base mt-7 w-full">
           <label className="w-full text-base">
-           <p className="text-white mb-2"><RequiredMark /> Correu:</p>
-            <input aria-required="true"
+            <p className="text-white mb-2">
+              <RequiredMark /> Correu:
+            </p>
+            <input
+              aria-required="true"
               className={`${errors.email ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base`}
               type="email"
               inputMode="email"
@@ -74,8 +95,11 @@ const LoginForm = ({ nextScreen }) => {
 
         <div className="text-base mt-3">
           <label className="w-full text-base">
-           <p className="text-white mb-2"><RequiredMark /> Contrasenya:</p>
-            <input aria-required="true"
+            <p className="text-white mb-2">
+              <RequiredMark /> Contrasenya:
+            </p>
+            <input
+              aria-required="true"
               type="password"
               autoComplete="current-password"
               className={`${errors.password ? "bg-pink-100" : "bg-white"} min-h-10 px-2 text-base`}

@@ -10,14 +10,18 @@ test("public routes have distinct canonical URLs on the production domain", () =
 });
 
 test("previews and account routes are not indexable", () => {
-  expect(pageMetadata("/sponsors", { preview: true }).robots).toBe("noindex,follow");
+  expect(pageMetadata("/sponsors", { preview: true }).robots).toBe(
+    "noindex,follow",
+  );
   expect(pageMetadata("/validate-email").robots).toBe("noindex,follow");
   expect(pageMetadata("/perfil/12").robots).toBe("noindex,follow");
   expect(pageMetadata("/unknown").robots).toBe("noindex,follow");
 });
 
 test("only available waiting-page routes are indexed", () => {
-  expect(pageMetadata("/sponsors", { waiting: true }).robots).toBe("noindex,follow");
+  expect(pageMetadata("/sponsors", { waiting: true }).robots).toBe(
+    "noindex,follow",
+  );
   expect(pageMetadata("/privacy", { waiting: true }).robots).toBe(
     "index,follow",
   );

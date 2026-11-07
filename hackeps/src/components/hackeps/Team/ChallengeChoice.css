@@ -1,0 +1,48 @@
+.team-challenge-choice {
+  max-width: 720px;
+  margin: 32px auto;
+  padding: 24px;
+  border: 1px solid #ff7430;
+  text-align: left;
+  color: #fff;
+}
+.team-challenge-choice h3 {
+  color: #ff7430;
+  margin-bottom: 16px;
+}
+.team-challenge-choice form {
+  display: grid;
+  gap: 12px;
+}
+.team-challenge-choice select {
+  width: 100%;
+  padding: 12px;
+  background: #fff;
+  color: #2e2e2e;
+  border: 1px solid #ff7430;
+  border-radius: 0;
+}
+.team-challenge-choice button {
+  padding: 12px 20px;
+  background: #ff7430;
+  color: #2e2e2e;
+  border: 0;
+  font-weight: bold;
+  justify-self: start;
+}
+.team-challenge-choice button:disabled {
+  opacity: 0.5;
+}
+.team-challenge-choice :is(button, select):focus-visible {
+  outline: 3px solid #94cbf5;
+  outline-offset: 3px;
+}
+.team-challenge-description {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.team-challenge-note {
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: #ccc;
+}
