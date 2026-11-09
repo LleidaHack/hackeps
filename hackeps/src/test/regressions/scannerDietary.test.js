@@ -315,3 +315,64 @@ test("a QR seen during an uncertain failure is still readable after recovery", a
   ]);
   expect(calls[0][2]).toEqual(calls[1][2]);
 });
+
+test("replays an uncertain scan after remount with its original operation ID", async () => {
+  sessionStorage.clear();
+  operationRequest.mockImplementation((path) =>
+    path.endsWith("/scanner")
+      ? Promise.resolve({
+          access_role: "admin",
+          meals: [{ id: 1, name: "Dinner" }],
+        })
+      : Promise.reject(
+          Object.assign(new Error("Connection lost"), { code: 502 }),
+        ),
+  );
+  const first = render(
+    <MemoryRouter>
+      <Scanner />
+    </MemoryRouter>,
+  );
+  fireEvent.change(await screen.findByLabelText("Operació"), {
+    target: { value: "meal" },
+  });
+  fireEvent.change(screen.getByLabelText("Àpat"), { target: { value: "1" } });
+  fireEvent.change(screen.getByLabelText("QR de l’acreditació física"), {
+    target: { value: "V1234" },
+  });
+  fireEvent.click(
+    screen.getByRole("button", { name: "Registrar codi manual" }),
+  );
+  await screen.findByText("Connection lost");
+  const original = operationRequest.mock.calls.find(([path]) =>
+    path.endsWith("/scan"),
+  )[2];
+  first.unmount();
+  operationRequest.mockClear();
+  operationRequest.mockImplementation((path) =>
+    Promise.resolve(
+      path.endsWith("/scanner")
+        ? { access_role: "admin", meals: [{ id: 1, name: "Dinner" }] }
+        : { participant: "Alex" },
+    ),
+  );
+  render(
+    <MemoryRouter>
+      <Scanner />
+    </MemoryRouter>,
+  );
+  fireEvent.click(
+    await screen.findByRole("button", {
+      name: "Reintentar la mateixa operació",
+    }),
+  );
+  await screen.findByText("Registrat: Alex");
+  expect(
+    operationRequest.mock.calls.find(([path]) => path.endsWith("/scan"))[2],
+  ).toEqual(original);
+  expect(
+    Object.keys(sessionStorage).filter((key) =>
+      key.startsWith("scanner-pending:"),
+    ),
+  ).toEqual([]);
+});

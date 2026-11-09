@@ -6,6 +6,11 @@ import { clearSession } from "src/modules/session";
 import { getHackeps } from "src/services/EventService";
 import { operationRequest } from "./api";
 import "./Operations.css";
+import {
+  savePendingScan,
+  readPendingScan,
+  clearPendingScan,
+} from "./pendingScan";
 import { dietaryWarning } from "./dietary";
 
 const ADMIN_URL = process.env.REACT_APP_ADMIN_URL;
@@ -16,6 +21,17 @@ const isAmbiguousFailure = (code) =>
 
 export default function Scanner() {
   const navigate = useNavigate();
+  const userId = localStorage.getItem("userID");
+  const [online, setOnline] = useState(navigator.onLine);
+  useEffect(() => {
+    const update = () => setOnline(navigator.onLine);
+    window.addEventListener("online", update);
+    window.addEventListener("offline", update);
+    return () => {
+      window.removeEventListener("online", update);
+      window.removeEventListener("offline", update);
+    };
+  }, []);
   const [eventId, setEventId] = useState(null),
     [data, setData] = useState(null),
     [form, setForm] = useState({
@@ -111,6 +127,19 @@ export default function Scanner() {
       document.removeEventListener("visibilitychange", load);
     };
   }, [eventId, navigate]);
+  useEffect(() => {
+    if (!eventId) return;
+    const saved = readPendingScan(userId, eventId);
+    if (saved) {
+      pending.current = saved.payload;
+      setForm(saved.form);
+      setPaused(true);
+      setFailed(true);
+      setMessage(
+        "Hi ha una operació pendent de confirmar d’abans de recarregar. Reintenta-la amb el mateix identificador.",
+      );
+    }
+  }, [eventId, userId]);
   const round = data?.meal_rounds?.[form.target] || { round: 1, open: true };
   function change(key, value) {
     if (busyRef.current || paused || dietaryAlert) return;
@@ -126,6 +155,7 @@ export default function Scanner() {
     const operationForm = scannedForm || form;
     if (
       busyRef.current ||
+      !online ||
       dietaryAlert ||
       (!pending.current && !readyToScan(operationForm, data))
     )
@@ -189,6 +219,7 @@ export default function Scanner() {
             reason: operationForm.reason,
             device: device.current,
           };
+        savePendingScan(userId, eventId, pending.current, operationForm);
         result = await operationRequest(
           `/operations/${eventId}/scan`,
           "POST",
@@ -210,6 +241,7 @@ export default function Scanner() {
         });
       }
       pending.current = null;
+      clearPendingScan(userId, eventId);
       setForm((f) => ({ ...f, code: "", badge: "" }));
       navigator.vibrate?.(restriction ? [200, 100, 200] : 100);
       succeeded = true;
@@ -223,6 +255,7 @@ export default function Scanner() {
       // stop the queue or leave a previous ticket in a two-code assignment.
       if (!ambiguous) {
         pending.current = null;
+        clearPendingScan(userId, eventId);
         const cleared = { ...operationForm, code: "", badge: "" };
         flow.current.form = cleared;
         setForm(cleared);
@@ -238,7 +271,12 @@ export default function Scanner() {
         .then(setData)
         .catch(() => {});
   }
-  flow.current = { form, data, submit, blocked: paused || !!dietaryAlert };
+  flow.current = {
+    form,
+    data,
+    submit,
+    blocked: !online || paused || !!dietaryAlert,
+  };
   const scanHint = !readyToScan(form, data)
     ? "Selecciona l’operació i el destí per començar"
     : needsTwoCodes(form.kind)
@@ -273,6 +311,12 @@ export default function Scanner() {
         <p>
           Selecciona l’operació i passa els QR. Es registren automàticament.
         </p>
+        {!online && (
+          <p role="alert" className="ops-result ops-error">
+            Sense connexió. Els escanejos estan aturats; no es confirmarà cap
+            operació fins que es recuperi la connexió.
+          </p>
+        )}
         {message && (
           <div
             role={failed ? "alert" : "status"}
