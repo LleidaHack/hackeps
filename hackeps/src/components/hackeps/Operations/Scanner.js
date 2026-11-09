@@ -42,7 +42,7 @@ export default function Scanner() {
       current.blocked ||
       !readyToScan(current.form, current.data)
     )
-      return;
+      return false;
     const next = { ...current.form };
     if (needsTwoCodes(next.kind) && !next.code) {
       next.code = code;
@@ -50,12 +50,13 @@ export default function Scanner() {
       setForm(next);
       setMessage("Entrada llegida. Ara passa l’acreditació física.");
       navigator.vibrate?.(60);
-      return;
+      return true;
     }
     if (needsTwoCodes(next.kind) || needsMentor(next.kind)) next.badge = code;
     else next.code = code;
     setForm(next);
     void current.submit(null, next);
+    return true;
   });
   const device = useRef(
     sessionStorage.getItem("scanner-device") || `phone-${crypto.randomUUID()}`,
@@ -213,13 +214,19 @@ export default function Scanner() {
       navigator.vibrate?.(restriction ? [200, 100, 200] : 100);
       succeeded = true;
     } catch (err) {
-      flow.current.blocked = true;
-      setPaused(true);
+      const ambiguous = isAmbiguousFailure(err.code);
+      flow.current.blocked = ambiguous;
+      setPaused(ambiguous);
       setFailed(true);
       setMessage(err.message);
-      // Keep the operation_id for ambiguous failures so a retry is replayed,
-      // not executed twice (e.g. a prize redeemed after a 502 from the proxy).
-      if (!isAmbiguousFailure(err.code)) pending.current = null;
+      // Only uncertain outcomes need explicit recovery. A rejected QR must not
+      // stop the queue or leave a previous ticket in a two-code assignment.
+      if (!ambiguous) {
+        pending.current = null;
+        const cleared = { ...operationForm, code: "", badge: "" };
+        flow.current.form = cleared;
+        setForm(cleared);
+      }
     } finally {
       busyRef.current = false;
       setBusy(false);
@@ -272,6 +279,33 @@ export default function Scanner() {
             className={`ops-result ${failed ? "ops-error" : ""}`}
           >
             {message}
+            {failed && !paused && readyToScan(form, data) && (
+              <p>Pots escanejar el següent QR.</p>
+            )}
+            {paused && (
+              <p>
+                No s’ha pogut confirmar el resultat. Comprova’l abans de
+                continuar per evitar duplicats.
+              </p>
+            )}
+            {paused && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (pending.current) void submit(null, form);
+                  else {
+                    setPaused(false);
+                    setFailed(false);
+                    setMessage("");
+                    setForm((f) => ({ ...f, code: "", badge: "" }));
+                  }
+                }}
+              >
+                {pending.current
+                  ? "Reintentar la mateixa operació"
+                  : "Entès · continuar escanejant"}
+              </button>
+            )}
           </div>
         )}
         {dietaryAlert && (
@@ -478,24 +512,6 @@ export default function Scanner() {
                 </>
               )}
             </fieldset>
-            {paused && (
-              <button
-                type="button"
-                onClick={() => {
-                  if (pending.current) void submit(null, form);
-                  else {
-                    setPaused(false);
-                    setFailed(false);
-                    setMessage("");
-                    setForm((f) => ({ ...f, code: "", badge: "" }));
-                  }
-                }}
-              >
-                {pending.current
-                  ? "Reintentar la mateixa operació"
-                  : "Entès · continuar escanejant"}
-              </button>
-            )}
           </form>
         )}
       </main>
