@@ -35,15 +35,21 @@ export function createScanGate() {
   let lastCode = "",
     lastSeen = 0;
   return {
-    observe(code, now) {
+    observe(code, now, accept = () => true) {
       if (!code) {
         if (now - lastSeen > 1200) lastCode = "";
         return false;
       }
-      const repeated = code === lastCode;
+      if (code === lastCode) {
+        lastSeen = now;
+        return false;
+      }
+      // Frames seen while a request/alert is blocking are not consumed. The
+      // same badge can be accepted when the scanner becomes ready again.
+      if (accept(code) === false) return false;
       lastCode = code;
       lastSeen = now;
-      return !repeated;
+      return true;
     },
   };
 }

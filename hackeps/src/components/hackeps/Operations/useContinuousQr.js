@@ -22,7 +22,7 @@ export default function useContinuousQr(enabled, onRead) {
         (result) => {
           if (!active || document.hidden) return;
           const code = result?.getText()?.trim() || "";
-          if (gate.observe(code, Date.now())) callback.current(code);
+          gate.observe(code, Date.now(), callback.current);
         },
       )
       .then((value) => {

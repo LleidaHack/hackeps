@@ -26,3 +26,11 @@ test("a closed round or missing target cannot auto-submit", () => {
   expect(readyToScan({ kind: "meal", target: "1" }, data)).toBe(false);
   expect(readyToScan({ kind: "meal", target: "" }, data)).toBe(false);
 });
+
+test("a QR seen while blocked is not consumed by the stationary-code gate", () => {
+  const gate = createScanGate();
+  expect(gate.observe("A", 100)).toBe(true);
+  expect(gate.observe("B", 200, () => false)).toBe(false);
+  expect(gate.observe("B", 300, () => true)).toBe(true);
+  expect(gate.observe("B", 400)).toBe(false);
+});
