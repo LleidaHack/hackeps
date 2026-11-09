@@ -9,6 +9,8 @@ const messages = {
     "No s’ha trobat cap acreditació lliure amb aquest codi.",
   "Badge already assigned": "Aquesta acreditació ja està vinculada.",
   "Judging is not open": "Les presentacions encara no estan obertes.",
+  "Finish the current presentation in the company portal first":
+    "L’empresa ha de finalitzar la presentació actual al seu portal abans d’entrar un altre equip.",
   "Room is paused": "Aquesta sala està en pausa.",
   "Participant must belong to exactly one event team":
     "No s’ha pogut identificar un únic equip per a aquest participant.",

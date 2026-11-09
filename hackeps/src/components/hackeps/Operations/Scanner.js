@@ -197,7 +197,7 @@ export default function Scanner() {
       }
       setMessage(
         result.team
-          ? `${result.team} · Presentant${result.next_team ? ` · Següent: ${result.next_team}` : ""}`
+          ? `${result.team} · ${result.timer_started === false ? "Equip a la sala. L’empresa iniciarà el cronòmetre." : "Presentant"}${result.next_team ? ` · Següent: ${result.next_team}` : ""}`
           : `Registrat: ${result.participant || result.hacker_name || "participant"}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
       );
       const restriction = dietaryWarning(result.food_restrictions);
