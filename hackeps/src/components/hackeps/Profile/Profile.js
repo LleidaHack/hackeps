@@ -12,6 +12,7 @@ import {
 import "./Profile.css";
 import Modal from "react-bootstrap/Modal";
 import { loadProfile } from "src/modules/loadProfile";
+import { getEventTicket } from "src/services/EventService";
 import { clearSession } from "src/modules/session";
 import NicknameRequest from "./NicknameRequest";
 import EditProfile from "./EditProfile";
@@ -76,6 +77,54 @@ const ProfileComponent = () => {
       cancelled = true;
     };
   }, [userId]);
+
+  useEffect(() => {
+    if (!isUser || !event?.accepted || !event?.confirmed || !event?.event_id)
+      return;
+    let cancelled = false;
+    let refreshing = false;
+    async function refreshTicket() {
+      if (document.visibilityState === "hidden" || refreshing) return;
+      refreshing = true;
+      try {
+        const latest = await getEventTicket(event.event_id, userId);
+        if (cancelled || !latest || latest.errCode != null) return;
+        setTicket(
+          latest.has_ticket
+            ? {
+                code: latest.code,
+                eventName: latest.event_name,
+                checkedIn: Boolean(latest.checked_in),
+                voucherCode: latest.voucher_code || null,
+              }
+            : null,
+        );
+        setQrCode(latest.has_ticket ? latest.code : null);
+      } catch {
+        // Keep the last confirmed state during temporary network failures.
+      } finally {
+        refreshing = false;
+      }
+    }
+    void refreshTicket();
+    const interval = window.setInterval(refreshTicket, 15000);
+    window.addEventListener("focus", refreshTicket);
+    document.addEventListener("visibilitychange", refreshTicket);
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+      window.removeEventListener("focus", refreshTicket);
+      document.removeEventListener("visibilitychange", refreshTicket);
+    };
+  }, [
+    isUser,
+    userId,
+    event?.event_id,
+    event?.accepted,
+    event?.confirmed,
+    showQR,
+    pathname,
+  ]);
 
   function logOut() {
     clearSession();
