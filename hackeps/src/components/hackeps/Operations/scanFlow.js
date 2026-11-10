@@ -53,3 +53,15 @@ export function createScanGate() {
     },
   };
 }
+
+// Matches the backend voucher format; participant tickets use a different code space.
+export const isPhysicalBadge = (code) =>
+  /^V[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{8}$/.test(code.trim());
+export function checkinCodeError(kind, code, step) {
+  if (kind !== "badge") return "";
+  if (step === "ticket" && isPhysicalBadge(code))
+    return "Això és una acreditació física. Escaneja primer el QR de l’entrada del participant.";
+  if (step === "badge" && !isPhysicalBadge(code))
+    return "Això no és una acreditació física. Escaneja el QR de la targeta, no el de l’entrada.";
+  return "";
+}
