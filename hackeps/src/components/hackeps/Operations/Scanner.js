@@ -1,3 +1,4 @@
+import { checkinCodeError } from "./scanFlow";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useContinuousQr from "./useContinuousQr";
@@ -60,6 +61,18 @@ export default function Scanner() {
     )
       return false;
     const next = { ...current.form };
+    const codeError = checkinCodeError(
+      next.kind,
+      code,
+      next.code ? "badge" : "ticket",
+    );
+    if (codeError) {
+      setFailed(true);
+      setMessage(codeError);
+      navigator.vibrate?.([100, 60, 100]);
+      return true;
+    }
+    setFailed(false);
     if (needsTwoCodes(next.kind) && !next.code) {
       next.code = code;
       flow.current.form = next;
@@ -182,6 +195,15 @@ export default function Scanner() {
       )
     )
       return;
+    const codeError =
+      checkinCodeError(operationForm.kind, operationForm.code, "ticket") ||
+      checkinCodeError(operationForm.kind, operationForm.badge, "badge");
+    if (codeError) {
+      setFailed(true);
+      setMessage(codeError);
+      setForm((f) => ({ ...f, code: "", badge: "" }));
+      return;
+    }
     busyRef.current = true;
     setBusy(true);
     setPaused(false);
@@ -231,7 +253,10 @@ export default function Scanner() {
           ? `${result.team} · ${result.timer_started === false ? "Equip a la sala. L’empresa iniciarà el cronòmetre." : "Presentant"}${result.next_team ? ` · Següent: ${result.next_team}` : ""}`
           : `Registrat: ${result.participant || result.hacker_name || "participant"}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
       );
-      const restriction = dietaryWarning(result.food_restrictions);
+      const restriction =
+        operationForm.kind === "meal"
+          ? dietaryWarning(result.food_restrictions)
+          : null;
       if (restriction) {
         flow.current.blocked = true;
         setDietaryAlert({
@@ -317,7 +342,7 @@ export default function Scanner() {
             operació fins que es recuperi la connexió.
           </p>
         )}
-        {message && (
+        {message && !dietaryAlert && (
           <div
             role={failed ? "alert" : "status"}
             className={`ops-result ${failed ? "ops-error" : ""}`}
@@ -368,7 +393,10 @@ export default function Scanner() {
             <button
               type="button"
               autoFocus
-              onClick={() => setDietaryAlert(null)}
+              onClick={() => {
+                setDietaryAlert(null);
+                setMessage("");
+              }}
             >
               Entès · continuar
             </button>
@@ -437,14 +465,20 @@ export default function Scanner() {
                           : form.kind === "activity"
                             ? "activities"
                             : "prizes"
-                    ]?.map((v) => (
-                      <option value={v.id} key={v.id}>
-                        {v.title || v.name}
-                        {v.cost
-                          ? ` · ${v.cost} punts · ${v.stock} unitats`
-                          : ""}
-                      </option>
-                    ))}
+                    ]
+                      ?.filter(
+                        (v) =>
+                          form.kind !== "meal" ||
+                          data.meal_rounds?.[v.id]?.open !== false,
+                      )
+                      .map((v) => (
+                        <option value={v.id} key={v.id}>
+                          {v.title || v.name}
+                          {v.cost
+                            ? ` · ${v.cost} punts · ${v.stock} unitats`
+                            : ""}
+                        </option>
+                      ))}
                   </select>
                 </label>
               )}
@@ -452,6 +486,12 @@ export default function Scanner() {
                 <p>
                   Les sales es mostraran quan comenci el judging i els reptes
                   estiguin publicats.
+                </p>
+              )}
+              {form.kind === "meal" && !data.meals?.length && (
+                <p>
+                  No hi ha cap àpat habilitat. Organització l’ha d’habilitar des
+                  de Gestió.
                 </p>
               )}
               {form.kind === "meal" && form.target && (

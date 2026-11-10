@@ -69,6 +69,7 @@ test("meal scan blocks further registration until the dietary alert is acknowled
     await screen.findByRole("alert", { name: "Restriccions alimentàries" }),
   ).toHaveTextContent("Lactosa");
   expect(screen.getByRole("alert")).toHaveTextContent("Alex");
+  expect(screen.queryByText("Registrat: Alex")).not.toBeInTheDocument();
   expect(
     screen.getByRole("button", { name: "Registrar codi manual" }),
   ).toBeDisabled();
@@ -141,10 +142,10 @@ test("badge assignment reads a ticket then a badge before submitting", async () 
     screen.getByText("2 · Passa l’acreditació física"),
   ).toBeInTheDocument();
   await act(async () => {
-    mockRead({ getText: () => "VBADGE1" });
+    mockRead({ getText: () => "VABCDEFGH" });
   });
   expect(operationRequest).toHaveBeenCalledWith(
-    "/event/5/vouchers/VBADGE1/assign/TICKET1",
+    "/event/5/vouchers/VABCDEFGH/assign/TICKET1",
     "PUT",
   );
 });
@@ -250,21 +251,21 @@ test("a failed badge assignment clears both codes before the next participant", 
     </MemoryRouter>,
   );
   await screen.findByLabelText("Operació");
-  for (const code of ["BAD-TICKET", "BADGE-1"]) {
+  for (const code of ["BAD-TICKET", "VABCDEFGH"]) {
     await act(async () => {
       mockRead({ getText: () => code });
     });
   }
   await screen.findByText("Ticket not found");
   expect(screen.getByText("1 · Passa el QR de l’entrada")).toBeInTheDocument();
-  for (const code of ["GOOD-TICKET", "BADGE-2"]) {
+  for (const code of ["GOOD-TICKET", "VBCDEFGHJ"]) {
     await act(async () => {
       mockRead({ getText: () => code });
     });
   }
   await screen.findByText("Registrat: Next participant");
   expect(operationRequest).toHaveBeenCalledWith(
-    "/event/5/vouchers/BADGE-2/assign/GOOD-TICKET",
+    "/event/5/vouchers/VBCDEFGHJ/assign/GOOD-TICKET",
     "PUT",
   );
 });
@@ -375,4 +376,41 @@ test("replays an uncertain scan after remount with its original operation ID", a
       key.startsWith("scanner-pending:"),
     ),
   ).toEqual([]);
+});
+
+test("check-in rejects physical badges first and tickets second without losing the ticket", async () => {
+  sessionStorage.clear();
+  render(
+    <MemoryRouter>
+      <Scanner />
+    </MemoryRouter>,
+  );
+  await screen.findByLabelText("Operació");
+  await act(async () => {
+    mockRead({ getText: () => "VABCDEFGH" });
+  });
+  expect(screen.getByText("1 · Passa el QR de l’entrada")).toBeInTheDocument();
+  await act(async () => {
+    mockRead({ getText: () => "TICKET1" });
+  });
+  await act(async () => {
+    mockRead({ getText: () => "TICKET2" });
+  });
+  expect(
+    operationRequest.mock.calls.filter(([, method]) => method === "PUT"),
+  ).toHaveLength(0);
+  expect(
+    screen.getByText("2 · Passa l’acreditació física"),
+  ).toBeInTheDocument();
+  await act(async () => {
+    mockRead({ getText: () => "VBCDEFGHJ" });
+  });
+  expect(operationRequest).toHaveBeenCalledWith(
+    "/event/5/vouchers/VBCDEFGHJ/assign/TICKET1",
+    "PUT",
+  );
+  expect(
+    screen.queryByRole("alert", { name: "Restriccions alimentàries" }),
+  ).not.toBeInTheDocument();
+  expect(await screen.findByText("Registrat: Alex")).toBeInTheDocument();
 });
