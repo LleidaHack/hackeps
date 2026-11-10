@@ -11,6 +11,9 @@ export const hasSessionCredentials = (data) =>
   isToken(String(data.user_id));
 
 export function clearSession() {
+  Object.keys(sessionStorage)
+    .filter((key) => key.startsWith("scanner-pending:"))
+    .forEach((key) => sessionStorage.removeItem(key));
   ["userToken", "refreshToken", "userID", "registeredOnEvent"].forEach((key) =>
     localStorage.removeItem(key),
   );
