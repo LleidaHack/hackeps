@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
-import { confirmAssistance } from "src/services/EventService";
+import { cancelAssistance, confirmAssistance } from "src/services/EventService";
 import SuccessFeedback from "../Feedbacks/SuccesFeedback";
-import TitleGeneralized from "../TitleGeneralized/TitleGeneralized";
 import FailFeedback from "../Feedbacks/FailFeedback";
 
 const ConfirmAssistance = ({ confirm, token }) => {
@@ -9,12 +8,16 @@ const ConfirmAssistance = ({ confirm, token }) => {
   const [result, setResult] = useState(null);
   const pending = useRef(false);
   const accepts = confirm === "true" || confirm === true;
+  const cancels = confirm === "false" || confirm === false;
+  const valid = (accepts || cancels) && !!token;
   const submit = async () => {
-    if (!accepts || !token || pending.current || result?.success) return;
+    if (!valid || pending.current || result?.success) return;
     pending.current = true;
     setSending(true);
     try {
-      setResult(await confirmAssistance(token));
+      setResult(
+        await (cancels ? cancelAssistance(token) : confirmAssistance(token)),
+      );
     } catch {
       setResult({ errMssg: "No s'ha pogut connectar. Torna-ho a provar." });
     } finally {
@@ -24,56 +27,63 @@ const ConfirmAssistance = ({ confirm, token }) => {
   };
   return (
     <div className="min-h-screen bg-[#2e2e2e] text-white">
-      {!accepts ? (
-        <div className="mt-60">
-          <TitleGeneralized>
-            {"Encara estàs a temps de pensar-ho"}
-          </TitleGeneralized>
-          <br />
-          <p className="text-center">T'esperem l'any que ve!</p>
-          <p className="text-center">
-            Si canvies d'opinió encara pots confirmar l'assistencia des de
-            l'email.
-          </p>
-        </div>
+      {!valid ? (
+        <FailFeedback
+          title="Enllaç no vàlid"
+          italic=""
+          text="Obre l’enllaç complet del correu. Si continua sense funcionar, contacta amb l’organització."
+          hasButton={true}
+          buttonText="Torna a l'inici"
+          buttonLink="/"
+        />
+      ) : result?.success ? (
+        <SuccessFeedback
+          title={cancels ? "Plaça cancel·lada" : "Assistencia confirmada"}
+          text={
+            cancels
+              ? "Has alliberat la teva plaça perquè una altra persona es pugui apuntar. Gràcies per avisar-nos!"
+              : "Has confirmat la teva assistència a la HackEPS."
+          }
+          hasButton={true}
+          buttonText="Torna a l'inici"
+          buttonLink="/"
+        />
       ) : (
-        <>
-          {!result ? (
-            <section className="mt-60 text-center">
-              <h1>Confirma la teva assistència a la HackEPS</h1>
-              <p>Prem el botó per confirmar que hi assistiràs.</p>
-              <button
-                type="button"
-                onClick={submit}
-                disabled={sending || !token}
-                className="bg-orange-500 text-black p-4 rounded mt-4"
-              >
-                {sending ? "Confirmant…" : "Confirmar assistència"}
-              </button>
-            </section>
-          ) : !sending ? (
-            result && result.success ? (
-              <SuccessFeedback
-                title="Assistencia confirmada"
-                text="Ha confirmat la seva assistencia a la HackEps."
-                hasButton={true}
-                buttonText="Torna a l'inici"
-                buttonLink="/"
-              />
-            ) : (
-              <FailFeedback
-                title="Ha hagut un error"
-                text="El error és amb el missatge:"
-                italic={result?.errMssg || "No hi ha hagut codi, contactans!"}
-                hasButton={true}
-                buttonText="Torna a l'inici"
-                buttonLink="/"
-              />
-            )
-          ) : (
-            <></>
+        <section className="mt-60 px-6 text-center">
+          <h1>
+            {cancels
+              ? "Vols alliberar la teva plaça?"
+              : "Confirma la teva assistència a la HackEPS"}
+          </h1>
+          <p>
+            {cancels
+              ? "Si no pots venir, confirma la cancel·lació. Deixaràs de tenir la plaça reservada."
+              : "Prem el botó per confirmar que hi assistiràs."}
+          </p>
+          {cancels && (
+            <p>Si vindràs, tanca aquesta pàgina sense prémer el botó.</p>
           )}
-        </>
+          {result && !sending && (
+            <p role="alert" className="mt-4">
+              No s'ha pogut completar l'acció. Torna-ho a provar; si l'enllaç ha
+              caducat, demana'n un de nou a l'organització.
+            </p>
+          )}
+          <button
+            type="button"
+            onClick={submit}
+            disabled={sending}
+            className="bg-orange-500 text-black p-4 rounded mt-4 disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+          >
+            {sending
+              ? cancels
+                ? "Cancel·lant…"
+                : "Confirmant…"
+              : cancels
+                ? "Alliberar la meva plaça"
+                : "Confirmar assistència"}
+          </button>
+        </section>
       )}
     </div>
   );
