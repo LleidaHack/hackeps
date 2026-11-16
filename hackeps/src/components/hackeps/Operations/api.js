@@ -32,6 +32,8 @@ const messages = {
   "Choose a different nickname": "Tria un nom diferent de l’actual.",
   "Nice try, farmer. This tractor does not mint LleidaCoins.":
     "Bon intent, pagès: aquest tractor no fabrica LleidaCoins. 🚜",
+  "Timed activities require a duration; other activities do not accept one":
+    "Aquesta activitat requereix un temps vàlid. Actualitza la configuració de l’escàner i torna-ho a provar.",
   "Already registered in this round":
     "Ja has recollit aquest àpat o participat en aquesta activitat en aquesta ronda.",
   "Meal already collected in this round":

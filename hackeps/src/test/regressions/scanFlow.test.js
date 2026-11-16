@@ -34,3 +34,22 @@ test("a QR seen while blocked is not consumed by the stationary-code gate", () =
   expect(gate.observe("B", 300, () => true)).toBe(true);
   expect(gate.observe("B", 400)).toBe(false);
 });
+
+test("only the configured activity asks for a time", () => {
+  const {
+    isTimedActivity,
+    durationMilliseconds,
+  } = require("src/components/hackeps/Operations/scanFlow");
+  const data = { activities: [{ id: "bull", timed: true }, { id: "plain" }] };
+  expect(isTimedActivity({ kind: "activity", target: "bull" }, data)).toBe(
+    true,
+  );
+  expect(isTimedActivity({ kind: "activity", target: "plain" }, data)).toBe(
+    false,
+  );
+  expect(isTimedActivity({ kind: "meal", target: "bull" }, data)).toBe(false);
+  expect(durationMilliseconds("24,35")).toBe(24350);
+  expect(durationMilliseconds("1.001")).toBe(1001);
+  for (const value of ["", "0", "-1", "Infinity", "3e2", "1.0001", "3600.001"])
+    expect(durationMilliseconds(value)).toBeNull();
+});
