@@ -117,3 +117,34 @@ test("refreshes a reset voucher on focus without reloading the profile", async (
   fireEvent.focus(window);
   expect(getEventTicket).not.toHaveBeenCalled();
 });
+
+test("offers Apple Wallet with the same profile QR", async () => {
+  const walletUrl =
+    "https://api.example.test/v1/event/5/ticket/TICKETCODE/apple.pkpass";
+  getEventTicket.mockResolvedValue({
+    has_ticket: true,
+    code: "TICKETCODE",
+    event_name: "HackEPS 2026",
+    apple_wallet_url: walletUrl,
+    checked_in: false,
+    voucher_code: null,
+  });
+  loadProfile.mockResolvedValue(
+    profile(
+      { event_id: 5, registered: true, accepted: true, confirmed: true },
+      { code: "TICKETCODE", appleWalletUrl: walletUrl, checkedIn: false },
+    ),
+  );
+  render(
+    <MemoryRouter>
+      <Profile />
+    </MemoryRouter>,
+  );
+  fireEvent.click(
+    await screen.findByRole("button", { name: /Mostra el teu tiquet/ }),
+  );
+  expect(
+    await screen.findByRole("link", { name: "Afegir a Apple Wallet" }),
+  ).toHaveAttribute("href", walletUrl);
+  expect(screen.getByTestId("qr")).toHaveAttribute("data-value", "TICKETCODE");
+});

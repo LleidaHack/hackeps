@@ -34,6 +34,13 @@ const QrCode = (props) => {
           <div className="qrcode__container" style={{ margin: 30 }}>
             <div style={{ margin: "auto" }}>{qrcode}</div>
           </div>
+          {ticket?.appleWalletUrl && (
+            <p>
+              <a href={ticket.appleWalletUrl} referrerPolicy="no-referrer">
+                Afegir a Apple Wallet
+              </a>
+            </p>
+          )}
           {url && <p className="qrcode__code">{url}</p>}
           {ticket?.checkedIn && ticket.voucherCode && (
             <p className="qrcode__voucher">Acreditació {ticket.voucherCode}</p>
