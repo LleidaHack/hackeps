@@ -118,7 +118,7 @@ test("refreshes a reset voucher on focus without reloading the profile", async (
   expect(getEventTicket).not.toHaveBeenCalled();
 });
 
-test("offers Apple Wallet with the same profile QR", async () => {
+test("offers both wallets with the same profile QR", async () => {
   const walletUrl =
     "https://api.example.test/v1/event/5/ticket/TICKETCODE/apple.pkpass";
   getEventTicket.mockResolvedValue({
@@ -126,6 +126,7 @@ test("offers Apple Wallet with the same profile QR", async () => {
     code: "TICKETCODE",
     event_name: "HackEPS 2026",
     apple_wallet_url: walletUrl,
+    google_wallet_url: "https://hackeps.dev/entrada/5/TICKETCODE/google-wallet",
     checked_in: false,
     voucher_code: null,
   });
@@ -146,5 +147,6 @@ test("offers Apple Wallet with the same profile QR", async () => {
   expect(
     await screen.findByRole("link", { name: "Afegir a Apple Wallet" }),
   ).toHaveAttribute("href", walletUrl);
+  expect(await screen.findByRole("link", { name: "Afegir a Google Wallet" })).toHaveAttribute("href", "https://hackeps.dev/entrada/5/TICKETCODE/google-wallet");
   expect(screen.getByTestId("qr")).toHaveAttribute("data-value", "TICKETCODE");
 });
