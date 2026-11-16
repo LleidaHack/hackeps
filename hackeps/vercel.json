@@ -58,6 +58,23 @@
           "value": "noindex, follow"
         }
       ]
+    },
+    {
+      "source": "/entrada/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ],
   "redirects": [
@@ -103,6 +120,24 @@
       ],
       "destination": "https://hackeps.dev/:path*",
       "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/entrada/imatges/:path*",
+      "destination": "https://backend.main.lleidahack.dev/static/images/:path*"
+    },
+    {
+      "source": "/entrada/:eventId/:code/qr.png",
+      "destination": "https://backend.main.lleidahack.dev/v1/event/:eventId/ticket/:code/qr.png"
+    },
+    {
+      "source": "/entrada/:eventId/:code/apple.pkpass",
+      "destination": "https://backend.main.lleidahack.dev/v1/event/:eventId/ticket/:code/apple.pkpass"
+    },
+    {
+      "source": "/entrada/:eventId/:code",
+      "destination": "https://backend.main.lleidahack.dev/v1/event/:eventId/ticket/:code/page"
     }
   ]
 }
