@@ -62,6 +62,7 @@ export async function loadProfile(userId) {
       ? {
           code: ticket.code,
           appleWalletUrl: ticket.apple_wallet_url || null,
+          googleWalletUrl: ticket.google_wallet_url || null,
           eventName: ticket.event_name,
           checkedIn: Boolean(ticket.checked_in),
           voucherCode: ticket.voucher_code || null,

@@ -41,6 +41,13 @@ const QrCode = (props) => {
               </a>
             </p>
           )}
+          {ticket?.googleWalletUrl && (
+            <p>
+              <a href={ticket.googleWalletUrl} referrerPolicy="no-referrer">
+                Afegir a Google Wallet
+              </a>
+            </p>
+          )}
           {url && <p className="qrcode__code">{url}</p>}
           {ticket?.checkedIn && ticket.voucherCode && (
             <p className="qrcode__voucher">Acreditació {ticket.voucherCode}</p>

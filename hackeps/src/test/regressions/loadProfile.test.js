@@ -66,6 +66,7 @@ test("loads the check-in ticket once accepted and confirmed", async () => {
     code: "ticket",
     eventName: "HackEPS 2026",
     appleWalletUrl: null,
+    googleWalletUrl: null,
     checkedIn: true,
     voucherCode: "VABCDEFGH",
   });
