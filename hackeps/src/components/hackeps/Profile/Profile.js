@@ -93,6 +93,7 @@ const ProfileComponent = () => {
           latest.has_ticket
             ? {
                 code: latest.code,
+                appleWalletUrl: latest.apple_wallet_url || null,
                 eventName: latest.event_name,
                 checkedIn: Boolean(latest.checked_in),
                 voucherCode: latest.voucher_code || null,

@@ -65,6 +65,7 @@ test("loads the check-in ticket once accepted and confirmed", async () => {
   expect(result.ticket).toEqual({
     code: "ticket",
     eventName: "HackEPS 2026",
+    appleWalletUrl: null,
     checkedIn: true,
     voucherCode: "VABCDEFGH",
   });

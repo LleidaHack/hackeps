@@ -61,6 +61,7 @@ export async function loadProfile(userId) {
     ticket && ticket.errCode == null && ticket.has_ticket
       ? {
           code: ticket.code,
+          appleWalletUrl: ticket.apple_wallet_url || null,
           eventName: ticket.event_name,
           checkedIn: Boolean(ticket.checked_in),
           voucherCode: ticket.voucher_code || null,
