@@ -147,6 +147,11 @@ test("offers both wallets with the same profile QR", async () => {
   expect(
     await screen.findByRole("link", { name: "Afegir a Apple Wallet" }),
   ).toHaveAttribute("href", walletUrl);
-  expect(await screen.findByRole("link", { name: "Afegir a Google Wallet" })).toHaveAttribute("href", "https://hackeps.dev/entrada/5/TICKETCODE/google-wallet");
+  expect(
+    await screen.findByRole("link", { name: "Afegir a Google Wallet" }),
+  ).toHaveAttribute(
+    "href",
+    "https://hackeps.dev/entrada/5/TICKETCODE/google-wallet",
+  );
   expect(screen.getByTestId("qr")).toHaveAttribute("data-value", "TICKETCODE");
 });
