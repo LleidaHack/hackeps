@@ -65,3 +65,16 @@ export function checkinCodeError(kind, code, step) {
     return "Això no és una acreditació física. Escaneja el QR de la targeta, no el de l’entrada.";
   return "";
 }
+
+export const isTimedActivity = (form, data) =>
+  form.kind === "activity" &&
+  data?.activities?.some((a) => String(a.id) === form.target && a.timed);
+
+export function durationMilliseconds(value) {
+  const text = String(value ?? "")
+    .trim()
+    .replace(",", ".");
+  if (!/^\d+(?:\.\d{1,3})?$/.test(text)) return null;
+  const ms = Math.round(Number(text) * 1000);
+  return ms > 0 && ms <= 3600000 ? ms : null;
+}

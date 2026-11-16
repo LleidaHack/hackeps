@@ -414,3 +414,111 @@ test("check-in rejects physical badges first and tickets second without losing t
   ).not.toBeInTheDocument();
   expect(await screen.findByText("Registrat: Alex")).toBeInTheDocument();
 });
+
+test("timed activity captures one badge, waits for confirmation and clears time for the next rider", async () => {
+  sessionStorage.clear();
+  operationRequest.mockImplementation((path, method, payload) =>
+    Promise.resolve(
+      path.endsWith("/scanner")
+        ? {
+            access_role: "lleidahacker",
+            activities: [{ id: "bull", title: "Toro mecànic", timed: true }],
+          }
+        : { participant: "Alex", duration_ms: payload.duration_ms },
+    ),
+  );
+  render(
+    <MemoryRouter>
+      <Scanner />
+    </MemoryRouter>,
+  );
+  fireEvent.change(await screen.findByLabelText("Operació"), {
+    target: { value: "activity" },
+  });
+  fireEvent.change(screen.getByLabelText("Activitat"), {
+    target: { value: "bull" },
+  });
+  await waitFor(() => expect(mockRead).toBeDefined());
+  await act(async () => {
+    mockRead({ getText: () => "V1234" });
+  });
+  const scans = () =>
+    operationRequest.mock.calls.filter(([path]) => path.endsWith("/scan"));
+  expect(scans()).toHaveLength(0);
+  expect(screen.getByRole("button", { name: "Guardar intent" })).toBeDisabled();
+  await act(async () => {
+    mockRead({ getText: () => "V5678" });
+  });
+  expect(screen.getByLabelText("QR de l’acreditació física")).toHaveValue(
+    "V1234",
+  );
+  fireEvent.change(screen.getByLabelText("Temps (segons)"), {
+    target: { value: "24,35" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Guardar intent" }));
+  await screen.findByText(/Registrat: Alex.*24,35 s/);
+  expect(scans()).toHaveLength(1);
+  expect(scans()[0][2]).toMatchObject({
+    kind: "activity",
+    code: "V1234",
+    target: "bull",
+    duration_ms: 24350,
+  });
+  expect(screen.getByLabelText("Temps (segons)")).toHaveValue("");
+  await act(async () => {
+    mockRead({ getText: () => "V5678" });
+  });
+  expect(screen.getByLabelText("QR de l’acreditació física")).toHaveValue(
+    "V5678",
+  );
+  expect(screen.getByRole("button", { name: "Guardar intent" })).toBeDisabled();
+});
+
+test("a timed attempt with an uncertain response retries the original duration and operation id", async () => {
+  sessionStorage.clear();
+  let scans = 0;
+  operationRequest.mockImplementation((path, method, payload) => {
+    if (path.endsWith("/scanner"))
+      return Promise.resolve({
+        access_role: "lleidahacker",
+        activities: [{ id: "bull", title: "Toro mecànic", timed: true }],
+      });
+    if (++scans === 1)
+      return Promise.reject(
+        Object.assign(new Error("Sense resposta"), { code: 503 }),
+      );
+    return Promise.resolve({
+      participant: "Alex",
+      duration_ms: payload.duration_ms,
+    });
+  });
+  render(
+    <MemoryRouter>
+      <Scanner />
+    </MemoryRouter>,
+  );
+  fireEvent.change(await screen.findByLabelText("Operació"), {
+    target: { value: "activity" },
+  });
+  fireEvent.change(screen.getByLabelText("Activitat"), {
+    target: { value: "bull" },
+  });
+  fireEvent.change(screen.getByLabelText("QR de l’acreditació física"), {
+    target: { value: "V1234" },
+  });
+  fireEvent.change(screen.getByLabelText("Temps (segons)"), {
+    target: { value: "8.5" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Guardar intent" }));
+  fireEvent.click(
+    await screen.findByRole("button", {
+      name: "Reintentar la mateixa operació",
+    }),
+  );
+  await screen.findByText(/Registrat: Alex.*8,5 s/);
+  const calls = operationRequest.mock.calls.filter(([path]) =>
+    path.endsWith("/scan"),
+  );
+  expect(calls).toHaveLength(2);
+  expect(calls[0][2]).toEqual(calls[1][2]);
+});

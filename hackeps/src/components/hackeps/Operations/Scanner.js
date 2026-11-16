@@ -2,7 +2,13 @@ import { checkinCodeError } from "./scanFlow";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useContinuousQr from "./useContinuousQr";
-import { needsTwoCodes, needsMentor, readyToScan } from "./scanFlow";
+import {
+  needsTwoCodes,
+  needsMentor,
+  readyToScan,
+  isTimedActivity,
+  durationMilliseconds,
+} from "./scanFlow";
 import { clearSession } from "src/modules/session";
 import { getHackeps } from "src/services/EventService";
 import { operationRequest } from "./api";
@@ -42,6 +48,7 @@ export default function Scanner() {
       amount: 10,
       reason: "",
       badge: "",
+      duration: "",
     });
   const [busy, setBusy] = useState(false),
     [message, setMessage] = useState(""),
@@ -57,6 +64,7 @@ export default function Scanner() {
       !current ||
       busyRef.current ||
       current.blocked ||
+      (isTimedActivity(current.form, current.data) && !!current.form.code) ||
       !readyToScan(current.form, current.data)
     )
       return false;
@@ -83,6 +91,13 @@ export default function Scanner() {
     }
     if (needsTwoCodes(next.kind) || needsMentor(next.kind)) next.badge = code;
     else next.code = code;
+    if (isTimedActivity(next, current.data)) {
+      flow.current.form = next;
+      setForm(next);
+      setMessage("QR llegit. Introdueix el temps i confirma l’intent.");
+      navigator.vibrate?.(60);
+      return true;
+    }
     setForm(next);
     void current.submit(null, next);
     return true;
@@ -160,7 +175,9 @@ export default function Scanner() {
     setForm((f) => ({
       ...f,
       [key]: value,
-      ...(["kind", "target"].includes(key) ? { code: "", badge: "" } : {}),
+      ...(["kind", "target"].includes(key)
+        ? { code: "", badge: "", duration: "" }
+        : {}),
     }));
   }
   async function submit(e, scannedForm) {
@@ -173,6 +190,17 @@ export default function Scanner() {
       (!pending.current && !readyToScan(operationForm, data))
     )
       return;
+    if (
+      !pending.current &&
+      isTimedActivity(operationForm, data) &&
+      durationMilliseconds(operationForm.duration) === null
+    ) {
+      setFailed(true);
+      setMessage(
+        "Introdueix un temps superior a 0 i de com a màxim 3.600 segons (fins a 3 decimals).",
+      );
+      return;
+    }
     if (
       needsTwoCodes(operationForm.kind) &&
       (!operationForm.code.trim() || !operationForm.badge.trim())
@@ -240,6 +268,9 @@ export default function Scanner() {
               operationForm.kind === "award" ? Number(operationForm.amount) : 0,
             reason: operationForm.reason,
             device: device.current,
+            ...(isTimedActivity(operationForm, data)
+              ? { duration_ms: durationMilliseconds(operationForm.duration) }
+              : {}),
           };
         savePendingScan(userId, eventId, pending.current, operationForm);
         result = await operationRequest(
@@ -251,7 +282,7 @@ export default function Scanner() {
       setMessage(
         result.team
           ? `${result.team} · ${result.timer_started === false ? "Equip a la sala. L’empresa iniciarà el cronòmetre." : "Presentant"}${result.next_team ? ` · Següent: ${result.next_team}` : ""}`
-          : `Registrat: ${result.participant || result.hacker_name || "participant"}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
+          : `Registrat: ${result.participant || result.hacker_name || "participant"}${result.duration_ms != null ? ` · Temps: ${(result.duration_ms / 1000).toLocaleString("ca", { maximumFractionDigits: 3 })} s` : ""}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
       );
       const restriction =
         operationForm.kind === "meal"
@@ -267,7 +298,7 @@ export default function Scanner() {
       }
       pending.current = null;
       clearPendingScan(userId, eventId);
-      setForm((f) => ({ ...f, code: "", badge: "" }));
+      setForm((f) => ({ ...f, code: "", badge: "", duration: "" }));
       navigator.vibrate?.(restriction ? [200, 100, 200] : 100);
       succeeded = true;
     } catch (err) {
@@ -281,7 +312,7 @@ export default function Scanner() {
       if (!ambiguous) {
         pending.current = null;
         clearPendingScan(userId, eventId);
-        const cleared = { ...operationForm, code: "", badge: "" };
+        const cleared = { ...operationForm, code: "", badge: "", duration: "" };
         flow.current.form = cleared;
         setForm(cleared);
       }
@@ -304,13 +335,15 @@ export default function Scanner() {
   };
   const scanHint = !readyToScan(form, data)
     ? "Selecciona l’operació i el destí per començar"
-    : needsTwoCodes(form.kind)
-      ? form.code
-        ? "2 · Passa l’acreditació física"
-        : "1 · Passa el QR de l’entrada"
-      : needsMentor(form.kind)
-        ? "Passa l’acreditació del mentor"
-        : "Passa el QR de l’acreditació";
+    : isTimedActivity(form, data) && form.code
+      ? "QR capturat · introdueix el temps i confirma"
+      : needsTwoCodes(form.kind)
+        ? form.code
+          ? "2 · Passa l’acreditació física"
+          : "1 · Passa el QR de l’entrada"
+        : needsMentor(form.kind)
+          ? "Passa l’acreditació del mentor"
+          : "Passa el QR de l’acreditació";
   return (
     <div className="scanner-app">
       <main className="event-ops">
@@ -334,7 +367,8 @@ export default function Scanner() {
             </a>
           )}
         <p>
-          Selecciona l’operació i passa els QR. Es registren automàticament.
+          Selecciona l’operació i passa els QR. Les activitats amb temps
+          requereixen confirmar l’intent.
         </p>
         {!online && (
           <p role="alert" className="ops-result ops-error">
@@ -516,6 +550,46 @@ export default function Scanner() {
                     ))}
                   </select>
                 </label>
+              )}
+              {isTimedActivity(form, data) && (
+                <section aria-label="Temps de l’intent">
+                  <p>
+                    Escaneja l’acreditació i anota el temps. Al rànquing compta
+                    el millor intent de cada persona.
+                  </p>
+                  <label>
+                    Temps (segons)
+                    <input
+                      inputMode="decimal"
+                      value={form.duration || ""}
+                      placeholder="Ex.: 24,35"
+                      onChange={(e) => change("duration", e.target.value)}
+                      disabled={!form.code}
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    disabled={
+                      !form.code ||
+                      durationMilliseconds(form.duration) === null ||
+                      !online
+                    }
+                  >
+                    Guardar intent
+                  </button>
+                  {form.code && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        change("code", "");
+                        change("duration", "");
+                        setMessage("");
+                      }}
+                    >
+                      Cancel·lar aquest intent
+                    </button>
+                  )}
+                </section>
               )}
               <section className="scanner-camera" aria-label="Càmera QR">
                 <video ref={camera.video} muted playsInline autoPlay />
