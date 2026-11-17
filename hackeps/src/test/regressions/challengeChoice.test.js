@@ -81,7 +81,7 @@ test("saving uses the shared team version and updates the selected choice", asyn
     expect.objectContaining({
       Url: "/operations/2/teams/4/challenge-vote",
       Method: "PUT",
-      Body: { challenge: "one", version: 0 },
+      Body: { challenge: "one", ribo_prize: false, version: 0 },
     }),
   );
 });
@@ -105,4 +105,35 @@ test("stale submission reloads the other member choice without silently overwrit
   expect(
     fetchPlus.mock.calls.filter(([args]) => args.Method === "PUT"),
   ).toHaveLength(1);
+});
+
+test("members can change just the prize choice on their existing challenge", async () => {
+  fetchPlus
+    .mockResolvedValueOnce({
+      ...state,
+      choice: "one",
+      version: 1,
+      ribo_prize: false,
+    })
+    .mockResolvedValueOnce({
+      ...state,
+      choice: "one",
+      version: 2,
+      ribo_prize: true,
+    });
+  render(<ChallengeChoice team={team} />);
+  const checkbox = await screen.findByRole("checkbox", {
+    name: /Josep Maria Ribó/,
+  });
+  fireEvent.click(checkbox);
+  fireEvent.click(
+    screen.getByRole("button", { name: "Desar elecció de l’equip" }),
+  );
+  await waitFor(() => expect(screen.getByRole("button")).toBeDisabled());
+  expect(checkbox).toBeChecked();
+  expect(fetchPlus).toHaveBeenLastCalledWith(
+    expect.objectContaining({
+      Body: { challenge: "one", ribo_prize: true, version: 1 },
+    }),
+  );
 });

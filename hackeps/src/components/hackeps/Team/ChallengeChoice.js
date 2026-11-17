@@ -5,6 +5,7 @@ import "./ChallengeChoice.css";
 export default function ChallengeChoice({ team }) {
   const [data, setData] = useState(null);
   const [selected, setSelected] = useState("");
+  const [prize, setPrize] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const dirty = useRef(false);
@@ -23,7 +24,10 @@ export default function ChallengeChoice({ team }) {
         return;
       }
       setData(result);
-      if (!dirty.current) setSelected(result.choice || "");
+      if (!dirty.current) {
+        setSelected(result.choice || "");
+        setPrize(Boolean(result.ribo_prize));
+      }
     }
     void refresh();
     const timer = setInterval(refresh, 10000);
@@ -40,7 +44,7 @@ export default function ChallengeChoice({ team }) {
       Url: endpoint,
       Method: "PUT",
       hasUserauth: true,
-      Body: { challenge: selected, version: data.version },
+      Body: { challenge: selected, ribo_prize: prize, version: data.version },
     });
     if (result?.errCode) {
       setError(
@@ -51,12 +55,14 @@ export default function ChallengeChoice({ team }) {
       const latest = await fetchPlus({ Url: endpoint, hasUserauth: true });
       if (latest && !latest.errCode) {
         setData(latest);
+        setPrize(Boolean(latest.ribo_prize));
         setSelected(latest.choice || "");
         dirty.current = false;
       }
     } else {
       setData(result);
       setSelected(result.choice);
+      setPrize(Boolean(result.ribo_prize));
       dirty.current = false;
     }
     setBusy(false);
@@ -105,10 +111,27 @@ export default function ChallengeChoice({ team }) {
                 {data.challenges.find((c) => c.id === selected).description}
               </p>
             )}
+            <label className="team-prize-choice">
+              <input
+                type="checkbox"
+                checked={prize}
+                disabled={busy}
+                onChange={(event) => {
+                  setPrize(event.target.checked);
+                  dirty.current = true;
+                }}
+              />
+              <span>Volem participar al premi Josep Maria Ribó</span>
+            </label>
             {data.open && (
               <button
                 type="submit"
-                disabled={busy || !selected || selected === data.choice}
+                disabled={
+                  busy ||
+                  !selected ||
+                  (selected === data.choice &&
+                    prize === Boolean(data.ribo_prize))
+                }
               >
                 {busy ? "Desant…" : "Desar elecció de l’equip"}
               </button>
