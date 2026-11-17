@@ -11,6 +11,8 @@ const messages = {
   "Judging is not open": "Les presentacions encara no estan obertes.",
   "Finish the current presentation in the company portal first":
     "L’empresa ha de finalitzar la presentació actual al seu portal abans d’entrar un altre equip.",
+  "A Josep Maria Ribó prize team is waiting in this room":
+    "En aquesta sala té prioritat un equip que opta al premi Josep Maria Ribó.",
   "Room is paused": "Aquesta sala està en pausa.",
   "Participant must belong to exactly one event team":
     "No s’ha pogut identificar un únic equip per a aquest participant.",

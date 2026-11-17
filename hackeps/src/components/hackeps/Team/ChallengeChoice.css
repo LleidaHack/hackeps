@@ -22,6 +22,30 @@
   border: 1px solid #ff7430;
   border-radius: 0;
 }
+.team-challenge-choice .team-prize-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  margin: 0;
+  text-align: left;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.team-prize-choice input[type="checkbox"] {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  accent-color: #ff7430;
+  cursor: inherit;
+}
+.team-prize-choice input:focus-visible {
+  outline: 3px solid #94cbf5;
+  outline-offset: 3px;
+}
 .team-challenge-choice button {
   padding: 12px 20px;
   background: #ff7430;
