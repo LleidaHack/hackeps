@@ -58,6 +58,7 @@ export const HackerStepperForm = () => {
         default_lang: "cat",
         comercial_notifications: values.notifications,
         terms_and_conditions: true,
+        mlh_code_of_conduct: values.mlhCodeOfConduct === true,
       },
       telephone: normalizePhoneNumber(values.phone),
       address: "",
@@ -65,7 +66,7 @@ export const HackerStepperForm = () => {
       github: "",
       linkedin: "",
     };
-    if (values.termsConditions) {
+    if (values.termsConditions && values.mlhCodeOfConduct) {
       const res = await signupHacker(hacker);
       if (res?.errCode) {
         setStatusSubmit(false);
@@ -98,7 +99,9 @@ export const HackerStepperForm = () => {
       }
     } else {
       setHideSubmit(false);
-      setErrorMsg("Has d'acceptar els termes i condicions");
+      setErrorMsg(
+        "Has d'acceptar els termes i condicions i el codi de conducta de MLH",
+      );
     }
   };
 
@@ -372,6 +375,40 @@ export const HackerStepperForm = () => {
                         .
                       </p>
                     </label>
+
+                    <label className="hacker-signup-consent">
+                      <input
+                        aria-required="true"
+                        aria-invalid={Boolean(errors.mlhCodeOfConduct)}
+                        aria-describedby={
+                          errors.mlhCodeOfConduct
+                            ? "mlh-consent-error"
+                            : undefined
+                        }
+                        type="checkbox"
+                        className="shrink-0"
+                        {...register("mlhCodeOfConduct", {
+                          required: "Has d'acceptar el codi de conducta de MLH",
+                        })}
+                      />
+                      <p>
+                        <RequiredMark /> Accepto el{" "}
+                        <a
+                          href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-[#ff7430]"
+                        >
+                          codi de conducta de MLH
+                        </a>
+                        .
+                      </p>
+                    </label>
+                    {errors.mlhCodeOfConduct && (
+                      <span id="mlh-consent-error" className="text-red-400">
+                        {errors.mlhCodeOfConduct.message}
+                      </span>
+                    )}
 
                     <div className="buttonsBox flex flex-wrap gap-3">
                       <Button
