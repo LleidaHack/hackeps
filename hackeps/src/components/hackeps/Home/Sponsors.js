@@ -34,15 +34,21 @@ function redirectToURL(url) {
   );
 }
 
-const Slot = ({ company, tier }) => (
+// `fill` makes the slot take its grid cell's width (used by the collaborators
+// grid); otherwise each tier has its own fixed size.
+const Slot = ({ company, tier, fill = false }) => (
   <button
     aria-label={company?.name || "Veure patrocinador"}
     type="button"
     className="relative aspect-[358/198] max-w-full border-0 bg-transparent p-0"
-    style={{
-      width: `${[86, 70, 56, 44, 44][tier]}vw`,
-      maxWidth: [440, 350, 270, 200, 200][tier],
-    }}
+    style={
+      fill
+        ? { width: "100%" }
+        : {
+            width: `${[86, 70, 56, 44, 44][tier]}vw`,
+            maxWidth: [440, 350, 270, 200, 200][tier],
+          }
+    }
     onClick={() => company && redirectToURL(`sponsors/${company.id}`)}
   >
     <img
@@ -84,6 +90,23 @@ const SlotRow = ({ companies, tier }) => (
   <div className="flex flex-wrap justify-center gap-4 md:gap-7">
     {companies.map((company) => (
       <Slot key={`company-${company.id}`} company={company} tier={tier} />
+    ))}
+  </div>
+);
+
+// Collaborators are numerous, so they use a dense layout (4 per row on
+// desktop, 2 on mobile) instead of centred rows of three. It is a centred
+// flex-wrap rather than a CSS grid so an incomplete last row sits in the
+// middle. Cards stay small (about 200px wide) since they are the lowest tier.
+const CollaboratorGrid = ({ companies, tier }) => (
+  <div className="mx-auto flex w-full max-w-[860px] flex-wrap justify-center gap-3 md:w-3/4 md:gap-5">
+    {companies.map((company) => (
+      <div
+        key={`company-${company.id}`}
+        className="w-[calc((100%-0.75rem)/2)] md:w-[calc((100%-3.75rem)/4)]"
+      >
+        <Slot company={company} tier={tier} fill />
+      </div>
     ))}
   </div>
 );
@@ -196,13 +219,20 @@ const Sponsors = () => {
                   : "mb-8 md:mb-12"
               }`}
             >
-              {section.rows.map((row, i) => (
-                <SlotRow
-                  key={`${section.tier}-${i}`}
-                  companies={row}
+              {section.tier === 4 ? (
+                <CollaboratorGrid
+                  companies={section.rows.flat()}
                   tier={section.tier}
                 />
-              ))}
+              ) : (
+                section.rows.map((row, i) => (
+                  <SlotRow
+                    key={`${section.tier}-${i}`}
+                    companies={row}
+                    tier={section.tier}
+                  />
+                ))
+              )}
             </div>
           </div>
         ))}
