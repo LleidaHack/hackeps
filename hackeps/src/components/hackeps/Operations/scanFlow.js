@@ -78,3 +78,18 @@ export function durationMilliseconds(value) {
   const ms = Math.round(Number(text) * 1000);
   return ms > 0 && ms <= 3600000 ? ms : null;
 }
+
+// «Compta LleidaCoins» activities note the amount each person says.
+export const isGuessActivity = (form, data) =>
+  form.kind === "activity" &&
+  data?.activities?.some((a) => String(a.id) === form.target && a.coin_guess);
+
+export const needsActivityInput = (form, data) =>
+  isTimedActivity(form, data) || isGuessActivity(form, data);
+
+export function guessAmount(value) {
+  const text = String(value ?? "").trim();
+  if (!/^\d{1,7}$/.test(text)) return null;
+  const amount = Number(text);
+  return amount <= 1000000 ? amount : null;
+}

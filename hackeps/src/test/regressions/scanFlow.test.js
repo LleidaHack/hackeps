@@ -53,3 +53,37 @@ test("only the configured activity asks for a time", () => {
   for (const value of ["", "0", "-1", "Infinity", "3e2", "1.0001", "3600.001"])
     expect(durationMilliseconds(value)).toBeNull();
 });
+
+test("LleidaCoins counting activities ask for a whole amount", () => {
+  const {
+    isGuessActivity,
+    needsActivityInput,
+    guessAmount,
+  } = require("src/components/hackeps/Operations/scanFlow");
+  const data = {
+    activities: [
+      { id: "jar", coin_guess: true },
+      { id: "bull", timed: true },
+      { id: "plain" },
+    ],
+  };
+  expect(isGuessActivity({ kind: "activity", target: "jar" }, data)).toBe(true);
+  expect(isGuessActivity({ kind: "activity", target: "bull" }, data)).toBe(
+    false,
+  );
+  expect(isGuessActivity({ kind: "meal", target: "jar" }, data)).toBe(false);
+  expect(needsActivityInput({ kind: "activity", target: "jar" }, data)).toBe(
+    true,
+  );
+  expect(needsActivityInput({ kind: "activity", target: "bull" }, data)).toBe(
+    true,
+  );
+  expect(needsActivityInput({ kind: "activity", target: "plain" }, data)).toBe(
+    false,
+  );
+  expect(guessAmount("0")).toBe(0);
+  expect(guessAmount(" 350 ")).toBe(350);
+  expect(guessAmount("1000000")).toBe(1000000);
+  for (const value of ["", "-1", "1.5", "1,5", "1e3", "1000001", "abc"])
+    expect(guessAmount(value)).toBeNull();
+});
