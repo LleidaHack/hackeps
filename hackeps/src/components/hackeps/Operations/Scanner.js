@@ -8,6 +8,9 @@ import {
   readyToScan,
   isTimedActivity,
   durationMilliseconds,
+  isGuessActivity,
+  needsActivityInput,
+  guessAmount,
 } from "./scanFlow";
 import { clearSession } from "src/modules/session";
 import { getHackeps } from "src/services/EventService";
@@ -49,6 +52,7 @@ export default function Scanner() {
       reason: "",
       badge: "",
       duration: "",
+      guess: "",
     });
   const [busy, setBusy] = useState(false),
     [message, setMessage] = useState(""),
@@ -64,7 +68,7 @@ export default function Scanner() {
       !current ||
       busyRef.current ||
       current.blocked ||
-      (isTimedActivity(current.form, current.data) && !!current.form.code) ||
+      (needsActivityInput(current.form, current.data) && !!current.form.code) ||
       !readyToScan(current.form, current.data)
     )
       return false;
@@ -91,10 +95,14 @@ export default function Scanner() {
     }
     if (needsTwoCodes(next.kind) || needsMentor(next.kind)) next.badge = code;
     else next.code = code;
-    if (isTimedActivity(next, current.data)) {
+    if (needsActivityInput(next, current.data)) {
       flow.current.form = next;
       setForm(next);
-      setMessage("QR llegit. Introdueix el temps i confirma l’intent.");
+      setMessage(
+        isGuessActivity(next, current.data)
+          ? "QR llegit. Introdueix les LleidaCoins que diu i confirma."
+          : "QR llegit. Introdueix el temps i confirma l’intent.",
+      );
       navigator.vibrate?.(60);
       return true;
     }
@@ -176,7 +184,7 @@ export default function Scanner() {
       ...f,
       [key]: value,
       ...(["kind", "target"].includes(key)
-        ? { code: "", badge: "", duration: "" }
+        ? { code: "", badge: "", duration: "", guess: "" }
         : {}),
     }));
   }
@@ -198,6 +206,17 @@ export default function Scanner() {
       setFailed(true);
       setMessage(
         "Introdueix un temps superior a 0 i de com a màxim 3.600 segons (fins a 3 decimals).",
+      );
+      return;
+    }
+    if (
+      !pending.current &&
+      isGuessActivity(operationForm, data) &&
+      guessAmount(operationForm.guess) === null
+    ) {
+      setFailed(true);
+      setMessage(
+        "Introdueix un nombre enter de LleidaCoins entre 0 i 1.000.000.",
       );
       return;
     }
@@ -271,6 +290,9 @@ export default function Scanner() {
             ...(isTimedActivity(operationForm, data)
               ? { duration_ms: durationMilliseconds(operationForm.duration) }
               : {}),
+            ...(isGuessActivity(operationForm, data)
+              ? { guess: guessAmount(operationForm.guess) }
+              : {}),
           };
         savePendingScan(userId, eventId, pending.current, operationForm);
         result = await operationRequest(
@@ -282,7 +304,7 @@ export default function Scanner() {
       setMessage(
         result.team
           ? `${result.team} · ${result.timer_started === false ? "Equip a la sala. L’empresa iniciarà el cronòmetre." : "Presentant"}${result.next_team ? ` · Següent: ${result.next_team}` : ""}`
-          : `Registrat: ${result.participant || result.hacker_name || "participant"}${result.duration_ms != null ? ` · Temps: ${(result.duration_ms / 1000).toLocaleString("ca", { maximumFractionDigits: 3 })} s` : ""}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
+          : `Registrat: ${result.participant || result.hacker_name || "participant"}${result.duration_ms != null ? ` · Temps: ${(result.duration_ms / 1000).toLocaleString("ca", { maximumFractionDigits: 3 })} s` : ""}${result.guess != null ? ` · Ha dit: ${result.guess.toLocaleString("ca")} LleidaCoins` : ""}${result.balance != null ? ` · Saldo: ${result.balance} LleidaCoins` : ""}`,
       );
       const restriction =
         operationForm.kind === "meal"
@@ -298,7 +320,7 @@ export default function Scanner() {
       }
       pending.current = null;
       clearPendingScan(userId, eventId);
-      setForm((f) => ({ ...f, code: "", badge: "", duration: "" }));
+      setForm((f) => ({ ...f, code: "", badge: "", duration: "", guess: "" }));
       navigator.vibrate?.(restriction ? [200, 100, 200] : 100);
       succeeded = true;
     } catch (err) {
@@ -312,7 +334,13 @@ export default function Scanner() {
       if (!ambiguous) {
         pending.current = null;
         clearPendingScan(userId, eventId);
-        const cleared = { ...operationForm, code: "", badge: "", duration: "" };
+        const cleared = {
+          ...operationForm,
+          code: "",
+          badge: "",
+          duration: "",
+          guess: "",
+        };
         flow.current.form = cleared;
         setForm(cleared);
       }
@@ -337,13 +365,15 @@ export default function Scanner() {
     ? "Selecciona l’operació i el destí per començar"
     : isTimedActivity(form, data) && form.code
       ? "QR capturat · introdueix el temps i confirma"
-      : needsTwoCodes(form.kind)
-        ? form.code
-          ? "2 · Passa l’acreditació física"
-          : "1 · Passa el QR de l’entrada"
-        : needsMentor(form.kind)
-          ? "Passa l’acreditació del mentor"
-          : "Passa el QR de l’acreditació";
+      : isGuessActivity(form, data) && form.code
+        ? "QR capturat · introdueix les LleidaCoins i confirma"
+        : needsTwoCodes(form.kind)
+          ? form.code
+            ? "2 · Passa l’acreditació física"
+            : "1 · Passa el QR de l’entrada"
+          : needsMentor(form.kind)
+            ? "Passa l’acreditació del mentor"
+            : "Passa el QR de l’acreditació";
   return (
     <div className="scanner-app">
       <main className="event-ops">
@@ -367,8 +397,8 @@ export default function Scanner() {
             </a>
           )}
         <p>
-          Selecciona l’operació i passa els QR. Les activitats amb temps
-          requereixen confirmar l’intent.
+          Selecciona l’operació i passa els QR. Les activitats amb temps o
+          «Compta LleidaCoins» requereixen confirmar el valor.
         </p>
         {!online && (
           <p role="alert" className="ops-result ops-error">
@@ -587,6 +617,46 @@ export default function Scanner() {
                       }}
                     >
                       Cancel·lar aquest intent
+                    </button>
+                  )}
+                </section>
+              )}
+              {isGuessActivity(form, data) && (
+                <section aria-label="LleidaCoins que diu">
+                  <p>
+                    Escaneja l’acreditació i anota les LleidaCoins que diu. Si
+                    tornes a escanejar la mateixa persona, es corregeix la xifra
+                    anterior.
+                  </p>
+                  <label>
+                    LleidaCoins
+                    <input
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      value={form.guess || ""}
+                      placeholder="Ex.: 350"
+                      onChange={(e) => change("guess", e.target.value)}
+                      disabled={!form.code}
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    disabled={
+                      !form.code || guessAmount(form.guess) === null || !online
+                    }
+                  >
+                    Guardar resposta
+                  </button>
+                  {form.code && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        change("code", "");
+                        change("guess", "");
+                        setMessage("");
+                      }}
+                    >
+                      Cancel·lar aquesta resposta
                     </button>
                   )}
                 </section>
