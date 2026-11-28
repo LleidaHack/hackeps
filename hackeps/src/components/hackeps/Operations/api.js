@@ -4,6 +4,11 @@ const messages = {
     "El mentor no està actiu en aquest esdeveniment.",
   "Mentor badges can only be used for meals":
     "L’acreditació de mentor només serveix per als àpats.",
+  "This badge can only be used for meals and activities":
+    "Aquesta acreditació només serveix per als àpats i les activitats.",
+  "Guest is not active for this event":
+    "El convidat no està actiu en aquest esdeveniment.",
+  "Staff member is not active": "Aquest membre de l’staff no està actiu.",
   "Active mentor not found": "No s’ha trobat el mentor actiu.",
   "Free badge not found":
     "No s’ha trobat cap acreditació lliure amb aquest codi.",
